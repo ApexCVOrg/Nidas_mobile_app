@@ -14,6 +14,10 @@ export type OnboardingStackParamList = {
   LocationPermission: undefined;
   Preference: undefined;
   OnboardingComplete: undefined;
+  Login: undefined;
+  Register: undefined;
+  Home: undefined;
+  Category: { categoryId: string; title: string };
 };
 
 const Stack = createNativeStackNavigator<OnboardingStackParamList>();

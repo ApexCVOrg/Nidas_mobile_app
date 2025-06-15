@@ -1,0 +1,26 @@
+[
+  {
+    "id": "p1",
+    "name": "Sneaker A",
+    "category": "men",
+    "imageDefault": "aoadidasden.png",
+    "imageByColor": {
+      "white": "aoadidastrang.png",
+      "black": "aoadidasden.png",
+      "blue": "aoadidasxanh.png"
+    },
+    "colors": ["white", "black", "blue"]
+  },
+  {
+    "id": "p2",
+    "name": "Áo Thun B",
+    "category": "women",
+    "imageDefault": "aoadidasden.png",
+    "imageByColor": {
+      "white": "aoadidastrang.png",
+      "black": "aoadidasden.png",
+      "blue": "aoadidasxanh.png"
+    },
+    "colors": ["white", "black", "blue"]
+  }
+] 

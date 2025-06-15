@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { OnboardingStackParamList } from '../../navigation/OnboardingNavigator';
 import { homeStyles } from '../../styles/home/home.styles';
 
 // Import images
@@ -18,15 +20,18 @@ const bannerImage = require('../../../assets/banner3.png');
 
 const { width } = Dimensions.get('window');
 
+type HomeScreenNavigationProp = NativeStackNavigationProp<OnboardingStackParamList, 'Home'>;
+
 const HomeScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const [showBanner, setShowBanner] = useState(true);
 
   const categories = [
-    { id: 1, name: 'Nam', icon: 'person' },
-    { id: 2, name: 'Nữ', icon: 'person' },
-    { id: 3, name: 'Trẻ Em', icon: 'child-care' },
-    { id: 4, name: 'Thể Thao', icon: 'sports-basketball' },
-    { id: 5, name: 'Phụ Kiện', icon: 'watch' },
+    { id: 'men', name: 'Nam', icon: 'person' },
+    { id: 'women', name: 'Nữ', icon: 'person' },
+    { id: 'kids', name: 'Trẻ Em', icon: 'child-care' },
+    { id: 'sport', name: 'Thể Thao', icon: 'sports-basketball' },
+    { id: 'accessories', name: 'Phụ Kiện', icon: 'watch' },
   ];
 
   const featuredProducts = [
@@ -73,27 +78,51 @@ const HomeScreen = () => {
     },
   ];
 
+  const handleCategoryPress = (category: { id: string; name: string }) => {
+    navigation.navigate('Category', {
+      categoryId: category.id,
+      title: category.name,
+    });
+  };
+
   return (
     <SafeAreaView style={homeStyles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       
       {/* Header */}
-      <View style={homeStyles.header}>
-        <View style={homeStyles.headerLeft}>
-          <Text style={homeStyles.headerTitle}>NIDAS</Text>
-        </View>
-        <View style={homeStyles.headerRight}>
-          <TouchableOpacity style={homeStyles.iconButton}>
-            <Icon name="search" size={24} color="#000" />
-          </TouchableOpacity>
-          <TouchableOpacity style={homeStyles.iconButton}>
-            <Icon name="favorite-border" size={24} color="#000" />
-          </TouchableOpacity>
-          <TouchableOpacity style={homeStyles.iconButton}>
-            <Icon name="shopping-bag" size={24} color="#000" />
-          </TouchableOpacity>
+      <View style={homeStyles.headerV2}>
+        <View style={homeStyles.headerTopRow}>
+          <Text style={homeStyles.greetingText}>XIN CHÀO</Text>
+          <View style={homeStyles.headerIconsRight}>
+            <TouchableOpacity style={homeStyles.iconButton}>
+              <Icon name="search" size={26} color="#000" />
+            </TouchableOpacity>
+            <TouchableOpacity style={homeStyles.iconButton} onPress={() => navigation.navigate('Login')}>
+              <Icon name="person-outline" size={26} color="#000" />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
+
+      {/* Banner thông báo */}
+      {showBanner && (
+        <View style={homeStyles.loginBanner}>
+          <Icon name="person-outline" size={32} color="#fff" style={{ marginRight: 12 }} />
+          <View style={{ flex: 1 }}>
+            <Text style={homeStyles.bannerTitle}>Mua theo cách của bạn</Text>
+            <Text style={homeStyles.bannerDesc}>
+              Cửa hàng được cá nhân hoá của bạn đang chờ đợi. Nhận các đề xuất mới và quyền truy cập độc quyền chỉ dành cho hội viên.
+            </Text>
+          </View>
+          <TouchableOpacity style={homeStyles.loginBannerButton} onPress={() => navigation.navigate('Login')}>
+            <Text style={homeStyles.loginBannerButtonText}>ĐĂNG NHẬP NGAY</Text>
+            <Icon name="arrow-forward-ios" size={16} color="#fff" style={{ marginLeft: 4 }} />
+          </TouchableOpacity>
+          <TouchableOpacity style={homeStyles.closeBannerButton} onPress={() => setShowBanner(false)}>
+            <Icon name="close" size={18} color="#fff" />
+          </TouchableOpacity>
+        </View>
+      )}
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Hero Banner */}
@@ -117,7 +146,7 @@ const HomeScreen = () => {
           <Text style={homeStyles.sectionTitle}>DANH MỤC</Text>
           <View style={homeStyles.categoriesList}>
             {categories.map((category) => (
-              <TouchableOpacity key={category.id} style={homeStyles.categoryItem}>
+              <TouchableOpacity key={category.id} style={homeStyles.categoryItem} onPress={() => handleCategoryPress(category)}>
                 <View style={homeStyles.categoryIcon}>
                   <Icon name={category.icon} size={24} color="#000" />
                 </View>
