@@ -6,16 +6,20 @@ import { RootState } from '../redux/store';
 
 import AuthNavigator from './AuthNavigator';
 import MainNavigator from './MainNavigator';
+import OnboardingNavigator from './OnboardingNavigator';
 
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
-  const { token } = useSelector((state: RootState) => state.auth);
+  const hasOnboarded = useSelector((state: RootState) => state.onboarding.hasOnboarded);
+  const token = useSelector((state: RootState) => state.auth.token);
 
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {!token ? (
+        {!hasOnboarded ? (
+          <Stack.Screen name="Onboarding" component={OnboardingNavigator} />
+        ) : !token ? (
           <Stack.Screen name="Auth" component={AuthNavigator} />
         ) : (
           <Stack.Screen name="Main" component={MainNavigator} />
