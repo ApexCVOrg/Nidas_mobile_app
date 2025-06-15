@@ -3,16 +3,18 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 
-import HomeScreen from '../screens/HomeScreen';
+import HomeScreen from '../screens/Home/HomeScreen';
 import ProductListScreen from '../screens/ProductListScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import CartScreen from '../screens/CartScreen';
 import CheckoutScreen from '../screens/CheckoutScreen';
+import UserScreen from '../screens/User/UserScreen';
 
 export type MainTabParamList = {
   Home: undefined;
   Products: undefined;
   Cart: undefined;
+  User: undefined;
 };
 
 export type ProductStackParamList = {
@@ -43,6 +45,8 @@ const MainNavigator = () => {
             iconName = focused ? 'shirt' : 'shirt-outline';
           } else if (route.name === 'Cart') {
             iconName = focused ? 'cart' : 'cart-outline';
+          } else if (route.name === 'User') {
+            iconName = focused ? 'person' : 'person-outline';
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -56,6 +60,7 @@ const MainNavigator = () => {
         options={{ headerShown: false }}
       />
       <Tab.Screen name="Cart" component={CartScreen} />
+      <Tab.Screen name="User" component={UserScreen} />
     </Tab.Navigator>
   );
 };
