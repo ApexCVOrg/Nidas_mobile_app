@@ -39,28 +39,28 @@ const HomeScreen = () => {
       id: 1,
       name: 'ULTRABOOST 22',
       description: 'Giày chạy bộ',
-      price: '4.200.000đ',
+      price: '4.200.000',
       image: require('../../../assets/Giay_Ultraboost_22.jpg'),
     },
     {
       id: 2,
       name: 'ADIDAS ORIGINALS',
       description: 'Áo thun Trefoil',
-      price: '1.200.000đ',
+      price: '1.200.000',
       image: require('../../../assets/Ao_Thun_Polo_Ba_La.jpg'),
     },
     {
       id: 3,
       name: 'TERREX',
       description: 'Quần leo núi',
-      price: '2.500.000đ',
+      price: '2.500.000',
       image: require('../../../assets/Quan_Hiking_Terrex.jpg'),
     },
     {
       id: 4,
       name: 'STAN SMITH',
       description: 'Giày thể thao',
-      price: '2.800.000đ',
+      price: '2.800.000',
       image: require('../../../assets/Giay_Stan_Smith_x_Liberty_London.jpg'),
     },
   ];
@@ -82,6 +82,12 @@ const HomeScreen = () => {
     navigation.navigate('Category', {
       categoryId: category.id,
       title: category.name,
+    });
+  };
+
+  const handleProductPress = (product: typeof featuredProducts[0]) => {
+    navigation.navigate('ProductDetail', {
+      product,
     });
   };
 
@@ -161,7 +167,11 @@ const HomeScreen = () => {
           <Text style={homeStyles.sectionTitle}>SẢN PHẨM NỔI BẬT</Text>
           <View style={homeStyles.productsList}>
             {featuredProducts.map((product) => (
-              <TouchableOpacity key={product.id} style={homeStyles.productCard}>
+              <TouchableOpacity 
+                key={product.id} 
+                style={homeStyles.productCard}
+                onPress={() => handleProductPress(product)}
+              >
                 <Image
                   source={product.image}
                   style={homeStyles.productImage}
