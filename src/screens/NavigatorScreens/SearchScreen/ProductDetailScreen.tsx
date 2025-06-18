@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../redux/slices/cartSlice';
 import { Product } from '../../../types/Product';
@@ -20,12 +20,6 @@ import Toast from '../../../components/Toast';
 import CheckoutBottomSheet from '../../../components/CheckoutBottomSheet';
 
 const { width } = Dimensions.get('window');
-
-type ProductDetailRouteProp = {
-  params: {
-    product: Product;
-  };
-};
 
 type SearchStackParamList = {
   SearchMain: undefined;
@@ -39,10 +33,10 @@ type SearchStackParamList = {
   };
 };
 
-type NavigationProp = StackNavigationProp<SearchStackParamList>;
+type NavigationProp = NativeStackNavigationProp<SearchStackParamList>;
 
 const ProductDetailScreen = () => {
-  const route = useRoute<ProductDetailRouteProp>();
+  const route = useRoute<any>();
   const navigation = useNavigation<NavigationProp>();
   const dispatch = useDispatch();
   const { product } = route.params;
@@ -52,14 +46,17 @@ const ProductDetailScreen = () => {
   const [toastMessage, setToastMessage] = useState('');
   const [showQuickCheckout, setShowQuickCheckout] = useState(false);
 
-  const formatPrice = (price: number) => {
+  const formatPrice = (price: string | number) => {
+    const numericPrice = typeof price === 'string' ? parseInt(price.replace(/[^\d]/g, '')) : price;
     return new Intl.NumberFormat('vi-VN', {
       style: 'currency',
       currency: 'VND',
-    }).format(price);
+    }).format(numericPrice);
   };
 
-  const getImageSource = (imageName: string) => {
+  const getImageSource = (imageName: string | undefined) => {
+    if (!imageName) return require('../../../../assets/icon.png');
+    
     const imageMap: { [key: string]: any } = {
       'samba.gif': require('../../../../assets/samba.gif'),
       'sl72.gif': require('../../../../assets/sl72.gif'),
@@ -112,11 +109,13 @@ const ProductDetailScreen = () => {
       return;
     }
     
+    const numericPrice = typeof product.price === 'string' ? parseInt(product.price.replace(/[^\d]/g, '')) : product.price;
+    
     const cartItem = {
       productId: product.id,
       name: product.name,
-      price: product.price,
-      image: product.image,
+      price: numericPrice,
+      image: product.image || product.imageDefault || '',
       color: selectedColor,
       size: selectedSize,
       quantity: 1,
@@ -167,7 +166,7 @@ const ProductDetailScreen = () => {
         {/* Product Image */}
         <View style={styles.imageContainer}>
           <Image 
-            source={getImageSource(product.image)}
+            source={getImageSource(product.image || product.imageDefault)}
             style={styles.productImage}
             defaultSource={require('../../../../assets/icon.png')}
           />
@@ -180,7 +179,7 @@ const ProductDetailScreen = () => {
           
           <View style={styles.categoryContainer}>
             <Text style={styles.categoryText}>
-              {product.category === 'giay' ? 'Giày' : 'Quần áo'} • {product.gender} • {product.type}
+              {product.category === 'giay' ? 'Giày' : 'Quần áo'} • {product.gender || 'Unisex'} • {product.type || 'Casual'}
             </Text>
           </View>
         </View>
@@ -189,7 +188,7 @@ const ProductDetailScreen = () => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Màu sắc</Text>
           <View style={styles.colorsContainer}>
-            {product.colors.map((color) => (
+            {product.colors.map((color: string) => (
               <TouchableOpacity
                 key={color}
                 style={[
@@ -212,31 +211,33 @@ const ProductDetailScreen = () => {
         </View>
 
         {/* Sizes */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Kích thước</Text>
-          <View style={styles.sizesContainer}>
-            {product.sizes.map((size) => (
-              <TouchableOpacity
-                key={size}
-                style={[
-                  styles.sizeOption,
-                  { 
-                    backgroundColor: selectedSize === size ? '#000' : '#fff',
-                    borderColor: selectedSize === size ? '#000' : '#ddd'
-                  }
-                ]}
-                onPress={() => setSelectedSize(size)}
-              >
-                <Text style={[
-                  styles.sizeText,
-                  { color: selectedSize === size ? '#fff' : '#000' }
-                ]}>
-                  {size}
-                </Text>
-              </TouchableOpacity>
-            ))}
+        {product.sizes && product.sizes.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Kích thước</Text>
+            <View style={styles.sizesContainer}>
+              {product.sizes.map((size: string | number) => (
+                <TouchableOpacity
+                  key={size}
+                  style={[
+                    styles.sizeOption,
+                    { 
+                      backgroundColor: selectedSize === size ? '#000' : '#fff',
+                      borderColor: selectedSize === size ? '#000' : '#ddd'
+                    }
+                  ]}
+                  onPress={() => setSelectedSize(size)}
+                >
+                  <Text style={[
+                    styles.sizeText,
+                    { color: selectedSize === size ? '#fff' : '#000' }
+                  ]}>
+                    {size}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
-        </View>
+        )}
 
         {/* Description */}
         <View style={styles.section}>
@@ -245,16 +246,18 @@ const ProductDetailScreen = () => {
         </View>
 
         {/* Tags */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Từ khóa</Text>
-          <View style={styles.tagsContainer}>
-            {product.tags.map((tag, index) => (
-              <View key={index} style={styles.tag}>
-                <Text style={styles.tagText}>#{tag}</Text>
-              </View>
-            ))}
+        {product.tags && product.tags.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Tags</Text>
+            <View style={styles.tagsContainer}>
+              {product.tags.map((tag: string, index: number) => (
+                <View key={index} style={styles.tag}>
+                  <Text style={styles.tagText}>#{tag}</Text>
+                </View>
+              ))}
+            </View>
           </View>
-        </View>
+        )}
       </ScrollView>
 
       {/* Bottom Actions */}
@@ -282,7 +285,7 @@ const ProductDetailScreen = () => {
         onClose={() => setShowQuickCheckout(false)}
         product={product}
         selectedColor={selectedColor}
-        selectedSize={selectedSize}
+        selectedSize={selectedSize || undefined}
         onCheckout={handleQuickCheckout}
       />
     </SafeAreaView>
@@ -337,7 +340,6 @@ const styles = StyleSheet.create({
     color: '#000',
     marginBottom: 8,
   },
-
   productPrice: {
     fontSize: 28,
     fontWeight: 'bold',

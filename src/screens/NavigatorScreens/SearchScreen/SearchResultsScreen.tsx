@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import styles from '../../../styles/search/search.styles';
 import searchProducts from '../../../api/searchProducts.json';
 import ProductCard from '../../../components/ProductCard';
@@ -33,10 +33,10 @@ type SearchStackParamList = {
   };
 };
 
-type NavigationProp = StackNavigationProp<SearchStackParamList>;
+type NavigationProp = NativeStackNavigationProp<SearchStackParamList>;
 
 const SearchResultsScreen = () => {
-  const route = useRoute<SearchResultsRouteProp>();
+  const route = useRoute<any>();
   const navigation = useNavigation<NavigationProp>();
   const { searchQuery } = route.params;
 
@@ -67,10 +67,10 @@ const SearchResultsScreen = () => {
     return (searchProducts as Product[]).filter(product => {
       return (
         fuzzySearch(searchQuery, product.name) ||
-        product.tags.some(tag => fuzzySearch(searchQuery, tag)) ||
+        (product.tags && product.tags.some(tag => fuzzySearch(searchQuery, tag))) ||
         fuzzySearch(searchQuery, product.category) ||
-        fuzzySearch(searchQuery, product.type) ||
-        product.colors.some(color => fuzzySearch(searchQuery, color))
+        (product.type && fuzzySearch(searchQuery, product.type)) ||
+        (product.colors && product.colors.some(color => fuzzySearch(searchQuery, color)))
       );
     });
   }, [searchQuery]);

@@ -2,15 +2,15 @@ export type Product = {
   id: string;
   name: string;
   category: string;
-  gender: string;
-  type: string;
-  price: number;
+  price: string | number;
   description: string;
-  image: string;
-  colors: string[];
-  sizes: (number | string)[];
-  tags: string[];
-  // Legacy fields for backward compatibility
   imageDefault?: string;
-  imageByColor?: { [color: string]: string };
+  imageByColor?: { [color: string]: string | undefined };
+  colors: string[];
+  collections?: string[];
+  gender?: string;
+  type?: string;
+  image?: string;
+  sizes?: (number | string)[];
+  tags?: string[];
 }; 

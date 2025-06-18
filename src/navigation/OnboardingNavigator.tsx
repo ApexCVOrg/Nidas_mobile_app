@@ -6,6 +6,7 @@ import NotificationPermissionScreen from '../screens/onboarding/NotificationPerm
 import LocationPermissionScreen from '../screens/onboarding/LocationPermissionScreen';
 import PreferenceScreen from '../screens/onboarding/PreferenceScreen';
 import OnboardingCompleteScreen from '../screens/onboarding/OnboardingCompleteScreen';
+import CategoryScreen from '../screens/CategoryScreen';
 
 export type OnboardingStackParamList = {
   Splash: undefined;
@@ -36,6 +37,7 @@ const OnboardingNavigator = () => {
       <Stack.Screen name="LocationPermission" component={LocationPermissionScreen} />
       <Stack.Screen name="Preference" component={PreferenceScreen} />
       <Stack.Screen name="OnboardingComplete" component={OnboardingCompleteScreen} />
+      <Stack.Screen name="Category" component={CategoryScreen} />
     </Stack.Navigator>
   );
 };

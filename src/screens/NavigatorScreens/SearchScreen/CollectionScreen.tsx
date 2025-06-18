@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRoute, useNavigation, RouteProp } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import searchProducts from '../../../api/searchProducts.json';
 import ProductCard from '../../../components/ProductCard';
 import { Product } from '../../../types/Product';
@@ -23,7 +23,7 @@ type SearchStackParamList = {
 };
 
 type CollectionRouteProp = RouteProp<SearchStackParamList, 'Collection'>;
-type NavigationProp = StackNavigationProp<SearchStackParamList>;
+type NavigationProp = NativeStackNavigationProp<SearchStackParamList>;
 
 const CollectionScreen = () => {
   const route = useRoute<CollectionRouteProp>();
@@ -37,33 +37,33 @@ const CollectionScreen = () => {
     switch (collectionId) {
       case 1: // Pharrell Williams
         filteredProducts = (searchProducts as Product[]).filter(product => 
-          product.tags.includes('pharrell') || 
+          (product.tags && product.tags.includes('pharrell')) || 
           product.name.toLowerCase().includes('pharrell') ||
-          product.type === 'collaboration'
+          (product.type && product.type === 'collaboration')
         );
         break;
       case 2: // Handball Spezial
         filteredProducts = (searchProducts as Product[]).filter(product => 
-          product.tags.includes('handball') ||
+          (product.tags && (product.tags.includes('handball') ||
           product.tags.includes('spezial') ||
-          product.tags.includes('retro') ||
-          product.type === 'originals'
+          product.tags.includes('retro'))) ||
+          (product.type && product.type === 'originals')
         );
         break;
       case 3: // Nike Collection (mock Nike products from available data)
         filteredProducts = (searchProducts as Product[]).filter(product => 
-          product.tags.includes('boost') ||
+          (product.tags && (product.tags.includes('boost') ||
           product.tags.includes('running') ||
-          product.tags.includes('performance') ||
+          product.tags.includes('performance'))) ||
           product.category === 'giay'
         ).slice(0, 6);
         break;
       case 4: // Sport Essentials
         filteredProducts = (searchProducts as Product[]).filter(product => 
-          product.tags.includes('sport') ||
+          (product.tags && (product.tags.includes('sport') ||
           product.tags.includes('training') ||
-          product.tags.includes('essentials') ||
-          product.type === 'sport'
+          product.tags.includes('essentials'))) ||
+          (product.type && product.type === 'sport')
         );
         break;
       default:
@@ -103,7 +103,10 @@ const CollectionScreen = () => {
     return {
       products: collectionProducts.length,
       categories: new Set(collectionProducts.map(p => p.category)).size,
-      avgPrice: Math.round(collectionProducts.reduce((sum, p) => sum + p.price, 0) / collectionProducts.length)
+      avgPrice: Math.round(collectionProducts.reduce((sum, p) => {
+        const price = typeof p.price === 'string' ? parseInt(p.price.replace(/[^\d]/g, '')) : p.price;
+        return sum + price;
+      }, 0) / collectionProducts.length)
     };
   };
 

@@ -13,14 +13,14 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { OnboardingStackParamList } from '../../navigation/OnboardingNavigator';
+import { TabNavigatorParamList } from '../../navigation/TabNavigator';
 import { homeStyles } from '../../styles/home/home.styles';
 import homeData from '../../api/homeData.json';
 import { getImageRequire } from '../../utils/imageRequire';
 
 const { width } = Dimensions.get('window');
 
-type HomeScreenNavigationProp = NativeStackNavigationProp<OnboardingStackParamList, 'Home'>;
+type HomeScreenNavigationProp = NativeStackNavigationProp<TabNavigatorParamList, 'MainTabs'>;
 
 const HomeScreen = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
@@ -75,12 +75,12 @@ const HomeScreen = () => {
       {/* Header */}
       <View style={homeStyles.headerV2}>
         <View style={homeStyles.headerTopRow}>
-          <Text style={homeStyles.greetingText}>XIN CHÀO</Text>
+          <Text style={homeStyles.greetingText}>NIDAS</Text>
           <View style={homeStyles.headerIconsRight}>
             <TouchableOpacity style={homeStyles.iconButton}>
               <Icon name="search" size={26} color="#000" />
             </TouchableOpacity>
-            <TouchableOpacity style={homeStyles.iconButton} onPress={() => navigation.navigate('Login')}>
+            <TouchableOpacity style={homeStyles.iconButton}>
               <Icon name="person-outline" size={26} color="#000" />
             </TouchableOpacity>
           </View>

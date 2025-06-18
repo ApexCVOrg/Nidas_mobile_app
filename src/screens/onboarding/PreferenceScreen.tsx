@@ -35,7 +35,7 @@ const PreferenceScreen = ({ navigation }: PreferenceScreenProps) => {
           type === 'men'
             ? 'person'
             : type === 'women'
-            ? 'person'
+            ? 'person-2'
             : 'child-care'
         }
         size={24}

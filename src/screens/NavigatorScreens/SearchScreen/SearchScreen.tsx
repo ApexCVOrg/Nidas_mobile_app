@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import styles from '../../../styles/search/search.styles';
 import searchProducts from '../../../api/searchProducts.json';
 import { Product } from '../../../types/Product';
@@ -33,7 +33,7 @@ type SearchStackParamList = {
   };
 };
 
-type NavigationProp = StackNavigationProp<SearchStackParamList>;
+type NavigationProp = NativeStackNavigationProp<SearchStackParamList>;
 
 type Banner = {
   id: number;
@@ -90,10 +90,10 @@ const SearchScreen = () => {
     return (searchProducts as Product[]).filter(product => {
       return (
         fuzzySearch(searchText, product.name) ||
-        product.tags.some(tag => fuzzySearch(searchText, tag)) ||
+        (product.tags && product.tags.some(tag => fuzzySearch(searchText, tag))) ||
         fuzzySearch(searchText, product.category) ||
-        fuzzySearch(searchText, product.type) ||
-        product.colors.some(color => fuzzySearch(searchText, color))
+        (product.type && fuzzySearch(searchText, product.type)) ||
+        (product.colors && product.colors.some(color => fuzzySearch(searchText, color)))
       );
     }).slice(0, 8); // Limit to 8 results
   }, [searchText, isSearchFocused, suggestedProducts]);
@@ -284,7 +284,7 @@ const SearchScreen = () => {
                   onPress={() => handleProductSelect(item)}
                 >
                   <Image 
-                    source={getImageSource(item.image)}
+                    source={getImageSource(item.image || item.imageDefault || '')}
                     style={styles.searchResultImage}
                     defaultSource={require('../../../../assets/icon.png')}
                   />
@@ -293,10 +293,10 @@ const SearchScreen = () => {
                       {item.name}
                     </Text>
                     <Text style={styles.searchResultPrice}>
-                      {formatPrice(item.price)}
+                      {formatPrice(typeof item.price === 'string' ? parseInt(item.price.replace(/[^\d]/g, '')) : item.price)}
                     </Text>
                     <Text style={styles.searchResultCategory}>
-                      {item.category === 'giay' ? 'Shoes' : 'Clothing'} • {item.gender}
+                      {item.category === 'giay' ? 'Shoes' : 'Clothing'} • {item.gender || 'Unisex'}
                     </Text>
                   </View>
                   <Ionicons name="chevron-forward" size={16} color="#666" />

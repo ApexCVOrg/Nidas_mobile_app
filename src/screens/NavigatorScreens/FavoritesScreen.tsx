@@ -7,11 +7,24 @@ import {
   ScrollView,
   SafeAreaView,
   StatusBar,
+  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import productsData from '../../api/categoryProducts.json';
+import { getImageRequire } from '../../utils/imageRequire';
 
 const FavoritesScreen = () => {
-  const favoriteItems = []; // Placeholder for actual favorite items
+  // Lọc sản phẩm thuộc collection FAVORITES
+  const favoriteItems = (productsData as any[]).filter(item => item.collections && item.collections.includes('FAVORITES'));
+  
+  // Lọc sản phẩm gợi ý từ New Arrivals và Best Sellers
+  const suggestedItems = (productsData as any[]).filter(item => 
+    item.collections && (
+      item.collections.includes('New Arrivals') || 
+      item.collections.includes('Best Sellers')
+    )
+  ).slice(0, 6); // Lấy 6 sản phẩm đầu tiên
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,7 +45,39 @@ const FavoritesScreen = () => {
             </TouchableOpacity>
           </View>
         ) : (
-          <View>{/* Render favorite items here */}</View>
+          <View style={{ padding: 16 }}>
+            {favoriteItems.map(item => (
+              <View key={item.id} style={styles.favoriteItem}>
+                <Image source={getImageRequire(item.imageDefault)} style={styles.favoriteImage} />
+                <View style={{ flex: 1, marginLeft: 12, justifyContent: 'center' }}>
+                  <Text style={styles.favoriteName}>{item.name}</Text>
+                  <Text style={styles.favoritePrice}>{item.price}</Text>
+                </View>
+                <View style={styles.actionButtons}>
+                  <TouchableOpacity style={styles.heartIcon}>
+                    <FontAwesome name="heart" size={20} color="#000" />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.addToCartButton} onPress={() => {/* TODO: handle add to cart */}}>
+                    <Text style={styles.addToCartButtonText}>THÊM VÀO GIỎ</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))}
+            
+            {/* Sản phẩm gợi ý */}
+            <View style={styles.suggestedSection}>
+              <Text style={styles.suggestedTitle}>SẢN PHẨM GỢI Ý</Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.suggestedScroll}>
+                {suggestedItems.map(item => (
+                  <TouchableOpacity key={item.id} style={styles.suggestedItem}>
+                    <Image source={getImageRequire(item.imageDefault)} style={styles.suggestedImage} />
+                    <Text style={styles.suggestedName}>{item.name}</Text>
+                    <Text style={styles.suggestedPrice}>{item.price}</Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
+          </View>
         )}
       </ScrollView>
     </SafeAreaView>
@@ -84,6 +129,90 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     textTransform: 'uppercase',
+  },
+  favoriteItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 18,
+    backgroundColor: '#f7f7f7',
+    borderRadius: 10,
+    padding: 10,
+  },
+  favoriteImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 8,
+    backgroundColor: '#eee',
+  },
+  favoriteName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#222',
+  },
+  favoritePrice: {
+    fontSize: 14,
+    color: '#888',
+    marginTop: 4,
+  },
+  addToCartButton: {
+    marginLeft: 10,
+    backgroundColor: '#000',
+    paddingVertical: 8,
+    paddingHorizontal: 18,
+    borderRadius: 6,
+    alignSelf: 'center',
+  },
+  addToCartButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 14,
+    textTransform: 'uppercase',
+  },
+  actionButtons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  heartIcon: {
+    marginRight: 10,
+    padding: 4,
+  },
+  suggestedSection: {
+    marginTop: 30,
+  },
+  suggestedTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#222',
+    marginBottom: 16,
+  },
+  suggestedScroll: {
+    marginLeft: -16,
+    paddingLeft: 16,
+  },
+  suggestedItem: {
+    width: 150,
+    marginRight: 16,
+    backgroundColor: '#f7f7f7',
+    borderRadius: 10,
+    padding: 12,
+  },
+  suggestedImage: {
+    width: '100%',
+    height: 120,
+    borderRadius: 8,
+    marginBottom: 8,
+    backgroundColor: '#eee',
+  },
+  suggestedName: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#222',
+    marginBottom: 4,
+  },
+  suggestedPrice: {
+    fontSize: 12,
+    color: '#888',
   },
 });
 
