@@ -1,26 +1,107 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CategoryListScreen from '../screens/NavigatorScreens/CategoryListScreen';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
+// Screens
 import HomeScreen from '../screens/Home/HomeScreen';
-import SearchScreen from '../screens/NavigatorScreens/SearchScreen';
+import CategoryListScreen from '../screens/NavigatorScreens/CategoryListScreen';
+import CategoryScreen from '../screens/CategoryScreen';
+import CheckoutScreen from '../screens/CheckoutScreen';
+import SearchScreen from '../screens/NavigatorScreens/SearchScreen/SearchScreen';
+import ProductScreen from '../screens/NavigatorScreens/SearchScreen/ProductScreen';
+import IntroductionScreen from '../screens/NavigatorScreens/SearchScreen/IntroductionScreen';
+import SearchResultsScreen from '../screens/NavigatorScreens/SearchScreen/SearchResultsScreen';
+import ProductDetailScreen from '../screens/NavigatorScreens/SearchScreen/ProductDetailScreen';
+import CollectionScreen from '../screens/NavigatorScreens/SearchScreen/CollectionScreen';
 import FavoritesScreen from '../screens/NavigatorScreens/FavoritesScreen';
 import CartScreen from '../screens/NavigatorScreens/CartScreen';
+import BannerDetailScreen from '../screens/BannerDetailScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import RegisterScreen from '../screens/Auth/RegisterScreen';
-import ProductDetail from '../screens/Product/ProductDetail';
+import CustomTabBar from '../components/CustomTabBar';
+
+export type TabNavigatorParamList = {
+  MainTabs: undefined;
+  CategoryList: undefined;
+  Category: { categoryId: string; title: string };
+  BannerDetail: { item: any };
+  Checkout: undefined;
+  Login: undefined;
+  Register: undefined;
+  ProductDetail: { productId: number };
+  Collection: { collectionId: number; title: string; subtitle: string };
+};
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<TabNavigatorParamList>();
+const SearchStack = createNativeStackNavigator();
+
+const SearchStackNavigator = () => (
+  <SearchStack.Navigator>
+    <SearchStack.Screen 
+      name="SearchMain" 
+      component={SearchScreen} 
+      options={{ headerShown: false }}
+    />
+    <SearchStack.Screen 
+      name="Product" 
+      component={ProductScreen} 
+      options={{ title: 'PRODUCT' }}
+    />
+    <SearchStack.Screen 
+      name="Introduction" 
+      component={IntroductionScreen} 
+      options={{ title: 'INTRODUCTION' }}
+    />
+    <SearchStack.Screen 
+      name="SearchResults" 
+      component={SearchResultsScreen} 
+      options={{ headerShown: false }}
+    />
+    <SearchStack.Screen 
+      name="ProductDetail" 
+      component={ProductDetailScreen} 
+      options={{ headerShown: false }}
+    />
+    <SearchStack.Screen 
+      name="Collection" 
+      component={CollectionScreen} 
+      options={{ headerShown: false }}
+    />
+  </SearchStack.Navigator>
+);
+
+const CartIcon = ({ focused, color, size }: { focused: boolean; color: string; size: number }) => {
+  const totalItems = useSelector((state: RootState) => state.cart.totalItems);
+  const iconName = focused ? 'cart' : 'cart-outline';
+  
+  return (
+    <View style={styles.cartIconContainer}>
+      <Ionicons name={iconName} size={size} color={color} />
+      {totalItems > 0 && (
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>
+            {totalItems > 99 ? '99+' : totalItems.toString()}
+          </Text>
+        </View>
+      )}
+    </View>
+  );
+};
 
 const MainTabs = () => (
   <Tab.Navigator
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
         let iconName: "home" | "home-outline" | "search" | "search-outline" | "heart" | "heart-outline" | "cart" | "cart-outline" = 'home';
+        if (route.name === 'Cart') {
+          return <CartIcon focused={focused} color={color} size={size} />;
+        }
+        
         if (route.name === 'Home') {
           iconName = focused ? 'home' : 'home-outline';
         } else if (route.name === 'Search') {
@@ -42,7 +123,7 @@ const MainTabs = () => (
     })}
   >
     <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-    <Tab.Screen name="Search" component={SearchScreen} options={{ title: 'SEARCH' }} />
+    <Tab.Screen name="Search" component={SearchStackNavigator} options={{ headerShown: false }} />
     <Tab.Screen name="Favorites" component={FavoritesScreen} options={{ title: 'FAVORITES' }} />
     <Tab.Screen name="Cart" component={CartScreen} options={{ title: 'CART' }} />
   </Tab.Navigator>
@@ -55,7 +136,11 @@ const TabNavigator = () => {
       <Stack.Screen name="CategoryList" component={CategoryListScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="ProductDetail" component={ProductDetail} />
+      <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
+      <Stack.Screen name="Category" component={CategoryScreen} />
+      <Stack.Screen name="BannerDetail" component={BannerDetailScreen} />
+      <Stack.Screen name="Checkout" component={CheckoutScreen} />
+      <Stack.Screen name="Collection" component={CollectionScreen} />
     </Stack.Navigator>
   );
 };
@@ -84,6 +169,26 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     textTransform: 'uppercase',
+  },
+  cartIconContainer: {
+    position: 'relative',
+  },
+  badge: {
+    position: 'absolute',
+    top: -8,
+    right: -10,
+    backgroundColor: '#e74c3c',
+    borderRadius: 10,
+    minWidth: 20,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 4,
+  },
+  badgeText: {
+    color: '#fff',
+    fontSize: 10,
+    fontWeight: 'bold',
   },
 });
 
