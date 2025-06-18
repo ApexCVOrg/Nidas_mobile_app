@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image } from 'react-native';
 import Animated, { FadeIn, FadeOut, useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { Product } from '../types/Product';
 import { getImageRequire } from '../utils/imageRequire';
@@ -14,11 +14,17 @@ interface ProductCardProps {
   product: Product;
   isFavorite?: boolean;
   onToggleFavorite?: (product: Product) => void;
+  onPress?: () => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite = false, onToggleFavorite }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ 
+  product, 
+  isFavorite = false, 
+  onToggleFavorite,
+  onPress 
+}) => {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [showImage, setShowImage] = useState(product.imageByColor[selectedColor] || product.imageDefault);
+  const [showImage, setShowImage] = useState(product.imageByColor?.[selectedColor] || product.imageDefault);
   const [isLiked, setIsLiked] = useState(isFavorite);
 
   // For press animation
@@ -39,8 +45,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite = false, 
   };
 
   const handleColorChange = (color: string) => {
-    setShowImage(product.imageByColor[color] || product.imageDefault);
     setSelectedColor(color);
+    setShowImage(product.imageByColor?.[color] || product.imageDefault);
   };
 
   const handleToggleFavorite = () => {
@@ -50,7 +56,62 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite = false, 
     }
   };
 
-  const imageSource = getImageRequire(showImage);
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    }).format(price);
+  };
+
+  const getImageSource = (imageName: string) => {
+    // Map image names to require statements
+    const imageMap: { [key: string]: any } = {
+      'samba.gif': require('../../assets/samba.gif'),
+      'sl72.gif': require('../../assets/sl72.gif'),
+      'yeezy750.gif': require('../../assets/yeezy750.gif'),
+      'handball.gif': require('../../assets/handball.gif'),
+      'banner1.gif': require('../../assets/banner1.gif'),
+      'Giay_Ultraboost_22.jpg': require('../../assets/Giay_Ultraboost_22.jpg'),
+      'Giay_Stan_Smith_x_Liberty_London.jpg': require('../../assets/Giay_Stan_Smith_x_Liberty_London.jpg'),
+      'Ao_Thun_Polo_Ba_La.jpg': require('../../assets/Ao_Thun_Polo_Ba_La.jpg'),
+      'Quan_Hiking_Terrex.jpg': require('../../assets/Quan_Hiking_Terrex.jpg'),
+      'aoadidasden.png': require('../../assets/aoadidasden.png'),
+      'aoadidastrang.png': require('../../assets/aoadidastrang.png'),
+      'aoadidasxanh.png': require('../../assets/aoadidasxanh.png'),
+      'ao1.jpg': require('../../assets/ao1.jpg'),
+      'ao3.jpg': require('../../assets/ao3.jpg'),
+      'ao4.jpg': require('../../assets/ao4.jpg'),
+      'ao5.jpg': require('../../assets/ao5.jpg'),
+      'quan1.jpg': require('../../assets/quan1.jpg'),
+      'quan2.jpg': require('../../assets/quan2.jpg'),
+      'quan3.jpg': require('../../assets/quan3.jpg'),
+    };
+    
+    return imageMap[imageName] || require('../../assets/icon.png');
+  };
+
+  const getColorCode = (colorName: string): string => {
+    const colorMap: { [key: string]: string } = {
+      'black': '#000000',
+      'white': '#FFFFFF',
+      'blue': '#0066CC',
+      'red': '#FF0000',
+      'green': '#00CC00',
+      'yellow': '#FFCC00',
+      'pink': '#FF69B4',
+      'purple': '#800080',
+      'grey': '#808080',
+      'gray': '#808080',
+      'brown': '#8B4513',
+      'navy': '#000080',
+      'khaki': '#F0E68C',
+      'floral': '#FFB6C1',
+    };
+    return colorMap[colorName.toLowerCase()] || '#CCCCCC';
+  };
+
+  // Use new image structure or fallback to legacy
+  const imageSource = product.image ? getImageSource(product.image) : getImageRequire(product.imageDefault || '');
 
   // Truncate description
   const truncatedDescription = product.description.length > MAX_DESCRIPTION_LENGTH
@@ -61,6 +122,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite = false, 
     <TouchableOpacity
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
+      onPress={onPress}
       activeOpacity={1} // Disable default TouchableOpacity dimming
       style={styles.touchableCard}
     >
@@ -92,6 +154,34 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite = false, 
           <Text style={styles.name}>{product.name}</Text>
           <Text style={styles.description} numberOfLines={2}>{truncatedDescription}</Text>
           <Text style={styles.price}>{product.price}</Text>
+          
+          {/* Category & Gender */}
+          {product.category && (
+            <Text style={styles.category}>
+              {product.category === 'giay' ? 'Giày' : 'Quần áo'} • {product.gender || 'Unisex'}
+            </Text>
+          )}
+          
+          {/* Colors */}
+          <View style={styles.colorsRow}>
+            {product.colors.slice(0, 4).map((color, index) => (
+              <TouchableOpacity
+                key={color}
+                style={[
+                  styles.colorDot,
+                  { 
+                    backgroundColor: getColorCode(color),
+                    borderWidth: selectedColor === color ? 2 : 1,
+                    borderColor: selectedColor === color ? '#333' : '#ddd'
+                  }
+                ]}
+                onPress={() => handleColorChange(color)}
+              />
+            ))}
+            {product.colors.length > 4 && (
+              <Text style={styles.moreColors}>+{product.colors.length - 4}</Text>
+            )}
+          </View>
         </View>
       </Animated.View>
     </TouchableOpacity>
@@ -106,7 +196,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   card: {
-    borderRadius: 8,
+    borderRadius: 16,
     backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOpacity: 0.08,
@@ -122,6 +212,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
     position: 'relative',
+    shadowOpacity: 0.10,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
   },
   image: {
     width: '100%',
@@ -152,6 +246,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 4,
     color: '#222',
+    textAlign: 'center',
+    lineHeight: 18,
   },
   description: {
     fontSize: 12,
@@ -161,9 +257,10 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000',
+    color: '#e74c3c',
     fontFamily: 'serif', // Using a generic serif font family
     marginBottom: 8,
+    textAlign: 'center',
   },
   favoriteIcon: {
     position: 'absolute',
@@ -171,6 +268,31 @@ const styles = StyleSheet.create({
     right: 8,
     zIndex: 2,
     padding: 4,
+  },
+  category: {
+    fontSize: 12,
+    color: '#666',
+    marginBottom: 10,
+    textAlign: 'center',
+    textTransform: 'capitalize',
+  },
+  colorsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
+  colorDot: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    marginHorizontal: 3,
+    marginVertical: 2,
+  },
+  moreColors: {
+    fontSize: 10,
+    color: '#666',
+    marginLeft: 6,
   },
 });
 

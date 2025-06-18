@@ -89,7 +89,7 @@
     "name": "Dép Adilette Comfort",
     "category": "women",
     "price": "750.000 VNĐ",
-    "description": "Váy maxi voan nhẹ nhàng, họa tiết hoa, thích hợp đi biển hoặc dạo phố.",
+    "description": "Dép Adilette thoải mái, thiết kế hiện đại, phù hợp cho mùa hè.",
     "imageDefault": "category_images/depadidas.png",
     "imageByColor": {
       "pink": "category_images/depadidas.png",
@@ -183,9 +183,24 @@
     "collections": ["New Arrivals"]
   },
   {
+    "id": "p14",
+    "name": "Áo Adidas Đen",
+    "category": "men",
+    "price": "900.000 VNĐ",
+    "description": "Áo thun đen cơ bản với logo Adidas",
+    "imageDefault": "aoadidasden.png",
+    "imageByColor": {
+      "white": "aoadidastrang.png",
+      "black": "aoadidasden.png",
+      "blue": "aoadidasxanh.png"
+    },
+    "colors": ["black", "white", "blue"],
+    "collections": ["New Arrivals"]
+  },
+  {
     "id": "p15",
     "name": "Giày Sneaker FAVORITES",
-    "category": " ",
+    "category": "favorites",
     "price": "2.100.000 VNĐ",
     "description": "Giày sneaker thể thao, thiết kế hiện đại, nằm trong mục yêu thích.",
     "imageDefault": "category_images/giayfavorites.png",
@@ -198,7 +213,7 @@
   {
     "id": "p16",
     "name": "Áo Khoác Denim FAVORITES",
-    "category": " ",
+    "category": "favorites",
     "price": "1.200.000 VNĐ",
     "description": "Áo khoác denim phong cách, chất liệu bền đẹp, nằm trong mục yêu thích.",
     "imageDefault": "category_images/aokhoacfavorites.png",
@@ -211,7 +226,7 @@
   {
     "id": "p17",
     "name": "Túi Xách FAVORITES",
-    "category": " ",
+    "category": "favorites",
     "price": "850.000 VNĐ",
     "description": "Túi xách thời trang, thiết kế hiện đại, nằm trong mục yêu thích.",
     "imageDefault": "category_images/tuixachfavorites.png",
@@ -224,7 +239,7 @@
   {
     "id": "p18",
     "name": "Quần Jean FAVORITES",
-    "category": " ",
+    "category": "favorites",
     "price": "950.000 VNĐ",
     "description": "Quần jean nam phong cách, chất liệu cao cấp, nằm trong mục yêu thích.",
     "imageDefault": "category_images/quanjeanfavorites.png",
@@ -237,7 +252,7 @@
   {
     "id": "p19",
     "name": "Áo Hoodie FAVORITES",
-    "category": " ",
+    "category": "favorites",
     "price": "450.000 VNĐ",
     "description": "Áo hoodie trẻ em, thiết kế dễ thương, nằm trong mục yêu thích.",
     "imageDefault": "category_images/aohoodiefavorites.png",
@@ -250,7 +265,7 @@
   {
     "id": "p20",
     "name": "Mũ Snapback FAVORITES",
-    "category": " ",
+    "category": "favorites",
     "price": "280.000 VNĐ",
     "description": "Mũ snapback thời trang, phong cách trẻ trung, nằm trong mục yêu thích.",
     "imageDefault": "category_images/mufavorites.png",
@@ -259,5 +274,80 @@
     },
     "colors": ["black"],
     "collections": ["FAVORITES"]
+  },
+  {
+    "id": "p21",
+    "name": "Áo Adidas Trắng",
+    "category": "men",
+    "price": "900.000 VNĐ",
+    "description": "Áo thun trắng cơ bản với logo Adidas",
+    "imageDefault": "aoadidastrang.png",
+    "imageByColor": {
+      "white": "aoadidastrang.png",
+      "black": "aoadidasden.png",
+      "blue": "aoadidasxanh.png"
+    },
+    "colors": ["white", "black", "blue"],
+    "collections": ["New Arrivals"]
+  },
+  {
+    "id": "p22",
+    "name": "Áo Adidas Xanh",
+    "category": "men",
+    "price": "900.000 VNĐ",
+    "description": "Áo thun xanh cơ bản với logo Adidas",
+    "imageDefault": "aoadidasxanh.png",
+    "imageByColor": {
+      "white": "aoadidastrang.png",
+      "black": "aoadidasden.png",
+      "blue": "aoadidasxanh.png"
+    },
+    "colors": ["blue", "black", "white"],
+    "collections": ["New Arrivals"]
+  },
+  {
+    "id": "p23",
+    "name": "Áo Thể Thao Premium",
+    "category": "men",
+    "price": "1.200.000 VNĐ",
+    "description": "Áo thể thao cao cấp với công nghệ thấm hút mồ hôi",
+    "imageDefault": "ao1.jpg",
+    "imageByColor": {
+      "red": "ao1.jpg",
+      "blue": "ao3.jpg",
+      "black": "ao4.jpg"
+    },
+    "colors": ["red", "blue", "black"],
+    "collections": ["Sport Gear"]
+  },
+  {
+    "id": "p24",
+    "name": "Quần Thể Thao Nam",
+    "category": "men",
+    "price": "1.300.000 VNĐ",
+    "description": "Quần thể thao nam với thiết kế thoải mái",
+    "imageDefault": "quan1.jpg",
+    "imageByColor": {
+      "black": "quan1.jpg",
+      "navy": "quan2.jpg",
+      "grey": "quan3.jpg"
+    },
+    "colors": ["black", "navy", "grey"],
+    "collections": ["Sport Gear"]
+  },
+  {
+    "id": "p25",
+    "name": "Adidas Samba OG",
+    "category": "sport",
+    "price": "2.800.000 VNĐ",
+    "description": "Giày thể thao cổ điển với thiết kế retro đặc trưng",
+    "imageDefault": "samba.gif",
+    "imageByColor": {
+      "white": "samba.gif",
+      "black": "handball.gif",
+      "blue": "sl72.gif"
+    },
+    "colors": ["white", "black", "blue"],
+    "collections": ["SUPERSTAR"]
   }
 ] 
