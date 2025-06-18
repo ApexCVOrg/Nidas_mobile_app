@@ -18,13 +18,14 @@ import { addToCart } from '../../../redux/slices/cartSlice';
 import { Product } from '../../../types/Product';
 import Toast from '../../../components/Toast';
 import CheckoutBottomSheet from '../../../components/CheckoutBottomSheet';
+import searchProducts from '../../../api/searchProducts.json';
 
 const { width } = Dimensions.get('window');
 
 type SearchStackParamList = {
   SearchMain: undefined;
   SearchResults: { searchQuery: string };
-  ProductDetail: { product: Product };
+  ProductDetail: { productId: string };
   Product: undefined;
   Introduction: {
     bannerId: number;
@@ -39,7 +40,18 @@ const ProductDetailScreen = () => {
   const route = useRoute<any>();
   const navigation = useNavigation<NavigationProp>();
   const dispatch = useDispatch();
-  const { product } = route.params;
+  const { productId } = route.params;
+  const product = (searchProducts as Product[]).find(p => p.id == productId);
+  if (!product) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text>Không tìm thấy sản phẩm!</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState<string | number | null>(null);
   const [showToast, setShowToast] = useState(false);

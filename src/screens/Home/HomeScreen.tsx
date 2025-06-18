@@ -17,6 +17,7 @@ import { TabNavigatorParamList } from '../../navigation/TabNavigator';
 import { homeStyles } from '../../styles/home/home.styles';
 import homeData from '../../api/homeData.json';
 import { getImageRequire } from '../../utils/imageRequire';
+import CustomTabBar from '../../components/CustomTabBar';
 
 const { width } = Dimensions.get('window');
 
@@ -65,6 +66,12 @@ const HomeScreen = () => {
     navigation.navigate('Category', {
       categoryId: category.id,
       title: category.name,
+    });
+  };
+
+  const handleProductPress = (product: typeof featuredProducts[0]) => {
+    navigation.navigate('ProductDetail', {
+      productId: product.id,
     });
   };
 
@@ -160,7 +167,11 @@ const HomeScreen = () => {
           <Text style={homeStyles.sectionTitle}>FEATURED PRODUCTS</Text>
           <View style={homeStyles.productsList}>
             {featuredProducts.map((product) => (
-              <TouchableOpacity key={product.id} style={homeStyles.productCard}>
+              <TouchableOpacity 
+                key={product.id} 
+                style={homeStyles.productCard}
+                onPress={() => handleProductPress(product)}
+              >
                 <Image
                   source={getImageRequire(product.image)}
                   style={homeStyles.productImage}
@@ -195,6 +206,7 @@ const HomeScreen = () => {
           ))}
         </View>
       </ScrollView>
+      <CustomTabBar />
     </SafeAreaView>
   );
 };

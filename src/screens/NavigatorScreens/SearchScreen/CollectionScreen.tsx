@@ -19,7 +19,7 @@ import styles from '../../../styles/search/collection.styles';
 type SearchStackParamList = {
   SearchMain: undefined;
   Collection: { collectionId: number; title: string; subtitle: string };
-  ProductDetail: { product: Product };
+  ProductDetail: { productId: string };
 };
 
 type CollectionRouteProp = RouteProp<SearchStackParamList, 'Collection'>;
@@ -74,7 +74,7 @@ const CollectionScreen = () => {
   }, [collectionId]);
 
   const handleProductPress = (product: Product) => {
-    navigation.navigate('ProductDetail', { product });
+    navigation.navigate('ProductDetail', { productId: product.id });
   };
 
   const renderProductItem = ({ item }: { item: Product }) => (

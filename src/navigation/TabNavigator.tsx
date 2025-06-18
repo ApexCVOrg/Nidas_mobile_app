@@ -5,10 +5,12 @@ import { StyleSheet, View, Text } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+
+// Screens
+import HomeScreen from '../screens/Home/HomeScreen';
 import CategoryListScreen from '../screens/NavigatorScreens/CategoryListScreen';
 import CategoryScreen from '../screens/CategoryScreen';
 import CheckoutScreen from '../screens/CheckoutScreen';
-import HomeScreen from '../screens/Home/HomeScreen';
 import SearchScreen from '../screens/NavigatorScreens/SearchScreen/SearchScreen';
 import ProductScreen from '../screens/NavigatorScreens/SearchScreen/ProductScreen';
 import IntroductionScreen from '../screens/NavigatorScreens/SearchScreen/IntroductionScreen';
@@ -17,10 +19,10 @@ import ProductDetailScreen from '../screens/NavigatorScreens/SearchScreen/Produc
 import CollectionScreen from '../screens/NavigatorScreens/SearchScreen/CollectionScreen';
 import FavoritesScreen from '../screens/NavigatorScreens/FavoritesScreen';
 import CartScreen from '../screens/NavigatorScreens/CartScreen';
-import CustomTabBar from '../components/CustomTabBar';
 import BannerDetailScreen from '../screens/BannerDetailScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import RegisterScreen from '../screens/Auth/RegisterScreen';
+import CustomTabBar from '../components/CustomTabBar';
 
 export type TabNavigatorParamList = {
   MainTabs: undefined;
@@ -30,6 +32,8 @@ export type TabNavigatorParamList = {
   Checkout: undefined;
   Login: undefined;
   Register: undefined;
+  ProductDetail: { productId: number };
+  Collection: { collectionId: number; title: string; subtitle: string };
 };
 
 const Tab = createBottomTabNavigator();
@@ -93,17 +97,19 @@ const MainTabs = () => (
   <Tab.Navigator
     screenOptions={({ route }) => ({
       tabBarIcon: ({ focused, color, size }) => {
+        let iconName: "home" | "home-outline" | "search" | "search-outline" | "heart" | "heart-outline" | "cart" | "cart-outline" = 'home';
         if (route.name === 'Cart') {
           return <CartIcon focused={focused} color={color} size={size} />;
         }
         
-        let iconName: "home" | "home-outline" | "search" | "search-outline" | "heart" | "heart-outline" = 'home';
         if (route.name === 'Home') {
           iconName = focused ? 'home' : 'home-outline';
         } else if (route.name === 'Search') {
           iconName = focused ? 'search' : 'search-outline';
         } else if (route.name === 'Favorites') {
           iconName = focused ? 'heart' : 'heart-outline';
+        } else if (route.name === 'Cart') {
+          iconName = focused ? 'cart' : 'cart-outline';
         }
         return <Ionicons name={iconName} size={size} color={color} />;
       },
@@ -128,11 +134,13 @@ const TabNavigator = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="MainTabs" component={MainTabs} />
       <Stack.Screen name="CategoryList" component={CategoryListScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
       <Stack.Screen name="Category" component={CategoryScreen} />
       <Stack.Screen name="BannerDetail" component={BannerDetailScreen} />
       <Stack.Screen name="Checkout" component={CheckoutScreen} />
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="Collection" component={CollectionScreen} />
     </Stack.Navigator>
   );
 };

@@ -13,6 +13,7 @@ import LoginScreen from '../screens/Auth/LoginScreen';
 import RegisterScreen from '../screens/Auth/RegisterScreen';
 import HomeScreen from '../screens/Home/HomeScreen';
 import CategoryScreen from '../screens/CategoryScreen';
+import ProductDetail from '../screens/Product/ProductDetail';
 
 const Stack = createNativeStackNavigator<OnboardingStackParamList>();
 
@@ -23,6 +24,7 @@ const AppNavigator = () => {
         initialRouteName="Welcome"
         screenOptions={{
           headerShown: false,
+          animation: 'fade',
         }}
       >
         {/* Onboarding Screens */}
@@ -43,6 +45,7 @@ const AppNavigator = () => {
           component={CategoryScreen}
           options={({ route }) => ({ title: route.params?.title || 'Danh mục' })}
         />
+        <Stack.Screen name="ProductDetail" component={ProductDetail} />
       </Stack.Navigator>
     </NavigationContainer>
   );
