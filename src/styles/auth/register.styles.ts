@@ -42,11 +42,11 @@ export const registerStyles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderWidth: 1.5,
+    borderColor: '#BDBDBD',
     borderRadius: 12,
     marginBottom: 16,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#fff',
   },
   inputIcon: {
     padding: 12,
@@ -56,7 +56,8 @@ export const registerStyles = StyleSheet.create({
     height: 52,
     paddingHorizontal: 12,
     fontSize: 16,
-    color: '#1A1A1A',
+    backgroundColor: '#fff',
+    borderRadius: 8,
   },
   eyeIcon: {
     padding: 12,
