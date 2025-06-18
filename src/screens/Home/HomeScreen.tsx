@@ -12,7 +12,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { OnboardingStackParamList } from '../../navigation/OnboardingNavigator';
+import { TabNavigatorParamList } from '../../navigation/TabNavigator';
 import { homeStyles } from '../../styles/home/home.styles';
 
 // Import images
@@ -20,7 +20,7 @@ const bannerImage = require('../../../assets/banner3.png');
 
 const { width } = Dimensions.get('window');
 
-type HomeScreenNavigationProp = NativeStackNavigationProp<OnboardingStackParamList, 'Home'>;
+type HomeScreenNavigationProp = NativeStackNavigationProp<TabNavigatorParamList, 'MainTabs'>;
 
 const HomeScreen = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
@@ -97,7 +97,7 @@ const HomeScreen = () => {
             <TouchableOpacity style={homeStyles.iconButton}>
               <Icon name="search" size={26} color="#000" />
             </TouchableOpacity>
-            <TouchableOpacity style={homeStyles.iconButton} onPress={() => navigation.navigate('Login')}>
+            <TouchableOpacity style={homeStyles.iconButton}>
               <Icon name="person-outline" size={26} color="#000" />
             </TouchableOpacity>
           </View>
@@ -114,7 +114,7 @@ const HomeScreen = () => {
               Cửa hàng được cá nhân hoá của bạn đang chờ đợi. Nhận các đề xuất mới và quyền truy cập độc quyền chỉ dành cho hội viên.
             </Text>
           </View>
-          <TouchableOpacity style={homeStyles.loginBannerButton} onPress={() => navigation.navigate('Login')}>
+          <TouchableOpacity style={homeStyles.loginBannerButton}>
             <Text style={homeStyles.loginBannerButtonText}>ĐĂNG NHẬP NGAY</Text>
             <Icon name="arrow-forward-ios" size={16} color="#fff" style={{ marginLeft: 4 }} />
           </TouchableOpacity>

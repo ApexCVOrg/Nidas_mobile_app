@@ -19,6 +19,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite = false, onToggleFavorite }) => {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [showImage, setShowImage] = useState(product.imageByColor[selectedColor] || product.imageDefault);
+  const [isLiked, setIsLiked] = useState(isFavorite);
 
   // For press animation
   const scale = useSharedValue(1);
@@ -40,6 +41,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite = false, 
   const handleColorChange = (color: string) => {
     setShowImage(product.imageByColor[color] || product.imageDefault);
     setSelectedColor(color);
+  };
+
+  const handleToggleFavorite = () => {
+    setIsLiked(!isLiked);
+    if (onToggleFavorite) {
+      onToggleFavorite(product);
+    }
   };
 
   const imageSource = getImageRequire(showImage);
@@ -70,13 +78,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isFavorite = false, 
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.favoriteIcon}
-            onPress={() => onToggleFavorite && onToggleFavorite(product)}
+            onPress={handleToggleFavorite}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
             <FontAwesome
-              name={isFavorite ? 'heart' : 'heart-o'}
+              name={isLiked ? 'heart' : 'heart-o'}
               size={24}
-              color={isFavorite ? '#e53935' : '#888'}
+              color={isLiked ? '#000' : '#888'}
             />
           </TouchableOpacity>
         </View>

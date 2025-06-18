@@ -6,9 +6,10 @@ import { Product } from '../types/Product';
 import productsData from '../api/categoryProducts.json';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { OnboardingStackParamList } from '../navigation/OnboardingNavigator';
+import { TabNavigatorParamList } from '../navigation/TabNavigator';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, runOnJS } from 'react-native-reanimated';
 import HorizontalProductCarousel from '../components/HorizontalProductCarousel';
+import CustomTabBar from '../components/CustomTabBar';
 
 const { width } = Dimensions.get('window');
 const carouselHeight = 180;
@@ -19,7 +20,7 @@ type RouteParams = {
   title: string;
 };
 
-type CategoryScreenNavigationProp = NativeStackNavigationProp<OnboardingStackParamList, 'Category'>;
+type CategoryScreenNavigationProp = NativeStackNavigationProp<TabNavigatorParamList, 'Category'>;
 
 // New type for category layouts
 type CategoryLayouts = { [key: string]: { x: number; width: number; }; };
@@ -266,6 +267,7 @@ const CategoryScreen = () => {
               cta: 'Xem chi tiết',
             },
           ]}
+          onPressItem={item => navigation.navigate('BannerDetail', { item })}
         />
 
         {/* Sản phẩm và các collection */}
@@ -285,6 +287,7 @@ const CategoryScreen = () => {
           </View>
         ))}
       </ScrollView>
+      <CustomTabBar />
     </View>
   );
 };
@@ -420,7 +423,7 @@ const styles = StyleSheet.create({
     height: 100,
     backgroundColor: '#596164',
     borderRadius: 30,
-    opacity: 0.65,
+    opacity: 0.155,
   },
   collectionSection: {
     marginBottom: 20,

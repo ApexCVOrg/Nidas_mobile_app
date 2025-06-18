@@ -181,5 +181,83 @@
     },
     "colors": ["black", "gray"],
     "collections": ["New Arrivals"]
+  },
+  {
+    "id": "p15",
+    "name": "Giày Sneaker FAVORITES",
+    "category": " ",
+    "price": "2.100.000 VNĐ",
+    "description": "Giày sneaker thể thao, thiết kế hiện đại, nằm trong mục yêu thích.",
+    "imageDefault": "category_images/giayfavorites.png",
+    "imageByColor": {
+      "black": "category_images/giayfavorites.png"
+    },
+    "colors": ["black"],
+    "collections": ["FAVORITES"]
+  },
+  {
+    "id": "p16",
+    "name": "Áo Khoác Denim FAVORITES",
+    "category": " ",
+    "price": "1.200.000 VNĐ",
+    "description": "Áo khoác denim phong cách, chất liệu bền đẹp, nằm trong mục yêu thích.",
+    "imageDefault": "category_images/aokhoacfavorites.png",
+    "imageByColor": {
+      "blue": "category_images/aokhoacfavorites.png"
+    },
+    "colors": ["blue"],
+    "collections": ["FAVORITES"]
+  },
+  {
+    "id": "p17",
+    "name": "Túi Xách FAVORITES",
+    "category": " ",
+    "price": "850.000 VNĐ",
+    "description": "Túi xách thời trang, thiết kế hiện đại, nằm trong mục yêu thích.",
+    "imageDefault": "category_images/tuixachfavorites.png",
+    "imageByColor": {
+      "brown": "category_images/tuixachfavorites.png"
+    },
+    "colors": ["brown"],
+    "collections": ["FAVORITES"]
+  },
+  {
+    "id": "p18",
+    "name": "Quần Jean FAVORITES",
+    "category": " ",
+    "price": "950.000 VNĐ",
+    "description": "Quần jean nam phong cách, chất liệu cao cấp, nằm trong mục yêu thích.",
+    "imageDefault": "category_images/quanjeanfavorites.png",
+    "imageByColor": {
+      "blue": "category_images/quanjeanfavorites.png"
+    },
+    "colors": ["blue"],
+    "collections": ["FAVORITES"]
+  },
+  {
+    "id": "p19",
+    "name": "Áo Hoodie FAVORITES",
+    "category": " ",
+    "price": "450.000 VNĐ",
+    "description": "Áo hoodie trẻ em, thiết kế dễ thương, nằm trong mục yêu thích.",
+    "imageDefault": "category_images/aohoodiefavorites.png",
+    "imageByColor": {
+      "pink": "category_images/aohoodiefavorites.png"
+    },
+    "colors": ["pink"],
+    "collections": ["FAVORITES"]
+  },
+  {
+    "id": "p20",
+    "name": "Mũ Snapback FAVORITES",
+    "category": " ",
+    "price": "280.000 VNĐ",
+    "description": "Mũ snapback thời trang, phong cách trẻ trung, nằm trong mục yêu thích.",
+    "imageDefault": "category_images/mufavorites.png",
+    "imageByColor": {
+      "black": "category_images/mufavorites.png"
+    },
+    "colors": ["black"],
+    "collections": ["FAVORITES"]
   }
 ] 

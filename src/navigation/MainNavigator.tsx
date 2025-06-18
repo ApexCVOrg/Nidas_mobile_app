@@ -6,15 +6,17 @@ import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from '../screens/Home/HomeScreen';
 import ProductListScreen from '../screens/ProductListScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
-import CartScreen from '../screens/CartScreen';
+import CartScreen from '../screens/NavigatorScreens/CartScreen';
 import CheckoutScreen from '../screens/CheckoutScreen';
 import UserScreen from '../screens/User/UserScreen';
+import CategoryScreen from '../screens/CategoryScreen';
 
 export type MainTabParamList = {
   Home: undefined;
   Products: undefined;
   Cart: undefined;
   User: undefined;
+  Category: { categoryId: string; title: string };
 };
 
 export type ProductStackParamList = {
@@ -51,6 +53,7 @@ const MainNavigator = () => {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
+        headerShown: false,
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
@@ -61,6 +64,7 @@ const MainNavigator = () => {
       />
       <Tab.Screen name="Cart" component={CartScreen} />
       <Tab.Screen name="User" component={UserScreen} />
+      <Tab.Screen name="Category" component={CategoryScreen} options={{ tabBarButton: () => null }} />
     </Tab.Navigator>
   );
 };
