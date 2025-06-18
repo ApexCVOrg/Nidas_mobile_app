@@ -1,26 +1,116 @@
 [
   {
     "id": "p1",
-    "name": "Sneaker A",
-    "category": "men",
+    "name": "Áo Adidas Đen",
+    "category": "quan_ao",
+    "gender": "nam",
+    "type": "casual",
+    "price": 900000,
+    "description": "Áo thun đen cơ bản với logo Adidas",
+    "image": "aoadidasden.png",
+    "colors": ["black", "white", "blue"],
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "tags": ["basic", "black", "logo", "casual", "everyday"],
     "imageDefault": "aoadidasden.png",
     "imageByColor": {
       "white": "aoadidastrang.png",
       "black": "aoadidasden.png",
       "blue": "aoadidasxanh.png"
-    },
-    "colors": ["white", "black", "blue"]
+    }
   },
   {
     "id": "p2",
-    "name": "Áo Thun B",
-    "category": "women",
-    "imageDefault": "aoadidasden.png",
+    "name": "Áo Adidas Trắng",
+    "category": "quan_ao",
+    "gender": "nu",
+    "type": "casual",
+    "price": 900000,
+    "description": "Áo thun trắng cơ bản với logo Adidas",
+    "image": "aoadidastrang.png",
+    "colors": ["white", "black", "blue"],
+    "sizes": ["XS", "S", "M", "L", "XL"],
+    "tags": ["basic", "white", "logo", "casual", "everyday"],
+    "imageDefault": "aoadidastrang.png",
     "imageByColor": {
       "white": "aoadidastrang.png",
       "black": "aoadidasden.png",
       "blue": "aoadidasxanh.png"
-    },
-    "colors": ["white", "black", "blue"]
+    }
+  },
+  {
+    "id": "p3",
+    "name": "Áo Adidas Xanh",
+    "category": "quan_ao",
+    "gender": "unisex",
+    "type": "casual",
+    "price": 900000,
+    "description": "Áo thun xanh cơ bản với logo Adidas",
+    "image": "aoadidasxanh.png",
+    "colors": ["blue", "black", "white"],
+    "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
+    "tags": ["basic", "blue", "logo", "casual", "everyday"],
+    "imageDefault": "aoadidasxanh.png",
+    "imageByColor": {
+      "white": "aoadidastrang.png",
+      "black": "aoadidasden.png",
+      "blue": "aoadidasxanh.png"
+    }
+  },
+  {
+    "id": "p4",
+    "name": "Áo Thể Thao Premium",
+    "category": "quan_ao",
+    "gender": "nam",
+    "type": "sport",
+    "price": 1200000,
+    "description": "Áo thể thao cao cấp với công nghệ thấm hút mồ hôi",
+    "image": "ao1.jpg",
+    "colors": ["red", "blue", "black"],
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "tags": ["sport", "premium", "performance", "training"],
+    "imageDefault": "ao1.jpg",
+    "imageByColor": {
+      "red": "ao1.jpg",
+      "blue": "ao3.jpg",
+      "black": "ao4.jpg"
+    }
+  },
+  {
+    "id": "p5",
+    "name": "Quần Thể Thao Nam",
+    "category": "quan_ao",
+    "gender": "nam",
+    "type": "sport",
+    "price": 1300000,
+    "description": "Quần thể thao nam với thiết kế thoải mái",
+    "image": "quan1.jpg",
+    "colors": ["black", "navy", "grey"],
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "tags": ["men", "sport", "comfortable", "training"],
+    "imageDefault": "quan1.jpg",
+    "imageByColor": {
+      "black": "quan1.jpg",
+      "navy": "quan2.jpg",
+      "grey": "quan3.jpg"
+    }
+  },
+  {
+    "id": "p6",
+    "name": "Adidas Samba OG",
+    "category": "giay",
+    "gender": "nam",
+    "type": "originals",
+    "price": 2800000,
+    "description": "Giày thể thao cổ điển với thiết kế retro đặc trưng",
+    "image": "samba.gif",
+    "colors": ["white", "black", "blue"],
+    "sizes": [38, 39, 40, 41, 42, 43, 44],
+    "tags": ["samba", "originals", "classics", "retro", "football"],
+    "imageDefault": "samba.gif",
+    "imageByColor": {
+      "white": "samba.gif",
+      "black": "handball.gif",
+      "blue": "sl72.gif"
+    }
   }
 ] 
