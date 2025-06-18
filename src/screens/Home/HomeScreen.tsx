@@ -28,7 +28,7 @@ const HomeScreen = () => {
 
   const categories = [
     { id: 'men', name: 'Nam', icon: 'person' },
-    { id: 'women', name: 'Nữ', icon: 'person' },
+    { id: 'women', name: 'Nữ', icon: 'person-2' },
     { id: 'kids', name: 'Trẻ Em', icon: 'child-care' },
     { id: 'sport', name: 'Thể Thao', icon: 'sports-basketball' },
     { id: 'accessories', name: 'Phụ Kiện', icon: 'watch' },
@@ -92,7 +92,7 @@ const HomeScreen = () => {
       {/* Header */}
       <View style={homeStyles.headerV2}>
         <View style={homeStyles.headerTopRow}>
-          <Text style={homeStyles.greetingText}>XIN CHÀO</Text>
+          <Text style={homeStyles.greetingText}>NIDAS</Text>
           <View style={homeStyles.headerIconsRight}>
             <TouchableOpacity style={homeStyles.iconButton}>
               <Icon name="search" size={26} color="#000" />
