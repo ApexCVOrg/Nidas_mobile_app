@@ -57,6 +57,8 @@ export const loginStyles = StyleSheet.create({
     paddingHorizontal: 12,
     fontSize: 16,
     color: '#1A1A1A',
+    backgroundColor: '#fff',
+    borderRadius: 8,
   },
   eyeIcon: {
     padding: 12,

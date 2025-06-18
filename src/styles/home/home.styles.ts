@@ -43,6 +43,34 @@ export const homeStyles = StyleSheet.create({
     width: width,
     position: 'relative',
   },
+  heroBannerCarousel: {
+    width: width,
+    height: 500,
+  },
+  heroBannerDotsContainer: {
+    position: 'absolute',
+    bottom: 16,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  heroBannerDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: '#fff',
+    opacity: 2.5,
+    marginHorizontal: 4,
+  },
+  heroBannerDotActive: {
+    opacity: 0.5,
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#000',
+  },
   heroImage: {
     width: '100%',
     height: '100%',
@@ -205,7 +233,6 @@ export const homeStyles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 8,
     paddingBottom: 0,
-    backgroundColor: '#fff',
   },
   headerTopRow: {
     flexDirection: 'row',

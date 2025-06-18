@@ -1,7 +1,5 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, View } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CategoryListScreen from '../screens/NavigatorScreens/CategoryListScreen';
@@ -12,12 +10,16 @@ import FavoritesScreen from '../screens/NavigatorScreens/FavoritesScreen';
 import CartScreen from '../screens/NavigatorScreens/CartScreen';
 import CustomTabBar from '../components/CustomTabBar';
 import BannerDetailScreen from '../screens/BannerDetailScreen';
+import LoginScreen from '../screens/Auth/LoginScreen';
+import RegisterScreen from '../screens/Auth/RegisterScreen';
 
 export type TabNavigatorParamList = {
   MainTabs: undefined;
   CategoryList: undefined;
   Category: { categoryId: string; title: string };
   BannerDetail: { item: any };
+  Login: undefined;
+  Register: undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -43,14 +45,14 @@ const MainTabs = () => (
 
 const TabNavigator = () => {
   return (
-    <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="MainTabs" component={MainTabs} />
         <Stack.Screen name="CategoryList" component={CategoryListScreen} />
         <Stack.Screen name="Category" component={CategoryScreen} />
         <Stack.Screen name="BannerDetail" component={BannerDetailScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
       </Stack.Navigator>
-    </NavigationContainer>
   );
 };
 

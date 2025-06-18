@@ -121,6 +121,9 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
 
   return (
     <View style={loginStyles.container}>
+                      <TouchableOpacity onPress={() => navigation.navigate('MainTabs' as never)}>
+                  <Text style={{ color: '#1A1A1A', fontWeight: '500', fontSize: 14, textAlign: 'left', marginTop: 16, marginLeft: 16 }}>Home</Text>
+                </TouchableOpacity>
       <ScrollView contentContainerStyle={loginStyles.scrollContent}>
         <View style={loginStyles.formContainer}>
           <Text style={loginStyles.title}>Welcome Back</Text>
@@ -129,8 +132,8 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
           <Formik
             initialValues={initialFormData}
             validationSchema={Yup.object().shape({
-              username: Yup.string().required('Vui lòng nhập tên đăng nhập'),
-              password: Yup.string().required('Vui lòng nhập mật khẩu'),
+              username: Yup.string().required('Enter your email'),
+              password: Yup.string().required('Enter your password'),
             })}
             onSubmit={handleLogin}
           >
@@ -141,6 +144,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
                   <TextInput
                     style={loginStyles.input}
                     placeholder="Email"
+                    placeholderTextColor="#888"
                     onChangeText={handleChange('username')}
                     onBlur={handleBlur('username')}
                     value={values.username}
@@ -157,6 +161,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
                   <TextInput
                     style={loginStyles.input}
                     placeholder="Password"
+                    placeholderTextColor="#888"
                     onChangeText={handleChange('password')}
                     onBlur={handleBlur('password')}
                     value={values.password}

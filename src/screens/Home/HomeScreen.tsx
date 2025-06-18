@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,15 +8,15 @@ import {
   SafeAreaView,
   StatusBar,
   Dimensions,
+  FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { TabNavigatorParamList } from '../../navigation/TabNavigator';
 import { homeStyles } from '../../styles/home/home.styles';
-
-// Import images
-const bannerImage = require('../../../assets/banner3.png');
+import homeData from '../../api/homeData.json';
+import { getImageRequire } from '../../utils/imageRequire';
 
 const { width } = Dimensions.get('window');
 
@@ -25,58 +25,41 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<TabNavigatorParamList,
 const HomeScreen = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const [showBanner, setShowBanner] = useState(true);
+  const [bannerIndex, setBannerIndex] = useState(0);
+  const bannerFlatListRef = useRef<FlatList>(null);
 
-  const categories = [
-    { id: 'men', name: 'Nam', icon: 'person' },
-    { id: 'women', name: 'Nữ', icon: 'person-2' },
-    { id: 'kids', name: 'Trẻ Em', icon: 'child-care' },
-    { id: 'sport', name: 'Thể Thao', icon: 'sports-basketball' },
-    { id: 'accessories', name: 'Phụ Kiện', icon: 'watch' },
-  ];
+  // State for mock data
+  const [categories, setCategories] = useState<any[]>([]);
+  const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
+  const [collections, setCollections] = useState<any[]>([]);
+  const [bannerImages, setBannerImages] = useState<any[]>([]);
 
-  const featuredProducts = [
-    {
-      id: 1,
-      name: 'ULTRABOOST 22',
-      description: 'Giày chạy bộ',
-      price: '4.200.000đ',
-      image: require('../../../assets/Giay_Ultraboost_22.jpg'),
-    },
-    {
-      id: 2,
-      name: 'ADIDAS ORIGINALS',
-      description: 'Áo thun Trefoil',
-      price: '1.200.000đ',
-      image: require('../../../assets/Ao_Thun_Polo_Ba_La.jpg'),
-    },
-    {
-      id: 3,
-      name: 'TERREX',
-      description: 'Quần leo núi',
-      price: '2.500.000đ',
-      image: require('../../../assets/Quan_Hiking_Terrex.jpg'),
-    },
-    {
-      id: 4,
-      name: 'STAN SMITH',
-      description: 'Giày thể thao',
-      price: '2.800.000đ',
-      image: require('../../../assets/Giay_Stan_Smith_x_Liberty_London.jpg'),
-    },
-  ];
+  // Auto-scroll banner
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setBannerIndex(prev => {
+        const next = (prev + 1) % bannerImages.length;
+        bannerFlatListRef.current?.scrollToIndex({ index: next, animated: true });
+        return next;
+      });
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [bannerImages.length]);
 
-  const collections = [
-    {
-      id: 1,
-      name: 'Bộ sưu tập mùa hè',
-      image: require('../../../assets/banner.jpg'),
-    },
-    {
-      id: 2,
-      name: 'Bộ sưu tập thể thao',
-      image: require('../../../assets/sport.jpg'),
-    },
-  ];
+  const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: any[] }) => {
+    if (viewableItems.length > 0) {
+      setBannerIndex(viewableItems[0].index);
+    }
+  }).current;
+  const viewConfigRef = useRef({ viewAreaCoveragePercentThreshold: 50 });
+
+  // Load mock data from JSON
+  useEffect(() => {
+    setCategories(homeData.categories);
+    setFeaturedProducts(homeData.featuredProducts);
+    setCollections(homeData.collections);
+    setBannerImages(homeData.bannerImages);
+  }, []);
 
   const handleCategoryPress = (category: { id: string; name: string }) => {
     navigation.navigate('Category', {
@@ -109,13 +92,13 @@ const HomeScreen = () => {
         <View style={homeStyles.loginBanner}>
           <Icon name="person-outline" size={32} color="#fff" style={{ marginRight: 12 }} />
           <View style={{ flex: 1 }}>
-            <Text style={homeStyles.bannerTitle}>Mua theo cách của bạn</Text>
+            <Text style={homeStyles.bannerTitle}>Buy the way you want</Text>
             <Text style={homeStyles.bannerDesc}>
-              Cửa hàng được cá nhân hoá của bạn đang chờ đợi. Nhận các đề xuất mới và quyền truy cập độc quyền chỉ dành cho hội viên.
+              Your personalized store is waiting for you. Receive new suggestions and exclusive access only for members.
             </Text>
           </View>
-          <TouchableOpacity style={homeStyles.loginBannerButton}>
-            <Text style={homeStyles.loginBannerButtonText}>ĐĂNG NHẬP NGAY</Text>
+          <TouchableOpacity style={homeStyles.loginBannerButton} onPress={() => navigation.navigate('Login')}>
+            <Text style={homeStyles.loginBannerButtonText}>LOGIN NOW</Text>
             <Icon name="arrow-forward-ios" size={16} color="#fff" style={{ marginLeft: 4 }} />
           </TouchableOpacity>
           <TouchableOpacity style={homeStyles.closeBannerButton} onPress={() => setShowBanner(false)}>
@@ -125,25 +108,41 @@ const HomeScreen = () => {
       )}
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Hero Banner */}
+        {/* Hero Banner Carousel */}
         <View style={homeStyles.heroBanner}>
-          <Image
-            source={bannerImage}
-            style={homeStyles.heroImage}
-            resizeMode="cover"
+          <FlatList
+            ref={bannerFlatListRef}
+            data={bannerImages}
+            keyExtractor={(_, idx) => idx.toString()}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <Image source={getImageRequire(item)} style={homeStyles.heroBannerCarousel} resizeMode="cover" />
+            )}
+            onViewableItemsChanged={onViewableItemsChanged}
+            viewabilityConfig={viewConfigRef.current}
           />
-          <View style={homeStyles.heroContent}>
-            <Text style={homeStyles.heroTitle}>BỘ SƯU TẬP MỚI</Text>
-            <Text style={homeStyles.heroSubtitle}>Khám phá ngay</Text>
+          <View style={homeStyles.heroBannerDotsContainer}>
+            {bannerImages.map((_, idx) => (
+              <View
+                key={idx}
+                style={[homeStyles.heroBannerDot, bannerIndex === idx && homeStyles.heroBannerDotActive]}
+              />
+            ))}
+          </View>
+          <View style={homeStyles.heroContent} pointerEvents="box-none">
+            <Text style={homeStyles.heroTitle}>NEW COLLECTION</Text>
+            <Text style={homeStyles.heroSubtitle}>Discover now</Text>
             <TouchableOpacity style={homeStyles.heroButton}>
-              <Text style={homeStyles.heroButtonText}>MUA NGAY</Text>
+              <Text style={homeStyles.heroButtonText}>BUY NOW</Text>
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Categories */}
         <View style={homeStyles.categoriesContainer}>
-          <Text style={homeStyles.sectionTitle}>DANH MỤC</Text>
+          <Text style={homeStyles.sectionTitle}>CATEGORIES</Text>
           <View style={homeStyles.categoriesList}>
             {categories.map((category) => (
               <TouchableOpacity key={category.id} style={homeStyles.categoryItem} onPress={() => handleCategoryPress(category)}>
@@ -158,12 +157,12 @@ const HomeScreen = () => {
 
         {/* Featured Products */}
         <View style={homeStyles.productsContainer}>
-          <Text style={homeStyles.sectionTitle}>SẢN PHẨM NỔI BẬT</Text>
+          <Text style={homeStyles.sectionTitle}>FEATURED PRODUCTS</Text>
           <View style={homeStyles.productsList}>
             {featuredProducts.map((product) => (
               <TouchableOpacity key={product.id} style={homeStyles.productCard}>
                 <Image
-                  source={product.image}
+                  source={getImageRequire(product.image)}
                   style={homeStyles.productImage}
                   resizeMode="cover"
                 />
@@ -182,14 +181,14 @@ const HomeScreen = () => {
           {collections.map((collection) => (
             <TouchableOpacity key={collection.id} style={homeStyles.collectionCard}>
               <Image
-                source={collection.image}
+                source={getImageRequire(collection.image)}
                 style={homeStyles.collectionImage}
                 resizeMode="cover"
               />
               <View style={homeStyles.collectionOverlay}>
                 <Text style={homeStyles.collectionTitle}>{collection.name}</Text>
                 <TouchableOpacity style={homeStyles.collectionButton}>
-                  <Text style={homeStyles.collectionButtonText}>XEM THÊM</Text>
+                  <Text style={homeStyles.collectionButtonText}>VIEW MORE</Text>
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>
