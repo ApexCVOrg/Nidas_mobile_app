@@ -12,8 +12,10 @@ const imageMap: { [key: string]: any } = {
   "nike.gif": require("../../assets/nike.gif"),
   "sport.jpg": require("../../assets/sport.jpg"),
   "logo.jpg": require("../../assets/logo.jpg"),
+  "banner.jpg": require("../../assets/banner.jpg"),
   "Giay_Ultraboost_22.jpg": require("../../assets/Giay_Ultraboost_22.jpg"),
   "Giay_Stan_Smith_x_Liberty_London.jpg": require("../../assets/Giay_Stan_Smith_x_Liberty_London.jpg"),
+  "Giay_Handball_Spezial.jpg": require("../../assets/Giay_Handball_Spezial.jpg"),
   "Ao_Thun_Polo_Ba_La.jpg": require("../../assets/Ao_Thun_Polo_Ba_La.jpg"),
   "Quan_Hiking_Terrex.jpg": require("../../assets/Quan_Hiking_Terrex.jpg"),
   "ao1.jpg": require("../../assets/ao1.jpg"),
@@ -24,6 +26,13 @@ const imageMap: { [key: string]: any } = {
   "quan2.jpg": require("../../assets/quan2.jpg"),
   "quan3.jpg": require("../../assets/quan3.jpg"),
   "icon.png": require("../../assets/icon.png"),
+  "nike_collection.jpg": require("../../assets/nike_collection.jpg"),
+  "pharrelwilliamsxtennishu.png": require("../../assets/pharrelwilliamsxtennishu.png"),
+  "arsenal_banner.jpg": require("../../assets/arsenal_banner.jpg"),
+  "TOP.gif": require("../../assets/TOP.gif"),
+  "NikeBanner.jpg": require("../../assets/homePage/NikeBanner.jpg"),
+  "NikeBanner2.jpg": require("../../assets/homePage/NikeBanner2.jpg"),
+  "NikeBanner3.jpg": require("../../assets/homePage/NikeBanner3.jpg"),
 };
 
 export function getImageRequire(fileName: string) {

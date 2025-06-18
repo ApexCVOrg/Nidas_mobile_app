@@ -35,7 +35,6 @@ const OnboardingCompleteScreen = ({ navigation }: OnboardingCompleteScreenProps)
 
   const handleComplete = () => {
     dispatch(setOnboardingComplete(true));
-    navigation.replace('Home');
   };
 
   const animatedStyle = useAnimatedStyle(() => {

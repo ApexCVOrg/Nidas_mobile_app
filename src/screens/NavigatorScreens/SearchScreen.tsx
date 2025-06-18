@@ -27,7 +27,6 @@
   ];
 
 const banners = [
-  { id: 1, image: require('../../../assets/banner1.gif'), title: 'BD7530', subtitle: 'Pharrell Williams x Tennis Hu.' },
   { id: 2, image: require('../../../assets/banner2.gif'), title: 'HANDBALL SPEZIAL', subtitle: 'Step into retro-inspired design.' },
   { id: 3, image: require('../../../assets/banner3.png'), title: 'BANNER 3', subtitle: 'Ưu đãi hấp dẫn.' },
   { id: 4, image: require('../../../assets/sport.jpg'), title: 'BANNER 4', subtitle: 'Thể thao năng động.' },

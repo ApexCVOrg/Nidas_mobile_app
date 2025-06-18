@@ -1,0 +1,56 @@
+{
+  "categories": [
+    { "id": "men", "name": "Men", "icon": "person" },
+    { "id": "women", "name": "Women", "icon": "person" },
+    { "id": "kids", "name": "Kids", "icon": "child-care" },
+    { "id": "sport", "name": "Sport", "icon": "sports-basketball" },
+    { "id": "accessories", "name": "Accessories", "icon": "watch" }
+  ],
+  "featuredProducts": [
+    {
+      "id": 1,
+      "name": "ULTRABOOST 22",
+      "description": "Running Shoes",
+      "price": "4.200.000đ",
+      "image": "Giay_Ultraboost_22.jpg"
+    },
+    {
+      "id": 2,
+      "name": "ADIDAS ORIGINALS",
+      "description": "Trefoil T-shirt",
+      "price": "1.200.000đ",
+      "image": "Ao_Thun_Polo_Ba_La.jpg"
+    },
+    {
+      "id": 3,
+      "name": "TERREX",
+      "description": "Hiking Pants",
+      "price": "2.500.000đ",
+      "image": "Quan_Hiking_Terrex.jpg"
+    },
+    {
+      "id": 4,
+      "name": "STAN SMITH",
+      "description": "Sport Shoes",
+      "price": "2.800.000đ",
+      "image": "Giay_Stan_Smith_x_Liberty_London.jpg"
+    }
+  ],
+  "collections": [
+    {
+      "id": 1,
+      "name": "Summer Collection",
+      "image": "banner.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Sport Collection",
+      "image": "sport.jpg"
+    }
+  ],
+  "bannerImages": [
+    "NikeBanner.jpg",
+    "NikeBanner2.jpg",
+    "NikeBanner3.jpg"
+  ]
+} 

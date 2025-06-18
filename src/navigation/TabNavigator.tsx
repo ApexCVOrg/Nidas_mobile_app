@@ -18,6 +18,8 @@ import ProductDetailScreen from '../screens/NavigatorScreens/SearchScreen/Produc
 import CollectionScreen from '../screens/NavigatorScreens/SearchScreen/CollectionScreen';
 import FavoritesScreen from '../screens/NavigatorScreens/FavoritesScreen';
 import CartScreen from '../screens/NavigatorScreens/CartScreen';
+import LoginScreen from '../screens/Auth/LoginScreen';
+import RegisterScreen from '../screens/Auth/RegisterScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -112,13 +114,13 @@ const MainTabs = () => (
 
 const TabNavigator = () => {
   return (
-    <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="MainTabs" component={MainTabs} />
         <Stack.Screen name="CategoryList" component={CategoryListScreen} />
         <Stack.Screen name="Checkout" component={CheckoutScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
       </Stack.Navigator>
-    </NavigationContainer>
   );
 };
 
