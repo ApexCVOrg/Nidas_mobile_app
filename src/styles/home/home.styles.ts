@@ -19,6 +19,7 @@ export const homeStyles = StyleSheet.create({
   headerLeft: {
     flex: 1,
   },
+<<<<<<< HEAD
   headerRight: {
     flex: 2,
     flexDirection: 'row',
@@ -37,6 +38,21 @@ export const homeStyles = StyleSheet.create({
   },
   iconButton: {
     padding: 8,
+=======
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: '900',
+    color: '#000',
+    letterSpacing: 2,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  iconButton: {
+    padding: 8,
+    marginLeft: 8,
+>>>>>>> 0f5852be006e872bcd274dac78b0019c0d3522ba
   },
   heroBanner: {
     height: 500,
@@ -190,6 +206,7 @@ export const homeStyles = StyleSheet.create({
     fontWeight: '700',
     color: '#000',
   },
+<<<<<<< HEAD
   authButton: {
     backgroundColor: '#1A1A1A',
     paddingHorizontal: 12,
@@ -274,4 +291,6 @@ export const homeStyles = StyleSheet.create({
     padding: 4,
     alignSelf: 'flex-start',
   },
+=======
+>>>>>>> 0f5852be006e872bcd274dac78b0019c0d3522ba
 }); 
