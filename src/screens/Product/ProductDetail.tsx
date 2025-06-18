@@ -30,15 +30,25 @@ import Animated, {
 } from 'react-native-reanimated';
 import SizeGuideModal from '../../components/SizeGuideModal';
 import RecommendedProducts from '../../components/RecommendedProducts';
+import homeData from '../../api/homeData.json';
+import { getImageRequire } from '../../utils/imageRequire';
 
 type ProductDetailRouteProp = RouteProp<OnboardingStackParamList, 'ProductDetail'>;
 
 const { width, height } = Dimensions.get('window');
 
 const ProductDetail = () => {
-  const route = useRoute<ProductDetailRouteProp>();
+  const route = useRoute<any>();
   const navigation = useNavigation();
-  const { product } = route.params;
+  const { productId } = route.params;
+  const product = homeData.featuredProducts.find((p: any) => p.id == productId);
+  if (!product) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Product not found!</Text>
+      </View>
+    );
+  }
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedImage, setSelectedImage] = useState(0);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
@@ -95,7 +105,7 @@ const ProductDetail = () => {
             animated: true,
           });
         }
-      }, 2000); // Chuyển ảnh mỗi 2 giây
+      }, 2000); // Switch image every 2 seconds
     }
 
     return () => {
@@ -105,7 +115,7 @@ const ProductDetail = () => {
     };
   }, [currentIndex, isAutoScrolling]);
 
-  // Xác định loại sản phẩm dựa vào tên sản phẩm
+  // Determine product type based on product name
   const getProductType = () => {
     const name = product.name.toLowerCase();
     if (name.includes('giày') || name.includes('ultraboost') || name.includes('stan smith')) {
@@ -124,9 +134,9 @@ const ProductDetail = () => {
     : ['S', 'M', 'L', 'XL', 'XXL'];
 
   const productImages = [
-    product.image,
-    product.image,
-    product.image,
+    getImageRequire(product.image),
+    getImageRequire(product.image),
+    getImageRequire(product.image),
   ];
 
   const handleZoom = (image: string) => {
@@ -156,9 +166,9 @@ const ProductDetail = () => {
   };
 
   const handleScroll = () => {
-    // Tạm dừng auto scroll khi người dùng tương tác
+    // Pause auto scroll when user interacts
     setIsAutoScrolling(false);
-    // Khởi động lại auto scroll sau 5 giây không tương tác
+    // Resume auto scroll after 5 seconds of no interaction
     setTimeout(() => {
       setIsAutoScrolling(true);
     }, 5000);
@@ -338,12 +348,12 @@ const ProductDetail = () => {
           {/* Size Selection */}
           <View style={styles.sizeSection}>
             <View style={styles.sizeHeader}>
-              <Text style={styles.sectionTitle}>Kích thước</Text>
+              <Text style={styles.sectionTitle}>Size</Text>
               <TouchableOpacity 
                 onPress={() => setShowSizeGuide(true)}
                 style={styles.sizeGuideButton}
               >
-                <Text style={styles.sizeGuide}>Hướng dẫn chọn size</Text>
+                <Text style={styles.sizeGuide}>Size Guide</Text>
                 <Icon name="info-outline" size={16} color="#666" />
               </TouchableOpacity>
             </View>
@@ -379,12 +389,12 @@ const ProductDetail = () => {
             entering={FadeInDown.delay(400)}
             style={styles.detailsSection}
           >
-            <Text style={styles.sectionTitle}>Chi tiết sản phẩm</Text>
+            <Text style={styles.sectionTitle}>Product Details</Text>
             <View style={styles.detailsList}>
               {[
-                { icon: 'check-circle', text: 'Chất liệu cao cấp' },
-                { icon: 'check-circle', text: 'Thiết kế hiện đại' },
-                { icon: 'check-circle', text: 'Bảo hành 12 tháng' },
+                { icon: 'check-circle', text: 'Premium material' },
+                { icon: 'check-circle', text: 'Modern design' },
+                { icon: 'check-circle', text: '12-month warranty' },
               ].map((detail, index) => (
                 <Animated.View
                   key={index}
@@ -403,7 +413,7 @@ const ProductDetail = () => {
           entering={FadeInDown.delay(600)}
           style={styles.section}
         >
-          <Text style={styles.sectionTitle}>Mô tả sản phẩm</Text>
+          <Text style={styles.sectionTitle}>Product Description</Text>
           <Text style={styles.description}>
             {product.description}
           </Text>
@@ -421,7 +431,7 @@ const ProductDetail = () => {
           style={styles.addToCartButton}
           activeOpacity={0.8}
         >
-          <Text style={styles.addToCartText}>THÊM VÀO GIỎ HÀNG</Text>
+          <Text style={styles.addToCartText}>ADD TO CART</Text>
         </TouchableOpacity>
       </Animated.View>
 

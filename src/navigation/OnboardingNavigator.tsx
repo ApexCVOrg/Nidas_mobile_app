@@ -18,7 +18,7 @@ export type OnboardingStackParamList = {
   Register: undefined;
   Home: undefined;
   Category: { categoryId: string; title: string };
-  ProductDetail: { product: { id: number; name: string; description: string; price: string; image: any } };
+  ProductDetail: { productId: number };
 };
 
 const Stack = createNativeStackNavigator<OnboardingStackParamList>();
