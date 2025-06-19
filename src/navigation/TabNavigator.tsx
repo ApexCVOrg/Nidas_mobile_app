@@ -23,6 +23,8 @@ import BannerDetailScreen from '../screens/BannerDetailScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import RegisterScreen from '../screens/Auth/RegisterScreen';
 import CustomTabBar from '../components/CustomTabBar';
+import BannerDetailManchester from '../screens/BannerDetailManchester';
+import BannerDetailClimacool from '../screens/BannerDetailClimacool';
 
 export type TabNavigatorParamList = {
   MainTabs: undefined;
@@ -34,11 +36,14 @@ export type TabNavigatorParamList = {
   Register: undefined;
   ProductDetail: { productId: number };
   Collection: { collectionId: number; title: string; subtitle: string };
+  BannerDetailClimacool: { item: any };
+  BannerDetailManchester: { item: any };
 };
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator<TabNavigatorParamList>();
 const SearchStack = createNativeStackNavigator();
+const HomeStack = createNativeStackNavigator();
 
 const SearchStackNavigator = () => (
   <SearchStack.Navigator>
@@ -93,6 +98,15 @@ const CartIcon = ({ focused, color, size }: { focused: boolean; color: string; s
   );
 };
 
+function HomeStackNavigator() {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      <HomeStack.Screen name="Category" component={CategoryScreen} options={{ title: 'Danh mục' }} />
+    </HomeStack.Navigator>
+  );
+}
+
 const MainTabs = () => (
   <Tab.Navigator
     screenOptions={({ route }) => ({
@@ -122,7 +136,7 @@ const MainTabs = () => (
       headerShadowVisible: false,
     })}
   >
-    <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+    <Tab.Screen name="Home" component={HomeStackNavigator} options={{ headerShown: false }} />
     <Tab.Screen name="Search" component={SearchStackNavigator} options={{ headerShown: false }} />
     <Tab.Screen name="Favorites" component={FavoritesScreen} options={{ title: 'FAVORITES' }} />
     <Tab.Screen name="Cart" component={CartScreen} options={{ title: 'CART' }} />
@@ -141,6 +155,8 @@ const TabNavigator = () => {
       <Stack.Screen name="BannerDetail" component={BannerDetailScreen} />
       <Stack.Screen name="Checkout" component={CheckoutScreen} />
       <Stack.Screen name="Collection" component={CollectionScreen} />
+      <Stack.Screen name="BannerDetailManchester" component={BannerDetailManchester} options={{ headerShown: false }} />
+      <Stack.Screen name="BannerDetailClimacool" component={BannerDetailClimacool} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };

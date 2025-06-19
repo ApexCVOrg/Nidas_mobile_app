@@ -6,21 +6,20 @@ import ProductCard from '../components/ProductCard';
 import { getImageRequire } from '../utils/imageRequire';
 import productsData from '../api/categoryProducts.json';
 
-type BannerDetailScreenRouteProp = RouteProp<TabNavigatorParamList, 'BannerDetail'>;
+type BannerDetailScreenRouteProp = RouteProp<TabNavigatorParamList, 'BannerDetailClimacool'>;
 
 type Props = {
   route: BannerDetailScreenRouteProp;
 };
 
-const BannerDetailScreen = ({ route }: Props) => {
+const BannerDetailClimacool = ({ route }: Props) => {
   const { item } = route.params;
-
-  // Lọc sản phẩm liên quan đến Manchester United
+  // Lọc sản phẩm liên quan đến ClimaCool
   const relatedProducts = useMemo(() => {
     return productsData.filter(
       (p) =>
-        p.name.toLowerCase().includes('manchester united') ||
-        (p.collections && p.collections.some((c) => c.toLowerCase().includes('manchester united') || c.toLowerCase().includes('football club')))
+        p.name.toLowerCase().includes('climacool') ||
+        (p.collections && p.collections.some((c) => c.toLowerCase().includes('climacool')))
     );
   }, []);
 
@@ -35,6 +34,7 @@ const BannerDetailScreen = ({ route }: Props) => {
       </View>
       {relatedProducts.length > 0 && (
         <View style={styles.relatedSection}>
+          <Text style={styles.relatedTitle}>Sản phẩm ClimaCool</Text>
           <FlatList
             data={relatedProducts}
             keyExtractor={(item) => item.id}
@@ -112,4 +112,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BannerDetailScreen; 
+export default BannerDetailClimacool; 

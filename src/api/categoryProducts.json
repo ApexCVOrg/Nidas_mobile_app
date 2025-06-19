@@ -194,7 +194,7 @@
       "black": "aoadidasden.png",
       "blue": "aoadidasxanh.png"
     },
-    "colors": ["black", "white", "blue"],
+    "colors": [],
     "collections": ["New Arrivals"]
   },
   {
@@ -287,7 +287,7 @@
       "black": "aoadidasden.png",
       "blue": "aoadidasxanh.png"
     },
-    "colors": ["white", "black", "blue"],
+    "colors": [],
     "collections": ["New Arrivals"]
   },
   {
@@ -302,7 +302,7 @@
       "black": "aoadidasden.png",
       "blue": "aoadidasxanh.png"
     },
-    "colors": ["blue", "black", "white"],
+    "colors": [],
     "collections": ["New Arrivals"]
   },
   {
@@ -332,7 +332,7 @@
       "navy": "quan2.jpg",
       "grey": "quan3.jpg"
     },
-    "colors": ["black", "navy", "grey"],
+    "colors": [],
     "collections": ["Sport Gear"]
   },
   {
@@ -349,5 +349,31 @@
     },
     "colors": ["white", "black", "blue"],
     "collections": ["SUPERSTAR"]
+  },
+  {
+    "id": "p26",
+    "name": "Áo Đấu Manchester United 25/26 Home Kit",
+    "category": "sport",
+    "price": "2.200.000 VNĐ",
+    "description": "Áo đấu chính thức sân nhà mùa giải 2025/2026 của Manchester United. Thiết kế mới, chất liệu thoáng mát, tôn vinh Nhà hát của những giấc mơ.",
+    "imageDefault": "category_images/ManU_home.jpg",
+    "imageByColor": {
+      "red": "category_images/ManU_home.jpg"
+    },
+    "colors": ["red"],
+    "collections": ["Football Club"]
+  },
+  {
+    "id": "p27",
+    "name": "Áo Thun ClimaCool 2024",
+    "category": "sport",
+    "price": "1.100.000 VNĐ",
+    "description": "Áo thun thể thao công nghệ ClimaCool 2024, siêu nhẹ, thoáng khí, phù hợp tập luyện mùa hè.",
+    "imageDefault": "category_images/Climacool.jpg",
+    "imageByColor": {
+      "blue": "category_images/Climacool.jpg"
+    },
+    "colors": ["blue"],
+    "collections": ["ClimaCool"]
   }
 ] 
