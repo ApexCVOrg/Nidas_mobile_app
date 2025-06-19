@@ -22,6 +22,7 @@ import CartScreen from '../screens/NavigatorScreens/CartScreen';
 import BannerDetailScreen from '../screens/BannerDetailScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import RegisterScreen from '../screens/Auth/RegisterScreen';
+import ProductDetail from '../screens/Product/ProductDetail';
 import CustomTabBar from '../components/CustomTabBar';
 
 export type TabNavigatorParamList = {
@@ -32,7 +33,7 @@ export type TabNavigatorParamList = {
   Checkout: undefined;
   Login: undefined;
   Register: undefined;
-  ProductDetail: { productId: number };
+  ProductDetail: { productId: string };
   Collection: { collectionId: number; title: string; subtitle: string };
 };
 
@@ -136,7 +137,7 @@ const TabNavigator = () => {
       <Stack.Screen name="CategoryList" component={CategoryListScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
+      <Stack.Screen name="ProductDetail" component={ProductDetail} />
       <Stack.Screen name="Category" component={CategoryScreen} />
       <Stack.Screen name="BannerDetail" component={BannerDetailScreen} />
       <Stack.Screen name="Checkout" component={CheckoutScreen} />

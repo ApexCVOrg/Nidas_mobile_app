@@ -30,7 +30,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import SizeGuideModal from '../../components/SizeGuideModal';
 import RecommendedProducts from '../../components/RecommendedProducts';
-import homeData from '../../api/homeData.json';
+import searchProducts from '../../api/searchProducts.json';
 import { getImageRequire } from '../../utils/imageRequire';
 
 type ProductDetailRouteProp = RouteProp<OnboardingStackParamList, 'ProductDetail'>;
@@ -41,7 +41,7 @@ const ProductDetail = () => {
   const route = useRoute<any>();
   const navigation = useNavigation();
   const { productId } = route.params;
-  const product = homeData.featuredProducts.find((p: any) => p.id == productId);
+  const product = (searchProducts as any[]).find((p: any) => p.id === productId);
   if (!product) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

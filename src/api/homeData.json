@@ -8,28 +8,28 @@
   ],
   "featuredProducts": [
     {
-      "id": 1,
+      "id": "p006",
       "name": "ULTRABOOST 22",
       "description": "Running Shoes",
       "price": "4.200.000đ",
       "image": "Giay_Ultraboost_22.jpg"
     },
     {
-      "id": 2,
+      "id": "p008",
       "name": "ADIDAS ORIGINALS",
       "description": "Trefoil T-shirt",
       "price": "1.200.000đ",
       "image": "Ao_Thun_Polo_Ba_La.jpg"
     },
     {
-      "id": 3,
+      "id": "p010",
       "name": "TERREX",
       "description": "Hiking Pants",
       "price": "2.500.000đ",
       "image": "Quan_Hiking_Terrex.jpg"
     },
     {
-      "id": 4,
+      "id": "p007",
       "name": "STAN SMITH",
       "description": "Sport Shoes",
       "price": "2.800.000đ",
