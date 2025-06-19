@@ -21,7 +21,6 @@ import {
   CartItem,
 } from "../../redux/slices/cartSlice";
 import { cartStyles as styles } from "../../styles/cart/cart.styles";
-import CustomTabBar from "components/CustomTabBar";
 
 const { width } = Dimensions.get("window");
 
@@ -242,7 +241,6 @@ const CartScreen = () => {
           </TouchableOpacity>
         </View>
       )}
-      <CustomTabBar />
     </SafeAreaView>
   );
 };

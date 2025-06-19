@@ -13,7 +13,6 @@ import { Ionicons } from "@expo/vector-icons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import productsData from "../../api/categoryProducts.json";
 import { getImageRequire } from "../../utils/imageRequire";
-import CustomTabBar from "../../components/CustomTabBar";
 
 const FavoritesScreen = () => {
   // Lọc sản phẩm thuộc collection FAVORITES
@@ -104,7 +103,6 @@ const FavoritesScreen = () => {
           </View>
         )}
       </ScrollView>
-      <CustomTabBar />
     </SafeAreaView>
   );
 };

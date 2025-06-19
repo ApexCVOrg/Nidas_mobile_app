@@ -17,7 +17,6 @@ import { TabNavigatorParamList } from '../../navigation/TabNavigator';
 import { homeStyles } from '../../styles/home/home.styles';
 import homeData from '../../api/homeData.json';
 import { getImageRequire } from '../../utils/imageRequire';
-import CustomTabBar from '../../components/CustomTabBar';
 
 const { width } = Dimensions.get('window');
 
@@ -62,7 +61,7 @@ const HomeScreen = () => {
     setBannerImages(homeData.bannerImages);
   }, []);
 
-  const handleCategoryPress = (category: { id: string; name: string }) => {
+  const handleCategoryPress = (category: { id: string; name: string; icon?: string }) => {
     navigation.navigate('Category', {
       categoryId: category.id,
       title: category.name,
@@ -206,7 +205,6 @@ const HomeScreen = () => {
           ))}
         </View>
       </ScrollView>
-      <CustomTabBar />
     </SafeAreaView>
   );
 };

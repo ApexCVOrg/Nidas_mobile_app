@@ -9,7 +9,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { TabNavigatorParamList } from '../navigation/TabNavigator';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, runOnJS } from 'react-native-reanimated';
 import HorizontalProductCarousel from '../components/HorizontalProductCarousel';
-import CustomTabBar from '../components/CustomTabBar';
 
 const { width } = Dimensions.get('window');
 const carouselHeight = 180;
@@ -83,15 +82,15 @@ const CategoryScreen = () => {
       case 'price_asc':
         filteredAndSortedProducts.sort(
           (a, b) =>
-            parseFloat(a.price.replace('.', '').replace(' VNĐ', '')) -
-            parseFloat(b.price.replace('.', '').replace(' VNĐ', ''))
+            parseFloat(String(a.price).replace('.', '').replace(' VNĐ', '')) -
+            parseFloat(String(b.price).replace('.', '').replace(' VNĐ', ''))
         );
         break;
       case 'price_desc':
         filteredAndSortedProducts.sort(
           (a, b) =>
-            parseFloat(b.price.replace('.', '').replace(' VNĐ', '')) -
-            parseFloat(a.price.replace('.', '').replace(' VNĐ', ''))
+            parseFloat(String(b.price).replace('.', '').replace(' VNĐ', '')) -
+            parseFloat(String(a.price).replace('.', '').replace(' VNĐ', ''))
         );
         break;
       case 'name_asc':
@@ -105,7 +104,7 @@ const CategoryScreen = () => {
 
     const collectionsMap: { [key: string]: Product[] } = {};
     filteredAndSortedProducts.forEach((product) => {
-      product.collections.forEach((collectionName) => {
+      product.collections?.forEach((collectionName) => {
         if (!collectionsMap[collectionName]) {
           collectionsMap[collectionName] = [];
         }
@@ -173,17 +172,6 @@ const CategoryScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Custom Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Icon name="arrow-back" size={24} color="#000" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>{title}</Text>
-        <TouchableOpacity style={styles.searchButton}>
-          <Icon name="search" size={24} color="#000" />
-        </TouchableOpacity>
-      </View>
-
       <ScrollView contentContainerStyle={styles.fullScreenScrollContent}>
         {/* Carousel Banner */}
         <ScrollView
@@ -258,6 +246,7 @@ const CategoryScreen = () => {
               description: 'Một lời tri ân dành cho Nhà hát của những giấc mơ',
               image: require('../../assets/category_images/ManU_home.jpg'),
               cta: 'Mua ngay',
+              screen: 'BannerDetailManchester',
             },
             {
               id: '2',
@@ -265,9 +254,10 @@ const CategoryScreen = () => {
               description: 'Thiết kế mới, chất liệu cao cấp',
               image: require('../../assets/category_images/Climacool.jpg'),
               cta: 'Xem chi tiết',
+              screen: 'BannerDetailClimacool',
             },
           ]}
-          onPressItem={item => navigation.navigate('BannerDetail', { item })}
+          onPressItem={item => item.screen && navigation.navigate(item.screen as any, { item })}
         />
 
         {/* Sản phẩm và các collection */}
@@ -287,34 +277,12 @@ const CategoryScreen = () => {
           </View>
         ))}
       </ScrollView>
-      <CustomTabBar />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f6f6f6' },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    height: 60,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  backButton: {
-    padding: 8,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#222',
-  },
-  searchButton: {
-    padding: 8,
-  },
   fullScreenScrollContent: {
     paddingBottom: 32,
   },
