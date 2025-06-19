@@ -104,7 +104,7 @@ const SearchResultsScreen = () => {
           <Ionicons name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
         <View style={styles.searchResultsHeaderContent}>
-          <Text style={styles.searchResultsTitle}>Kết quả tìm kiếm</Text>
+          <Text style={styles.searchResultsTitle}>Search Results</Text>
           <Text style={styles.searchResultsQuery}>"{searchQuery}"</Text>
         </View>
       </View>
@@ -113,8 +113,8 @@ const SearchResultsScreen = () => {
       <View style={styles.resultsCountContainer}>
         <Text style={styles.resultsCountText}>
           {searchResults.length > 0 
-            ? `Tìm thấy ${searchResults.length} sản phẩm`
-            : 'Không tìm thấy sản phẩm nào'
+            ? `Found ${searchResults.length} products`
+            : 'No products found'
           }
         </Text>
       </View>
@@ -132,9 +132,9 @@ const SearchResultsScreen = () => {
       ) : (
         <View style={styles.noResultsFullContainer}>
           <Ionicons name="search-outline" size={64} color="#ccc" />
-          <Text style={styles.noResultsFullTitle}>Không tìm thấy sản phẩm</Text>
+          <Text style={styles.noResultsFullTitle}>No products found</Text>
           <Text style={styles.noResultsFullText}>
-            Thử tìm kiếm với từ khóa khác hoặc kiểm tra chính tả
+            Try searching with a different keyword or check your spelling
           </Text>
         </View>
       )}

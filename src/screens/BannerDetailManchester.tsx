@@ -6,15 +6,14 @@ import ProductCard from '../components/ProductCard';
 import { getImageRequire } from '../utils/imageRequire';
 import productsData from '../api/categoryProducts.json';
 
-type BannerDetailScreenRouteProp = RouteProp<TabNavigatorParamList, 'BannerDetail'>;
+type BannerDetailScreenRouteProp = RouteProp<TabNavigatorParamList, 'BannerDetailManchester'>;
 
 type Props = {
   route: BannerDetailScreenRouteProp;
 };
 
-const BannerDetailScreen = ({ route }: Props) => {
+const BannerDetailManchester = ({ route }: Props) => {
   const { item } = route.params;
-
   // Lọc sản phẩm liên quan đến Manchester United
   const relatedProducts = useMemo(() => {
     return productsData.filter(
@@ -35,6 +34,7 @@ const BannerDetailScreen = ({ route }: Props) => {
       </View>
       {relatedProducts.length > 0 && (
         <View style={styles.relatedSection}>
+          <Text style={styles.relatedTitle}>Manchester United Products</Text>
           <FlatList
             data={relatedProducts}
             keyExtractor={(item) => item.id}
@@ -112,4 +112,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BannerDetailScreen; 
+export default BannerDetailManchester; 

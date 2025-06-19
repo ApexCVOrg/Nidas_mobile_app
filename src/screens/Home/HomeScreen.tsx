@@ -17,7 +17,6 @@ import { TabNavigatorParamList } from '../../navigation/TabNavigator';
 import { homeStyles } from '../../styles/home/home.styles';
 import homeData from '../../api/homeData.json';
 import { getImageRequire } from '../../utils/imageRequire';
-import CustomTabBar from '../../components/CustomTabBar';
 
 const { width } = Dimensions.get('window');
 
@@ -62,7 +61,7 @@ const HomeScreen = () => {
     setBannerImages(homeData.bannerImages);
   }, []);
 
-  const handleCategoryPress = (category: { id: string; name: string }) => {
+  const handleCategoryPress = (category: { id: string; name: string; icon?: string }) => {
     navigation.navigate('Category', {
       categoryId: category.id,
       title: category.name,
@@ -87,7 +86,10 @@ const HomeScreen = () => {
             <TouchableOpacity style={homeStyles.iconButton}>
               <Icon name="search" size={26} color="#000" />
             </TouchableOpacity>
-            <TouchableOpacity style={homeStyles.iconButton}>
+            <TouchableOpacity 
+              style={homeStyles.iconButton}
+              onPress={() => navigation.navigate('UserProfile' as never)}
+            >
               <Icon name="person-outline" size={26} color="#000" />
             </TouchableOpacity>
           </View>
@@ -206,7 +208,6 @@ const HomeScreen = () => {
           ))}
         </View>
       </ScrollView>
-      <CustomTabBar />
     </SafeAreaView>
   );
 };

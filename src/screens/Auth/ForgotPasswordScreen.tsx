@@ -26,7 +26,7 @@ const ForgotPasswordScreen = ({ navigation }: ForgotPasswordScreenProps) => {
 
   const handleSubmit = async () => {
     if (!email) {
-      setError('Vui lòng nhập email');
+      setError('Please enter your email');
       return;
     }
 
@@ -38,10 +38,10 @@ const ForgotPasswordScreen = ({ navigation }: ForgotPasswordScreenProps) => {
       if (response.data.success) {
         setSuccess(true);
       } else {
-        setError(response.data.message || 'Có lỗi xảy ra');
+        setError(response.data.message || 'Something went wrong');
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Có lỗi xảy ra');
+      setError(err.response?.data?.message || 'Something went wrong');
     } finally {
       setLoading(false);
     }
@@ -53,9 +53,9 @@ const ForgotPasswordScreen = ({ navigation }: ForgotPasswordScreenProps) => {
       style={styles.container}
     >
       <View style={styles.formContainer}>
-        <Text style={styles.title}>Quên Mật Khẩu</Text>
+        <Text style={styles.title}>Forgot Password</Text>
         <Text style={styles.subtitle}>
-          Nhập email của bạn để nhận hướng dẫn đặt lại mật khẩu
+          Enter your email to receive instructions to reset your password
         </Text>
 
         {!success ? (
@@ -82,7 +82,7 @@ const ForgotPasswordScreen = ({ navigation }: ForgotPasswordScreenProps) => {
               {loading ? (
                 <ActivityIndicator color="white" />
               ) : (
-                <Text style={styles.buttonText}>Gửi Yêu Cầu</Text>
+                <Text style={styles.buttonText}>Send Request</Text>
               )}
             </TouchableOpacity>
           </>
@@ -90,7 +90,7 @@ const ForgotPasswordScreen = ({ navigation }: ForgotPasswordScreenProps) => {
           <View style={styles.successContainer}>
             <Icon name="check-circle" size={64} color="green" />
             <Text style={styles.successText}>
-              Hướng dẫn đặt lại mật khẩu đã được gửi đến email của bạn
+              Instructions to reset your password have been sent to your email
             </Text>
           </View>
         )}
@@ -99,7 +99,7 @@ const ForgotPasswordScreen = ({ navigation }: ForgotPasswordScreenProps) => {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <Text style={styles.backButtonText}>Quay lại đăng nhập</Text>
+          <Text style={styles.backButtonText}>Back to login</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

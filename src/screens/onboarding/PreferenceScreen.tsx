@@ -56,19 +56,19 @@ const PreferenceScreen = ({ navigation }: PreferenceScreenProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Hãy lựa chọn nhu cầu của bạn</Text>
+        <Text style={styles.title}>Please select your preference</Text>
         
         <View style={styles.preferenceContainer}>
-          <PreferenceButton type="men" label="Trang phục nam" />
-          <PreferenceButton type="women" label="Trang phục nữ" />
-          <PreferenceButton type="children" label="Trang phục trẻ em" />
+          <PreferenceButton type="men" label="Men's clothing" />
+          <PreferenceButton type="women" label="Women's clothing" />
+          <PreferenceButton type="children" label="Children's clothing" />
         </View>
 
         <TouchableOpacity
           style={styles.skipButton}
           onPress={() => navigation.replace('OnboardingComplete')}
         >
-          <Text style={styles.skipButtonText}>Chạm để bỏ qua</Text>
+          <Text style={styles.skipButtonText}>Tap to skip</Text>
         </TouchableOpacity>
       </View>
     </View>

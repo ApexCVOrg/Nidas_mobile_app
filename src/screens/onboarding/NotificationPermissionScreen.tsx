@@ -46,9 +46,9 @@ const NotificationPermissionScreen = ({ navigation }: NotificationPermissionScre
     <View style={styles.container}>
       <View style={styles.content}>
         <Icon name="notifications" size={64} color="#1A1A1A" style={styles.icon} />
-        <Text style={styles.title}>Cho phép thông báo</Text>
+        <Text style={styles.title}>Allow notification access</Text>
         <Text style={styles.description}>
-          Nhận thông báo về các ưu đãi đặc biệt, cập nhật đơn hàng và các thông tin quan trọng khác
+          Receive notifications about special offers, order updates, and important information
         </Text>
 
         <TouchableOpacity
@@ -57,7 +57,7 @@ const NotificationPermissionScreen = ({ navigation }: NotificationPermissionScre
           disabled={isRequesting}
         >
           <Text style={styles.buttonText}>
-            {isRequesting ? 'Đang xử lý...' : 'Cho phép thông báo'}
+            {isRequesting ? 'Processing...' : 'Allow notification'}
           </Text>
         </TouchableOpacity>
 
@@ -68,7 +68,7 @@ const NotificationPermissionScreen = ({ navigation }: NotificationPermissionScre
             navigation.replace('LocationPermission');
           }}
         >
-          <Text style={styles.skipButtonText}>Chạm để bỏ qua</Text>
+          <Text style={styles.skipButtonText}>Tap to skip</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -18,7 +18,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import styles from "../../../styles/search/search.styles";
 import searchProducts from "../../../api/searchProducts.json";
 import { Product } from "../../../types/Product";
-import CustomTabBar from "../../../components/CustomTabBar";
 
 const { width } = Dimensions.get("window");
 
@@ -713,7 +712,6 @@ const SearchScreen = () => {
           </View>
         </View>
       </ScrollView>
-      <CustomTabBar />
     </SafeAreaView>
   );
 };

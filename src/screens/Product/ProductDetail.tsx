@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
-import { OnboardingStackParamList } from '../../navigation/OnboardingNavigator';
+import { TabNavigatorParamList } from '../../navigation/TabNavigator';
 import Animated, { 
   FadeInDown, 
   FadeIn, 
@@ -33,7 +33,7 @@ import RecommendedProducts from '../../components/RecommendedProducts';
 import searchProducts from '../../api/searchProducts.json';
 import { getImageRequire } from '../../utils/imageRequire';
 
-type ProductDetailRouteProp = RouteProp<OnboardingStackParamList, 'ProductDetail'>;
+type ProductDetailRouteProp = RouteProp<TabNavigatorParamList, 'ProductDetail'>;
 
 const { width, height } = Dimensions.get('window');
 
@@ -115,12 +115,12 @@ const ProductDetail = () => {
     };
   }, [currentIndex, isAutoScrolling]);
 
-  // Determine product type based on product name
+  // Determine product type based on product category
   const getProductType = () => {
-    const name = product.name.toLowerCase();
-    if (name.includes('giày') || name.includes('ultraboost') || name.includes('stan smith')) {
+    const category = product.category;
+    if (category === 'giay') {
       return 'shoes';
-    } else if (name.includes('quần') || name.includes('terrex')) {
+    } else if (category === 'quan_ao' && product.name.toLowerCase().includes('quần')) {
       return 'pants';
     } else {
       return 'clothing';

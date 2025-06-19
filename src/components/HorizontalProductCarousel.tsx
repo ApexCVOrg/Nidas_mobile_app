@@ -11,6 +11,7 @@ type Product = {
   description?: string;
   image: any; // require(...) hoặc uri
   cta?: string;
+  screen?: string; // Cho phép truyền screen để điều hướng riêng
 };
 
 type Props = {

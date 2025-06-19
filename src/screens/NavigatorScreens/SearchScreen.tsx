@@ -6,29 +6,29 @@
 
   // Dữ liệu mẫu cho từng mục
   const giayCategories = [
-    { id: 'all', name: 'TẤT CẢ GIÀY', image: require('../../../assets/samba.gif') },
-    { id: 'new', name: 'HÀNG MỚI VỀ', image: require('../../../assets/sl72.gif') },
-    { id: 'run', name: 'CHẠY BỘ', image: require('../../../assets/yeezy750.gif') },
+    { id: 'all', name: 'ALL SHOES', image: require('../../../assets/samba.gif') },
+    { id: 'new', name: 'NEW ARRIVALS', image: require('../../../assets/sl72.gif') },
+    { id: 'run', name: 'RUNNING', image: require('../../../assets/yeezy750.gif') },
   ];
   const quanAoCategories = [
-  { id: 'all', name: 'TẤT CẢ QUẦN ÁO', image: require('../../../assets/ao1.jpg') },
-  { id: 'new', name: 'HÀNG MỚI VỀ', image: require('../../../assets/ao1.jpg') },
-  { id: 'tshirt', name: 'ÁO THUN & ÁO', image: require('../../../assets/ao3.jpg') },
-  { id: 'jersey', name: 'ÁO ĐẤU', image: require('../../../assets/ao4.jpg') },
-  { id: 'short', name: 'QUẦN SHORT', image: require('../../../assets/quan1.jpg') },
-  { id: 'pants', name: 'QUẦN', image: require('../../../assets/quan2.jpg') },
-  { id: 'tight', name: 'QUẦN BÓ', image: require('../../../assets/quan3.jpg') },
-  { id: 'hoodie', name: 'ÁO NỈ & ÁO HOODIE', image: require('../../../assets/ao5.jpg') },
+  { id: 'all', name: 'ALL CLOTHES', image: require('../../../assets/ao1.jpg') },
+  { id: 'new', name: 'NEW ARRIVALS', image: require('../../../assets/ao1.jpg') },
+  { id: 'tshirt', name: 'T-SHIRT & HOODIE', image: require('../../../assets/ao3.jpg') },
+  { id: 'jersey', name: 'JERSEY', image: require('../../../assets/ao4.jpg') },
+  { id: 'short', name: 'SHORT', image: require('../../../assets/quan1.jpg') },
+  { id: 'pants', name: 'PANTS', image: require('../../../assets/quan2.jpg') },
+  { id: 'tight', name: 'TIGHT', image: require('../../../assets/quan3.jpg') },
+  { id: 'hoodie', name: 'HOODIE', image: require('../../../assets/ao5.jpg') },
   ];
   const phuKienCategories = [
-    { id: 'all', name: 'TẤT CẢ PHỤ KIỆN', image: require('../../../assets/yeezy750.gif') },
-    { id: 'bag', name: 'TÚI', image: require('../../../assets/sl72.gif') },
-    { id: 'cap', name: 'MŨ', image: require('../../../assets/samba.gif') },
+    { id: 'all', name: 'ALL ACCESSORIES', image: require('../../../assets/yeezy750.gif') },
+    { id: 'bag', name: 'BAGS', image: require('../../../assets/sl72.gif') },
+    { id: 'cap', name: 'CAPS', image: require('../../../assets/samba.gif') },
   ];
 
 const banners = [
   { id: 2, image: require('../../../assets/banner2.gif'), title: 'HANDBALL SPEZIAL', subtitle: 'Step into retro-inspired design.' },
-  { id: 3, image: require('../../../assets/banner3.png'), title: 'BANNER 3', subtitle: 'Ưu đãi hấp dẫn.' },
-  { id: 4, image: require('../../../assets/sport.jpg'), title: 'BANNER 4', subtitle: 'Thể thao năng động.' },
-  { id: 5, image: require('../../../assets/logo.jpg'), title: 'BANNER 5', subtitle: 'Thương hiệu uy tín.' },
+  { id: 3, image: require('../../../assets/banner3.png'), title: 'BANNER 3', subtitle: 'Special offer.' },
+  { id: 4, image: require('../../../assets/sport.jpg'), title: 'BANNER 4', subtitle: 'Dynamic sports.' },
+  { id: 5, image: require('../../../assets/logo.jpg'), title: 'BANNER 5', subtitle: 'Trusted brand.' },
 ]; 
