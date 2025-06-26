@@ -1,10 +1,12 @@
 import React, { useMemo } from 'react';
 import { View, Text, Image, StyleSheet, Dimensions, ScrollView, FlatList } from 'react-native';
-import { RouteProp } from '@react-navigation/native';
+import { RouteProp, useNavigation } from '@react-navigation/native';
 import { TabNavigatorParamList } from '../navigation/TabNavigator';
 import ProductCard from '../components/ProductCard';
 import { getImageRequire } from '../utils/imageRequire';
 import productsData from '../api/categoryProducts.json';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import CustomTabBar from '../components/CustomTabBar';
 
 type BannerDetailScreenRouteProp = RouteProp<TabNavigatorParamList, 'BannerDetailManchester'>;
 
@@ -14,6 +16,7 @@ type Props = {
 
 const BannerDetailManchester = ({ route }: Props) => {
   const { item } = route.params;
+  const navigation = useNavigation();
   // Lọc sản phẩm liên quan đến Manchester United
   const relatedProducts = useMemo(() => {
     return productsData.filter(
@@ -24,33 +27,46 @@ const BannerDetailManchester = ({ route }: Props) => {
   }, []);
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
-      <View style={styles.imageContainer}>
-        <Image source={item.image} style={styles.image} />
-        <View style={styles.overlay}>
-          <Text style={styles.title}>{item.name}</Text>
-          <Text style={styles.desc}>{item.description}</Text>
-        </View>
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+      {/* Header with Back Button */}
+      <View style={{ flexDirection: 'row', alignItems: 'center', padding: 12, backgroundColor: '#fff', zIndex: 10 }}>
+        <Icon name="arrow-back-ios" size={24} color="#000" onPress={() => navigation.goBack()} />
+        <Text style={{ fontSize: 18, fontWeight: 'bold', marginLeft: 8 }}>Manchester Collection</Text>
       </View>
-      {relatedProducts.length > 0 && (
-        <View style={styles.relatedSection}>
-          <Text style={styles.relatedTitle}>Manchester United Products</Text>
-          <FlatList
-            data={relatedProducts}
-            keyExtractor={(item) => item.id}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 8 }}
-            renderItem={({ item }) => (
-              <ProductCard product={{
-                ...item,
-                image: getImageRequire(item.imageDefault)
-              }} />
-            )}
+      <ScrollView style={{ flex: 1 }}>
+        <View style={styles.imageContainer}>
+          <Image
+            source={item.image ? item.image : getImageRequire(item.imageDefault)}
+            style={styles.image}
           />
+          <View style={styles.overlay}>
+            <Text style={styles.title}>{item.name}</Text>
+            <Text style={styles.desc}>{item.description}</Text>
+          </View>
         </View>
-      )}
-    </ScrollView>
+        {relatedProducts.length > 0 && (
+          <View style={styles.relatedSection}>
+            <FlatList
+              data={relatedProducts}
+              keyExtractor={(item) => item.id}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ paddingHorizontal: 8 }}
+              renderItem={({ item }) => {
+                const cleanedQuantityBySize = Object.fromEntries(
+                  Object.entries(item.quantityBySize || {}).filter(([_, v]) => typeof v === 'number')
+                );
+                return (
+                  <ProductCard product={{ ...item, quantityBySize: cleanedQuantityBySize }} />
+                );
+              }}
+            />
+          </View>
+        )}
+      </ScrollView>
+      {/* Bottom Tab Bar */}
+      <CustomTabBar />
+    </View>
   );
 };
 

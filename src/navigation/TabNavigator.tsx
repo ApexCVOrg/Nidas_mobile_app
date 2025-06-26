@@ -22,10 +22,12 @@ import CartScreen from '../screens/NavigatorScreens/CartScreen';
 import BannerDetailScreen from '../screens/BannerDetailScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import RegisterScreen from '../screens/Auth/RegisterScreen';
+import CustomTabBar from '../components/CustomTabBar';
 import ProductDetail from '../screens/Product/ProductDetail';
 import UserProfile from '../screens/Auth/UserProfile';
 import BannerDetailManchester from '../screens/BannerDetailManchester';
 import BannerDetailClimacool from '../screens/BannerDetailClimacool';
+import CategoryProductDetail from '../screens/Product/CategoryProductDetail';
 
 export type TabNavigatorParamList = {
   MainTabs: undefined;
@@ -40,6 +42,7 @@ export type TabNavigatorParamList = {
   BannerDetailClimacool: { item: any };
   BannerDetailManchester: { item: any };
   UserProfile: undefined;
+  CategoryProductDetail: { productId: string };
 };
 
 const Tab = createBottomTabNavigator();
@@ -160,6 +163,7 @@ const TabNavigator = () => {
       <Stack.Screen name="BannerDetailManchester" component={BannerDetailManchester} options={{ headerShown: false }} />
       <Stack.Screen name="BannerDetailClimacool" component={BannerDetailClimacool} options={{ headerShown: false }} />
       <Stack.Screen name="UserProfile" component={UserProfile} />
+      <Stack.Screen name="CategoryProductDetail" component={CategoryProductDetail} />
     </Stack.Navigator>
   );
 };

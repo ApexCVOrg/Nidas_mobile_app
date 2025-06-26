@@ -271,7 +271,11 @@ const CategoryScreen = () => {
             </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.productsScrollContainer}>
               {collection.products.map(product => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onPress={() => navigation.navigate('CategoryProductDetail', { productId: product.id })}
+                />
               ))}
             </ScrollView>
           </View>
