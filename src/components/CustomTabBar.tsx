@@ -22,7 +22,7 @@ const CustomTabBar = () => {
           <TouchableOpacity
             key={tab.name}
             style={styles.tabItem}
-            onPress={() => navigation.navigate(tab.name as never)}
+            onPress={() => (navigation as any).navigate('MainTabs', { screen: tab.name })}
           >
             <Ionicons
               name={isActive ? (tab.iconActive as any) : (tab.icon as any)}

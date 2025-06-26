@@ -19,8 +19,8 @@ const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
   const opacity = useSharedValue(0);
 
   const texts = [
-    'Chào mừng đến với Nidas, chúng tôi rất vui vì sự góp mặt của bạn',
-    'Hãy bắt đầu bằng cách chuẩn bị sẵn sàng cho trải nghiệm ứng dụng tốt nhất.',
+    'Welcome to Nidas, we are very happy to have you',
+    'Start by preparing for the best application experience.',
   ];
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
           style={styles.skipButton}
           onPress={() => navigation.replace('NotificationPermission')}
         >
-          <Text style={styles.skipButtonText}>Chạm để bỏ qua</Text>
+          <Text style={styles.skipButtonText}>Tap to skip</Text>
         </TouchableOpacity>
       </Animated.View>
     </View>

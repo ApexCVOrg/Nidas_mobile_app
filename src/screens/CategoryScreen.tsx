@@ -47,18 +47,18 @@ const CategoryScreen = () => {
   ];
 
   const categories = [
-    { id: 'men', name: 'Nam', icon: 'person' },
-    { id: 'women', name: 'Nữ', icon: 'person-2' },
-    { id: 'kids', name: 'Trẻ Em', icon: 'child-care' },
-    { id: 'sport', name: 'Thể Thao', icon: 'sports-basketball' },
-    { id: 'accessories', name: 'Phụ Kiện', icon: 'watch' },
+    { id: 'men', name: 'Men', icon: 'person' },
+    { id: 'women', name: 'Women', icon: 'person-2' },
+    { id: 'kids', name: 'Kids', icon: 'child-care' },
+    { id: 'sport', name: 'Sports', icon: 'sports-basketball' },
+    { id: 'accessories', name: 'Accessories', icon: 'watch' },
   ];
 
   const sortOptions = [
-    { label: 'Mới nhất', value: 'newest' },
-    { label: 'Giá: Thấp đến Cao', value: 'price_asc' },
-    { label: 'Giá: Cao đến Thấp', value: 'price_desc' },
-    { label: 'Theo tên: A-Z', value: 'name_asc' },
+    { label: 'Newest', value: 'newest' },
+    { label: 'Price: Low to High', value: 'price_asc' },
+    { label: 'Price: High to Low', value: 'price_desc' },
+    { label: 'Name: A-Z', value: 'name_asc' },
   ];
 
   const handleCategoryPress = (category: { id: string; name: string }) => {
@@ -118,7 +118,7 @@ const CategoryScreen = () => {
     }));
   }, [categoryId, sortOrder]);
 
-  const currentSortLabel = sortOptions.find(option => option.value === sortOrder)?.label || 'Mới nhất';
+  const currentSortLabel = sortOptions.find(option => option.value === sortOrder)?.label || 'Newest';
 
   // Measure layout of each category item
   const onCategoryLayout = (event: LayoutChangeEvent, id: string) => {
@@ -271,7 +271,11 @@ const CategoryScreen = () => {
             </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.productsScrollContainer}>
               {collection.products.map(product => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onPress={() => navigation.navigate('CategoryProductDetail', { productId: product.id })}
+                />
               ))}
             </ScrollView>
           </View>

@@ -23,8 +23,11 @@ import BannerDetailScreen from '../screens/BannerDetailScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import RegisterScreen from '../screens/Auth/RegisterScreen';
 import CustomTabBar from '../components/CustomTabBar';
+import ProductDetail from '../screens/Product/ProductDetail';
+import UserProfile from '../screens/Auth/UserProfile';
 import BannerDetailManchester from '../screens/BannerDetailManchester';
 import BannerDetailClimacool from '../screens/BannerDetailClimacool';
+import CategoryProductDetail from '../screens/Product/CategoryProductDetail';
 
 export type TabNavigatorParamList = {
   MainTabs: undefined;
@@ -34,10 +37,12 @@ export type TabNavigatorParamList = {
   Checkout: undefined;
   Login: undefined;
   Register: undefined;
-  ProductDetail: { productId: number };
+  ProductDetail: { productId: string };
   Collection: { collectionId: number; title: string; subtitle: string };
   BannerDetailClimacool: { item: any };
   BannerDetailManchester: { item: any };
+  UserProfile: undefined;
+  CategoryProductDetail: { productId: string };
 };
 
 const Tab = createBottomTabNavigator();
@@ -101,7 +106,7 @@ const CartIcon = ({ focused, color, size }: { focused: boolean; color: string; s
 function HomeStackNavigator() {
   return (
     <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      <HomeStack.Screen name="HomeMain" component={HomeScreen} options={{ headerShown: false }} />
       <HomeStack.Screen name="Category" component={CategoryScreen} options={{ title: 'Danh mục' }} />
     </HomeStack.Navigator>
   );
@@ -150,13 +155,15 @@ const TabNavigator = () => {
       <Stack.Screen name="CategoryList" component={CategoryListScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
+      <Stack.Screen name="ProductDetail" component={ProductDetail} />
       <Stack.Screen name="Category" component={CategoryScreen} />
       <Stack.Screen name="BannerDetail" component={BannerDetailScreen} />
       <Stack.Screen name="Checkout" component={CheckoutScreen} />
       <Stack.Screen name="Collection" component={CollectionScreen} />
       <Stack.Screen name="BannerDetailManchester" component={BannerDetailManchester} options={{ headerShown: false }} />
       <Stack.Screen name="BannerDetailClimacool" component={BannerDetailClimacool} options={{ headerShown: false }} />
+      <Stack.Screen name="UserProfile" component={UserProfile} />
+      <Stack.Screen name="CategoryProductDetail" component={CategoryProductDetail} />
     </Stack.Navigator>
   );
 };

@@ -15,16 +15,10 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/store';
 import { clearCart } from '../redux/slices/cartSlice';
-
-type CheckoutRouteProp = {
-  params?: {
-    type: 'cart' | 'quick';
-    orderData?: any;
-  };
-};
+import { TabNavigatorParamList } from '../navigation/TabNavigator';
 
 const CheckoutScreen = () => {
-  const route = useRoute<CheckoutRouteProp>();
+  const route = useRoute<any>();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   
@@ -78,7 +72,7 @@ const CheckoutScreen = () => {
 
   const handlePlaceOrder = async () => {
     if (!customerInfo.name || !customerInfo.phone || !customerInfo.address) {
-      Alert.alert('Thông báo', 'Vui lòng điền đầy đủ thông tin bắt buộc');
+      Alert.alert('Notification', 'Please fill in all required information');
       return;
     }
 
@@ -108,8 +102,8 @@ const CheckoutScreen = () => {
 
       // Show success and navigate
       Alert.alert(
-        'Đặt hàng thành công!',
-        `Đơn hàng #${order.id} đã được đặt thành công. Chúng tôi sẽ liên hệ với bạn sớm nhất.`,
+        'Order successful!',
+        `Order #${order.id} has been placed successfully. We will contact you soon.`,
         [
           {
             text: 'OK',
@@ -123,16 +117,16 @@ const CheckoutScreen = () => {
         ]
       );
     } catch (error) {
-      Alert.alert('Lỗi', 'Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại.');
+      Alert.alert('Error', 'An error occurred while placing the order. Please try again.');
     } finally {
       setIsProcessing(false);
     }
   };
 
   const paymentMethods = [
-    { id: 'cod', name: 'Thanh toán khi nhận hàng (COD)', icon: 'cash-outline' },
-    { id: 'banking', name: 'Chuyển khoản ngân hàng', icon: 'card-outline' },
-    { id: 'momo', name: 'Ví MoMo', icon: 'wallet-outline' },
+    { id: 'cod', name: 'Cash on Delivery (COD)', icon: 'cash-outline' },
+    { id: 'banking', name: 'Bank Transfer', icon: 'card-outline' },
+    { id: 'momo', name: 'MoMo Wallet', icon: 'wallet-outline' },
   ];
 
   const orderItems = getOrderItems();
@@ -146,14 +140,14 @@ const CheckoutScreen = () => {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Thanh toán</Text>
+        <Text style={styles.headerTitle}>Payment</Text>
         <View style={styles.headerRight} />
       </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Order Summary */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Thông tin đơn hàng</Text>
+          <Text style={styles.sectionTitle}>Order Information</Text>
           {orderItems.map((item, index) => (
             <View key={index} style={styles.orderItem}>
               <View style={styles.orderItemInfo}>
@@ -179,16 +173,16 @@ const CheckoutScreen = () => {
           
           <View style={styles.totalContainer}>
             <View style={styles.totalRow}>
-              <Text style={styles.totalLabel}>Tạm tính:</Text>
+              <Text style={styles.totalLabel}>Subtotal:</Text>
               <Text style={styles.totalValue}>{formatPrice(getTotal())}</Text>
             </View>
             <View style={styles.totalRow}>
-              <Text style={styles.totalLabel}>Phí vận chuyển:</Text>
-              <Text style={[styles.totalValue, styles.freeShipping]}>Miễn phí</Text>
+              <Text style={styles.totalLabel}>Shipping:</Text>
+              <Text style={[styles.totalValue, styles.freeShipping]}>Free</Text>
             </View>
             <View style={styles.divider} />
             <View style={styles.totalRow}>
-              <Text style={styles.grandTotalLabel}>Tổng cộng:</Text>
+              <Text style={styles.grandTotalLabel}>Total:</Text>
               <Text style={styles.grandTotalValue}>{formatPrice(getTotal())}</Text>
             </View>
           </View>
@@ -196,23 +190,23 @@ const CheckoutScreen = () => {
 
         {/* Customer Information */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Thông tin giao hàng</Text>
+          <Text style={styles.sectionTitle}>Shipping Information</Text>
           
           <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Họ và tên *</Text>
+            <Text style={styles.inputLabel}>Name *</Text>
             <TextInput
               style={styles.input}
-              placeholder="Nhập họ và tên"
+              placeholder="Enter your name"
               value={customerInfo.name}
               onChangeText={(text) => setCustomerInfo({...customerInfo, name: text})}
             />
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Số điện thoại *</Text>
+            <Text style={styles.inputLabel}>Phone *</Text>
             <TextInput
               style={styles.input}
-              placeholder="Nhập số điện thoại"
+              placeholder="Enter your phone"
               keyboardType="phone-pad"
               value={customerInfo.phone}
               onChangeText={(text) => setCustomerInfo({...customerInfo, phone: text})}
@@ -220,10 +214,10 @@ const CheckoutScreen = () => {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Địa chỉ giao hàng *</Text>
+            <Text style={styles.inputLabel}>Shipping Address *</Text>
             <TextInput
               style={[styles.input, styles.textArea]}
-              placeholder="Nhập địa chỉ chi tiết"
+              placeholder="Enter your address"
               multiline
               numberOfLines={3}
               value={customerInfo.address}
@@ -232,10 +226,10 @@ const CheckoutScreen = () => {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Ghi chú (tùy chọn)</Text>
+            <Text style={styles.inputLabel}>Note (optional)</Text>
             <TextInput
               style={[styles.input, styles.textArea]}
-              placeholder="Ghi chú cho đơn hàng"
+              placeholder="Enter your note"
               multiline
               numberOfLines={2}
               value={customerInfo.note}
@@ -246,7 +240,7 @@ const CheckoutScreen = () => {
 
         {/* Payment Methods */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Phương thức thanh toán</Text>
+          <Text style={styles.sectionTitle}>Payment Method</Text>
           {paymentMethods.map((method) => (
             <TouchableOpacity
               key={method.id}
@@ -286,10 +280,10 @@ const CheckoutScreen = () => {
           disabled={isProcessing}
         >
           {isProcessing ? (
-            <Text style={styles.checkoutButtonText}>ĐANG XỬ LÝ...</Text>
+            <Text style={styles.checkoutButtonText}>PROCESSING...</Text>
           ) : (
             <>
-              <Text style={styles.checkoutButtonText}>ĐẶT HÀNG</Text>
+              <Text style={styles.checkoutButtonText}>ORDER</Text>
               <Ionicons name="arrow-forward" size={20} color="#fff" style={styles.checkoutIcon} />
             </>
           )}

@@ -30,18 +30,22 @@ import Animated, {
 } from 'react-native-reanimated';
 import SizeGuideModal from '../../components/SizeGuideModal';
 import RecommendedProducts from '../../components/RecommendedProducts';
-import searchProducts from '../../api/searchProducts.json';
+import categoryProducts from '../../api/categoryProducts.json';
 import { getImageRequire } from '../../utils/imageRequire';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/slices/cartSlice';
+import Toast from '../../components/Toast';
+import ProductCard from '../../components/ProductCard';
 
-type ProductDetailRouteProp = RouteProp<TabNavigatorParamList, 'ProductDetail'>;
+// type ProductDetailRouteProp = RouteProp<TabNavigatorParamList, 'CategoryProductDetail'>;
 
 const { width, height } = Dimensions.get('window');
 
-const ProductDetail = () => {
+const CategoryProductDetail = () => {
   const route = useRoute<any>();
   const navigation = useNavigation();
   const { productId } = route.params;
-  const product = (searchProducts as any[]).find((p: any) => p.id === productId);
+  const product = (categoryProducts as any[]).find((p: any) => p.id === productId);
   if (!product) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -63,6 +67,11 @@ const ProductDetail = () => {
   const autoScrollInterval = useRef<NodeJS.Timeout | undefined>(undefined);
   const [isFavorite, setIsFavorite] = useState(false);
   const favoriteScale = useRef(new RNAnimated.Value(1)).current;
+  const [selectedColor, setSelectedColor] = useState(product.colors && product.colors.length > 0 ? product.colors[0] : '');
+  const dispatch = useDispatch();
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState<'success' | 'error' | 'info'>('success');
 
   const panResponder = useRef(
     PanResponder.create({
@@ -134,9 +143,9 @@ const ProductDetail = () => {
     : ['S', 'M', 'L', 'XL', 'XXL'];
 
   const productImages = [
-    getImageRequire(product.image),
-    getImageRequire(product.image),
-    getImageRequire(product.image),
+    getImageRequire(product.imageDefault || product.image),
+    getImageRequire(product.imageDefault || product.image),
+    getImageRequire(product.imageDefault || product.image),
   ];
 
   const handleZoom = (image: string) => {
@@ -166,9 +175,7 @@ const ProductDetail = () => {
   };
 
   const handleScroll = () => {
-    // Pause auto scroll when user interacts
     setIsAutoScrolling(false);
-    // Resume auto scroll after 5 seconds of no interaction
     setTimeout(() => {
       setIsAutoScrolling(true);
     }, 5000);
@@ -186,6 +193,36 @@ const ProductDetail = () => {
         useNativeDriver: true,
       }),
     ]).start();
+  };
+
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      setToastMessage('Vui lòng chọn size');
+      setToastType('error');
+      setShowToast(true);
+      return;
+    }
+    if (!selectedColor) {
+      setToastMessage('Vui lòng chọn màu');
+      setToastType('error');
+      setShowToast(true);
+      return;
+    }
+    // Parse price if string
+    const numericPrice = typeof product.price === 'string' ? parseInt(product.price.replace(/[^\d]/g, '')) : product.price;
+    const cartItem = {
+      productId: product.id,
+      name: product.name,
+      price: numericPrice,
+      image: product.imageDefault || product.image || '',
+      color: selectedColor,
+      size: selectedSize,
+      quantity: 1,
+    };
+    dispatch(addToCart(cartItem));
+    setToastMessage(`✅ Đã thêm ${product.name} vào giỏ hàng!`);
+    setToastType('success');
+    setShowToast(true);
   };
 
   const renderCarouselItem = ({ item, index }: { item: string; index: number }) => {
@@ -214,6 +251,15 @@ const ProductDetail = () => {
       setCurrentIndex(viewableItems[0].index);
     }
   }).current;
+
+  // SUGGESTED PRODUCTS: lấy các sản phẩm thuộc 'New Arrivals' hoặc 'Best Sellers'
+  const suggestedProducts = (categoryProducts as any[])
+    .filter(
+      (item) =>
+        item.collections &&
+        (item.collections.includes('New Arrivals') || item.collections.includes('Best Sellers'))
+    )
+    .slice(0, 6);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -299,6 +345,25 @@ const ProductDetail = () => {
             ))}
           </View>
         </View>
+        {/* Color Picker dưới ảnh, trên tên sản phẩm */}
+        {product.colors && product.colors.length > 0 && (
+          <View style={styles.colorPickerRow}>
+            {product.colors.map((color: string) => (
+              <TouchableOpacity
+                key={color}
+                style={[
+                  styles.colorDotDetail,
+                  {
+                    backgroundColor: color,
+                    borderWidth: selectedColor === color ? 3 : 1,
+                    borderColor: selectedColor === color ? '#222' : '#ccc',
+                  },
+                ]}
+                onPress={() => setSelectedColor(color)}
+              />
+            ))}
+          </View>
+        )}
 
         <Modal
           visible={showZoomModal}
@@ -382,6 +447,15 @@ const ProductDetail = () => {
                 </Animated.View>
               ))}
             </View>
+            {selectedSize ? (
+              <Text style={{ marginTop: 8, fontSize: 16, color: '#222', fontWeight: 'bold' }}>
+                {product.quantityBySize && typeof product.quantityBySize[selectedSize] === 'number'
+                  ? product.quantityBySize[selectedSize] > 0
+                    ? `Còn lại: ${product.quantityBySize[selectedSize]}`
+                    : 'Hết hàng'
+                  : 'Không có dữ liệu'}
+              </Text>
+            ) : null}
           </View>
 
           {/* Product Details */}
@@ -419,7 +493,17 @@ const ProductDetail = () => {
           </Text>
         </Animated.View>
 
-        <RecommendedProducts currentProductType={getProductType()} />
+        <Animated.View 
+          entering={FadeInDown.delay(600)}
+          style={styles.section}
+        >
+          <Text style={styles.sectionTitle}>SUGGESTED PRODUCTS</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 8 }}>
+            {suggestedProducts.map((item) => (
+              <ProductCard key={item.id} product={item} />
+            ))}
+          </ScrollView>
+        </Animated.View>
       </ScrollView>
 
       {/* Bottom Action Bar */}
@@ -430,6 +514,7 @@ const ProductDetail = () => {
         <TouchableOpacity 
           style={styles.addToCartButton}
           activeOpacity={0.8}
+          onPress={handleAddToCart}
         >
           <Text style={styles.addToCartText}>ADD TO CART</Text>
         </TouchableOpacity>
@@ -440,6 +525,14 @@ const ProductDetail = () => {
         visible={showSizeGuide}
         onClose={() => setShowSizeGuide(false)}
         productType={getProductType()}
+      />
+
+      {/* Toast Notification */}
+      <Toast
+        visible={showToast}
+        message={toastMessage}
+        type={toastType}
+        onHide={() => setShowToast(false)}
       />
     </SafeAreaView>
   );
@@ -695,6 +788,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
   },
+  colorPickerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 16,
+    gap: 12,
+  },
+  colorDotDetail: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    borderWidth: 2,
+    marginHorizontal: 4,
+  },
 });
 
-export default ProductDetail; 
+export default CategoryProductDetail; 

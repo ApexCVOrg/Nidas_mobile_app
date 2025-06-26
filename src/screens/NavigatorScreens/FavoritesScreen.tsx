@@ -36,7 +36,7 @@ const FavoritesScreen = () => {
 
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>MỤC YÊU THÍCH</Text>
+        <Text style={styles.headerTitle}>FAVORITES</Text>
       </View>
 
       <ScrollView style={styles.content}>
@@ -44,10 +44,10 @@ const FavoritesScreen = () => {
           <View style={styles.emptyFavoritesContainer}>
             <Ionicons name="heart-outline" size={80} color="#ccc" />
             <Text style={styles.emptyFavoritesText}>
-              BẠN CHƯA CÓ MỤC YÊU THÍCH NÀO
+              YOU DON'T HAVE ANY FAVORITES YET
             </Text>
             <TouchableOpacity style={styles.shopNowButton}>
-              <Text style={styles.shopNowButtonText}>MUA SẮM NGAY</Text>
+              <Text style={styles.shopNowButtonText}>SHOP NOW</Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -74,7 +74,7 @@ const FavoritesScreen = () => {
                       /* TODO: handle add to cart */
                     }}
                   >
-                    <Text style={styles.addToCartButtonText}>THÊM VÀO GIỎ</Text>
+                    <Text style={styles.addToCartButtonText}>ADD TO CART</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -82,7 +82,7 @@ const FavoritesScreen = () => {
 
             {/* Sản phẩm gợi ý */}
             <View style={styles.suggestedSection}>
-              <Text style={styles.suggestedTitle}>SẢN PHẨM GỢI Ý</Text>
+              <Text style={styles.suggestedTitle}>SUGGESTED PRODUCTS</Text>
               <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}

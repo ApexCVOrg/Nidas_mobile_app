@@ -48,11 +48,11 @@ const OnboardingCompleteScreen = ({ navigation }: OnboardingCompleteScreenProps)
     <View style={styles.container}>
       <Animated.View style={[styles.content, animatedStyle]}>
         <Text style={styles.title}>
-          Cảm ơn bạn đã bỏ thời gian cho chúng tôi, chúc bạn có trải nghiệm tốt nhất
+          Thank you for taking the time to use our app, we hope you have a great experience
         </Text>
 
         <TouchableOpacity style={styles.button} onPress={handleComplete}>
-          <Text style={styles.buttonText}>Bắt đầu sử dụng</Text>
+          <Text style={styles.buttonText}>Start using</Text>
         </TouchableOpacity>
       </Animated.View>
     </View>

@@ -33,6 +33,14 @@ const imageMap: { [key: string]: any } = {
   "NikeBanner.jpg": require("../../assets/homePage/NikeBanner.jpg"),
   "NikeBanner2.jpg": require("../../assets/homePage/NikeBanner2.jpg"),
   "NikeBanner3.jpg": require("../../assets/homePage/NikeBanner3.jpg"),
+  "thun_adidas.jpg": require("../../assets/category_images/thun_adidas.jpg"),
+  "HaNoiAo.jpg": require("../../assets/category_images/HaNoiAo.jpg"),
+  "Hoodie_Unisex.jpg": require("../../assets/category_images/Hoodie_Unisex.jpg"),
+  "adilette.jpg": require("../../assets/category_images/adilette.jpg"),
+  "SlimFit.jpg": require("../../assets/category_images/SlimFit.jpg"),
+  "Kid_O.jpg": require("../../assets/category_images/Kid_O.jpg"),
+  "Kid_O2.jpg": require("../../assets/category_images/Kid_O2.jpg"),
+  "Mu_2526.jpg": require("../../assets/category_images/Mu_2526.jpg")
 };
 
 export function getImageRequire(fileName: string) {

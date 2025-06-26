@@ -24,7 +24,7 @@ const { width } = Dimensions.get("window");
 type SearchStackParamList = {
   SearchMain: undefined;
   SearchResults: { searchQuery: string };
-  ProductDetail: { product: Product };
+  ProductDetail: { productId: string };
   Product: undefined;
   Introduction: {
     bannerId: number;
@@ -133,17 +133,7 @@ const SearchScreen = () => {
     setSearchText("");
     setShowSearchResults(false);
     setIsSearchFocused(false);
-
-    // Navigate to ProductScreen for Pharrell Williams x Tennis Hu specifically
-    if (
-      product.id === "p005" ||
-      product.name === "Pharrell Williams x Tennis Hu"
-    ) {
-      navigation.navigate("Product");
-    } else {
-      // Navigate to product detail screen for other products
-      navigation.navigate("ProductDetail", { product });
-    }
+    navigation.navigate("ProductDetail", { productId: product.id });
   };
 
   const handleSearchSubmit = () => {

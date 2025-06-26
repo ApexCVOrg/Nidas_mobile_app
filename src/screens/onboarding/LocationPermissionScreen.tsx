@@ -54,9 +54,9 @@ const LocationPermissionScreen = ({ navigation }: LocationPermissionScreenProps)
     <View style={styles.container}>
       <View style={styles.content}>
         <Icon name="location-on" size={64} color="#1A1A1A" style={styles.icon} />
-        <Text style={styles.title}>Cho phép truy cập vị trí</Text>
+        <Text style={styles.title}>Allow location access</Text>
         <Text style={styles.description}>
-          Giúp chúng tôi tìm cửa hàng gần bạn nhất và cung cấp trải nghiệm mua sắm tốt hơn
+          Help us find the nearest store and provide a better shopping experience
         </Text>
 
         <TouchableOpacity
@@ -65,7 +65,7 @@ const LocationPermissionScreen = ({ navigation }: LocationPermissionScreenProps)
           disabled={isRequesting}
         >
           <Text style={styles.buttonText}>
-            {isRequesting ? 'Đang xử lý...' : 'Cho phép truy cập vị trí'}
+            {isRequesting ? 'Processing...' : 'Allow location access'}
           </Text>
         </TouchableOpacity>
 
@@ -76,7 +76,7 @@ const LocationPermissionScreen = ({ navigation }: LocationPermissionScreenProps)
             navigation.replace('Preference');
           }}
         >
-          <Text style={styles.skipButtonText}>Chạm để bỏ qua</Text>
+          <Text style={styles.skipButtonText}>Tap to skip</Text>
         </TouchableOpacity>
       </View>
     </View>
