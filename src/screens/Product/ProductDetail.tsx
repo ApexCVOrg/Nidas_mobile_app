@@ -32,6 +32,8 @@ import SizeGuideModal from '../../components/SizeGuideModal';
 import RecommendedProducts from '../../components/RecommendedProducts';
 import searchProducts from '../../api/searchProducts.json';
 import { getImageRequire } from '../../utils/imageRequire';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/slices/cartSlice';
 
 type ProductDetailRouteProp = RouteProp<TabNavigatorParamList, 'ProductDetail'>;
 
@@ -63,6 +65,9 @@ const ProductDetail = () => {
   const autoScrollInterval = useRef<NodeJS.Timeout | undefined>(undefined);
   const [isFavorite, setIsFavorite] = useState(false);
   const favoriteScale = useRef(new RNAnimated.Value(1)).current;
+  const dispatch = useDispatch();
+  const [addCartSuccess, setAddCartSuccess] = useState(false);
+  const [sizeError, setSizeError] = useState(false);
 
   const panResponder = useRef(
     PanResponder.create({
@@ -186,6 +191,30 @@ const ProductDetail = () => {
         useNativeDriver: true,
       }),
     ]).start();
+  };
+
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      setSizeError(true);
+      setTimeout(() => setSizeError(false), 1000);
+      return;
+    }
+    const size = selectedSize;
+    const color = product.colors && product.colors.length > 0 ? product.colors[0] : 'default';
+    dispatch(addToCart({
+      productId: product.id,
+      name: product.name,
+      price: typeof product.price === 'string' ? parseInt(product.price) : product.price,
+      image: product.image || product.imageDefault || 'icon.png',
+      color,
+      size,
+      quantity: 1,
+    }));
+    setAddCartSuccess(true);
+    setTimeout(() => {
+      setAddCartSuccess(false);
+      navigation.goBack();
+    }, 1000);
   };
 
   const renderCarouselItem = ({ item, index }: { item: string; index: number }) => {
@@ -430,10 +459,41 @@ const ProductDetail = () => {
         <TouchableOpacity 
           style={styles.addToCartButton}
           activeOpacity={0.8}
+          onPress={handleAddToCart}
         >
           <Text style={styles.addToCartText}>ADD TO CART</Text>
         </TouchableOpacity>
       </Animated.View>
+
+      {addCartSuccess && (
+        <View style={{
+          position: 'absolute',
+          top: 80,
+          left: 0,
+          right: 0,
+          alignItems: 'center',
+          zIndex: 100,
+        }}>
+          <View style={{backgroundColor: '#222', paddingHorizontal: 24, paddingVertical: 12, borderRadius: 24}}>
+            <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 16}}>Đã thêm vào giỏ hàng!</Text>
+          </View>
+        </View>
+      )}
+
+      {sizeError && (
+        <View style={{
+          position: 'absolute',
+          top: 80,
+          left: 0,
+          right: 0,
+          alignItems: 'center',
+          zIndex: 100,
+        }}>
+          <View style={{backgroundColor: '#d32f2f', paddingHorizontal: 24, paddingVertical: 12, borderRadius: 24}}>
+            <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 16}}>Vui lòng chọn size!</Text>
+          </View>
+        </View>
+      )}
 
       {/* Size Guide Modal */}
       <SizeGuideModal

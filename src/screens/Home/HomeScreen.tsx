@@ -17,6 +17,10 @@ import { TabNavigatorParamList } from '../../navigation/TabNavigator';
 import { homeStyles } from '../../styles/home/home.styles';
 import homeData from '../../api/homeData.json';
 import { getImageRequire } from '../../utils/imageRequire';
+import ProductCard from '../../components/ProductCard';
+import { useFavoritesContext } from '../../hooks/FavoritesContext';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import type { Product } from '../../types/Product';
 
 const { width } = Dimensions.get('window');
 
@@ -33,6 +37,8 @@ const HomeScreen = () => {
   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
   const [collections, setCollections] = useState<any[]>([]);
   const [bannerImages, setBannerImages] = useState<any[]>([]);
+
+  const { favorites, addFavorite, removeFavorite } = useFavoritesContext();
 
   // Auto-scroll banner
   useEffect(() => {
@@ -72,6 +78,32 @@ const HomeScreen = () => {
     navigation.navigate('ProductDetail', {
       productId: product.id,
     });
+  };
+
+  const renderHomeProduct = (product: Product) => {
+    const isFavorite = favorites.includes(product.id);
+    const handleToggleFavorite = async () => {
+      if (isFavorite) {
+        await removeFavorite(product.id);
+      } else {
+        await addFavorite(product);
+      }
+    };
+    return (
+      <TouchableOpacity
+        style={homeStyles.homeProductCard}
+        activeOpacity={0.85}
+        onPress={() => handleProductPress(product)}
+      >
+        <Image source={getImageRequire(product.image || product.imageDefault || 'icon.png')} style={homeStyles.homeProductImage} />
+        <TouchableOpacity style={homeStyles.heartIcon} onPress={handleToggleFavorite}>
+          <FontAwesome name={isFavorite ? 'heart' : 'heart-o'} size={22} color={isFavorite ? '#000' : '#888'} />
+        </TouchableOpacity>
+        <Text style={homeStyles.homeProductName}>{product.name}</Text>
+        <Text style={homeStyles.homeProductDesc}>{product.description}</Text>
+        <Text style={homeStyles.homeProductPrice}>{product.price}</Text>
+      </TouchableOpacity>
+    );
   };
 
   return (
@@ -167,26 +199,15 @@ const HomeScreen = () => {
         {/* Featured Products */}
         <View style={homeStyles.productsContainer}>
           <Text style={homeStyles.sectionTitle}>FEATURED PRODUCTS</Text>
-          <View style={homeStyles.productsList}>
-            {featuredProducts.map((product) => (
-              <TouchableOpacity 
-                key={product.id} 
-                style={homeStyles.productCard}
-                onPress={() => handleProductPress(product)}
-              >
-                <Image
-                  source={getImageRequire(product.image)}
-                  style={homeStyles.productImage}
-                  resizeMode="cover"
-                />
-                <View style={homeStyles.productInfo}>
-                  <Text style={homeStyles.productName}>{product.name}</Text>
-                  <Text style={homeStyles.productDescription}>{product.description}</Text>
-                  <Text style={homeStyles.productPrice}>{product.price}</Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
+          <FlatList
+            data={featuredProducts}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => renderHomeProduct(item)}
+            numColumns={2}
+            columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: 16 }}
+            contentContainerStyle={{ paddingHorizontal: 8, paddingBottom: 16 }}
+            showsVerticalScrollIndicator={false}
+          />
         </View>
 
         {/* Collections */}

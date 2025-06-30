@@ -15,6 +15,7 @@ import searchProducts from '../../../api/searchProducts.json';
 import ProductCard from '../../../components/ProductCard';
 import { Product } from '../../../types/Product';
 import styles from '../../../styles/search/collection.styles';
+import { useFavorites } from '../../../hooks/useFavorites';
 
 type SearchStackParamList = {
   SearchMain: undefined;
@@ -29,6 +30,7 @@ const CollectionScreen = () => {
   const route = useRoute<CollectionRouteProp>();
   const navigation = useNavigation<NavigationProp>();
   const { collectionId, title, subtitle } = route.params;
+  const { favorites, reloadFavorites } = useFavorites();
 
   // Filter products based on collection
   const collectionProducts = useMemo(() => {
@@ -75,6 +77,10 @@ const CollectionScreen = () => {
 
   const handleProductPress = (product: Product) => {
     navigation.navigate('ProductDetail', { productId: product.id });
+  };
+
+  const handleToggleFavorite = () => {
+    reloadFavorites();
   };
 
   const renderProductItem = ({ item }: { item: Product }) => (

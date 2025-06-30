@@ -9,6 +9,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { TabNavigatorParamList } from '../navigation/TabNavigator';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, runOnJS } from 'react-native-reanimated';
 import HorizontalProductCarousel from '../components/HorizontalProductCarousel';
+import { useFavorites } from '../hooks/useFavorites';
 
 const { width } = Dimensions.get('window');
 const carouselHeight = 180;
@@ -61,6 +62,8 @@ const CategoryScreen = () => {
     { label: 'Name: A-Z', value: 'name_asc' },
   ];
 
+  const { favorites, reloadFavorites } = useFavorites();
+
   const handleCategoryPress = (category: { id: string; name: string }) => {
     navigation.navigate('Category', {
       categoryId: category.id,
@@ -73,8 +76,12 @@ const CategoryScreen = () => {
     setSortDropdownVisible(false); // Close dropdown after selection
   };
 
+  const handleToggleFavorite = () => {
+    reloadFavorites();
+  };
+
   const groupedProducts = useMemo(() => {
-    let filteredAndSortedProducts = (productsData as Product[]).filter(
+    let filteredAndSortedProducts = (productsData as unknown as Product[]).filter(
       (item) => item.category === categoryId
     );
 
@@ -271,11 +278,12 @@ const CategoryScreen = () => {
             </View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.productsScrollContainer}>
               {collection.products.map(product => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onPress={() => navigation.navigate('CategoryProductDetail', { productId: product.id })}
-                />
+                <View key={product.id} style={{ position: 'relative' }}>
+                  <ProductCard
+                    product={product}
+                    onPress={() => navigation.navigate('CategoryProductDetail', { productId: product.id })}
+                  />
+                </View>
               ))}
             </ScrollView>
           </View>

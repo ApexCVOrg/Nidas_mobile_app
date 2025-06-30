@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -13,12 +13,37 @@ import { Ionicons } from "@expo/vector-icons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import productsData from "../../api/categoryProducts.json";
 import { getImageRequire } from "../../utils/imageRequire";
+import * as FileSystem from 'expo-file-system';
+import { useFavoritesContext } from '../../hooks/FavoritesContext';
+
+const FAVORITES_FILE = FileSystem.documentDirectory + 'favorites.json';
 
 const FavoritesScreen = () => {
-  // Lọc sản phẩm thuộc collection FAVORITES
-  const favoriteItems = (productsData as any[]).filter(
-    (item) => item.collections && item.collections.includes("FAVORITES")
-  );
+  const [favoriteItems, setFavoriteItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { favorites, removeFavorite } = useFavoritesContext();
+
+  useEffect(() => {
+    let isActive = true;
+    const loadFavorites = async () => {
+      setLoading(true);
+      try {
+        const fileInfo = await FileSystem.getInfoAsync(FAVORITES_FILE);
+        if (fileInfo.exists) {
+          const content = await FileSystem.readAsStringAsync(FAVORITES_FILE);
+          if (isActive) setFavoriteItems(JSON.parse(content));
+        } else {
+          if (isActive) setFavoriteItems([]);
+        }
+      } catch (e) {
+        if (isActive) setFavoriteItems([]);
+      } finally {
+        if (isActive) setLoading(false);
+      }
+    };
+    loadFavorites();
+    return () => { isActive = false; };
+  }, [favorites]);
 
   // Lọc sản phẩm gợi ý từ New Arrivals và Best Sellers
   const suggestedItems = (productsData as any[])
@@ -40,7 +65,11 @@ const FavoritesScreen = () => {
       </View>
 
       <ScrollView style={styles.content}>
-        {favoriteItems.length === 0 ? (
+        {loading ? (
+          <View style={styles.emptyFavoritesContainer}>
+            <Text>Loading...</Text>
+          </View>
+        ) : favoriteItems.length === 0 ? (
           <View style={styles.emptyFavoritesContainer}>
             <Ionicons name="heart-outline" size={80} color="#ccc" />
             <Text style={styles.emptyFavoritesText}>
@@ -65,7 +94,7 @@ const FavoritesScreen = () => {
                   <Text style={styles.favoritePrice}>{item.price}</Text>
                 </View>
                 <View style={styles.actionButtons}>
-                  <TouchableOpacity style={styles.heartIcon}>
+                  <TouchableOpacity style={styles.heartIcon} onPress={() => removeFavorite(item.id)}>
                     <FontAwesome name="heart" size={20} color="#000" />
                   </TouchableOpacity>
                   <TouchableOpacity

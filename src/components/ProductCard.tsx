@@ -5,6 +5,8 @@ import { Product } from '../types/Product';
 import { getImageRequire } from '../utils/imageRequire';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import * as FileSystem from 'expo-file-system';
+import { useFavoritesContext } from '../hooks/FavoritesContext';
 
 const { width } = Dimensions.get('window');
 
@@ -12,20 +14,49 @@ const MAX_DESCRIPTION_LENGTH = 70; // Adjust as needed
 
 interface ProductCardProps {
   product: Product;
-  isFavorite?: boolean;
-  onToggleFavorite?: (product: Product) => void;
   onPress?: () => void;
 }
 
+const FAVORITES_FILE = FileSystem.documentDirectory + 'favorites.json';
+
+const updateFavoriteFile = async (product: Product, add: boolean) => {
+  try {
+    let favorites: Product[] = [];
+    const fileInfo = await FileSystem.getInfoAsync(FAVORITES_FILE);
+    if (fileInfo.exists) {
+      const content = await FileSystem.readAsStringAsync(FAVORITES_FILE);
+      favorites = JSON.parse(content);
+    }
+    if (add) {
+      // Thêm nếu chưa có
+      if (!favorites.find((item) => item.id === product.id)) {
+        favorites.push(product);
+      }
+    } else {
+      // Xóa nếu đã có
+      favorites = favorites.filter((item) => item.id !== product.id);
+    }
+    await FileSystem.writeAsStringAsync(FAVORITES_FILE, JSON.stringify(favorites));
+    return favorites;
+  } catch (e) {
+    console.error('Favorite file error:', e);
+    return null;
+  }
+};
+
 const ProductCard: React.FC<ProductCardProps> = ({ 
   product, 
-  isFavorite = false, 
-  onToggleFavorite,
   onPress 
 }) => {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [showImage, setShowImage] = useState(product.imageByColor?.[selectedColor] || product.imageDefault);
-  const [isLiked, setIsLiked] = useState(isFavorite);
+  // Sử dụng giá trị mặc định nếu thiếu colors
+  const safeColors = Array.isArray(product.colors) && product.colors.length > 0 ? product.colors : ['default'];
+  const [selectedColor, setSelectedColor] = useState(safeColors[0]);
+  const [showImage, setShowImage] = useState(
+    (product.imageByColor && product.imageByColor[selectedColor]) ||
+    product.imageDefault ||
+    product.image ||
+    ''
+  );
 
   // For press animation
   const scale = useSharedValue(1);
@@ -46,13 +77,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const handleColorChange = (color: string) => {
     setSelectedColor(color);
-    setShowImage(product.imageByColor?.[color] || product.imageDefault);
+    setShowImage(
+      (product.imageByColor && product.imageByColor[color]) ||
+      product.imageDefault ||
+      product.image ||
+      ''
+    );
   };
 
-  const handleToggleFavorite = () => {
-    setIsLiked(!isLiked);
-    if (onToggleFavorite) {
-      onToggleFavorite(product);
+  const { favorites, addFavorite, removeFavorite } = useFavoritesContext();
+  const isFavorite = favorites.includes(product.id);
+
+  const handleToggleFavorite = async () => {
+    if (isFavorite) {
+      await removeFavorite(product.id);
+    } else {
+      await addFavorite(product);
     }
   };
 
@@ -142,9 +182,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
             <FontAwesome
-              name={isLiked ? 'heart' : 'heart-o'}
+              name={isFavorite ? 'heart' : 'heart-o'}
               size={24}
-              color={isLiked ? '#000' : '#888'}
+              color={isFavorite ? '#000' : '#888'}
             />
           </TouchableOpacity>
         </View>
