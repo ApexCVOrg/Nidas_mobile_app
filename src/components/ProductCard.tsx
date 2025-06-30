@@ -7,6 +7,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import * as FileSystem from 'expo-file-system';
 import { useFavoritesContext } from '../hooks/FavoritesContext';
+import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { RootState } from '../redux/store';
 
 const { width } = Dimensions.get('window');
 
@@ -15,6 +18,7 @@ const MAX_DESCRIPTION_LENGTH = 70; // Adjust as needed
 interface ProductCardProps {
   product: Product;
   onPress?: () => void;
+  onRequireLogin?: () => void;
 }
 
 const FAVORITES_FILE = FileSystem.documentDirectory + 'favorites.json';
@@ -46,7 +50,8 @@ const updateFavoriteFile = async (product: Product, add: boolean) => {
 
 const ProductCard: React.FC<ProductCardProps> = ({ 
   product, 
-  onPress 
+  onPress,
+  onRequireLogin
 }) => {
   // Sử dụng giá trị mặc định nếu thiếu colors
   const safeColors = Array.isArray(product.colors) && product.colors.length > 0 ? product.colors : ['default'];
@@ -86,9 +91,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   const { favorites, addFavorite, removeFavorite } = useFavoritesContext();
-  const isFavorite = favorites.includes(product.id);
+  const navigation = useNavigation();
+  const { token, user } = useSelector((state: RootState) => state.auth);
+  const isLoggedIn = !!token && !!user;
+  const [showLoginNotice, setShowLoginNotice] = useState(false);
+
+  // Nếu chưa đăng nhập, luôn là false
+  const isFavorite = isLoggedIn ? favorites.includes(product.id) : false;
+  const [forceUnfavorite, setForceUnfavorite] = useState(false);
 
   const handleToggleFavorite = async () => {
+    if (!isLoggedIn) {
+      setForceUnfavorite(true);
+      if (onRequireLogin) onRequireLogin();
+      return;
+    }
     if (isFavorite) {
       await removeFavorite(product.id);
     } else {
@@ -182,9 +199,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
             <FontAwesome
-              name={isFavorite ? 'heart' : 'heart-o'}
+              name={(!isLoggedIn || forceUnfavorite) ? 'heart-o' : (isFavorite ? 'heart' : 'heart-o')}
               size={24}
-              color={isFavorite ? '#000' : '#888'}
+              color={(!isLoggedIn || forceUnfavorite) ? '#888' : (isFavorite ? '#000' : '#888')}
             />
           </TouchableOpacity>
         </View>
@@ -214,6 +231,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <Text style={styles.priceFooter}>{typeof product.price === 'number' ? formatPrice(product.price) : product.price}</Text>
         </View>
       </Animated.View>
+      {showLoginNotice && false}
     </TouchableOpacity>
   );
 };

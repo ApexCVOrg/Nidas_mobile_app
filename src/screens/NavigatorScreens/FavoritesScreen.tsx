@@ -15,6 +15,9 @@ import productsData from "../../api/categoryProducts.json";
 import { getImageRequire } from "../../utils/imageRequire";
 import * as FileSystem from 'expo-file-system';
 import { useFavoritesContext } from '../../hooks/FavoritesContext';
+import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { RootState } from '../../redux/store';
 
 const FAVORITES_FILE = FileSystem.documentDirectory + 'favorites.json';
 
@@ -22,6 +25,17 @@ const FavoritesScreen = () => {
   const [favoriteItems, setFavoriteItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const { favorites, removeFavorite } = useFavoritesContext();
+  const navigation = useNavigation();
+  const { token, user } = useSelector((state: RootState) => state.auth);
+  const isLoggedIn = !!token && !!user;
+  const [showLoginNotice, setShowLoginNotice] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setShowPopup(true);
+    }
+  }, [isLoggedIn]);
 
   useEffect(() => {
     let isActive = true;
@@ -58,6 +72,22 @@ const FavoritesScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+      {showPopup && (
+        <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center', zIndex: 200}}>
+          <View style={{backgroundColor: '#fff', padding: 24, borderRadius: 16, alignItems: 'center', width: 300}}>
+            <Text style={{color: '#d32f2f', fontWeight: 'bold', fontSize: 18, marginBottom: 12}}>Bạn chưa đăng nhập</Text>
+            <Text style={{color: '#222', fontSize: 15, marginBottom: 24, textAlign: 'center'}}>Vui lòng đăng nhập để sử dụng tính năng này!</Text>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
+              <TouchableOpacity style={{flex: 1, marginRight: 8, backgroundColor: '#eee', borderRadius: 8, paddingVertical: 10, alignItems: 'center'}} onPress={() => { setShowPopup(false); navigation.navigate('HomeMain' as never); }}>
+                <Text style={{color: '#222', fontWeight: 'bold'}}>Back</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{flex: 1, marginLeft: 8, backgroundColor: '#d32f2f', borderRadius: 8, paddingVertical: 10, alignItems: 'center'}} onPress={() => { setShowPopup(false); navigation.navigate('Auth' as never); }}>
+                <Text style={{color: '#fff', fontWeight: 'bold'}}>Login</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
 
       {/* Header */}
       <View style={styles.header}>

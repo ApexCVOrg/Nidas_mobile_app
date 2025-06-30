@@ -10,6 +10,11 @@ import { TabNavigatorParamList } from '../navigation/TabNavigator';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, runOnJS } from 'react-native-reanimated';
 import HorizontalProductCarousel from '../components/HorizontalProductCarousel';
 import { useFavorites } from '../hooks/useFavorites';
+import { SafeAreaView } from 'react-native';
+import { homeStyles } from '../styles/home/home.styles';
+import CustomTabBar from '../components/CustomTabBar';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 const { width } = Dimensions.get('window');
 const carouselHeight = 180;
@@ -32,6 +37,7 @@ const CategoryScreen = () => {
 
   const [sortOrder, setSortOrder] = useState('newest'); // State for sorting order
   const [isSortDropdownVisible, setSortDropdownVisible] = useState(false); // State for dropdown visibility
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
 
   // For GooeyNav effect
   const translateX = useSharedValue(0);
@@ -64,6 +70,8 @@ const CategoryScreen = () => {
 
   const { favorites, reloadFavorites } = useFavorites();
 
+  const { token, user } = useSelector((state: RootState) => state.auth);
+
   const handleCategoryPress = (category: { id: string; name: string }) => {
     navigation.navigate('Category', {
       categoryId: category.id,
@@ -78,6 +86,10 @@ const CategoryScreen = () => {
 
   const handleToggleFavorite = () => {
     reloadFavorites();
+  };
+
+  const handleProductPress = (product: Product) => {
+    navigation.navigate('CategoryProductDetail', { productId: product.id });
   };
 
   const groupedProducts = useMemo(() => {
@@ -177,119 +189,170 @@ const CategoryScreen = () => {
     }
   }, [bannerIndex]);
 
-  return (
-    <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.fullScreenScrollContent}>
-        {/* Carousel Banner */}
-        <ScrollView
-          ref={bannerScrollRef}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          style={{ height: carouselHeight, marginBottom: 12 }}
-          scrollEventThrottle={16}
-          onMomentumScrollEnd={e => {
-            const newIndex = Math.round(e.nativeEvent.contentOffset.x / carouselWidth);
-            setBannerIndex(newIndex);
-          }}
-        >
-          {bannerImages.map((img, idx) => (
-            <View key={idx} style={{ width: carouselWidth, height: carouselHeight, paddingRight: 10 }}>
-              <Image source={img} style={{ width: carouselWidth, height: carouselHeight, borderRadius: 12 }} />
-            </View>
-          ))}
-        </ScrollView>
+  const renderProductItem = ({ item }: { item: Product }) => (
+    <ProductCard
+      product={item}
+      onPress={() => handleProductPress(item)}
+      onRequireLogin={() => setShowLoginPopup(true)}
+    />
+  );
 
-        {/* Categories at the top of Category Screen */}
-        <View style={styles.categoriesContainerWrapper}>
-          <Animated.View style={[styles.activeIndicator, animatedIndicatorStyle]} />
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoriesScrollContainer}>
-            {categories.map((category) => (
-              <TouchableOpacity
-                key={category.id}
-                ref={(el: View | null) => { categoryRefs.current[category.id] = el; }}
-                onLayout={(event) => onCategoryLayout(event, category.id)}
-                style={styles.categoryItem}
-                onPress={() => handleCategoryPress(category)}
-              >
-                <View style={styles.categoryIcon}>
-                  <Icon name={category.icon} size={24} color={category.id === categoryId ? '#868f96' : '#000'} />
-                </View>
-                <Text style={[styles.categoryName, category.id === categoryId && styles.activeCategoryName]}>{category.name}</Text>
-              </TouchableOpacity>
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#f6f6f6' }}>
+      {/* Header giống HomeScreen */}
+      <View style={homeStyles.headerV2}>
+        <View style={homeStyles.headerTopRow}>
+          <Text style={homeStyles.greetingText}>NIDAS</Text>
+          <View style={homeStyles.headerIconsRight}>
+            <TouchableOpacity 
+              style={homeStyles.iconButton}
+              onPress={() => {
+                if (!token) {
+                  navigation.navigate('Auth' as never);
+                } else {
+                  navigation.navigate('UserProfile' as never);
+                }
+              }}
+            >
+              <Icon name="person-outline" size={26} color="#000" />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+      {/* Nội dung chính */}
+      <View style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={styles.fullScreenScrollContent}>
+          {/* Carousel Banner */}
+          <ScrollView
+            ref={bannerScrollRef}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            style={{ height: carouselHeight, marginBottom: 12 }}
+            scrollEventThrottle={16}
+            onMomentumScrollEnd={e => {
+              const newIndex = Math.round(e.nativeEvent.contentOffset.x / carouselWidth);
+              setBannerIndex(newIndex);
+            }}
+          >
+            {bannerImages.map((img, idx) => (
+              <View key={idx} style={{ width: carouselWidth, height: carouselHeight, paddingRight: 10 }}>
+                <Image source={img} style={{ width: carouselWidth, height: carouselHeight, borderRadius: 12 }} />
+              </View>
             ))}
           </ScrollView>
-        </View>
 
-        {/* Custom Sort Dropdown */}
-        <View style={styles.sortDropdownContainer}>
-          <TouchableOpacity onPress={() => setSortDropdownVisible(!isSortDropdownVisible)} style={styles.sortDropdownButton}>
-            <Text style={styles.currentSortLabel}>{currentSortLabel}</Text>
-            <Icon name={isSortDropdownVisible ? 'arrow-drop-up' : 'arrow-drop-down'} size={24} color="#555" />
-          </TouchableOpacity>
-          {isSortDropdownVisible && (
-            <View style={styles.dropdownOptionsContainer}>
-              {sortOptions.map(option => (
+          {/* Categories at the top of Category Screen */}
+          <View style={styles.categoriesContainerWrapper}>
+            <Animated.View style={[styles.activeIndicator, animatedIndicatorStyle]} />
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoriesScrollContainer}>
+              {categories.map((category) => (
                 <TouchableOpacity
-                  key={option.value}
-                  style={styles.dropdownOption}
-                  onPress={() => handleSortChange(option.value)}
+                  key={category.id}
+                  ref={(el: View | null) => { categoryRefs.current[category.id] = el; }}
+                  onLayout={(event) => onCategoryLayout(event, category.id)}
+                  style={styles.categoryItem}
+                  onPress={() => handleCategoryPress(category)}
                 >
-                  <Text style={[styles.dropdownOptionText, sortOrder === option.value && styles.activeDropdownOptionText]}>
-                    {option.label}
-                  </Text>
+                  <View style={styles.categoryIcon}>
+                    <Icon name={category.icon} size={24} color={category.id === categoryId ? '#868f96' : '#000'} />
+                  </View>
+                  <Text style={[styles.categoryName, category.id === categoryId && styles.activeCategoryName]}>{category.name}</Text>
                 </TouchableOpacity>
-              ))}
-            </View>
-          )}
-        </View>
-
-        {/* Horizontal Product Carousel Demo */}
-        <HorizontalProductCarousel
-          data={[
-            {
-              id: '1',
-              name: 'MAN UTD 25/26 HOME KIT',
-              description: 'Một lời tri ân dành cho Nhà hát của những giấc mơ',
-              image: require('../../assets/category_images/ManU_home.jpg'),
-              cta: 'Mua ngay',
-              screen: 'BannerDetailManchester',
-            },
-            {
-              id: '2',
-              name: 'ClimaCool',
-              description: 'Thiết kế mới, chất liệu cao cấp',
-              image: require('../../assets/category_images/Climacool.jpg'),
-              cta: 'Xem chi tiết',
-              screen: 'BannerDetailClimacool',
-            },
-          ]}
-          onPressItem={item => item.screen && navigation.navigate(item.screen as any, { item })}
-        />
-
-        {/* Sản phẩm và các collection */}
-        {groupedProducts.map((collection, index) => (
-          <View key={index} style={styles.collectionSection}>
-            <View style={styles.collectionHeader}>
-              <Text style={styles.collectionTitle}>{collection.name}</Text>
-              <TouchableOpacity>
-                <Text style={styles.viewAllButtonText}>XEM TẤT CẢ <Icon name="arrow-forward" size={12} color="#000" /></Text>
-              </TouchableOpacity>
-            </View>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.productsScrollContainer}>
-              {collection.products.map(product => (
-                <View key={product.id} style={{ position: 'relative' }}>
-                  <ProductCard
-                    product={product}
-                    onPress={() => navigation.navigate('CategoryProductDetail', { productId: product.id })}
-                  />
-                </View>
               ))}
             </ScrollView>
           </View>
-        ))}
-      </ScrollView>
-    </View>
+
+          {/* Custom Sort Dropdown */}
+          <View style={styles.sortDropdownContainer}>
+            <TouchableOpacity onPress={() => setSortDropdownVisible(!isSortDropdownVisible)} style={styles.sortDropdownButton}>
+              <Text style={styles.currentSortLabel}>{currentSortLabel}</Text>
+              <Icon name={isSortDropdownVisible ? 'arrow-drop-up' : 'arrow-drop-down'} size={24} color="#555" />
+            </TouchableOpacity>
+            {isSortDropdownVisible && (
+              <View style={styles.dropdownOptionsContainer}>
+                {sortOptions.map(option => (
+                  <TouchableOpacity
+                    key={option.value}
+                    style={styles.dropdownOption}
+                    onPress={() => handleSortChange(option.value)}
+                  >
+                    <Text style={[styles.dropdownOptionText, sortOrder === option.value && styles.activeDropdownOptionText]}>
+                      {option.label}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+          </View>
+
+          {/* Horizontal Product Carousel Demo */}
+          <HorizontalProductCarousel
+            data={[
+              {
+                id: '1',
+                name: 'MAN UTD 25/26 HOME KIT',
+                description: 'Một lời tri ân dành cho Nhà hát của những giấc mơ',
+                image: require('../../assets/category_images/ManU_home.jpg'),
+                cta: 'Mua ngay',
+                screen: 'BannerDetailManchester',
+              },
+              {
+                id: '2',
+                name: 'ClimaCool',
+                description: 'Thiết kế mới, chất liệu cao cấp',
+                image: require('../../assets/category_images/Climacool.jpg'),
+                cta: 'Xem chi tiết',
+                screen: 'BannerDetailClimacool',
+              },
+            ]}
+            onPressItem={item => item.screen && navigation.navigate(item.screen as any, { item })}
+          />
+
+          {/* Sản phẩm và các collection */}
+          {groupedProducts.map((collection, index) => (
+            <View key={index} style={styles.collectionSection}>
+              <View style={styles.collectionHeader}>
+                <Text style={styles.collectionTitle}>{collection.name}</Text>
+                <TouchableOpacity>
+                  <Text style={styles.viewAllButtonText}>XEM TẤT CẢ <Icon name="arrow-forward" size={12} color="#000" /></Text>
+                </TouchableOpacity>
+              </View>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.productsScrollContainer}>
+                {collection.products.map(product => (
+                  <View key={product.id} style={{ position: 'relative' }}>
+                    <ProductCard
+                      product={product}
+                      onPress={() => navigation.navigate('CategoryProductDetail', { productId: product.id })}
+                      onRequireLogin={() => setShowLoginPopup(true)}
+                    />
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+          ))}
+        </ScrollView>
+        {/* Pop-up đăng nhập toàn màn hình */}
+        {showLoginPopup && (
+          <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center', zIndex: 200}}>
+            <View style={{backgroundColor: '#fff', padding: 24, borderRadius: 16, alignItems: 'center', width: 300}}>
+              <Text style={{color: '#d32f2f', fontWeight: 'bold', fontSize: 18, marginBottom: 12}}>Bạn chưa đăng nhập</Text>
+              <Text style={{color: '#222', fontSize: 15, marginBottom: 24, textAlign: 'center'}}>Vui lòng đăng nhập để sử dụng tính năng yêu thích!</Text>
+              <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
+                <TouchableOpacity style={{flex: 1, marginRight: 8, backgroundColor: '#eee', borderRadius: 8, paddingVertical: 10, alignItems: 'center'}} onPress={() => setShowLoginPopup(false)}>
+                  <Text style={{color: '#222', fontWeight: 'bold'}}>Back</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{flex: 1, marginLeft: 8, backgroundColor: '#d32f2f', borderRadius: 8, paddingVertical: 10, alignItems: 'center'}} onPress={() => { setShowLoginPopup(false); navigation.navigate('Auth' as never); }}>
+                  <Text style={{color: '#fff', fontWeight: 'bold'}}>Login</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        )}
+      </View>
+      {/* Footer: CustomTabBar */}
+      <CustomTabBar />
+    </SafeAreaView>
   );
 };
 

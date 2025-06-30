@@ -34,6 +34,8 @@ import searchProducts from '../../api/searchProducts.json';
 import { getImageRequire } from '../../utils/imageRequire';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/slices/cartSlice';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 type ProductDetailRouteProp = RouteProp<TabNavigatorParamList, 'ProductDetail'>;
 
@@ -68,6 +70,8 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
   const [addCartSuccess, setAddCartSuccess] = useState(false);
   const [sizeError, setSizeError] = useState(false);
+  const { token, user } = useSelector((state: RootState) => state.auth);
+  const isLoggedIn = !!token && !!user;
 
   const panResponder = useRef(
     PanResponder.create({
@@ -193,7 +197,11 @@ const ProductDetail = () => {
     ]).start();
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
+    if (!isLoggedIn) {
+      navigation.navigate('Auth' as never);
+      return;
+    }
     if (!selectedSize) {
       setSizeError(true);
       setTimeout(() => setSizeError(false), 1000);

@@ -21,14 +21,28 @@ import ProductCard from '../../components/ProductCard';
 import { useFavoritesContext } from '../../hooks/FavoritesContext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import type { Product } from '../../types/Product';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { setOnboardingComplete } from '../../store/slices/onboardingSlice';
 
 const { width } = Dimensions.get('window');
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<TabNavigatorParamList, 'MainTabs'>;
 
-const HomeScreen = () => {
+interface HomeScreenWithPopupProps {
+  showTabPopup?: boolean;
+  tabPopupType?: 'favorites' | 'cart' | null;
+  setShowTabPopup?: (v: boolean) => void;
+  setTabPopupType?: (v: 'favorites' | 'cart' | null) => void;
+}
+
+const HomeScreen: React.FC<HomeScreenWithPopupProps> = ({ showTabPopup, tabPopupType, setShowTabPopup, setTabPopupType }) => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const [showBanner, setShowBanner] = useState(true);
+  const { token, user } = useSelector((state: RootState) => state.auth);
+  const isLoggedIn = !!token && !!user;
+  
+  
+  const [showBanner, setShowBanner] = useState(!isLoggedIn);
   const [bannerIndex, setBannerIndex] = useState(0);
   const bannerFlatListRef = useRef<FlatList>(null);
 
@@ -39,6 +53,14 @@ const HomeScreen = () => {
   const [bannerImages, setBannerImages] = useState<any[]>([]);
 
   const { favorites, addFavorite, removeFavorite } = useFavoritesContext();
+  const dispatch = useDispatch();
+
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+
+  // Update banner visibility when login status changes
+  useEffect(() => {
+    setShowBanner(!isLoggedIn);
+  }, [isLoggedIn]);
 
   // Auto-scroll banner
   useEffect(() => {
@@ -90,19 +112,11 @@ const HomeScreen = () => {
       }
     };
     return (
-      <TouchableOpacity
-        style={homeStyles.homeProductCard}
-        activeOpacity={0.85}
+      <ProductCard
+        product={product}
         onPress={() => handleProductPress(product)}
-      >
-        <Image source={getImageRequire(product.image || product.imageDefault || 'icon.png')} style={homeStyles.homeProductImage} />
-        <TouchableOpacity style={homeStyles.heartIcon} onPress={handleToggleFavorite}>
-          <FontAwesome name={isFavorite ? 'heart' : 'heart-o'} size={22} color={isFavorite ? '#000' : '#888'} />
-        </TouchableOpacity>
-        <Text style={homeStyles.homeProductName}>{product.name}</Text>
-        <Text style={homeStyles.homeProductDesc}>{product.description}</Text>
-        <Text style={homeStyles.homeProductPrice}>{product.price}</Text>
-      </TouchableOpacity>
+        onRequireLogin={() => setShowLoginPopup(true)}
+      />
     );
   };
 
@@ -115,12 +129,15 @@ const HomeScreen = () => {
         <View style={homeStyles.headerTopRow}>
           <Text style={homeStyles.greetingText}>NIDAS</Text>
           <View style={homeStyles.headerIconsRight}>
-            <TouchableOpacity style={homeStyles.iconButton}>
-              <Icon name="search" size={26} color="#000" />
-            </TouchableOpacity>
             <TouchableOpacity 
               style={homeStyles.iconButton}
-              onPress={() => navigation.navigate('UserProfile' as never)}
+              onPress={() => {
+                if (!token) {
+                  navigation.navigate('Auth' as never);
+                } else {
+                  navigation.navigate('UserProfile' as never);
+                }
+              }}
             >
               <Icon name="person-outline" size={26} color="#000" />
             </TouchableOpacity>
@@ -138,13 +155,51 @@ const HomeScreen = () => {
               Your personalized store is waiting for you. Receive new suggestions and exclusive access only for members.
             </Text>
           </View>
-          <TouchableOpacity style={homeStyles.loginBannerButton} onPress={() => navigation.navigate('Login')}>
+          <TouchableOpacity style={homeStyles.loginBannerButton} onPress={() => navigation.navigate('Auth')}>
             <Text style={homeStyles.loginBannerButtonText}>LOGIN NOW</Text>
             <Icon name="arrow-forward-ios" size={16} color="#fff" style={{ marginLeft: 4 }} />
           </TouchableOpacity>
           <TouchableOpacity style={homeStyles.closeBannerButton} onPress={() => setShowBanner(false)}>
             <Icon name="close" size={18} color="#fff" />
           </TouchableOpacity>
+        </View>
+      )}
+
+      {/* Popup khi chưa login và bấm tab */}
+      {showTabPopup && (
+        <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center', zIndex: 200}}>
+          <View style={{backgroundColor: '#fff', padding: 24, borderRadius: 16, alignItems: 'center', width: 300}}>
+            <Text style={{color: '#d32f2f', fontWeight: 'bold', fontSize: 18, marginBottom: 12}}>Bạn chưa đăng nhập</Text>
+            <Text style={{color: '#222', fontSize: 15, marginBottom: 24, textAlign: 'center'}}>
+              {tabPopupType === 'favorites' ? 'Vui lòng đăng nhập để xem yêu thích!' : 'Vui lòng đăng nhập để xem giỏ hàng!'}
+            </Text>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
+              <TouchableOpacity style={{flex: 1, marginRight: 8, backgroundColor: '#eee', borderRadius: 8, paddingVertical: 10, alignItems: 'center'}} onPress={() => { setShowTabPopup && setShowTabPopup(false); setTabPopupType && setTabPopupType(null); }}>
+                <Text style={{color: '#222', fontWeight: 'bold'}}>Back</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{flex: 1, marginLeft: 8, backgroundColor: '#d32f2f', borderRadius: 8, paddingVertical: 10, alignItems: 'center'}} onPress={() => { setShowTabPopup && setShowTabPopup(false); setTabPopupType && setTabPopupType(null); navigation.navigate('Auth' as never); }}>
+                <Text style={{color: '#fff', fontWeight: 'bold'}}>Login</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
+
+      {/* Pop-up đăng nhập toàn màn hình */}
+      {showLoginPopup && (
+        <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center', zIndex: 200}}>
+          <View style={{backgroundColor: '#fff', padding: 24, borderRadius: 16, alignItems: 'center', width: 300}}>
+            <Text style={{color: '#d32f2f', fontWeight: 'bold', fontSize: 18, marginBottom: 12}}>Bạn chưa đăng nhập</Text>
+            <Text style={{color: '#222', fontSize: 15, marginBottom: 24, textAlign: 'center'}}>Vui lòng đăng nhập để sử dụng tính năng yêu thích!</Text>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
+              <TouchableOpacity style={{flex: 1, marginRight: 8, backgroundColor: '#eee', borderRadius: 8, paddingVertical: 10, alignItems: 'center'}} onPress={() => setShowLoginPopup(false)}>
+                <Text style={{color: '#222', fontWeight: 'bold'}}>Back</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{flex: 1, marginLeft: 8, backgroundColor: '#d32f2f', borderRadius: 8, paddingVertical: 10, alignItems: 'center'}} onPress={() => { setShowLoginPopup(false); navigation.navigate('Auth' as never); }}>
+                <Text style={{color: '#fff', fontWeight: 'bold'}}>Login</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       )}
 
