@@ -10,7 +10,10 @@
     "image": "samba.gif",
     "colors": ["white", "black", "blue"],
     "sizes": [38, 39, 40, 41, 42, 43, 44],
-    "tags": ["samba", "originals", "classics", "retro", "football"]
+    "tags": ["samba", "originals", "classics", "retro", "football"],
+    "brand": "Adidas",
+    "subtitle": "Retro Classic",
+    "rating": 4.7
   },
   {
     "id": "p002",
@@ -23,7 +26,10 @@
     "image": "sl72.gif",
     "colors": ["white", "red", "blue"],
     "sizes": [38, 39, 40, 41, 42, 43, 44],
-    "tags": ["sl72", "running", "vintage", "70s", "originals"]
+    "tags": ["sl72", "running", "vintage", "70s", "originals"],
+    "brand": "Adidas",
+    "subtitle": "Vintage Running",
+    "rating": 4.3
   },
   {
     "id": "p003",
@@ -36,7 +42,10 @@
     "image": "yeezy750.gif",
     "colors": ["grey", "brown", "black"],
     "sizes": [36, 37, 38, 39, 40, 41, 42, 43, 44],
-    "tags": ["yeezy", "boost", "kanye", "premium", "streetwear"]
+    "tags": ["yeezy", "boost", "kanye", "premium", "streetwear"],
+    "brand": "Adidas",
+    "subtitle": "Premium Boost",
+    "rating": 4.9
   },
   {
     "id": "p004",

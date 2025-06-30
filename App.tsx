@@ -12,6 +12,12 @@ function MainApp() {
   // Nếu chưa có Provider, useSelector sẽ lỗi, nhưng sau khi bọc Provider thì sẽ chạy được
   // Nếu chưa hoàn thành onboarding thì vào OnboardingNavigator, ngược lại vào TabNavigator
   const hasOnboarded = useSelector((state: RootState) => state.onboarding.hasOnboarded);
+  const authState = useSelector((state: RootState) => state.auth);
+  
+  console.log('🔄 MainApp re-render - hasOnboarded:', hasOnboarded);
+  console.log('🔐 Auth state:', authState);
+  console.log('📱 Rendering:', hasOnboarded ? 'TabNavigator' : 'OnboardingNavigator');
+  
   return hasOnboarded ? <TabNavigator /> : <OnboardingNavigator />;
 }
 

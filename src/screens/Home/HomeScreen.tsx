@@ -17,6 +17,9 @@ import { TabNavigatorParamList } from '../../navigation/TabNavigator';
 import { homeStyles } from '../../styles/home/home.styles';
 import homeData from '../../api/homeData.json';
 import { getImageRequire } from '../../utils/imageRequire';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { setOnboardingComplete } from '../../store/slices/onboardingSlice';
 
 const { width } = Dimensions.get('window');
 
@@ -24,7 +27,11 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<TabNavigatorParamList,
 
 const HomeScreen = () => {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const [showBanner, setShowBanner] = useState(true);
+  const { token, user } = useSelector((state: RootState) => state.auth);
+  const isLoggedIn = !!token && !!user;
+  
+  
+  const [showBanner, setShowBanner] = useState(!isLoggedIn);
   const [bannerIndex, setBannerIndex] = useState(0);
   const bannerFlatListRef = useRef<FlatList>(null);
 
@@ -33,6 +40,13 @@ const HomeScreen = () => {
   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
   const [collections, setCollections] = useState<any[]>([]);
   const [bannerImages, setBannerImages] = useState<any[]>([]);
+
+  const dispatch = useDispatch();
+
+  // Update banner visibility when login status changes
+  useEffect(() => {
+    setShowBanner(!isLoggedIn);
+  }, [isLoggedIn]);
 
   // Auto-scroll banner
   useEffect(() => {
@@ -85,7 +99,13 @@ const HomeScreen = () => {
           <View style={homeStyles.headerIconsRight}>
             <TouchableOpacity 
               style={homeStyles.iconButton}
-              onPress={() => navigation.navigate('UserProfile' as never)}
+              onPress={() => {
+                if (!token) {
+                  navigation.navigate('Auth' as never);
+                } else {
+                  navigation.navigate('UserProfile' as never);
+                }
+              }}
             >
               <Icon name="person-outline" size={26} color="#000" />
             </TouchableOpacity>
@@ -103,7 +123,7 @@ const HomeScreen = () => {
               Your personalized store is waiting for you. Receive new suggestions and exclusive access only for members.
             </Text>
           </View>
-          <TouchableOpacity style={homeStyles.loginBannerButton} onPress={() => navigation.navigate('Login')}>
+          <TouchableOpacity style={homeStyles.loginBannerButton} onPress={() => navigation.navigate('Auth')}>
             <Text style={homeStyles.loginBannerButtonText}>LOGIN NOW</Text>
             <Icon name="arrow-forward-ios" size={16} color="#fff" style={{ marginLeft: 4 }} />
           </TouchableOpacity>

@@ -85,6 +85,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       'quan1.jpg': require('../../assets/quan1.jpg'),
       'quan2.jpg': require('../../assets/quan2.jpg'),
       'quan3.jpg': require('../../assets/quan3.jpg'),
+      "Mu_2526.jpg": require("../../assets/category_images/Mu_2526.jpg")
     };
     
     return imageMap[imageName] || require('../../assets/icon.png');
@@ -123,21 +124,18 @@ const ProductCard: React.FC<ProductCardProps> = ({
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       onPress={onPress}
-      activeOpacity={1} // Disable default TouchableOpacity dimming
+      activeOpacity={1}
       style={styles.touchableCard}
     >
       <Animated.View style={[styles.card, animatedStyle]}>
-        <View style={styles.imageWrapper}>
+        <View style={styles.imageRectWrapper}>
           <Animated.Image
             key={showImage}
             source={imageSource}
-            style={styles.image}
+            style={styles.imageRect}
             entering={FadeIn.duration(300)}
             exiting={FadeOut.duration(300)}
           />
-          <TouchableOpacity style={styles.addToCartButton}>
-            <Text style={styles.addToCartButtonText}>MUA NGAY</Text>
-          </TouchableOpacity>
           <TouchableOpacity
             style={styles.favoriteIcon}
             onPress={handleToggleFavorite}
@@ -150,38 +148,30 @@ const ProductCard: React.FC<ProductCardProps> = ({
             />
           </TouchableOpacity>
         </View>
-        <View style={styles.detailsContainer}>
-          <Text style={styles.name}>{product.name}</Text>
-          <Text style={styles.description} numberOfLines={2}>{truncatedDescription}</Text>
-          <Text style={styles.price}>{product.price}</Text>
-          
-          {/* Category & Gender */}
-          {product.category && (
-            <Text style={styles.category}>
-              {product.category === 'giay' ? 'Giày' : 'Quần áo'} • {product.gender || 'Unisex'}
-            </Text>
-          )}
-          
-          {/* Colors */}
-          <View style={styles.colorsRow}>
-            {product.colors.slice(0, 4).map((color, index) => (
-              <TouchableOpacity
-                key={color}
-                style={[
-                  styles.colorDot,
-                  { 
-                    backgroundColor: getColorCode(color),
-                    borderWidth: selectedColor === color ? 2 : 1,
-                    borderColor: selectedColor === color ? '#333' : '#ddd'
-                  }
-                ]}
-                onPress={() => handleColorChange(color)}
-              />
-            ))}
-            {product.colors.length > 4 && (
-              <Text style={styles.moreColors}>+{product.colors.length - 4}</Text>
+        <View style={styles.infoColorRow}>
+          <View style={styles.infoSectionRow}>
+            {product.brand && (
+              <Text style={styles.brand} numberOfLines={1}>{product.brand}</Text>
+            )}
+            <Text style={styles.name} numberOfLines={1}>{product.name}</Text>
+            {product.subtitle && (
+              <Text style={styles.subtitle} numberOfLines={1}>{product.subtitle}</Text>
             )}
           </View>
+        </View>
+        <View style={styles.footer}>
+          <View style={styles.ratingBlock}>
+            {[1,2,3,4,5].map(i => (
+              <FontAwesome
+                key={i}
+                name={Number(product.rating) >= i ? 'star' : (Number(product.rating) >= i-0.5 ? 'star-half-empty' : 'star-o')}
+                size={18}
+                color={Number(product.rating) >= i-0.5 ? '#FFD700' : '#444'}
+                style={{marginRight: 1}}
+              />
+            ))}
+          </View>
+          <Text style={styles.priceFooter}>{typeof product.price === 'number' ? formatPrice(product.price) : product.price}</Text>
         </View>
       </Animated.View>
     </TouchableOpacity>
@@ -190,109 +180,113 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
 const styles = StyleSheet.create({
   touchableCard: {
-    // This wrapper ensures the animation applies correctly to the whole card
-    width: width * 0.45, // Adjusted for horizontal scroll, showing about 2 items
-    marginHorizontal: 8,
-    marginVertical: 10,
+    width: width * 0.6,
+    marginHorizontal: 10,
+    marginVertical: 16,
   },
   card: {
-    borderRadius: 16,
+    borderRadius: 18,
     backgroundColor: '#fff',
+    overflow: 'hidden',
     shadowColor: '#000',
     shadowOpacity: 0.08,
     shadowRadius: 10,
     shadowOffset: { width: 0, height: 4 },
     elevation: 3,
-    overflow: 'hidden',
+    height: 400,
+    justifyContent: 'space-between',
   },
-  imageWrapper: {
+  imageRectWrapper: {
     width: '100%',
-    height: 180,
-    justifyContent: 'center',
+    height: 240,
+    backgroundColor: 'transparent',
+    borderTopLeftRadius: 18,
+    borderTopRightRadius: 18,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    overflow: 'hidden',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
+    justifyContent: 'center',
+    marginBottom: 12,
+    marginTop: 0,
     position: 'relative',
-    shadowOpacity: 0.10,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 4,
   },
-  image: {
+  imageRect: {
     width: '100%',
     height: '100%',
+    borderTopLeftRadius: 18,
+    borderTopRightRadius: 18,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
     resizeMode: 'cover',
-  },
-  addToCartButton: {
-    position: 'absolute',
-    bottom: 8,
-    right: 8,
-    backgroundColor: '#1A1A1A',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 5,
-  },
-  addToCartButtonText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  detailsContainer: {
-    padding: 12,
-    height: 120, // Fixed height to ensure uniform card height
-    justifyContent: 'space-between', // Distribute content evenly
-  },
-  name: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    marginBottom: 4,
-    color: '#222',
-    textAlign: 'center',
-    lineHeight: 18,
-  },
-  description: {
-    fontSize: 12,
-    color: '#666',
-    marginBottom: 4,
-  },
-  price: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#e74c3c',
-    fontFamily: 'serif', // Using a generic serif font family
-    marginBottom: 8,
-    textAlign: 'center',
   },
   favoriteIcon: {
     position: 'absolute',
-    top: 8,
-    right: 8,
+    top: 0,
+    right: 10,
     zIndex: 2,
     padding: 4,
   },
-  category: {
-    fontSize: 12,
-    color: '#666',
-    marginBottom: 10,
-    textAlign: 'center',
-    textTransform: 'capitalize',
+  infoColorRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    marginBottom: 2,
   },
-  colorsRow: {
+  infoSectionRow: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    minHeight: 56,
+    paddingTop: 2,
+    paddingBottom: 2,
+  },
+  brand: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#4B8DF8',
+    textAlign: 'left',
+    textTransform: 'uppercase',
+    marginBottom: 0,
+  },
+  name: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: '#222',
+    textAlign: 'left',
+    lineHeight: 18,
+    marginBottom: 0,
+  },
+  subtitle: {
+    fontSize: 15,
+    color: '#888',
+    textAlign: 'left',
+    marginBottom: 0,
+  },
+  ratingBlock: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
+    flex: 1,
+    marginLeft: 2,
   },
-  colorDot: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    marginHorizontal: 3,
-    marginVertical: 2,
+  priceFooter: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginLeft: 8,
   },
-  moreColors: {
-    fontSize: 10,
-    color: '#666',
-    marginLeft: 6,
+  footer: {
+    backgroundColor: '#222',
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    marginTop: 10,
   },
 });
 

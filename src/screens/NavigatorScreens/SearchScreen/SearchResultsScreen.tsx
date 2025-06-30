@@ -24,7 +24,7 @@ type SearchResultsRouteProp = {
 type SearchStackParamList = {
   SearchMain: undefined;
   SearchResults: { searchQuery: string };
-  ProductDetail: { product: Product };
+  ProductDetail: { productId: string };
   Product: undefined;
   Introduction: {
     bannerId: number;
@@ -78,8 +78,7 @@ const SearchResultsScreen = () => {
 
 
   const handleProductPress = (product: Product) => {
-    // Navigate to product detail screen
-    navigation.navigate('ProductDetail', { product });
+    navigation.navigate('ProductDetail', { productId: product.id });
   };
 
   const renderProductItem = ({ item }: { item: Product }) => (

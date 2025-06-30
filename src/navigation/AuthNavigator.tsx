@@ -24,21 +24,11 @@ export type AuthStackParamList = {
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
-const AuthNavigator = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-      <Stack.Screen name="VerifyEmail" component={VerifyEmailScreen} />
-      <Stack.Screen name="VerifyOTP" component={VerifyOTPScreen} />
-      <Stack.Screen name="AuthSuccess" component={AuthSuccessScreen} />
-    </Stack.Navigator>
-  );
-};
+const AuthNavigator = () => (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="Login" component={LoginScreen} />
+    <Stack.Screen name="Register" component={RegisterScreen} />
+  </Stack.Navigator>
+);
 
 export default AuthNavigator; 

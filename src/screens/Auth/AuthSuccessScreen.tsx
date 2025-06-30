@@ -8,12 +8,16 @@ import {
 } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../../redux/slices/authSlice';
+import { setOnboardingComplete } from '../../store/slices/onboardingSlice';
 
 type AuthSuccessRouteProp = RouteProp<{ AuthSuccess: { token?: string } }, 'AuthSuccess'>;
 
 export default function AuthSuccessScreen() {
   const navigation = useNavigation<any>();
   const route = useRoute<AuthSuccessRouteProp>();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleAuthSuccess = async () => {
@@ -35,13 +39,10 @@ export default function AuthSuccessScreen() {
               navigation.navigate('Register' as never);
             }, 2000); // Show loading for 2 seconds
           } else {
-            // This is login flow - navigate to main app
-            setTimeout(() => {
-              navigation.reset({
-                index: 0,
-                routes: [{ name: 'Main' }],
-              });
-            }, 2000); // Show loading for 2 seconds
+            // This is login flow - update Redux state and let App.tsx handle navigation
+            dispatch(loginSuccess({ token, user: null }));
+            dispatch(setOnboardingComplete(true));
+            // Không gọi navigation.reset hay navigate ở đây
           }
         } else {
           // If no token, redirect to error screen
@@ -56,7 +57,7 @@ export default function AuthSuccessScreen() {
     };
 
     handleAuthSuccess();
-  }, [route.params?.token, navigation]);
+  }, [route.params?.token, navigation, dispatch]);
 
   return (
     <SafeAreaView style={styles.container}>

@@ -55,6 +55,14 @@ const CartScreen = () => {
       "quan1.jpg": require("../../../assets/quan1.jpg"),
       "quan2.jpg": require("../../../assets/quan2.jpg"),
       "quan3.jpg": require("../../../assets/quan3.jpg"),
+      "thun_adidas.jpg": require("../../../assets/category_images/thun_adidas.jpg"),
+      "HaNoiAo.jpg": require("../../../assets/category_images/HaNoiAo.jpg"),
+      "Hoodie_Unisex.jpg": require("../../../assets/category_images/Hoodie_Unisex.jpg"),
+      "adilette.jpg": require("../../../assets/category_images/adilette.jpg"),
+      "SlimFit.jpg": require("../../../assets/category_images/SlimFit.jpg"),
+      "Kid_O.jpg": require("../../../assets/category_images/Kid_O.jpg"),
+      "Kid_O2.jpg": require("../../../assets/category_images/Kid_O2.jpg"),
+      "Mu_2526.jpg": require("../../../assets/category_images/Mu_2526.jpg"),
     };
 
     return imageMap[imageName] || require("../../../assets/icon.png");

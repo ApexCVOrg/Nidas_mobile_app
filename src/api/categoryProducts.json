@@ -5,14 +5,18 @@
     "category": "men",
     "price": "599.000 VNĐ",
     "description": "Áo thun polo nam phong cách, thoáng mát, chất liệu cotton cao cấp.",
-    "imageDefault": "category_images/aoadidasden.png",
+    "imageDefault": "thun_adidas.jpg",
     "imageByColor": {
       "white": "category_images/aoadidastrang.png",
       "black": "category_images/aoadidasden.png",
       "blue": "category_images/aoadidasxanh.png"
     },
     "colors": ["white", "black", "blue"],
-    "collections": ["New Arrivals"]
+    "collections": ["New Arrivals", "FAVORITES"],
+    "brand": "Adidas",
+    "subtitle": "New Arrival 2024",
+    "rating": 4.5,
+    "quantityBySize": {"S": 10, "M": 5, "L": 2, "XL": 0}
   },
   {
     "id": "p2",
@@ -20,27 +24,35 @@
     "category": "women",
     "price": "750.000 VNĐ",
     "description": "Quần jean nữ co giãn, tôn dáng, phù hợp mọi phong cách.",
-    "imageDefault": "category_images/quanjeannu.png",
+    "imageDefault": "SlimFit.jpg",
     "imageByColor": {
       "blue": "category_images/quanjeannu.png",
       "black": "category_images/quanjeannublack.png"
     },
     "colors": ["blue", "black"],
-    "collections": ["Best Sellers"]
+    "collections": ["Best Sellers", "FAVORITES"],
+    "brand": "Levi's",
+    "subtitle": "Best Seller",
+    "rating": 4.2,
+    "quantityBySize": {"S": 10, "M": 5, "L": 2, "XL": 0}
   },
   {
     "id": "p3",
-    "name": "Áo Khoác Trẻ Em",
+    "name": "Adidas Originals KIDS",
     "category": "kids",
     "price": "350.000 VNĐ",
     "description": "Áo khoác gió nhẹ cho trẻ em, chống nước, nhiều màu sắc tươi sáng.",
-    "imageDefault": "category_images/aokhoactreem.png",
+    "imageDefault": "Kid_O.jpg",
     "imageByColor": {
       "red": "category_images/aokhoactreem.png",
       "yellow": "category_images/aokhoactreemvang.png"
     },
     "colors": ["red", "yellow"],
-    "collections": ["Kids Collection"]
+    "collections": ["Kids Collection"],
+    "brand": "Adidas",
+    "subtitle": "Kids Collection",
+    "rating": 4.8,
+    "quantityBySize": {"S": 10, "M": 5, "L": 2, "XL": 0}
   },
   {
     "id": "p4",
@@ -54,7 +66,11 @@
       "green": "category_images/giayadidasxanh.png"
     },
     "colors": ["blue", "green"],
-    "collections": ["SUPERSTAR"]
+    "collections": ["SUPERSTAR", "FAVORITES"],
+    "brand": "Adidas",
+    "subtitle": "Superstar Collection",
+    "rating": 4.6,
+    "quantityBySize": {"38": 3, "39": 2, "40": 0}
   },
   {
     "id": "p5",
@@ -68,21 +84,29 @@
       "silver": "category_images/donghothongminhbac.png"
     },
     "colors": ["black", "silver"],
-    "collections": ["Accessories"]
+    "collections": ["Accessories"],
+    "brand": "Generic",
+    "subtitle": "Smart Watch",
+    "rating": 4.3,
+    "quantityBySize": {"S": 10, "M": 5, "L": 2, "XL": 0}
   },
   {
     "id": "p6",
-    "name": "Áo Sơ Mi Nam Công Sở",
+    "name": "Cruising Hanoi Streets Key City Tee",
     "category": "men",
     "price": "450.000 VNĐ",
     "description": "Áo sơ mi nam cao cấp, thiết kế lịch lãm, phù hợp môi trường công sở.",
-    "imageDefault": "category_images/aosominam.png",
+    "imageDefault": "HaNoiAo.jpg",
     "imageByColor": {
       "white": "category_images/aosominamtrang.png",
       "blue": "category_images/aosominamblue.png"
     },
     "colors": ["white", "blue"],
-    "collections": ["New Arrivals"]
+    "collections": ["New Arrivals", "FAVORITES"],
+    "brand": "Generic",
+    "subtitle": "Key City Tee",
+    "rating": 4.1,
+    "quantityBySize": {"S": 10, "M": 5, "L": 2, "XL": 0}
   },
   {
     "id": "p7",
@@ -90,27 +114,35 @@
     "category": "women",
     "price": "750.000 VNĐ",
     "description": "Dép Adilette thoải mái, thiết kế hiện đại, phù hợp cho mùa hè.",
-    "imageDefault": "category_images/depadidas.png",
+    "imageDefault": "adilette.jpg",
     "imageByColor": {
       "pink": "category_images/depadidas.png",
       "yellow": "category_images/depadidas.png"
     },
     "colors": ["pink", "yellow"],
-    "collections": ["SLIDE INTO SUMMER"]
+    "collections": ["SLIDE INTO SUMMER", "FAVORITES"],
+    "brand": "Adidas",
+    "subtitle": "Slide Into Summer",
+    "rating": 4.4,
+    "quantityBySize": {"S": 10, "M": 5, "L": 2, "XL": 0}
   },
   {
     "id": "p8",
-    "name": "Bộ Đồ Thể Thao Trẻ Em",
+    "name": "Mini Rodini x Adidas Originals",
     "category": "kids",
     "price": "420.000 VNĐ",
     "description": "Bộ đồ thể thao cho bé, chất liệu cotton mềm mại, thoải mái vận động.",
-    "imageDefault": "category_images/bodothethaotreem.png",
+    "imageDefault": "Kid_O2.jpg",
     "imageByColor": {
       "red": "category_images/bodothethaotreem.png",
       "blue": "category_images/bodothethaotreemxanh.png"
     },
     "colors": ["red", "blue"],
-    "collections": ["Kids Collection"]
+    "collections": ["Kids Collection"],
+    "brand": "Adidas",
+    "subtitle": "Kids Collection",
+    "rating": 4.7,
+    "quantityBySize": {"S": 10, "M": 5, "L": 2, "XL": 0}
   },
   {
     "id": "p9",
@@ -124,7 +156,11 @@
       "gray": "category_images/balothethaogray.png"
     },
     "colors": ["black", "gray"],
-    "collections": ["Sport Gear"]
+    "collections": ["Sport Gear"],
+    "brand": "Generic",
+    "subtitle": "Sport Gear",
+    "rating": 4.2,
+    "quantityBySize": {"S": 10, "M": 5, "L": 2, "XL": 0}
   },
   {
     "id": "p10",
@@ -138,7 +174,11 @@
       "brown": "category_images/kinhmattraitimbrown.png"
     },
     "colors": ["black", "brown"],
-    "collections": ["Accessories"]
+    "collections": ["Accessories"],
+    "brand": "Generic",
+    "subtitle": "UV Protection",
+    "rating": 4.0,
+    "quantityBySize": {"S": 10, "M": 5, "L": 2, "XL": 0}
   },
   {
     "id": "p11",
@@ -152,7 +192,11 @@
       "white": "category_images/giayadidastrang.png"
     },
     "colors": ["black", "white"],
-    "collections": ["SUPERSTAR"]
+    "collections": ["SUPERSTAR", "FAVORITES"],
+    "brand": "Adidas",
+    "subtitle": "Superstar Classic",
+    "rating": 4.8,
+    "quantityBySize": {"38": 3, "39": 2, "40": 0}
   },
   {
     "id": "p12",
@@ -166,7 +210,11 @@
       "blue": "category_images/depadidasxanh.png"
     },
     "colors": ["yellow", "blue"],
-    "collections": ["SLIDE INTO SUMMER"]
+    "collections": ["SLIDE INTO SUMMER"],
+    "brand": "Adidas",
+    "subtitle": "Aqua Slide",
+    "rating": 4.5,
+    "quantityBySize": {"S": 10, "M": 5, "L": 2, "XL": 0}
   },
   {
     "id": "p13",
@@ -174,136 +222,17 @@
     "category": "men",
     "price": "850.000 VNĐ",
     "description": "Áo hoodie unisex phong cách trẻ trung, chất liệu nỉ bông cao cấp.",
-    "imageDefault": "category_images/hoodieunisex.png",
+    "imageDefault": "Hoodie_Unisex.jpg",
     "imageByColor": {
       "black": "category_images/hoodieunisex.png",
       "gray": "category_images/hoodieunisexgray.png"
     },
     "colors": ["black", "gray"],
-    "collections": ["New Arrivals"]
-  },
-  {
-    "id": "p14",
-    "name": "Áo Adidas Đen",
-    "category": "men",
-    "price": "900.000 VNĐ",
-    "description": "Áo thun đen cơ bản với logo Adidas",
-    "imageDefault": "aoadidasden.png",
-    "imageByColor": {
-      "white": "aoadidastrang.png",
-      "black": "aoadidasden.png",
-      "blue": "aoadidasxanh.png"
-    },
-    "colors": [],
-    "collections": ["New Arrivals"]
-  },
-  {
-    "id": "p15",
-    "name": "Giày Sneaker FAVORITES",
-    "category": "favorites",
-    "price": "2.100.000 VNĐ",
-    "description": "Giày sneaker thể thao, thiết kế hiện đại, nằm trong mục yêu thích.",
-    "imageDefault": "category_images/giayfavorites.png",
-    "imageByColor": {
-      "black": "category_images/giayfavorites.png"
-    },
-    "colors": ["black"],
-    "collections": ["FAVORITES"]
-  },
-  {
-    "id": "p16",
-    "name": "Áo Khoác Denim FAVORITES",
-    "category": "favorites",
-    "price": "1.200.000 VNĐ",
-    "description": "Áo khoác denim phong cách, chất liệu bền đẹp, nằm trong mục yêu thích.",
-    "imageDefault": "category_images/aokhoacfavorites.png",
-    "imageByColor": {
-      "blue": "category_images/aokhoacfavorites.png"
-    },
-    "colors": ["blue"],
-    "collections": ["FAVORITES"]
-  },
-  {
-    "id": "p17",
-    "name": "Túi Xách FAVORITES",
-    "category": "favorites",
-    "price": "850.000 VNĐ",
-    "description": "Túi xách thời trang, thiết kế hiện đại, nằm trong mục yêu thích.",
-    "imageDefault": "category_images/tuixachfavorites.png",
-    "imageByColor": {
-      "brown": "category_images/tuixachfavorites.png"
-    },
-    "colors": ["brown"],
-    "collections": ["FAVORITES"]
-  },
-  {
-    "id": "p18",
-    "name": "Quần Jean FAVORITES",
-    "category": "favorites",
-    "price": "950.000 VNĐ",
-    "description": "Quần jean nam phong cách, chất liệu cao cấp, nằm trong mục yêu thích.",
-    "imageDefault": "category_images/quanjeanfavorites.png",
-    "imageByColor": {
-      "blue": "category_images/quanjeanfavorites.png"
-    },
-    "colors": ["blue"],
-    "collections": ["FAVORITES"]
-  },
-  {
-    "id": "p19",
-    "name": "Áo Hoodie FAVORITES",
-    "category": "favorites",
-    "price": "450.000 VNĐ",
-    "description": "Áo hoodie trẻ em, thiết kế dễ thương, nằm trong mục yêu thích.",
-    "imageDefault": "category_images/aohoodiefavorites.png",
-    "imageByColor": {
-      "pink": "category_images/aohoodiefavorites.png"
-    },
-    "colors": ["pink"],
-    "collections": ["FAVORITES"]
-  },
-  {
-    "id": "p20",
-    "name": "Mũ Snapback FAVORITES",
-    "category": "favorites",
-    "price": "280.000 VNĐ",
-    "description": "Mũ snapback thời trang, phong cách trẻ trung, nằm trong mục yêu thích.",
-    "imageDefault": "category_images/mufavorites.png",
-    "imageByColor": {
-      "black": "category_images/mufavorites.png"
-    },
-    "colors": ["black"],
-    "collections": ["FAVORITES"]
-  },
-  {
-    "id": "p21",
-    "name": "Áo Adidas Trắng",
-    "category": "men",
-    "price": "900.000 VNĐ",
-    "description": "Áo thun trắng cơ bản với logo Adidas",
-    "imageDefault": "aoadidastrang.png",
-    "imageByColor": {
-      "white": "aoadidastrang.png",
-      "black": "aoadidasden.png",
-      "blue": "aoadidasxanh.png"
-    },
-    "colors": [],
-    "collections": ["New Arrivals"]
-  },
-  {
-    "id": "p22",
-    "name": "Áo Adidas Xanh",
-    "category": "men",
-    "price": "900.000 VNĐ",
-    "description": "Áo thun xanh cơ bản với logo Adidas",
-    "imageDefault": "aoadidasxanh.png",
-    "imageByColor": {
-      "white": "aoadidastrang.png",
-      "black": "aoadidasden.png",
-      "blue": "aoadidasxanh.png"
-    },
-    "colors": [],
-    "collections": ["New Arrivals"]
+    "collections": ["New Arrivals"],
+    "brand": "Generic",
+    "subtitle": "Unisex Hoodie",
+    "rating": 4.3,
+    "quantityBySize": {"S": 10, "M": 5, "L": 2, "XL": 0}
   },
   {
     "id": "p23",
@@ -318,7 +247,11 @@
       "black": "ao4.jpg"
     },
     "colors": ["red", "blue", "black"],
-    "collections": ["Sport Gear"]
+    "collections": ["Sport Gear"],
+    "brand": "Generic",
+    "subtitle": "Premium Sportswear",
+    "rating": 4.7,
+    "quantityBySize": {"S": 10, "M": 5, "L": 2, "XL": 0}
   },
   {
     "id": "p24",
@@ -333,7 +266,11 @@
       "grey": "quan3.jpg"
     },
     "colors": [],
-    "collections": ["Sport Gear"]
+    "collections": ["Sport Gear"],
+    "brand": "Generic",
+    "subtitle": "Men's Sport Pants",
+    "rating": 4.0,
+    "quantityBySize": {"S": 10, "M": 5, "L": 2, "XL": 0}
   },
   {
     "id": "p25",
@@ -348,7 +285,11 @@
       "blue": "sl72.gif"
     },
     "colors": ["white", "black", "blue"],
-    "collections": ["SUPERSTAR"]
+    "collections": ["SUPERSTAR"],
+    "brand": "Adidas",
+    "subtitle": "Retro Classic",
+    "rating": 4.9,
+    "quantityBySize": {"38": 3, "39": 2, "40": 0}
   },
   {
     "id": "p26",
@@ -356,12 +297,16 @@
     "category": "sport",
     "price": "2.200.000 VNĐ",
     "description": "Áo đấu chính thức sân nhà mùa giải 2025/2026 của Manchester United. Thiết kế mới, chất liệu thoáng mát, tôn vinh Nhà hát của những giấc mơ.",
-    "imageDefault": "category_images/ManU_home.jpg",
+    "imageDefault": "Mu_2526.jpg",
     "imageByColor": {
       "red": "category_images/ManU_home.jpg"
     },
     "colors": ["red"],
-    "collections": ["Football Club"]
+    "collections": ["Football Club"],
+    "brand": "Manchester United",
+    "subtitle": "Home Kit 25/26",
+    "rating": 4.8,
+    "quantityBySize": {"S": 10, "M": 5, "L": 2, "XL": 0}
   },
   {
     "id": "p27",
@@ -374,6 +319,10 @@
       "blue": "category_images/Climacool.jpg"
     },
     "colors": ["blue"],
-    "collections": ["ClimaCool"]
+    "collections": ["ClimaCool"],
+    "brand": "Adidas",
+    "subtitle": "ClimaCool 2024",
+    "rating": 4.6,
+    "quantityBySize": {"S": 10, "M": 5, "L": 2, "XL": 0}
   }
 ] 

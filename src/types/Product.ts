@@ -13,4 +13,8 @@ export type Product = {
   image?: string;
   sizes?: (number | string)[];
   tags?: string[];
+  brand?: string;
+  subtitle?: string;
+  rating?: number;
+  quantityBySize?: Record<string, number>;
 }; 

@@ -5,6 +5,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import AuthNavigator from './AuthNavigator';
 
 // Screens
 import HomeScreen from '../screens/Home/HomeScreen';
@@ -22,12 +23,14 @@ import CartScreen from '../screens/NavigatorScreens/CartScreen';
 import BannerDetailScreen from '../screens/BannerDetailScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import RegisterScreen from '../screens/Auth/RegisterScreen';
+import CustomTabBar from '../components/CustomTabBar';
 import ProductDetail from '../screens/Product/ProductDetail';
 import UserProfile from '../screens/Auth/UserProfile';
 import BannerDetailManchester from '../screens/BannerDetailManchester';
 import BannerDetailClimacool from '../screens/BannerDetailClimacool';
 import ChatScreen from '../screens/Auth/ChatScreen';
 import SettingsScreen from '../screens/Auth/SettingsScreen';
+import CategoryProductDetail from '../screens/Product/CategoryProductDetail';
 
 export type TabNavigatorParamList = {
   MainTabs: undefined;
@@ -44,6 +47,8 @@ export type TabNavigatorParamList = {
   UserProfile: undefined;
   Chat: undefined;
   Settings: undefined;
+  CategoryProductDetail: { productId: string };
+  Auth: undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -150,12 +155,11 @@ const MainTabs = () => (
 );
 
 const TabNavigator = () => {
+  console.log('🏠 TabNavigator rendering');
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="MainTabs" component={MainTabs} />
       <Stack.Screen name="CategoryList" component={CategoryListScreen} />
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="ProductDetail" component={ProductDetail} />
       <Stack.Screen name="Category" component={CategoryScreen} />
       <Stack.Screen name="BannerDetail" component={BannerDetailScreen} />
@@ -166,6 +170,8 @@ const TabNavigator = () => {
       <Stack.Screen name="UserProfile" component={UserProfile} />
       <Stack.Screen name="Chat" component={ChatScreen} />
       <Stack.Screen name="Settings" component={SettingsScreen} />
+      <Stack.Screen name="CategoryProductDetail" component={CategoryProductDetail} />
+      <Stack.Screen name="Auth" component={AuthNavigator} options={{ presentation: 'modal' }} />
     </Stack.Navigator>
   );
 };
