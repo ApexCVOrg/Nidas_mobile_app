@@ -576,6 +576,24 @@ const UserProfile = () => {
               '#2196F3'
             )}
             {renderMenuItem(
+              'chat',
+              'Chat',
+              'Chat with support or friends',
+              undefined,
+              () => navigation.navigate('Chat' as never),
+              false,
+              '#1976D2'
+            )}
+            {renderMenuItem(
+              'settings',
+              'Settings',
+              'App and account settings',
+              undefined,
+              () => navigation.navigate('Settings' as never),
+              false,
+              '#757575'
+            )}
+            {renderMenuItem(
               'security',
               'Security',
               'Password and privacy settings',

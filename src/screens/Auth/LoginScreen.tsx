@@ -121,9 +121,10 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
 
   return (
     <View style={loginStyles.container}>
-                      <TouchableOpacity onPress={() => navigation.navigate('MainTabs' as never)}>
-                  <Text style={{ color: '#1A1A1A', fontWeight: '500', fontSize: 14, textAlign: 'left', marginTop: 16, marginLeft: 16 }}>Home</Text>
-                </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('MainTabs' as never)} style={{ flexDirection: 'row', alignItems: 'center', marginTop: 16, marginLeft: 16 }}>
+        <Icon name="arrow-back-ios" size={20} color="#1A1A1A" style={{ marginRight: 4 }} />
+        <Text style={{ color: '#1A1A1A', fontWeight: '500', fontSize: 14, textAlign: 'left' }}>Home</Text>
+      </TouchableOpacity>
       <ScrollView contentContainerStyle={loginStyles.scrollContent}>
         <View style={loginStyles.formContainer}>
           <Text style={loginStyles.title}>Welcome Back</Text>

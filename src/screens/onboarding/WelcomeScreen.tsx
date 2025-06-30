@@ -19,7 +19,7 @@ const WelcomeScreen = ({ navigation }: WelcomeScreenProps) => {
   const opacity = useSharedValue(0);
 
   const texts = [
-    'Welcome to Nidas, we are very happy to have you',
+    'Welcome to Nidas – Where your fashion adventure begins.',
     'Start by preparing for the best application experience.',
   ];
 

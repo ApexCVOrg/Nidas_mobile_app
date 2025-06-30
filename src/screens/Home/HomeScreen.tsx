@@ -83,9 +83,6 @@ const HomeScreen = () => {
         <View style={homeStyles.headerTopRow}>
           <Text style={homeStyles.greetingText}>NIDAS</Text>
           <View style={homeStyles.headerIconsRight}>
-            <TouchableOpacity style={homeStyles.iconButton}>
-              <Icon name="search" size={26} color="#000" />
-            </TouchableOpacity>
             <TouchableOpacity 
               style={homeStyles.iconButton}
               onPress={() => navigation.navigate('UserProfile' as never)}

@@ -26,6 +26,8 @@ import ProductDetail from '../screens/Product/ProductDetail';
 import UserProfile from '../screens/Auth/UserProfile';
 import BannerDetailManchester from '../screens/BannerDetailManchester';
 import BannerDetailClimacool from '../screens/BannerDetailClimacool';
+import ChatScreen from '../screens/Auth/ChatScreen';
+import SettingsScreen from '../screens/Auth/SettingsScreen';
 
 export type TabNavigatorParamList = {
   MainTabs: undefined;
@@ -40,6 +42,8 @@ export type TabNavigatorParamList = {
   BannerDetailClimacool: { item: any };
   BannerDetailManchester: { item: any };
   UserProfile: undefined;
+  Chat: undefined;
+  Settings: undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -160,6 +164,8 @@ const TabNavigator = () => {
       <Stack.Screen name="BannerDetailManchester" component={BannerDetailManchester} options={{ headerShown: false }} />
       <Stack.Screen name="BannerDetailClimacool" component={BannerDetailClimacool} options={{ headerShown: false }} />
       <Stack.Screen name="UserProfile" component={UserProfile} />
+      <Stack.Screen name="Chat" component={ChatScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
     </Stack.Navigator>
   );
 };

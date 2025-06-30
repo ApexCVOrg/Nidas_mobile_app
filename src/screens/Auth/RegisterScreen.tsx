@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -19,6 +19,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { registerStyles } from '../../styles/auth/register.styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type RegisterScreenProps = {
   navigation: NativeStackNavigationProp<AuthStackParamList, 'Register'>;
@@ -70,6 +71,26 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [step, setStep] = useState(1);
+  const [emailVerified, setEmailVerified] = useState(false);
+
+  // Check for pending registration data when component mounts
+  useEffect(() => {
+    const checkPendingRegistration = async () => {
+      try {
+        const pendingRegistration = await AsyncStorage.getItem('pendingRegistration');
+        if (pendingRegistration) {
+          const savedData = JSON.parse(pendingRegistration);
+          setFormData(savedData);
+          setEmailVerified(true);
+          setStep(2); // Move to address step since email is already verified
+        }
+      } catch (error) {
+        console.error('Error checking pending registration:', error);
+      }
+    };
+
+    checkPendingRegistration();
+  }, []);
 
   const handleChange = (field: keyof RegisterFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -134,6 +155,61 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
     return errors;
   };
 
+  const handleEmailVerification = async () => {
+    setError('');
+    setFieldErrors({});
+    const errors = validateStep();
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      console.log('Sending email verification request...');
+      
+      // Thử với localhost trước
+      const baseURL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:5000/api';
+      console.log('Using baseURL:', baseURL);
+      
+      const response = await axiosInstance.post('/auth/verify-email', {
+        email: formData.email,
+        username: formData.username,
+        fullName: formData.fullName,
+        password: formData.password,
+        phone: formData.phone,
+      });
+
+      console.log('Email verification response:', response.data);
+
+      if (response.data.success) {
+        // Store email for OTP verification
+        await AsyncStorage.setItem('resetEmail', formData.email);
+        // Store registration data for later use
+        await AsyncStorage.setItem('pendingRegistration', JSON.stringify(formData));
+        
+        // Navigate to OTP verification screen
+        navigation.navigate('VerifyOTP' as never);
+      } else {
+        setError(response.data.message || 'Email verification failed');
+      }
+    } catch (err: any) {
+      console.error('Email verification error:', err);
+      if (err.response) {
+        console.error('Error response:', err.response.data);
+        setError(err.response.data.message || 'Email verification failed');
+      } else if (err.request) {
+        console.error('No response received:', err.request);
+        setError('Không thể kết nối đến server. Vui lòng kiểm tra:\n1. Backend server đã chạy chưa?\n2. IP address có đúng không?\n3. Port 5000 có mở không?');
+      } else {
+        console.error('Error setting up request:', err.message);
+        setError('Lỗi kết nối mạng. Vui lòng thử lại.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleNext = () => {
     const errors = validateStep();
     if (Object.keys(errors).length > 0) {
@@ -180,6 +256,10 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
       console.log('Registration response:', response.data);
 
       if (response.data.success) {
+        // Clear pending registration data
+        await AsyncStorage.removeItem('pendingRegistration');
+        await AsyncStorage.removeItem('resetEmail');
+        
         Alert.alert('Success', 'Registration successful! Please login.');
         navigation.navigate('Login');
       } else {
@@ -397,7 +477,18 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
                 <Text style={registerStyles.buttonText}>Back</Text>
               </TouchableOpacity>
             )}
-            {step < 3 && (
+            {step === 1 && (
+              <TouchableOpacity 
+                style={[registerStyles.button, { flex: 1 }]} 
+                onPress={handleEmailVerification} 
+                disabled={loading}
+              >
+                <Text style={registerStyles.buttonText}>
+                  {loading ? 'Verifying...' : 'Verify Email'}
+                </Text>
+              </TouchableOpacity>
+            )}
+            {step > 1 && step < 3 && (
               <TouchableOpacity style={[registerStyles.button, { flex: 1, marginLeft: step > 1 ? 8 : 0 }]} onPress={handleNext}>
                 <Text style={registerStyles.buttonText}>Continue</Text>
               </TouchableOpacity>
