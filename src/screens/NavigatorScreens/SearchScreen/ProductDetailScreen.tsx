@@ -120,9 +120,12 @@ const ProductDetailScreen = () => {
       setShowToast(true);
       return;
     }
-    
+    if (!selectedColor) {
+      setToastMessage('Vui lòng chọn màu');
+      setShowToast(true);
+      return;
+    }
     const numericPrice = typeof product.price === 'string' ? parseInt(product.price.replace(/[^\d]/g, '')) : product.price;
-    
     const cartItem = {
       productId: product.id,
       name: product.name,
@@ -132,9 +135,7 @@ const ProductDetailScreen = () => {
       size: selectedSize,
       quantity: 1,
     };
-    
     dispatch(addToCart(cartItem));
-    
     setToastMessage(`✅ Đã thêm ${product.name} vào giỏ hàng!`);
     setShowToast(true);
   };
@@ -275,7 +276,6 @@ const ProductDetailScreen = () => {
       {/* Bottom Actions */}
       <View style={styles.bottomActions}>
         <TouchableOpacity style={styles.addToCartButton} onPress={handleAddToCart}>
-          <Ionicons name="cart" size={20} color="#fff" style={styles.cartIcon} />
           <Text style={styles.addToCartText}>Thêm vào giỏ hàng</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buyNowButton} onPress={handleBuyNow}>

@@ -29,6 +29,7 @@ import BannerDetailManchester from '../screens/BannerDetailManchester';
 import BannerDetailClimacool from '../screens/BannerDetailClimacool';
 import CategoryProductDetail from '../screens/Product/CategoryProductDetail';
 
+
 export type TabNavigatorParamList = {
   MainTabs: undefined;
   CategoryList: undefined;
@@ -164,6 +165,7 @@ const TabNavigator = () => {
       <Stack.Screen name="BannerDetailClimacool" component={BannerDetailClimacool} options={{ headerShown: false }} />
       <Stack.Screen name="UserProfile" component={UserProfile} />
       <Stack.Screen name="CategoryProductDetail" component={CategoryProductDetail} />
+
     </Stack.Navigator>
   );
 };

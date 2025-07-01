@@ -1,19 +1,30 @@
 [
   {
-    "id": "p001",
-    "name": "Adidas Samba OG",
+    "id": "p006",
+    "name": "ULTRABOOST 22",
     "category": "giay",
     "gender": "nam",
     "type": "originals",
     "price": 2800000,
     "description": "Giày thể thao cổ điển với thiết kế retro đặc trưng",
-    "image": "samba.gif",
+    "image": "sGiay_Ultraboost_22.jpg",
     "colors": ["white", "black", "blue"],
     "sizes": [38, 39, 40, 41, 42, 43, 44],
     "tags": ["samba", "originals", "classics", "retro", "football"],
     "brand": "Adidas",
     "subtitle": "Retro Classic",
-    "rating": 4.7
+    "rating": 4.7,
+    "stockByColorSize": {
+      "white-38": 5,
+      "white-39": 2,
+      "white-40": 0,
+      "black-38": 3,
+      "black-39": 1,
+      "black-40": 0,
+      "blue-38": 2,
+      "blue-39": 2,
+      "blue-40": 1
+    }
   },
   {
     "id": "p002",
@@ -29,7 +40,18 @@
     "tags": ["sl72", "running", "vintage", "70s", "originals"],
     "brand": "Adidas",
     "subtitle": "Vintage Running",
-    "rating": 4.3
+    "rating": 4.3,
+    "stockByColorSize": {
+      "white-38": 2,
+      "white-39": 1,
+      "white-40": 0,
+      "red-38": 3,
+      "red-39": 2,
+      "red-40": 1,
+      "blue-38": 2,
+      "blue-39": 2,
+      "blue-40": 1
+    }
   },
   {
     "id": "p003",

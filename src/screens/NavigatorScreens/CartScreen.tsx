@@ -19,8 +19,12 @@ import {
   updateQuantity,
   clearCart,
   CartItem,
+  toggleCheckItem,
+  toggleCheckAll,
+  removeCheckedItems,
 } from "../../redux/slices/cartSlice";
 import { cartStyles as styles } from "../../styles/cart/cart.styles";
+import { MaterialIcons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get("window");
 
@@ -33,6 +37,9 @@ const CartScreen = () => {
 
   const delivery = 0; // Free delivery
   const total = totalAmount + delivery;
+
+  const allChecked = items.length > 0 && items.every(item => item.checked);
+  const anyChecked = items.some(item => item.checked);
 
   const getImageSource = (imageName: string) => {
     const imageMap: { [key: string]: any } = {
@@ -93,6 +100,18 @@ const CartScreen = () => {
 
   const renderCartItem = (item: CartItem) => (
     <View key={item.id} style={styles.cartItem}>
+      {/* Checkbox chọn sản phẩm */}
+      <TouchableOpacity
+        style={styles.checkboxContainer}
+        onPress={() => dispatch(toggleCheckItem(item.id))}
+      >
+        {item.checked ? (
+          <MaterialIcons name="check-box" size={24} color="#007bff" />
+        ) : (
+          <MaterialIcons name="check-box-outline-blank" size={24} color="#ccc" />
+        )}
+      </TouchableOpacity>
+
       <View style={styles.itemImageContainer}>
         <Image
           source={getImageSource(item.image)}
@@ -161,6 +180,31 @@ const CartScreen = () => {
           </TouchableOpacity>
         )}
       </View>
+
+      {/* Chọn tất cả và xóa các sản phẩm đã chọn */}
+      {items.length > 0 && (
+        <View style={styles.selectAllRow}>
+          <TouchableOpacity
+            style={styles.checkboxContainer}
+            onPress={() => dispatch(toggleCheckAll(!allChecked))}
+          >
+            {allChecked ? (
+              <MaterialIcons name="check-box" size={24} color="#007bff" />
+            ) : (
+              <MaterialIcons name="check-box-outline-blank" size={24} color="#ccc" />
+            )}
+          </TouchableOpacity>
+          <Text style={styles.selectAllText}>Chọn tất cả</Text>
+          <TouchableOpacity
+            style={[styles.removeCheckedButton, { opacity: anyChecked ? 1 : 0.5 }]}
+            onPress={() => anyChecked && dispatch(removeCheckedItems())}
+            disabled={!anyChecked}
+          >
+            <Ionicons name="trash-outline" size={20} color="#fff" />
+            <Text style={styles.removeCheckedButtonText}>Xóa đã chọn</Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
       {/* Cart Items Count */}
       {items.length > 0 && (
