@@ -11,6 +11,8 @@ import {
   StatusBar,
   Dimensions,
   FlatList,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -18,6 +20,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import styles from "../../../styles/search/search.styles";
 import searchProducts from "../../../api/searchProducts.json";
 import { Product } from "../../../types/Product";
+import { getImageRequire } from "../../../utils/imageRequire";
 
 const { width } = Dimensions.get("window");
 
@@ -49,7 +52,7 @@ const SearchScreen = () => {
   const [currentBanner, setCurrentBanner] = useState(0);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const bannerScrollRef = useRef(null);
+  const bannerScrollRef = useRef<ScrollView>(null);
 
   // Fuzzy search function
   const fuzzySearch = (text: string, target: string): boolean => {
@@ -77,13 +80,21 @@ const SearchScreen = () => {
 
   // Suggested products (popular/featured items)
   const suggestedProducts = useMemo(() => {
-    const productIds = ["p001", "p003", "p004", "p005", "p006", "p008"];
-    return productIds
-      .map((id) => (searchProducts as Product[]).find((p) => p.id === id))
+    return (searchProducts as any[])
       .filter(
-        (product): product is NonNullable<typeof product> =>
-          product !== undefined
+        (product) =>
+          product.collections &&
+          (product.collections.includes('New Arrivals') ||
+            product.collections.includes('Best Sellers'))
       )
+      .map((product) => ({
+        ...product,
+        imageByColor: product.imageByColor
+          ? Object.fromEntries(
+              Object.entries(product.imageByColor).filter(([_, v]) => typeof v === 'string')
+            )
+          : {},
+      }))
       .slice(0, 6);
   }, []);
 
@@ -94,18 +105,26 @@ const SearchScreen = () => {
       return isSearchFocused ? suggestedProducts : [];
     }
 
-    return (searchProducts as Product[])
+    return (searchProducts as any[])
       .filter((product) => {
         return (
           fuzzySearch(searchText, product.name) ||
           (product.tags &&
-            product.tags.some((tag) => fuzzySearch(searchText, tag))) ||
+            product.tags.some((tag: string) => fuzzySearch(searchText, tag))) ||
           fuzzySearch(searchText, product.category) ||
           (product.type && fuzzySearch(searchText, product.type)) ||
           (product.colors &&
-            product.colors.some((color) => fuzzySearch(searchText, color)))
+            product.colors.some((color: string) => fuzzySearch(searchText, color)))
         );
       })
+      .map((product) => ({
+        ...product,
+        imageByColor: product.imageByColor
+          ? Object.fromEntries(
+              Object.entries(product.imageByColor).filter(([_, v]) => typeof v === 'string')
+            )
+          : {},
+      }))
       .slice(0, 8); // Limit to 8 results
   }, [searchText, isSearchFocused, suggestedProducts]);
 
@@ -150,109 +169,12 @@ const SearchScreen = () => {
     }).format(price);
   };
 
-  const getImageSource = (imageName: string) => {
-    // Map image names to require statements
-    const imageMap: { [key: string]: any } = {
-      "samba.gif": require("../../../../assets/samba.gif"),
-      "sl72.gif": require("../../../../assets/sl72.gif"),
-      "yeezy750.gif": require("../../../../assets/yeezy750.gif"),
-      "handball.gif": require("../../../../assets/handball.gif"),
-      "banner1.gif": require("../../../../assets/banner1.gif"),
-      "nike.gif": require("../../../../assets/nike.gif"),
-      "Giay_Ultraboost_22.jpg": require("../../../../assets/Giay_Ultraboost_22.jpg"),
-      "Giay_Stan_Smith_x_Liberty_London.jpg": require("../../../../assets/Giay_Stan_Smith_x_Liberty_London.jpg"),
-      "Ao_Thun_Polo_Ba_La.jpg": require("../../../../assets/Ao_Thun_Polo_Ba_La.jpg"),
-      "Quan_Hiking_Terrex.jpg": require("../../../../assets/Quan_Hiking_Terrex.jpg"),
-      "aoadidasden.png": require("../../../../assets/aoadidasden.png"),
-      "aoadidastrang.png": require("../../../../assets/aoadidastrang.png"),
-      "aoadidasxanh.png": require("../../../../assets/aoadidasxanh.png"),
-      "ao1.jpg": require("../../../../assets/ao1.jpg"),
-      "ao3.jpg": require("../../../../assets/ao3.jpg"),
-      "ao4.jpg": require("../../../../assets/ao4.jpg"),
-      "ao5.jpg": require("../../../../assets/ao5.jpg"),
-      "quan1.jpg": require("../../../../assets/quan1.jpg"),
-      "quan2.jpg": require("../../../../assets/quan2.jpg"),
-      "quan3.jpg": require("../../../../assets/quan3.jpg"),
-    };
-
-    return imageMap[imageName] || require("../../../../assets/icon.png");
-  };
-
   const originalsClassics = [
-    { id: 1, name: "SAMBA", image: require("../../../../assets/samba.gif") },
-    { id: 2, name: "SL 72", image: require("../../../../assets/sl72.gif") },
-    { id: 3, name: "YEEZY", image: require("../../../../assets/yeezy750.gif") },
+    { id: 1, name: "OG", image: require("../../../../assets/SearchPage/SL_Spin/Giay_SL_72_OG_Hong_JS0254_video.gif") },
+    { id: 2, name: "RS", image: require("../../../../assets/SearchPage/SL_Spin/Giay_SL_72_RS_mau_xanh_la_IG2133_video.gif") },
+    { id: 3, name: "RTN", image: require("../../../../assets/SearchPage/SL_Spin/Giay_SL_72_RTN_Xam_IH5558_video.gif") },
   ];
 
-  // Sample data for each category
-  const giayCategories = [
-    {
-      id: "all",
-      name: "ALL SHOES",
-      image: require("../../../../assets/samba.gif"),
-    },
-    {
-      id: "new",
-      name: "NEW ARRIVALS",
-      image: require("../../../../assets/sl72.gif"),
-    },
-    {
-      id: "run",
-      name: "RUNNING",
-      image: require("../../../../assets/yeezy750.gif"),
-    },
-  ];
-  const quanAoCategories = [
-    {
-      id: "all",
-      name: "ALL CLOTHING",
-      image: require("../../../../assets/ao1.jpg"),
-    },
-    {
-      id: "new",
-      name: "NEW ARRIVALS",
-      image: require("../../../../assets/ao1.jpg"),
-    },
-    {
-      id: "tshirt",
-      name: "T-SHIRTS & TOPS",
-      image: require("../../../../assets/ao3.jpg"),
-    },
-    {
-      id: "jersey",
-      name: "JERSEYS",
-      image: require("../../../../assets/ao4.jpg"),
-    },
-    {
-      id: "short",
-      name: "SHORTS",
-      image: require("../../../../assets/quan1.jpg"),
-    },
-    {
-      id: "pants",
-      name: "PANTS",
-      image: require("../../../../assets/quan2.jpg"),
-    },
-    {
-      id: "tight",
-      name: "TIGHTS",
-      image: require("../../../../assets/quan3.jpg"),
-    },
-    {
-      id: "hoodie",
-      name: "HOODIES & SWEATSHIRTS",
-      image: require("../../../../assets/ao5.jpg"),
-    },
-  ];
-  const phuKienCategories = [
-    {
-      id: "all",
-      name: "ALL ACCESSORIES",
-      image: require("../../../../assets/yeezy750.gif"),
-    },
-    { id: "bag", name: "BAGS", image: require("../../../../assets/sl72.gif") },
-    { id: "cap", name: "CAPS", image: require("../../../../assets/samba.gif") },
-  ];
 
   const banners: Banner[] = [
     {
@@ -263,21 +185,21 @@ const SearchScreen = () => {
     },
     {
       id: 2,
-      image: require("../../../../assets/banner2.gif"),
+      image: require("../../../../assets/SearchPage/Banner/Handball_banner.jpg"),
       title: "HANDBALL SPEZIAL",
       subtitle: "Step into retro-inspired design.",
     },
     {
       id: 3,
-      image: require("../../../../assets/nike.gif"),
-      title: "NIKE COLLECTION",
-      subtitle: "Just Do It - Nike Collection.",
+      image: require("../../../../assets/SearchPage/Banner/Ultraboost_banner.png"),
+      title: "ULTRABOOST COLLECTION",
+      subtitle: "Ultra Energy.",
     },
     {
       id: 4,
-      image: require("../../../../assets/arsenal_banner.jpg"),
-      title: "ARSENAL",
-      subtitle: "North London Forever.",
+      image: require("../../../../assets/SearchPage/Banner/SL_banner.jpg"),
+      title: "SL 72",
+      subtitle: "From the Track to the Street.",
     },
   ];
 
@@ -292,6 +214,30 @@ const SearchScreen = () => {
       });
     }
   };
+
+  const specialCollections = [
+    {
+      id: 1,
+      title: "SL 72",
+      subtitle: "Vintage Running",
+      image: require("../../../../assets/sl72.gif"),
+      color: "#000",
+    },
+    {
+      id: 2,
+      title: "HANDBALL SPEZIAL",
+      subtitle: "Retro Heritage",
+      image: require("../../../../assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_xanh_da_troi_IG6194_01_standard.jpg"),
+      color: "#222",
+    },
+    {
+      id: 3,
+      title: "ULTRABOOST",
+      subtitle: "Boost Your Run",
+      image: require("../../../../assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5_Den_ID8812_HM1.png"),
+      color: "#00bcd4",
+    }
+  ];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -363,7 +309,7 @@ const SearchScreen = () => {
                   onPress={() => handleProductSelect(item)}
                 >
                   <Image
-                    source={getImageSource(
+                    source={getImageRequire(
                       item.image || item.imageDefault || ""
                     )}
                     style={styles.searchResultImage}
@@ -440,7 +386,7 @@ const SearchScreen = () => {
             showsHorizontalScrollIndicator={false}
             style={{ width: width }}
             ref={bannerScrollRef}
-            onScroll={(e) => {
+            onScroll={(e: NativeSyntheticEvent<NativeScrollEvent>) => {
               const page = Math.round(e.nativeEvent.contentOffset.x / width);
               setCurrentBanner(page);
             }}
@@ -513,7 +459,7 @@ const SearchScreen = () => {
         <View style={styles.bannerIndicatorContainer}>
           {banners.map((_, idx) => (
             <View
-              key={idx}
+              key={`indicator-${idx}`}
               style={[
                 styles.bannerIndicatorSegment,
                 idx === currentBanner
@@ -524,140 +470,13 @@ const SearchScreen = () => {
           ))}
         </View>
 
-        {/* Originals Classics Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>ORIGINALS CLASSICS</Text>
-          <View
-            style={[
-              styles.originalsScroll,
-              { flexDirection: "row", justifyContent: "center" },
-            ]}
-          >
-            {originalsClassics.map((product) => (
-              <TouchableOpacity key={product.id} style={styles.productCard}>
-                <Image
-                  source={
-                    typeof product.image === "number"
-                      ? product.image
-                      : { uri: product.image }
-                  }
-                  style={styles.productImage}
-                />
-                <Text style={styles.productName}>{product.name}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-
-        {/* Category Links */}
-        <TouchableOpacity
-          style={styles.categoryLink}
-          onPress={() =>
-            (navigation as any).navigate("CategoryList", {
-              title: "SHOES",
-              categories: giayCategories,
-            })
-          }
-        >
-          <Ionicons
-            name="tennisball-outline"
-            size={24}
-            color="black"
-            style={styles.categoryLinkIcon}
-          />
-          <Text style={styles.categoryLinkText}>SHOES</Text>
-          <Ionicons
-            name="chevron-forward"
-            size={24}
-            color="#666"
-            style={styles.categoryLinkArrow}
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.categoryLink}
-          onPress={() =>
-            (navigation as any).navigate("CategoryList", {
-              title: "CLOTHING",
-              categories: quanAoCategories,
-            })
-          }
-        >
-          <Ionicons
-            name="shirt-outline"
-            size={24}
-            color="black"
-            style={styles.categoryLinkIcon}
-          />
-          <Text style={styles.categoryLinkText}>CLOTHING</Text>
-          <Ionicons
-            name="chevron-forward"
-            size={24}
-            color="#666"
-            style={styles.categoryLinkArrow}
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.categoryLink}
-          onPress={() =>
-            (navigation as any).navigate("CategoryList", {
-              title: "ALL ACCESSORIES",
-              categories: phuKienCategories,
-            })
-          }
-        >
-          <Ionicons
-            name="watch-outline"
-            size={24}
-            color="black"
-            style={styles.categoryLinkIcon}
-          />
-          <Text style={styles.categoryLinkText}>ALL ACCESSORIES</Text>
-          <Ionicons
-            name="chevron-forward"
-            size={24}
-            color="#666"
-            style={styles.categoryLinkArrow}
-          />
-        </TouchableOpacity>
-
         {/* Collections Section */}
         <View style={styles.collectionsSection}>
           <Text style={styles.collectionsSectionTitle}>
             SPECIAL COLLECTIONS
           </Text>
           <View style={styles.collectionsGrid}>
-            {[
-              {
-                id: 1,
-                title: "PHARRELL WILLIAMS",
-                subtitle: "Tennis Hu Collection",
-                image: require("../../../../assets/pharrelwilliamsxtennishu.png"),
-                color: "#000000",
-              },
-              {
-                id: 2,
-                title: "HANDBALL SPEZIAL",
-                subtitle: "Retro Heritage",
-                image: require("../../../../assets/Giay_Handball_Spezial.jpg"),
-                color: "#000000",
-              },
-              {
-                id: 3,
-                title: "NIKE COLLECTION",
-                subtitle: "Just Do It",
-                image: require("../../../../assets/nike_collection.jpg"),
-                color: "#45B7D1",
-              },
-              {
-                id: 4,
-                title: "ARSENAL COLLECTION",
-                subtitle: "North London Forever",
-                image: require("../../../../assets/ao1.jpg"),
-                color: "#DC143C",
-              },
-            ].map((collection) => (
+            {specialCollections.map((collection) => (
               <TouchableOpacity
                 key={collection.id}
                 style={[

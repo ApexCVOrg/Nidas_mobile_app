@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   StatusBar,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRoute, useNavigation } from '@react-navigation/native';
@@ -75,20 +76,9 @@ const SearchResultsScreen = () => {
     });
   }, [searchQuery]);
 
-
-
   const handleProductPress = (product: Product) => {
     navigation.navigate('ProductDetail', { productId: product.id });
   };
-
-  const renderProductItem = ({ item }: { item: Product }) => (
-    <ProductCard 
-      product={item}
-      onPress={() => handleProductPress(item)}
-    />
-  );
-
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -120,14 +110,21 @@ const SearchResultsScreen = () => {
 
       {/* Results List */}
       {searchResults.length > 0 ? (
-        <FlatList
-          data={searchResults}
-          keyExtractor={(item) => item.id}
-          renderItem={renderProductItem}
-          numColumns={2}
-          contentContainerStyle={styles.searchResultsListContainer}
-          showsVerticalScrollIndicator={false}
-        />
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.horizontalScrollContainer}
+          style={{ paddingHorizontal: 10 }}
+        >
+          {searchResults.map((item) => (
+            <View key={item.id} style={{ marginRight: 16 }}>
+              <ProductCard 
+                product={item}
+                onPress={() => handleProductPress(item)}
+              />
+            </View>
+          ))}
+        </ScrollView>
       ) : (
         <View style={styles.noResultsFullContainer}>
           <Ionicons name="search-outline" size={64} color="#ccc" />
