@@ -67,7 +67,7 @@ const RecommendedProducts = ({ currentProductType }: RecommendedProductsProps) =
             style={styles.productCard}
             onPress={() => handleProductPress(product)}
           >
-            <Image source={getImageRequire(product.image)} style={styles.productImage} />
+            <Image source={getImageRequire(product.imageDefault)} style={styles.productImage} />
             <Text style={styles.productName} numberOfLines={2}>
               {product.name}
             </Text>

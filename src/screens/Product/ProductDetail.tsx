@@ -148,9 +148,9 @@ const ProductDetail = () => {
     : ['S', 'M', 'L', 'XL', 'XXL'];
 
   const productImages = [
-    getImageRequire(product.image),
-    getImageRequire(product.image),
-    getImageRequire(product.image),
+    getImageRequire(product.imageDefault),
+    getImageRequire(product.imageDefault),
+    getImageRequire(product.imageDefault),
   ];
 
   const handleZoom = (image: string) => {
