@@ -7,7 +7,7 @@
     "type": "originals",
     "price": "2,800,000 VNĐ",
     "description": "Giày thể thao cổ điển với thiết kế retro đặc trưng",
-    "imageDefault": "samba.gif",
+    "imageDefault": "Giay_Ultraboost_22.jpg",
     "imageByColor": {
       "white": "samba.gif",
       "black": "samba.gif",
@@ -40,6 +40,54 @@
       "44": 10
     },
     "collections": ["Samba", "New Arrivals", "Best Sellers"]
+  },
+  {
+    "id": "p008",
+    "name": "ADIDAS ORIGINALS",
+    "description": "Trefoil T-shirt",
+    "price": "1.200.000đ",
+    "imageDefault": "Ao_Thun_Polo_Ba_La.jpg",
+    "imageByColor": {
+      "white": "Ao_Thun_Polo_Ba_La.jpg",
+      "blue": "Ao_Thun_Polo_Ba_La.jpg"
+    },
+    "category": "men",
+    "colors": ["white", "blue"],
+    "sizes": ["S", "M", "L"],
+    "tags": ["originals", "t-shirt", "trefoil", "adidas", "new arrival"],
+    "brand": "Adidas",
+    "subtitle": "New Arrival",
+    "rating": 4.5,
+    "quantityBySize": {
+      "S": 10,
+      "M": 5,
+      "L": 2
+    },
+    "collections": ["Originals", "New Arrivals"]
+  },
+  {
+    "id": "p010",
+    "name": "TERREX",
+    "description": "Hiking Pants",
+    "price": "2.500.000đ",
+    "imageDefault": "Quan_Hiking_Terrex.jpg",
+    "imageByColor": {
+      "black": "Quan_Hiking_Terrex.jpg",
+      "gray": "Quan_Hiking_Terrex.jpg"
+    },
+    "category": "men",
+    "colors": ["black", "gray"],
+    "sizes": ["M", "L", "XL"],
+    "tags": ["terrex", "hiking", "pants", "outdoor", "adidas"],
+    "brand": "Adidas",
+    "subtitle": "Outdoor",
+    "rating": 4.2,
+    "quantityBySize": {
+      "M": 7,
+      "L": 4,
+      "XL": 1
+    },
+    "collections": ["Terrex", "Outdoor"]
   },
   {
     "id": "p002",
@@ -309,6 +357,28 @@
       "41": 10
     },
     "collections": ["Stan Smith"]
+  },
+  {
+    "id": "a001",
+    "name": "Áo Thun Adidas",
+    "category": "quan_ao",
+    "gender": "unisex",
+    "type": "tshirt",
+    "price": "500,000 VNĐ",
+    "description": "Áo thun thể thao chất liệu cotton thoáng mát.",
+    "imageDefault": "ao1.jpg",
+    "imageByColor": {
+      "trắng": "ao1.jpg",
+      "đen": "ao3.jpg"
+    },
+    "colors": ["trắng", "đen"],
+    "sizes": ["S", "M", "L", "XL"],
+    "tags": ["áo thun", "adidas", "thể thao"],
+    "quantityBySize": {
+      "S": 10,
+      "M": 10,
+      "L": 10,
+      "XL": 10
+    }
   }
-  
 ] 
