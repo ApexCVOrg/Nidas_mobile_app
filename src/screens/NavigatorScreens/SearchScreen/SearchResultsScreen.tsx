@@ -15,6 +15,7 @@ import styles from '../../../styles/search/search.styles';
 import searchProducts from '../../../api/searchProducts.json';
 import ProductCard from '../../../components/ProductCard';
 import { Product } from '../../../types/Product';
+import { useFavorites } from '../../../hooks/useFavorites';
 
 type SearchResultsRouteProp = {
   params: {
@@ -40,6 +41,7 @@ const SearchResultsScreen = () => {
   const route = useRoute<any>();
   const navigation = useNavigation<NavigationProp>();
   const { searchQuery } = route.params;
+  const { favorites, reloadFavorites } = useFavorites();
 
   // Fuzzy search function (same as in SearchScreen)
   const fuzzySearch = (text: string, target: string): boolean => {
@@ -76,9 +78,20 @@ const SearchResultsScreen = () => {
     });
   }, [searchQuery]);
 
+  const handleToggleFavorite = () => {
+    reloadFavorites();
+  };
+
   const handleProductPress = (product: Product) => {
     navigation.navigate('ProductDetail', { productId: product.id });
   };
+
+  const renderProductItem = ({ item }: { item: Product }) => (
+    <ProductCard 
+      product={item}
+      onPress={() => handleProductPress(item)}
+    />
+  );
 
   return (
     <SafeAreaView style={styles.container}>

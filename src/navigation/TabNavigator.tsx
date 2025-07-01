@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, View, Text } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
+import AuthNavigator from './AuthNavigator';
 
 // Screens
 import HomeScreen from '../screens/Home/HomeScreen';
@@ -27,6 +28,8 @@ import ProductDetail from '../screens/Product/ProductDetail';
 import UserProfile from '../screens/Auth/UserProfile';
 import BannerDetailManchester from '../screens/BannerDetailManchester';
 import BannerDetailClimacool from '../screens/BannerDetailClimacool';
+import ChatScreen from '../screens/Auth/ChatScreen';
+import SettingsScreen from '../screens/Auth/SettingsScreen';
 import CategoryProductDetail from '../screens/Product/CategoryProductDetail';
 
 export type TabNavigatorParamList = {
@@ -42,7 +45,10 @@ export type TabNavigatorParamList = {
   BannerDetailClimacool: { item: any };
   BannerDetailManchester: { item: any };
   UserProfile: undefined;
+  Chat: undefined;
+  Settings: undefined;
   CategoryProductDetail: { productId: string };
+  Auth: undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -112,49 +118,90 @@ function HomeStackNavigator() {
   );
 }
 
-const MainTabs = () => (
-  <Tab.Navigator
-    screenOptions={({ route }) => ({
-      tabBarIcon: ({ focused, color, size }) => {
-        let iconName: "home" | "home-outline" | "search" | "search-outline" | "heart" | "heart-outline" | "cart" | "cart-outline" = 'home';
-        if (route.name === 'Cart') {
-          return <CartIcon focused={focused} color={color} size={size} />;
-        }
-        
-        if (route.name === 'Home') {
-          iconName = focused ? 'home' : 'home-outline';
-        } else if (route.name === 'Search') {
-          iconName = focused ? 'search' : 'search-outline';
-        } else if (route.name === 'Favorites') {
-          iconName = focused ? 'heart' : 'heart-outline';
-        } else if (route.name === 'Cart') {
-          iconName = focused ? 'cart' : 'cart-outline';
-        }
-        return <Ionicons name={iconName} size={size} color={color} />;
-      },
-      tabBarActiveTintColor: '#000000',
-      tabBarInactiveTintColor: '#666666',
-      tabBarStyle: styles.tabBar,
-      tabBarLabelStyle: styles.tabBarLabel,
-      headerStyle: styles.header,
-      headerTitleStyle: styles.headerTitle,
-      headerShadowVisible: false,
-    })}
-  >
-    <Tab.Screen name="Home" component={HomeStackNavigator} options={{ headerShown: false }} />
-    <Tab.Screen name="Search" component={SearchStackNavigator} options={{ headerShown: false }} />
-    <Tab.Screen name="Favorites" component={FavoritesScreen} options={{ title: 'FAVORITES' }} />
-    <Tab.Screen name="Cart" component={CartScreen} options={{ title: 'CART' }} />
-  </Tab.Navigator>
-);
+// Định nghĩa props cho HomeScreen để nhận popup
+interface HomeScreenWithPopupProps {
+  showTabPopup: boolean;
+  tabPopupType: 'favorites' | 'cart' | null;
+  setShowTabPopup: (v: boolean) => void;
+  setTabPopupType: (v: 'favorites' | 'cart' | null) => void;
+}
+
+function MainTabs() {
+  const { token, user } = useSelector((state: RootState) => state.auth);
+  const isLoggedIn = !!token && !!user;
+  const [showTabPopup, setShowTabPopup] = React.useState(false);
+  const [tabPopupType, setTabPopupType] = React.useState<'favorites' | 'cart' | null>(null);
+
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName: "home" | "home-outline" | "search" | "search-outline" | "heart" | "heart-outline" | "cart" | "cart-outline" = 'home';
+          if (route.name === 'Cart') {
+            return <CartIcon focused={focused} color={color} size={size} />;
+          }
+          if (route.name === 'Home') {
+            iconName = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'Search') {
+            iconName = focused ? 'search' : 'search-outline';
+          } else if (route.name === 'Favorites') {
+            iconName = focused ? 'heart' : 'heart-outline';
+          } else if (route.name === 'Cart') {
+            iconName = focused ? 'cart' : 'cart-outline';
+          }
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: '#000000',
+        tabBarInactiveTintColor: '#666666',
+        tabBarStyle: styles.tabBar,
+        tabBarLabelStyle: styles.tabBarLabel,
+        headerStyle: styles.header,
+        headerTitleStyle: styles.headerTitle,
+        headerShadowVisible: false,
+      })}
+    >
+      <Tab.Screen name="Home" options={{ headerShown: false }}>
+        {props => <HomeScreen {...props} showTabPopup={showTabPopup} tabPopupType={tabPopupType} setShowTabPopup={setShowTabPopup} setTabPopupType={setTabPopupType} />}
+      </Tab.Screen>
+      <Tab.Screen name="Search" component={SearchStackNavigator} options={{ headerShown: false }} />
+      <Tab.Screen
+        name="Favorites"
+        component={FavoritesScreen}
+        options={{ title: 'FAVORITES' }}
+        listeners={{
+          tabPress: (e) => {
+            if (!isLoggedIn) {
+              e.preventDefault();
+              setTabPopupType('favorites');
+              setShowTabPopup(true);
+            }
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Cart"
+        component={CartScreen}
+        options={{ title: 'CART' }}
+        listeners={{
+          tabPress: (e) => {
+            if (!isLoggedIn) {
+              e.preventDefault();
+              setTabPopupType('cart');
+              setShowTabPopup(true);
+            }
+          },
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
 
 const TabNavigator = () => {
+  console.log('🏠 TabNavigator rendering');
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="MainTabs" component={MainTabs} />
       <Stack.Screen name="CategoryList" component={CategoryListScreen} />
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="ProductDetail" component={ProductDetail} />
       <Stack.Screen name="Category" component={CategoryScreen} />
       <Stack.Screen name="BannerDetail" component={BannerDetailScreen} />
@@ -163,7 +210,10 @@ const TabNavigator = () => {
       <Stack.Screen name="BannerDetailManchester" component={BannerDetailManchester} options={{ headerShown: false }} />
       <Stack.Screen name="BannerDetailClimacool" component={BannerDetailClimacool} options={{ headerShown: false }} />
       <Stack.Screen name="UserProfile" component={UserProfile} />
+      <Stack.Screen name="Chat" component={ChatScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
       <Stack.Screen name="CategoryProductDetail" component={CategoryProductDetail} />
+      <Stack.Screen name="Auth" component={AuthNavigator} options={{ presentation: 'modal' }} />
     </Stack.Navigator>
   );
 };

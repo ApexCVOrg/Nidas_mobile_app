@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -13,12 +13,51 @@ import { Ionicons } from "@expo/vector-icons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import productsData from "../../api/categoryProducts.json";
 import { getImageRequire } from "../../utils/imageRequire";
+import * as FileSystem from 'expo-file-system';
+import { useFavoritesContext } from '../../hooks/FavoritesContext';
+import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { RootState } from '../../redux/store';
+
+const FAVORITES_FILE = FileSystem.documentDirectory + 'favorites.json';
 
 const FavoritesScreen = () => {
-  // Lọc sản phẩm thuộc collection FAVORITES
-  const favoriteItems = (productsData as any[]).filter(
-    (item) => item.collections && item.collections.includes("FAVORITES")
-  );
+  const [favoriteItems, setFavoriteItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { favorites, removeFavorite } = useFavoritesContext();
+  const navigation = useNavigation();
+  const { token, user } = useSelector((state: RootState) => state.auth);
+  const isLoggedIn = !!token && !!user;
+  const [showLoginNotice, setShowLoginNotice] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setShowPopup(true);
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    let isActive = true;
+    const loadFavorites = async () => {
+      setLoading(true);
+      try {
+        const fileInfo = await FileSystem.getInfoAsync(FAVORITES_FILE);
+        if (fileInfo.exists) {
+          const content = await FileSystem.readAsStringAsync(FAVORITES_FILE);
+          if (isActive) setFavoriteItems(JSON.parse(content));
+        } else {
+          if (isActive) setFavoriteItems([]);
+        }
+      } catch (e) {
+        if (isActive) setFavoriteItems([]);
+      } finally {
+        if (isActive) setLoading(false);
+      }
+    };
+    loadFavorites();
+    return () => { isActive = false; };
+  }, [favorites]);
 
   // Lọc sản phẩm gợi ý từ New Arrivals và Best Sellers
   const suggestedItems = (productsData as any[])
@@ -33,6 +72,22 @@ const FavoritesScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+      {showPopup && (
+        <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center', zIndex: 200}}>
+          <View style={{backgroundColor: '#fff', padding: 24, borderRadius: 16, alignItems: 'center', width: 300}}>
+            <Text style={{color: '#d32f2f', fontWeight: 'bold', fontSize: 18, marginBottom: 12}}>Bạn chưa đăng nhập</Text>
+            <Text style={{color: '#222', fontSize: 15, marginBottom: 24, textAlign: 'center'}}>Vui lòng đăng nhập để sử dụng tính năng này!</Text>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
+              <TouchableOpacity style={{flex: 1, marginRight: 8, backgroundColor: '#eee', borderRadius: 8, paddingVertical: 10, alignItems: 'center'}} onPress={() => { setShowPopup(false); navigation.navigate('HomeMain' as never); }}>
+                <Text style={{color: '#222', fontWeight: 'bold'}}>Back</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{flex: 1, marginLeft: 8, backgroundColor: '#d32f2f', borderRadius: 8, paddingVertical: 10, alignItems: 'center'}} onPress={() => { setShowPopup(false); navigation.navigate('Auth' as never); }}>
+                <Text style={{color: '#fff', fontWeight: 'bold'}}>Login</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
 
       {/* Header */}
       <View style={styles.header}>
@@ -40,7 +95,11 @@ const FavoritesScreen = () => {
       </View>
 
       <ScrollView style={styles.content}>
-        {favoriteItems.length === 0 ? (
+        {loading ? (
+          <View style={styles.emptyFavoritesContainer}>
+            <Text>Loading...</Text>
+          </View>
+        ) : favoriteItems.length === 0 ? (
           <View style={styles.emptyFavoritesContainer}>
             <Ionicons name="heart-outline" size={80} color="#ccc" />
             <Text style={styles.emptyFavoritesText}>
@@ -65,7 +124,7 @@ const FavoritesScreen = () => {
                   <Text style={styles.favoritePrice}>{item.price}</Text>
                 </View>
                 <View style={styles.actionButtons}>
-                  <TouchableOpacity style={styles.heartIcon}>
+                  <TouchableOpacity style={styles.heartIcon} onPress={() => removeFavorite(item.id)}>
                     <FontAwesome name="heart" size={20} color="#000" />
                   </TouchableOpacity>
                   <TouchableOpacity

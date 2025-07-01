@@ -12,28 +12,60 @@
       "name": "ULTRABOOST 22",
       "description": "Running Shoes",
       "price": "4.200.000đ",
-      "image": "Giay_Ultraboost_22.jpg"
+      "image": "Giay_Ultraboost_22.jpg",
+      "category": "sport",
+      "colors": ["white", "black"],
+      "imageDefault": "Giay_Ultraboost_22.jpg",
+      "imageByColor": { "white": "Giay_Ultraboost_22.jpg", "black": "Giay_Ultraboost_22.jpg" },
+      "brand": "Adidas",
+      "subtitle": "Best Seller",
+      "rating": 4.8,
+      "quantityBySize": { "38": 5, "39": 3, "40": 2 }
     },
     {
       "id": "p008",
       "name": "ADIDAS ORIGINALS",
       "description": "Trefoil T-shirt",
       "price": "1.200.000đ",
-      "image": "Ao_Thun_Polo_Ba_La.jpg"
+      "image": "Ao_Thun_Polo_Ba_La.jpg",
+      "category": "men",
+      "colors": ["white", "blue"],
+      "imageDefault": "Ao_Thun_Polo_Ba_La.jpg",
+      "imageByColor": { "white": "Ao_Thun_Polo_Ba_La.jpg", "blue": "Ao_Thun_Polo_Ba_La.jpg" },
+      "brand": "Adidas",
+      "subtitle": "New Arrival",
+      "rating": 4.5,
+      "quantityBySize": { "S": 10, "M": 5, "L": 2 }
     },
     {
       "id": "p010",
       "name": "TERREX",
       "description": "Hiking Pants",
       "price": "2.500.000đ",
-      "image": "Quan_Hiking_Terrex.jpg"
+      "image": "Quan_Hiking_Terrex.jpg",
+      "category": "men",
+      "colors": ["black", "gray"],
+      "imageDefault": "Quan_Hiking_Terrex.jpg",
+      "imageByColor": { "black": "Quan_Hiking_Terrex.jpg", "gray": "Quan_Hiking_Terrex.jpg" },
+      "brand": "Adidas",
+      "subtitle": "Outdoor",
+      "rating": 4.2,
+      "quantityBySize": { "M": 7, "L": 4, "XL": 1 }
     },
     {
       "id": "p007",
       "name": "STAN SMITH",
       "description": "Sport Shoes",
       "price": "2.800.000đ",
-      "image": "Giay_Stan_Smith_x_Liberty_London.jpg"
+      "image": "Giay_Stan_Smith_x_Liberty_London.jpg",
+      "category": "sport",
+      "colors": ["white", "green"],
+      "imageDefault": "Giay_Stan_Smith_x_Liberty_London.jpg",
+      "imageByColor": { "white": "Giay_Stan_Smith_x_Liberty_London.jpg", "green": "Giay_Stan_Smith_x_Liberty_London.jpg" },
+      "brand": "Adidas",
+      "subtitle": "Classic",
+      "rating": 4.7,
+      "quantityBySize": { "38": 6, "39": 2, "40": 0 }
     }
   ],
   "collections": [

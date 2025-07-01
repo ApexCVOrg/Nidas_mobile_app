@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -20,40 +20,74 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import { loginStyles } from '../../styles/auth/login.styles';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../../redux/slices/authSlice';
+import { setOnboardingComplete } from '../../store/slices/onboardingSlice';
+import { TabNavigatorParamList } from '../../navigation/TabNavigator';
 
-type LoginScreenProps = {
-  navigation: NativeStackNavigationProp<AuthStackParamList, 'Login'>;
-};
+const REMEMBER_ME_KEY = 'remember_me_credentials';
+const REMEMBER_ME_ENABLED_KEY = 'remember_me_enabled';
 
-interface LoginFormData {
-  username: string;
-  password: string;
-  rememberMe: boolean;
-}
-
-const initialFormData: LoginFormData = {
+export default function LoginScreen() {
+  const [formData, setFormData] = useState({
   username: '',
   password: '',
   rememberMe: false,
-};
-
-const LoginScreen = ({ navigation }: LoginScreenProps) => {
-  const [formData, setFormData] = useState<LoginFormData>(initialFormData);
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const dispatch = useDispatch();
+  const navigation = useNavigation<NativeStackNavigationProp<TabNavigatorParamList>>();
 
-  const handleChange = (field: keyof LoginFormData, value: string | boolean) => {
+  // Load saved credentials on mount
+  useEffect(() => {
+    (async () => {
+      try {
+        const rememberMeEnabled = await AsyncStorage.getItem(REMEMBER_ME_ENABLED_KEY);
+        if (rememberMeEnabled === 'true') {
+          const savedCredentials = await AsyncStorage.getItem(REMEMBER_ME_KEY);
+          if (savedCredentials) {
+            const credentials = JSON.parse(savedCredentials);
+            setFormData({
+              username: credentials.username,
+              password: credentials.password,
+              rememberMe: true,
+            });
+          }
+        }
+      } catch (error) {
+        await AsyncStorage.removeItem(REMEMBER_ME_KEY);
+        await AsyncStorage.removeItem(REMEMBER_ME_ENABLED_KEY);
+      }
+    })();
+  }, []);
+
+  const handleChange = (field: keyof typeof formData, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (fieldErrors[field]) {
       setFieldErrors(prev => ({ ...prev, [field]: '' }));
     }
   };
 
-  const validateLogin = (data: LoginFormData): Record<string, string> => {
+  const saveCredentials = async (username: string, password: string) => {
+    try {
+      await AsyncStorage.setItem(REMEMBER_ME_KEY, JSON.stringify({ username, password }));
+      await AsyncStorage.setItem(REMEMBER_ME_ENABLED_KEY, 'true');
+    } catch (error) {}
+  };
+
+  const clearSavedCredentials = async () => {
+    try {
+      await AsyncStorage.removeItem(REMEMBER_ME_KEY);
+      await AsyncStorage.removeItem(REMEMBER_ME_ENABLED_KEY);
+    } catch (error) {}
+  };
+
+  const validateLogin = (data: typeof formData): Record<string, string> => {
     const errors: Record<string, string> = {};
     if (!data.username) {
       errors.username = 'Vui lòng nhập tên đăng nhập';
@@ -71,13 +105,11 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const handleLogin = async () => {
     setError('');
     setFieldErrors({});
-
     const errors = validateLogin(formData);
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
       return;
     }
-
     setLoading(true);
     try {
       const response = await axiosInstance.post('/auth/login', {
@@ -86,19 +118,35 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
       });
 
       if (response.data.success) {
-        // Save token based on Remember Me
+        // Remember Me
+        if (formData.rememberMe) {
+          await saveCredentials(formData.username, formData.password);
+        } else {
+          await clearSavedCredentials();
+        }
+        // Save token
         if (response.data.data?.token) {
           await AsyncStorage.setItem('auth_token', response.data.data.token);
         }
-
-        // Get user role and navigate accordingly
+        // Navigate by role
         const role = response.data.data?.user?.role || 'user';
         if (role === 'admin') {
-          navigation.replace('AdminDashboard');
+          // Nếu có màn AdminDashboard thì mở, nếu không thì chỉ login bình thường
+          // navigation.navigate('Auth', { screen: 'AdminDashboard' });
         } else if (role === 'manager') {
-          navigation.replace('ManagerDashboard');
+          // navigation.navigate('Auth', { screen: 'ManagerDashboard' });
         } else {
-          navigation.replace('Main');
+          dispatch(loginSuccess({ token: response.data.data.token, user: response.data.data.user }));
+          dispatch(setOnboardingComplete(true));
+          console.log('✅ Login successful - Dispatched loginSuccess and setOnboardingComplete');
+          console.log('🔍 Token:', response.data.data.token);
+          console.log('👤 User:', response.data.data.user);
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: 'MainTabs' }],
+            })
+          );
         }
       } else {
         setError(response.data.message || 'Đăng nhập thất bại');
@@ -121,120 +169,112 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
 
   return (
     <View style={loginStyles.container}>
-                      <TouchableOpacity onPress={() => navigation.navigate('MainTabs' as never)}>
-                  <Text style={{ color: '#1A1A1A', fontWeight: '500', fontSize: 14, textAlign: 'left', marginTop: 16, marginLeft: 16 }}>Home</Text>
-                </TouchableOpacity>
+      <TouchableOpacity
+        style={{ position: 'absolute', top: 40, left: 16, zIndex: 10, backgroundColor: '#fff', borderRadius: 20, padding: 6, elevation: 2 }}
+        onPress={() => navigation.dispatch(
+          CommonActions.reset({ index: 0, routes: [{ name: 'MainTabs' }] })
+        )}
+      >
+        <Icon name="arrow-back-ios" size={24} color="#000" />
+      </TouchableOpacity>
       <ScrollView contentContainerStyle={loginStyles.scrollContent}>
         <View style={loginStyles.formContainer}>
-          <Text style={loginStyles.title}>Welcome Back</Text>
-          <Text style={loginStyles.subtitle}>Sign in to continue</Text>
+          <Text style={loginStyles.title}>Đăng nhập</Text>
+          <Text style={loginStyles.subtitle}>Chào mừng bạn quay lại!</Text>
 
-          <Formik
-            initialValues={initialFormData}
-            validationSchema={Yup.object().shape({
-              username: Yup.string().required('Enter your email'),
-              password: Yup.string().required('Enter your password'),
-            })}
-            onSubmit={handleLogin}
-          >
-            {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
-              <>
                 <View style={loginStyles.inputContainer}>
-                  <Icon name="email" size={24} color="black" style={loginStyles.inputIcon} />
+            <Icon name="person" size={24} color="black" style={loginStyles.inputIcon} />
                   <TextInput
                     style={loginStyles.input}
-                    placeholder="Email"
+              placeholder="Tên đăng nhập"
                     placeholderTextColor="#888"
-                    onChangeText={handleChange('username')}
-                    onBlur={handleBlur('username')}
-                    value={values.username}
-                    keyboardType="email-address"
+              value={formData.username}
+              onChangeText={v => handleChange('username', v)}
+              keyboardType="default"
                     autoCapitalize="none"
                   />
                 </View>
-                {touched.username && errors.username && (
-                  <Text style={loginStyles.errorText}>{errors.username}</Text>
+          {fieldErrors.username && (
+            <Text style={loginStyles.errorText}>{fieldErrors.username}</Text>
                 )}
 
                 <View style={loginStyles.inputContainer}>
                   <Icon name="lock" size={24} color="black" style={loginStyles.inputIcon} />
                   <TextInput
                     style={loginStyles.input}
-                    placeholder="Password"
+              placeholder="Mật khẩu"
                     placeholderTextColor="#888"
-                    onChangeText={handleChange('password')}
-                    onBlur={handleBlur('password')}
-                    value={values.password}
+              value={formData.password}
+              onChangeText={v => handleChange('password', v)}
                     secureTextEntry={!showPassword}
                   />
                   <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={loginStyles.eyeIcon}>
                     <Icon name={showPassword ? 'visibility' : 'visibility-off'} size={24} color="black" />
                   </TouchableOpacity>
                 </View>
-                {touched.password && errors.password && (
-                  <Text style={loginStyles.errorText}>{errors.password}</Text>
+          {fieldErrors.password && (
+            <Text style={loginStyles.errorText}>{fieldErrors.password}</Text>
                 )}
+
                 <View style={loginStyles.rememberForgotContainer}>
-                  <TouchableOpacity style={loginStyles.checkboxContainer} onPress={() => handleChange('rememberMe')}>
-                    <View style={[loginStyles.checkbox, values.rememberMe && loginStyles.checkboxChecked]}>
-                      {values.rememberMe && <Icon name="check" size={20} color="white" />}
+            <TouchableOpacity
+              style={loginStyles.checkboxContainer}
+              onPress={() => handleChange('rememberMe', !formData.rememberMe)}
+            >
+              <View style={[loginStyles.checkbox, formData.rememberMe && loginStyles.checkboxChecked]}>
+                {formData.rememberMe && <Icon name="check" size={20} color="white" />}
                     </View>
-                    <Text style={loginStyles.checkboxLabel}>Remember me</Text>
+              <Text style={loginStyles.checkboxLabel}>Ghi nhớ đăng nhập</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-                    <Text style={loginStyles.forgotPassword}>Forgot Password?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Auth')}>
+              <Text style={loginStyles.forgotPassword}>Quên mật khẩu?</Text>
                   </TouchableOpacity>
                 </View>
 
-                {error && (
+          {error ? (
                   <Text style={loginStyles.errorMessage}>{error}</Text>
-                )}
+          ) : null}
 
                 <TouchableOpacity
-                  style={[loginStyles.button, isSubmitting && loginStyles.buttonDisabled]}
-                  onPress={() => handleSubmit()}
-                  disabled={isSubmitting}
+            style={[loginStyles.button, loading && loginStyles.buttonDisabled]}
+            onPress={handleLogin}
+            disabled={loading}
                 >
                   <Text style={loginStyles.buttonText}>
-                    {isSubmitting ? 'Signing in...' : 'Sign In'}
+              {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
                   </Text>
                 </TouchableOpacity>
 
                 <View style={loginStyles.dividerContainer}>
                   <View style={loginStyles.divider} />
-                  <Text style={loginStyles.dividerText}>OR</Text>
+            <Text style={loginStyles.dividerText}>HOẶC</Text>
                   <View style={loginStyles.divider} />
                 </View>
 
                 <TouchableOpacity style={loginStyles.socialButton} onPress={() => handleSocialLogin('Google')}>
                   <FontAwesome5 name="google" size={20} color="black" style={loginStyles.socialIcon} />
-                  <Text style={loginStyles.socialButtonText}>Continue with Google</Text>
+            <Text style={loginStyles.socialButtonText}>Đăng nhập với Google</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={[loginStyles.socialButton, loginStyles.facebookButton]} onPress={() => handleSocialLogin('Facebook')}>
                   <FontAwesome5 name="facebook" size={20} color="white" style={loginStyles.socialIcon} />
-                  <Text style={loginStyles.facebookButtonText}>Continue with Facebook</Text>
+            <Text style={loginStyles.facebookButtonText}>Đăng nhập với Facebook</Text>
                 </TouchableOpacity>
 
                 <Text style={loginStyles.termsText}>
-                  By signing in, you agree to our{' '}
-                  <Text style={loginStyles.termsLink}>Terms of Service</Text> and{' '}
-                  <Text style={loginStyles.termsLink}>Privacy Policy</Text>
+            Khi đăng nhập, bạn đồng ý với{' '}
+            <Text style={loginStyles.termsLink}>Điều khoản dịch vụ</Text> và{' '}
+            <Text style={loginStyles.termsLink}>Chính sách bảo mật</Text>
                 </Text>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 16 }}>
-                  <Text>Don't have an account? </Text>
+            <Text>Bạn chưa có tài khoản? </Text>
                   <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                    <Text style={loginStyles.link}>Sign Up</Text>
+              <Text style={loginStyles.link}>Đăng ký</Text>
                   </TouchableOpacity>
                 </View>
-              </>
-            )}
-          </Formik>
         </View>
       </ScrollView>
     </View>
   );
-};
-
-export default LoginScreen; 
+} 

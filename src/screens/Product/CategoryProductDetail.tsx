@@ -36,10 +36,14 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/slices/cartSlice';
 import Toast from '../../components/Toast';
 import ProductCard from '../../components/ProductCard';
+import { useFavorites } from '../../hooks/useFavorites';
+import * as FileSystem from 'expo-file-system';
 
 // type ProductDetailRouteProp = RouteProp<TabNavigatorParamList, 'CategoryProductDetail'>;
 
 const { width, height } = Dimensions.get('window');
+
+const FAVORITES_FILE = FileSystem.documentDirectory + 'favorites.json';
 
 const CategoryProductDetail = () => {
   const route = useRoute<any>();
@@ -65,7 +69,8 @@ const CategoryProductDetail = () => {
   const translateY = useRef(new RNAnimated.Value(0)).current;
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
   const autoScrollInterval = useRef<NodeJS.Timeout | undefined>(undefined);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { favorites, reloadFavorites } = useFavorites();
+  const isFavorite = favorites.includes(product.id);
   const favoriteScale = useRef(new RNAnimated.Value(1)).current;
   const [selectedColor, setSelectedColor] = useState(product.colors && product.colors.length > 0 ? product.colors[0] : '');
   const dispatch = useDispatch();
@@ -181,18 +186,22 @@ const CategoryProductDetail = () => {
     }, 5000);
   };
 
-  const handleFavorite = () => {
-    setIsFavorite(!isFavorite);
-    RNAnimated.sequence([
-      RNAnimated.spring(favoriteScale, {
-        toValue: 1.2,
-        useNativeDriver: true,
-      }),
-      RNAnimated.spring(favoriteScale, {
-        toValue: 1,
-        useNativeDriver: true,
-      }),
-    ]).start();
+  const handleFavorite = async () => {
+    let favoritesArr = [];
+    const fileInfo = await FileSystem.getInfoAsync(FAVORITES_FILE);
+    if (fileInfo.exists) {
+      const content = await FileSystem.readAsStringAsync(FAVORITES_FILE);
+      favoritesArr = JSON.parse(content);
+    }
+    if (!isFavorite) {
+      if (!favoritesArr.find((item: any) => item.id === product.id)) {
+        favoritesArr.push(product);
+      }
+    } else {
+      favoritesArr = favoritesArr.filter((item: any) => item.id !== product.id);
+    }
+    await FileSystem.writeAsStringAsync(FAVORITES_FILE, JSON.stringify(favoritesArr));
+    reloadFavorites();
   };
 
   const handleAddToCart = () => {
