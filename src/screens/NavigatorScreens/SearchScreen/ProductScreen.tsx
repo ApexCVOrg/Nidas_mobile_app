@@ -22,6 +22,18 @@ const product = {
   colors: ['red', 'teal', 'beige', 'white'],
   sizes: [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
   tags: ['pharrell', 'tennis hu', 'collaboration', 'unique', 'colorful'],
+  quantityBySize: {
+    "36": 10,
+    "37": 10,
+    "38": 10,
+    "39": 10,
+    "40": 10,
+    "41": 10,
+    "42": 10,
+    "43": 10,
+    "44": 10,
+    "45": 10
+  }
 };
 
 const ProductScreen = () => {
