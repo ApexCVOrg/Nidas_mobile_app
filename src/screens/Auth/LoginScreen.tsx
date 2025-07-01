@@ -169,6 +169,14 @@ export default function LoginScreen() {
 
   return (
     <View style={loginStyles.container}>
+      <TouchableOpacity
+        style={{ position: 'absolute', top: 40, left: 16, zIndex: 10, backgroundColor: '#fff', borderRadius: 20, padding: 6, elevation: 2 }}
+        onPress={() => navigation.dispatch(
+          CommonActions.reset({ index: 0, routes: [{ name: 'MainTabs' }] })
+        )}
+      >
+        <Icon name="arrow-back-ios" size={24} color="#000" />
+      </TouchableOpacity>
       <ScrollView contentContainerStyle={loginStyles.scrollContent}>
         <View style={loginStyles.formContainer}>
           <Text style={loginStyles.title}>Đăng nhập</Text>

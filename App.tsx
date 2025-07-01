@@ -4,6 +4,7 @@ import { store } from './src/redux/store';
 import TabNavigator from './src/navigation/TabNavigator';
 import OnboardingNavigator from './src/navigation/OnboardingNavigator';
 import { NavigationContainer } from '@react-navigation/native';
+import { FavoritesProvider } from './src/hooks/FavoritesContext';
 
 // Selector để lấy trạng thái onboarding
 import { RootState } from './src/redux/store';
@@ -24,9 +25,11 @@ function MainApp() {
 export default function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <MainApp />
-      </NavigationContainer>
+      <FavoritesProvider>
+        <NavigationContainer>
+          <MainApp />
+        </NavigationContainer>
+      </FavoritesProvider>
     </Provider>
   );
 }
