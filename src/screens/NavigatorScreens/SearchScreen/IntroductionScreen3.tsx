@@ -8,41 +8,39 @@ const IntroductionScreen3 = () => {
   const navigation = useNavigation();
   
   const content = {
-    title: 'NIKE COLLECTION',
-    banner: require('../../../../assets/nike.gif'),
-    slogan: 'JUST DO IT',
-    description: 'Discover the latest Nike collection - where innovation, performance and style converge. ' +
-      'From legendary athletic shoes to premium apparel, Nike delivers the ultimate sports experience ' +
-      'for every athlete, from professionals to sports enthusiasts.',
+    title: 'ADIDAS ULTRABOOST',
+    banner: require('../../../../assets/Giay_Ultraboost_22.jpg'),
+    slogan: 'ENERGY. COMFORT. PERFORMANCE.',
+    description: 'Khám phá dòng giày Adidas Ultraboost - nơi công nghệ tiên tiến và sự thoải mái tuyệt đối hội tụ. Ultraboost mang lại trải nghiệm chạy bộ vượt trội với đệm Boost đàn hồi, thiết kế Primeknit linh hoạt và phong cách hiện đại.',
     categories: [
       {
-        title: 'Nike Air Series',
-        description: 'Legendary air cushioning technology',
-        icon: 'flash-outline'
+        title: 'Boost™ Midsole',
+        description: 'Đệm đàn hồi tối ưu, hoàn trả năng lượng vượt trội',
+        icon: 'battery-charging-outline'
       },
       {
-        title: 'Dri-FIT Technology',
-        description: 'Optimal moisture-wicking material',
-        icon: 'water-outline'
+        title: 'Primeknit Upper',
+        description: 'Vải dệt liền mạch, ôm chân, thoáng khí',
+        icon: 'layers-outline'
       },
       {
-        title: 'Performance Gear',
-        description: 'Premium athletic apparel',
-        icon: 'fitness-outline'
+        title: 'Continental™ Rubber',
+        description: 'Đế cao su bám đường, bền bỉ mọi điều kiện',
+        icon: 'trail-sign-outline'
       },
       {
-        title: 'Limited Editions',
-        description: 'Exclusive limited releases',
-        icon: 'star-outline'
+        title: 'Torsion System',
+        description: 'Ổn định bàn chân, hỗ trợ chuyển động tự nhiên',
+        icon: 'swap-horizontal-outline'
       }
     ],
     features: [
-      'Advanced Air Cushioning technology',
-      'Ultra-light Flyknit material',
-      'Optimized aerodynamic design',
-      'High-elastic React foam sole',
-      'Responsive Zoom Air',
-      'Sustainable materials'
+      'Đệm Boost™ hoàn trả năng lượng tối đa',
+      'Thân giày Primeknit co giãn, thoáng khí',
+      'Đế ngoài Continental™ bám đường vượt trội',
+      'Torsion System tăng ổn định',
+      'Trọng lượng nhẹ, phù hợp chạy bộ & lifestyle',
+      'Thiết kế hiện đại, đa dạng phối màu'
     ]
   };
 
@@ -51,13 +49,7 @@ const IntroductionScreen3 = () => {
       <StatusBar barStyle="light-content" backgroundColor="#000" />
       
       {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="#fff" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>NIKE</Text>
-        <View style={styles.headerRight} />
-      </View>
+      {/* Đã xóa header custom để chỉ còn header mặc định của navigation */}
 
       <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         {/* Hero Banner */}
@@ -71,7 +63,7 @@ const IntroductionScreen3 = () => {
             <View style={styles.nikeBannerContent}>
               <Text style={styles.nikeSlogan}>{content.slogan}</Text>
               <Text style={styles.nikeBannerTitle}>{content.title}</Text>
-              <Text style={styles.nikeBannerSubtitle}>Just Do It - Innovation Never Stops</Text>
+              <Text style={styles.nikeBannerSubtitle}>Công nghệ vượt trội cho mọi bước chạy</Text>
             </View>
           </View>
         </View>
@@ -79,7 +71,7 @@ const IntroductionScreen3 = () => {
         {/* Brand Story */}
         <View style={styles.nikeStorySection}>
           <View style={styles.nikeBrandHeader}>
-            <Text style={styles.nikeBrandTitle}>INNOVATION THAT MOVES YOU</Text>
+            <Text style={styles.nikeBrandTitle}>BỨT PHÁ MỌI GIỚI HẠN</Text>
             <View style={styles.nikeDivider} />
           </View>
           <Text style={styles.nikeStoryText}>{content.description}</Text>
@@ -87,7 +79,7 @@ const IntroductionScreen3 = () => {
 
         {/* Technology Categories */}
         <View style={styles.nikeCategoriesSection}>
-          <Text style={styles.nikeCategoriesTitle}>NIKE TECHNOLOGIES</Text>
+          <Text style={styles.nikeCategoriesTitle}>CÔNG NGHỆ NỔI BẬT</Text>
           <View style={styles.nikeCategoriesGrid}>
             {content.categories.map((category, index) => (
               <View key={index} style={styles.nikeCategoryCard}>
@@ -103,7 +95,7 @@ const IntroductionScreen3 = () => {
 
         {/* Performance Features */}
         <View style={styles.nikePerformanceSection}>
-          <Text style={styles.nikePerformanceTitle}>PERFORMANCE FEATURES</Text>
+          <Text style={styles.nikePerformanceTitle}>TÍNH NĂNG VƯỢT TRỘI</Text>
           <View style={styles.nikeFeaturesGrid}>
             {content.features.map((feature, index) => (
               <View key={index} style={styles.nikeFeatureItem}>
@@ -118,41 +110,41 @@ const IntroductionScreen3 = () => {
 
         {/* Call to Action */}
         <View style={styles.nikeCTASection}>
-          <Text style={styles.nikeCTATitle}>READY TO PERFORM?</Text>
-          <Text style={styles.nikeCTASubtitle}>Explore the Nike collection and find the perfect product for you</Text>
+          <Text style={styles.nikeCTATitle}>SẴN SÀNG BỨT PHÁ?</Text>
+          <Text style={styles.nikeCTASubtitle}>Khám phá ngay Ultraboost và cảm nhận sự khác biệt</Text>
           
           <View style={styles.nikeCTAButtons}>
             <TouchableOpacity style={styles.nikeShopButton}>
-              <Text style={styles.nikeShopButtonText}>SHOP NIKE</Text>
+              <Text style={styles.nikeShopButtonText}>SHOP ULTRABOOST</Text>
               <Ionicons name="arrow-forward" size={20} color="#fff" style={styles.nikeShopIcon} />
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.nikeExploreButton}>
-              <Text style={styles.nikeExploreButtonText}>EXPLORE MORE</Text>
+              <Text style={styles.nikeExploreButtonText}>TÌM HIỂU THÊM</Text>
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* Nike Values */}
+        {/* Brand Values */}
         <View style={styles.nikeValuesSection}>
-          <Text style={styles.nikeValuesTitle}>NIKE VALUES</Text>
+          <Text style={styles.nikeValuesTitle}>GIÁ TRỊ ULTRABOOST</Text>
           <View style={styles.nikeValuesContent}>
             <View style={styles.nikeValueItem}>
-              <Ionicons name="earth-outline" size={28} color="#000" />
-              <Text style={styles.nikeValueTitle}>Sustainability</Text>
-              <Text style={styles.nikeValueDesc}>Committed to environmental protection through every product</Text>
+              <Ionicons name="leaf-outline" size={28} color="#000" />
+              <Text style={styles.nikeValueTitle}>Bền vững</Text>
+              <Text style={styles.nikeValueDesc}>Sử dụng vật liệu tái chế, thân thiện môi trường</Text>
             </View>
             
             <View style={styles.nikeValueItem}>
-              <Ionicons name="people-outline" size={28} color="#000" />
-              <Text style={styles.nikeValueTitle}>Community</Text>
-              <Text style={styles.nikeValueDesc}>Connecting the global sports community</Text>
+              <Ionicons name="walk-outline" size={28} color="#000" />
+              <Text style={styles.nikeValueTitle}>Đa năng</Text>
+              <Text style={styles.nikeValueDesc}>Phù hợp cả chạy bộ lẫn thời trang hàng ngày</Text>
             </View>
             
             <View style={styles.nikeValueItem}>
-              <Ionicons name="trophy-outline" size={28} color="#000" />
-              <Text style={styles.nikeValueTitle}>Excellence</Text>
-              <Text style={styles.nikeValueDesc}>Pursuing perfection in every product</Text>
+              <Ionicons name="star-outline" size={28} color="#000" />
+              <Text style={styles.nikeValueTitle}>Hiệu suất</Text>
+              <Text style={styles.nikeValueDesc}>Tối ưu cho vận động viên và người yêu thể thao</Text>
             </View>
           </View>
         </View>

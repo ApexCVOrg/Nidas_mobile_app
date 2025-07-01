@@ -536,6 +536,11 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textTransform: 'uppercase',
   },
+  // Horizontal scroll container for search results
+  horizontalScrollContainer: {
+    paddingVertical: 20,
+    paddingRight: 20,
+  },
 });
 
 export default styles; 

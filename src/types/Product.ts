@@ -5,7 +5,7 @@ export type Product = {
   price: string | number;
   description: string;
   imageDefault?: string;
-  imageByColor?: { [color: string]: string | undefined };
+  imageByColor?: { [color: string]: string };
   colors: string[];
   collections?: string[];
   gender?: string;
@@ -16,5 +16,5 @@ export type Product = {
   brand?: string;
   subtitle?: string;
   rating?: number;
-  quantityBySize?: Record<string, number>;
+  quantityBySize: Record<string, number>;
 }; 

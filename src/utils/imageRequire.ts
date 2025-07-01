@@ -12,7 +12,7 @@ const imageMap: { [key: string]: any } = {
   "nike.gif": require("../../assets/nike.gif"),
   "sport.jpg": require("../../assets/sport.jpg"),
   "logo.jpg": require("../../assets/logo.jpg"),
-  "banner.jpg": require("../../assets/banner.jpg"),
+  "banner.jpg": require("../../assets/banner.webp"),
   "Giay_Ultraboost_22.jpg": require("../../assets/Giay_Ultraboost_22.jpg"),
   "Giay_Stan_Smith_x_Liberty_London.jpg": require("../../assets/Giay_Stan_Smith_x_Liberty_London.jpg"),
   "Giay_Handball_Spezial.jpg": require("../../assets/Giay_Handball_Spezial.jpg"),
@@ -40,7 +40,26 @@ const imageMap: { [key: string]: any } = {
   "SlimFit.jpg": require("../../assets/category_images/SlimFit.jpg"),
   "Kid_O.jpg": require("../../assets/category_images/Kid_O.jpg"),
   "Kid_O2.jpg": require("../../assets/category_images/Kid_O2.jpg"),
-  "Mu_2526.jpg": require("../../assets/category_images/Mu_2526.jpg")
+  "Mu_2526.jpg": require("../../assets/category_images/Mu_2526.jpg"),
+  
+  // Ultraboost Collection images
+  "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5_Den_ID8812_HM1.png": require("../../assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5_Den_ID8812_HM1.png"),
+  "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5_Xam_IF1481_HM1.png": require("../../assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5_Xam_IF1481_HM1.png"),
+  "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5x_Den_IH3110_HM1.png": require("../../assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5x_Den_IH3110_HM1.png"),
+  "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5x_trang_IH3111_HM1.png": require("../../assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5x_trang_IH3111_HM1.png"),
+  "assets/SearchPage/Collection/Ultraboost/Giay_Chay_Bo_Pureboost_5_Den_ID1158_HM1.png": require("../../assets/SearchPage/Collection/Ultraboost/Giay_Chay_Bo_Pureboost_5_Den_ID1158_HM1.png"),
+  "assets/SearchPage/Collection/Ultraboost/Giay_Chay_Bo_Pureboost_5_trang_IF9192_01_standard.png": require("../../assets/SearchPage/Collection/Ultraboost/Giay_Chay_Bo_Pureboost_5_trang_IF9192_01_standard.png"),
+  
+  // Handball Collection images
+  "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_mau_xanh_la_IG6192_01_standard.jpg": require("../../assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_mau_xanh_la_IG6192_01_standard.jpg"),
+  "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_xanh_da_troi_IG6194_01_standard.jpg": require("../../assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_xanh_da_troi_IG6194_01_standard.jpg"),
+  "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Cam_IG6191_01_standard.jpg": require("../../assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Cam_IG6191_01_standard.jpg"),
+  "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_vang_IF7088_01_standard.jpg": require("../../assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_vang_IF7088_01_standard.jpg"),
+  "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_xanh_da_troi__denIF7087_01_standard.jpg": require("../../assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_xanh_da_troi__denIF7087_01_standard.jpg"),
+  "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Xam_IF7086_01_standard.jpg": require("../../assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Xam_IF7086_01_standard.jpg"),
+  "assets/SearchPage/Collection/Handball/Handball_Spezial_Mau_xanh_da_troi_JS3866_01_00_standard_Nam.jpg": require("../../assets/SearchPage/Collection/Handball/Handball_Spezial_Mau_xanh_da_troi_JS3866_01_00_standard_Nam.jpg"),
+  "assets/SearchPage/Collection/Handball/Handball_Spezial_trang_xanh_JS3865_01_00_standard_Nam.jpg": require("../../assets/SearchPage/Collection/Handball/Handball_Spezial_trang_xanh_JS3865_01_00_standard_Nam.jpg"),
+  "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Maroon_JP8726_01_00_standard_Nu.jpg": require("../../assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Maroon_JP8726_01_00_standard_Nu.jpg")
 };
 
 export function getImageRequire(fileName: string) {

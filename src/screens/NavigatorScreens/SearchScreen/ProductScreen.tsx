@@ -10,10 +10,41 @@ import categoryProducts from '../../../api/categoryProducts.json';
 
 const { width } = Dimensions.get('window');
 
-// Lấy sản phẩm đầu tiên từ categoryProducts làm ví dụ
-const product = categoryProducts[0];
+// Mock product data for Pharrell Williams x Tennis Hu
+const product = {
+  id: 'pw-tennis-hu',
+  name: 'Pharrell Williams x Tennis Hu',
+  category: 'giay',
+  gender: 'unisex',
+  type: 'collaboration',
+  price: 3200000,
+  description: 'Pharrell Williams x Tennis Hu represents the perfect fusion of street style and modern innovation. With breakthrough design from Pharrell Williams, these shoes deliver maximum comfort and unique style.',
+  image: 'banner1.gif',
+  colors: ['red', 'teal', 'beige', 'white'],
+  sizes: [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
+  tags: ['pharrell', 'tennis hu', 'collaboration', 'unique', 'colorful'],
+  quantityBySize: {
+    "36": 10,
+    "37": 10,
+    "38": 10,
+    "39": 10,
+    "40": 10,
+    "41": 10,
+    "42": 10,
+    "43": 10,
+    "44": 10,
+    "45": 10
+  }
+};
+
 const rawSizes = Object.entries(product.quantityBySize as unknown as Record<string, number>);
 const sizes: string[] = rawSizes.filter(([_, v]) => typeof v === 'number').map(([k]) => k);
+
+// Lấy tồn kho theo size (không phân biệt màu)
+const getStock = (size: string) => {
+  const stock = (product.quantityBySize as unknown as Record<string, number>)[size];
+  return typeof stock === 'number' ? stock : 0;
+};
 
 // Type for color map
 const colorMap: Record<string, string> = {
@@ -27,12 +58,6 @@ const formatPrice = (price: string | number) => {
     style: 'currency',
     currency: 'VND',
   }).format(num);
-};
-
-// Lấy tồn kho theo size (không phân biệt màu)
-const getStock = (size: string) => {
-  const stock = (product.quantityBySize as unknown as Record<string, number>)[size];
-  return typeof stock === 'number' ? stock : 0;
 };
 
 const ProductScreen = () => {
@@ -80,7 +105,7 @@ const ProductScreen = () => {
       productId: product.id,
       name: product.name,
       price: numericPrice,
-      image: ((product.imageByColor as unknown) as Record<string, string>)[selectedColor] || product.imageDefault,
+      image: product.image,
       color: selectedColor,
       size: selectedSize,
       quantity,

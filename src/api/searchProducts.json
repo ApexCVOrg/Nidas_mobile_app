@@ -5,9 +5,14 @@
     "category": "giay",
     "gender": "nam",
     "type": "originals",
-    "price": 2800000,
+    "price": "2,800,000 VNĐ",
     "description": "Giày thể thao cổ điển với thiết kế retro đặc trưng",
-    "image": "sGiay_Ultraboost_22.jpg",
+    "imageDefault": "samba.gif",
+    "imageByColor": {
+      "white": "samba.gif",
+      "black": "samba.gif",
+      "blue": "samba.gif"
+    },
     "colors": ["white", "black", "blue"],
     "sizes": [38, 39, 40, 41, 42, 43, 44],
     "tags": ["samba", "originals", "classics", "retro", "football"],
@@ -24,7 +29,17 @@
       "blue-38": 2,
       "blue-39": 2,
       "blue-40": 1
-    }
+    },
+    "quantityBySize": {
+      "38": 10,
+      "39": 10,
+      "40": 10,
+      "41": 10,
+      "42": 10,
+      "43": 10,
+      "44": 10
+    },
+    "collections": ["Samba", "New Arrivals", "Best Sellers"]
   },
   {
     "id": "p002",
@@ -32,9 +47,14 @@
     "category": "giay",
     "gender": "nam",
     "type": "originals",
-    "price": 2600000,
+    "price": "2,600,000 VNĐ",
     "description": "Giày chạy bộ với phong cách vintage từ những năm 70",
-    "image": "sl72.gif",
+    "imageDefault": "sl72.gif",
+    "imageByColor": {
+      "white": "sl72.gif",
+      "red": "sl72.gif",
+      "blue": "sl72.gif"
+    },
     "colors": ["white", "red", "blue"],
     "sizes": [38, 39, 40, 41, 42, 43, 44],
     "tags": ["sl72", "running", "vintage", "70s", "originals"],
@@ -51,7 +71,17 @@
       "blue-38": 2,
       "blue-39": 2,
       "blue-40": 1
-    }
+    },
+    "quantityBySize": {
+      "38": 10,
+      "39": 10,
+      "40": 10,
+      "41": 10,
+      "42": 10,
+      "43": 10,
+      "44": 10
+    },
+    "collections": ["SL", "Best Sellers"]
   },
   {
     "id": "p003",
@@ -59,28 +89,98 @@
     "category": "giay",
     "gender": "unisex",
     "type": "yeezy",
-    "price": 8500000,
+    "price": "8,500,000 VNĐ",
     "description": "Giày thể thao cao cấp với công nghệ Boost",
-    "image": "yeezy750.gif",
-    "colors": ["grey", "brown", "black"],
+    "imageDefault": "yeezy750.gif",
+    "imageByColor": {
+      "grey": "yeezy750.gif",
+      "brown": "yeezy750.gif",
+      "black": "yeezy750.gif"
+    },
+    "colors": ["grey"],
     "sizes": [36, 37, 38, 39, 40, 41, 42, 43, 44],
     "tags": ["yeezy", "boost", "kanye", "premium", "streetwear"],
     "brand": "Adidas",
     "subtitle": "Premium Boost",
-    "rating": 4.9
+    "rating": 4.9,
+    "quantityBySize": {
+      "36": 10,
+      "37": 10,
+      "38": 10,
+      "39": 10,
+      "40": 10,
+      "41": 10,
+      "42": 10,
+      "43": 10,
+      "44": 10
+    },
+    "collections": ["Yeezy", "New Arrivals"]
   },
   {
-    "id": "p004",
-    "name": "Adidas Handball Spezial",
+    "id": "p004-std",
+    "name": "Adidas Handball Spezial Standard",
     "category": "giay",
     "gender": "unisex",
     "type": "originals",
-    "price": 3200000,
-    "description": "Giày handball cổ điển với đế gum đặc trưng",
-    "image": "handball.gif",
-    "colors": ["blue", "red", "green"],
+    "price": "3,200,000 VNĐ",
+    "description": "Handball Spezial phiên bản tiêu chuẩn với nhiều phối màu retro.",
+    "imageDefault": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_xanh_da_troi_IG6194_01_standard.jpg",
+    "imageByColor": {
+      "xanh lá": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_mau_xanh_la_IG6192_01_standard.jpg",
+      "xanh da trời": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_xanh_da_troi_IG6194_01_standard.jpg",
+      "cam": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Cam_IG6191_01_standard.jpg",
+      "vàng": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_vang_IF7088_01_standard.jpg",
+      "xanh da trời đen": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_xanh_da_troi__denIF7087_01_standard.jpg"
+    },
+    "colors": ["xanh lá", "xanh da trời", "cam", "vàng", "xanh da trời đen"],
     "sizes": [36, 37, 38, 39, 40, 41, 42, 43, 44],
-    "tags": ["handball", "spezial", "retro", "gum sole", "indoor"]
+    "tags": ["handball", "spezial", "retro", "standard"],
+    "quantityBySize": {
+      "36": 10, "37": 10, "38": 10, "39": 10, "40": 10, "41": 10, "42": 10, "43": 10, "44": 10
+    },
+    "collections": ["Handball"]
+  },
+  {
+    "id": "p004-nam",
+    "name": "Adidas Handball Spezial Nam",
+    "category": "giay",
+    "gender": "nam",
+    "type": "originals",
+    "price": "3,200,000 VNĐ",
+    "description": "Handball Spezial phiên bản nam với phối màu đặc trưng cho nam giới.",
+    "imageDefault": "assets/SearchPage/Collection/Handball/Handball_Spezial_Mau_xanh_da_troi_JS3866_01_00_standard_Nam.jpg",
+    "imageByColor": {
+      "xanh da trời": "assets/SearchPage/Collection/Handball/Handball_Spezial_Mau_xanh_da_troi_JS3866_01_00_standard_Nam.jpg",
+      "trắng xanh": "assets/SearchPage/Collection/Handball/Handball_Spezial_trang_xanh_JS3865_01_00_standard_Nam.jpg"
+    },
+    "colors": ["xanh da trời", "trắng xanh"],
+    "sizes": [36, 37, 38, 39, 40, 41, 42, 43, 44],
+    "tags": ["handball", "spezial", "retro", "nam"],
+    "quantityBySize": {
+      "36": 10, "37": 10, "38": 10, "39": 10, "40": 10, "41": 10, "42": 10, "43": 10, "44": 10
+    },
+    "collections": ["Handball"]
+  },
+  {
+    "id": "p004-nu",
+    "name": "Adidas Handball Spezial Nữ",
+    "category": "giay",
+    "gender": "nu",
+    "type": "originals",
+    "price": "3,200,000 VNĐ",
+    "description": "Handball Spezial phiên bản nữ với phối màu nữ tính, trẻ trung.",
+    "imageDefault": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Maroon_JP8726_01_00_standard_Nu.jpg",
+    "imageByColor": {
+      "maroon": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Maroon_JP8726_01_00_standard_Nu.jpg",
+      "xám": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Xam_IF7086_01_standard.jpg"
+    },
+    "colors": ["maroon", "xám"],
+    "sizes": [36, 37, 38, 39, 40, 41, 42, 43, 44],
+    "tags": ["handball", "spezial", "retro", "nữ"],
+    "quantityBySize": {
+      "36": 10, "37": 10, "38": 10, "39": 10, "40": 10, "41": 10, "42": 10, "43": 10, "44": 10
+    },
+    "collections": ["Handball"]
   },
   {
     "id": "p005",
@@ -88,25 +188,96 @@
     "category": "giay",
     "gender": "unisex",
     "type": "collaboration",
-    "price": 3200000,
+    "price": "3,200,000 VNĐ",
     "description": "Giày thể thao thiết kế độc đáo từ Pharrell Williams",
-    "image": "banner1.gif",
+    "imageDefault": "banner1.gif",
+    "imageByColor": {
+      "red": "banner1.gif",
+      "teal": "banner1.gif",
+      "beige": "banner1.gif",
+      "white": "banner1.gif"
+    },
     "colors": ["red", "teal", "beige", "white"],
     "sizes": [36, 37, 38, 39, 40, 41, 42, 43, 44],
-    "tags": ["pharrell", "tennis hu", "collaboration", "unique", "colorful"]
+    "tags": ["pharrell", "tennis hu", "collaboration", "unique", "colorful"],
+    "quantityBySize": {
+      "36": 10,
+      "37": 10,
+      "38": 10,
+      "39": 10,
+      "40": 10,
+      "41": 10,
+      "42": 10,
+      "43": 10,
+      "44": 10
+    },
+    "collections": ["Pharrell", "Best Sellers"]
   },
   {
-    "id": "p006",
-    "name": "Adidas Ultraboost 22",
+    "id": "p006-ub5",
+    "name": "Adidas Ultraboost 5",
     "category": "giay",
     "gender": "nam",
     "type": "running",
-    "price": 4500000,
-    "description": "Giày chạy bộ với công nghệ Boost mới nhất",
-    "image": "Giay_Ultraboost_22.jpg",
-    "colors": ["black", "white", "grey"],
+    "price": "4,500,000 VNĐ",
+    "description": "Giày chạy bộ Ultraboost 5 với công nghệ Boost mới nhất, thiết kế hiện đại, hiệu năng vượt trội.",
+    "imageDefault": "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5_Den_ID8812_HM1.png",
+    "imageByColor": {
+      "đen": "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5_Den_ID8812_HM1.png",
+      "xám": "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5_Xam_IF1481_HM1.png"
+    },
+    "colors": ["đen", "xám"],
     "sizes": [38, 39, 40, 41, 42, 43, 44, 45],
-    "tags": ["ultraboost", "running", "boost", "performance", "marathon"]
+    "tags": ["ultraboost", "running", "boost", "performance", "marathon"],
+    "brand": "Adidas",
+    "subtitle": "Ultra Boost 5",
+    "rating": 4.8,
+    "quantityBySize": {"38": 10, "39": 10, "40": 10, "41": 10, "42": 10, "43": 10, "44": 10, "45": 10},
+    "collections": ["Ultraboost", "New Arrivals"]
+  },
+  {
+    "id": "p006-ub5x",
+    "name": "Adidas Ultraboost 5x",
+    "category": "giay",
+    "gender": "nam",
+    "type": "running",
+    "price": "4,500,000 VNĐ",
+    "description": "Giày chạy bộ Ultraboost 5x với thiết kế tối ưu cho hiệu suất và sự thoải mái.",
+    "imageDefault": "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5x_Den_IH3110_HM1.png",
+    "imageByColor": {
+      "đen": "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5x_Den_IH3110_HM1.png",
+      "trắng": "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5x_trang_IH3111_HM1.png"
+    },
+    "colors": ["đen", "trắng"],
+    "sizes": [38, 39, 40, 41, 42, 43, 44, 45],
+    "tags": ["ultraboost", "running", "boost", "performance", "marathon"],
+    "brand": "Adidas",
+    "subtitle": "Ultra Boost 5x",
+    "rating": 4.8,
+    "quantityBySize": {"38": 10, "39": 10, "40": 10, "41": 10, "42": 10, "43": 10, "44": 10, "45": 10},
+    "collections": ["Ultraboost", "New Arrivals"]
+  },
+  {
+    "id": "p006-pb5",
+    "name": "Adidas Pureboost 5",
+    "category": "giay",
+    "gender": "nam",
+    "type": "running",
+    "price": "4,200,000 VNĐ",
+    "description": "Giày chạy bộ Pureboost 5 nhẹ, linh hoạt, phù hợp tập luyện hàng ngày.",
+    "imageDefault": "assets/SearchPage/Collection/Ultraboost/Giay_Chay_Bo_Pureboost_5_Den_ID1158_HM1.png",
+    "imageByColor": {
+      "đen": "assets/SearchPage/Collection/Ultraboost/Giay_Chay_Bo_Pureboost_5_Den_ID1158_HM1.png",
+      "trắng": "assets/SearchPage/Collection/Ultraboost/Giay_Chay_Bo_Pureboost_5_trang_IF9192_01_standard.png"
+    },
+    "colors": ["đen", "trắng"],
+    "sizes": [38, 39, 40, 41, 42, 43, 44, 45],
+    "tags": ["pureboost", "running", "boost", "performance", "marathon"],
+    "brand": "Adidas",
+    "subtitle": "Pureboost 5",
+    "rating": 4.7,
+    "quantityBySize": {"38": 10, "39": 10, "40": 10, "41": 10, "42": 10, "43": 10, "44": 10, "45": 10},
+    "collections": ["Pureboost", "New Arrivals"]
   },
   {
     "id": "p007",
@@ -114,180 +285,30 @@
     "category": "giay",
     "gender": "nu",
     "type": "originals",
-    "price": 3800000,
+    "price": "3,800,000 VNĐ",
     "description": "Giày Stan Smith với họa tiết Liberty London độc đáo",
-    "image": "Giay_Stan_Smith_x_Liberty_London.jpg",
-    "colors": ["floral", "white", "pink"],
-    "sizes": [35, 36, 37, 38, 39, 40, 41],
-    "tags": ["stan smith", "liberty london", "floral", "women", "fashion"]
-  },
-  {
-    "id": "p008",
-    "name": "Áo Thun Polo Ba Lá",
-    "category": "quan_ao",
-    "gender": "nam",
-    "type": "polo",
-    "price": 1200000,
-    "description": "Áo polo cổ điển với logo ba lá đặc trưng",
-    "image": "Ao_Thun_Polo_Ba_La.jpg",
-    "colors": ["white", "black", "navy", "red"],
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "tags": ["polo", "three stripes", "classic", "cotton", "casual"]
-  },
-  {
-    "id": "p009",
-    "name": "Áo Thun Tập Luyện 3 Sọc",
-    "category": "quan_ao",
-    "gender": "nam",
-    "type": "training",
-    "price": 800000,
-    "description": "Áo thun thể thao với chất liệu thoáng khí",
-    "image": "Ao_Thun_Tap_Luyen_3_Soc_Train_Essentials_Mau_xanh_da_troi_IB8152_01_laydown.avif",
-    "colors": ["blue", "black", "white", "grey"],
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "tags": ["training", "three stripes", "breathable", "sport", "essentials"]
-  },
-  {
-    "id": "p010",
-    "name": "Quần Hiking Terrex",
-    "category": "quan_ao",
-    "gender": "nam",
-    "type": "outdoor",
-    "price": 1800000,
-    "description": "Quần dài chống thấm nước cho hoạt động outdoor",
-    "image": "Quan_Hiking_Terrex.jpg",
-    "colors": ["black", "khaki", "navy"],
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "tags": ["terrex", "hiking", "outdoor", "waterproof", "adventure"]
-  },
-  {
-    "id": "p011",
-    "name": "Áo Adidas Đen",
-    "category": "quan_ao",
-    "gender": "unisex",
-    "type": "casual",
-    "price": 900000,
-    "description": "Áo thun đen cơ bản với logo Adidas",
-    "image": "aoadidasden.png",
-    "colors": ["black"],
-    "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
-    "tags": ["basic", "black", "logo", "casual", "everyday"]
-  },
-  {
-    "id": "p012",
-    "name": "Áo Adidas Trắng",
-    "category": "quan_ao",
-    "gender": "unisex",
-    "type": "casual",
-    "price": 900000,
-    "description": "Áo thun trắng cơ bản với logo Adidas",
-    "image": "aoadidastrang.png",
+    "imageDefault": "Giay_Stan_Smith_x_Liberty_London.jpg",
+    "imageByColor": {
+      
+      "white": "Giay_Stan_Smith_x_Liberty_London.jpg"
+      
+    },
     "colors": ["white"],
-    "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
-    "tags": ["basic", "white", "logo", "casual", "everyday"]
-  },
-  {
-    "id": "p013",
-    "name": "Áo Adidas Xanh",
-    "category": "quan_ao",
-    "gender": "unisex",
-    "type": "casual",
-    "price": 900000,
-    "description": "Áo thun xanh cơ bản với logo Adidas",
-    "image": "aoadidasxanh.png",
-    "colors": ["blue"],
-    "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
-    "tags": ["basic", "blue", "logo", "casual", "everyday"]
-  },
-  {
-    "id": "p014",
-    "name": "Áo Thể Thao 1",
-    "category": "quan_ao",
-    "gender": "nam",
-    "type": "sport",
-    "price": 1100000,
-    "description": "Áo thể thao với thiết kế năng động",
-    "image": "ao1.jpg",
-    "colors": ["red", "blue", "black"],
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "tags": ["sport", "active", "performance", "training"]
-  },
-  {
-    "id": "p015",
-    "name": "Áo Thể Thao 3",
-    "category": "quan_ao",
-    "gender": "nam",
-    "type": "sport",
-    "price": 1150000,
-    "description": "Áo thể thao cao cấp với công nghệ thấm hút mồ hôi",
-    "image": "ao3.jpg",
-    "colors": ["grey", "black", "white"],
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "tags": ["sport", "moisture-wicking", "premium", "training"]
-  },
-  {
-    "id": "p016",
-    "name": "Áo Thể Thao 4",
-    "category": "quan_ao",
-    "gender": "nu",
-    "type": "sport",
-    "price": 1050000,
-    "description": "Áo thể thao nữ với thiết kế ôm dáng",
-    "image": "ao4.jpg",
-    "colors": ["pink", "purple", "white"],
-    "sizes": ["XS", "S", "M", "L", "XL"],
-    "tags": ["women", "sport", "fitted", "stylish"]
-  },
-  {
-    "id": "p017",
-    "name": "Áo Thể Thao 5",
-    "category": "quan_ao",
-    "gender": "unisex",
-    "type": "sport",
-    "price": 1200000,
-    "description": "Áo thể thao unisex với chất liệu cao cấp",
-    "image": "ao5.jpg",
-    "colors": ["black", "white", "grey"],
-    "sizes": ["XS", "S", "M", "L", "XL", "XXL"],
-    "tags": ["unisex", "premium", "sport", "versatile"]
-  },
-  {
-    "id": "p018",
-    "name": "Quần Thể Thao 1",
-    "category": "quan_ao",
-    "gender": "nam",
-    "type": "sport",
-    "price": 1300000,
-    "description": "Quần thể thao nam với thiết kế thoải mái",
-    "image": "quan1.jpg",
-    "colors": ["black", "navy", "grey"],
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "tags": ["men", "sport", "comfortable", "training"]
-  },
-  {
-    "id": "p019",
-    "name": "Quần Thể Thao 2",
-    "category": "quan_ao",
-    "gender": "nam",
-    "type": "sport",
-    "price": 1400000,
-    "description": "Quần thể thao với công nghệ chống thấm nước nhẹ",
-    "image": "quan2.jpg",
-    "colors": ["black", "blue", "grey"],
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "tags": ["men", "water-resistant", "sport", "outdoor"]
-  },
-  {
-    "id": "p020",
-    "name": "Quần Thể Thao 3",
-    "category": "quan_ao",
-    "gender": "nu",
-    "type": "sport",
-    "price": 1250000,
-    "description": "Quần thể thao nữ với thiết kế thời trang",
-    "image": "quan3.jpg",
-    "colors": ["pink", "black", "white"],
-    "sizes": ["XS", "S", "M", "L", "XL"],
-    "tags": ["women", "fashionable", "sport", "trendy"]
+    "sizes": [35, 36, 37, 38, 39, 40, 41],
+    "tags": ["stan smith", "liberty london", "floral", "women", "fashion"],
+    "brand": "Adidas",
+    "subtitle": "Stan Smith x Liberty London",
+    "rating": 4.6,
+    "quantityBySize": {
+      "35": 10,
+      "36": 10,
+      "37": 10,
+      "38": 10,
+      "39": 10,
+      "40": 10,
+      "41": 10
+    },
+    "collections": ["Stan Smith"]
   }
+  
 ] 
