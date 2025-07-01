@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -34,6 +34,16 @@ const CartScreen = () => {
   const { items, totalItems, totalAmount } = useSelector(
     (state: RootState) => state.cart
   );
+  const { token, user } = useSelector((state: RootState) => state.auth);
+  const isLoggedIn = !!token && !!user;
+  const [showLoginNotice, setShowLoginNotice] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setShowPopup(true);
+    }
+  }, [isLoggedIn]);
 
   const delivery = 0; // Free delivery
   const total = totalAmount + delivery;
@@ -167,6 +177,23 @@ const CartScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+
+      {showPopup && (
+        <View style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center', zIndex: 200}}>
+          <View style={{backgroundColor: '#fff', padding: 24, borderRadius: 16, alignItems: 'center', width: 300}}>
+            <Text style={{color: '#d32f2f', fontWeight: 'bold', fontSize: 18, marginBottom: 12}}>Bạn chưa đăng nhập</Text>
+            <Text style={{color: '#222', fontSize: 15, marginBottom: 24, textAlign: 'center'}}>Vui lòng đăng nhập để sử dụng tính năng này!</Text>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}>
+              <TouchableOpacity style={{flex: 1, marginRight: 8, backgroundColor: '#eee', borderRadius: 8, paddingVertical: 10, alignItems: 'center'}} onPress={() => { setShowPopup(false); navigation.navigate('HomeMain' as never); }}>
+                <Text style={{color: '#222', fontWeight: 'bold'}}>Back</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={{flex: 1, marginLeft: 8, backgroundColor: '#d32f2f', borderRadius: 8, paddingVertical: 10, alignItems: 'center'}} onPress={() => { setShowPopup(false); navigation.navigate('Auth' as never); }}>
+                <Text style={{color: '#fff', fontWeight: 'bold'}}>Login</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
 
       {/* Header */}
       <View style={styles.header}>
