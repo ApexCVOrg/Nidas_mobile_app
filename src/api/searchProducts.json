@@ -1,7 +1,7 @@
 [
   {
-    "id": "p001",
-    "name": "Adidas Samba OG",
+    "id": "p006",
+    "name": "ULTRABOOST 22",
     "category": "giay",
     "gender": "nam",
     "type": "originals",
@@ -19,6 +19,17 @@
     "brand": "Adidas",
     "subtitle": "Retro Classic",
     "rating": 4.7,
+    "stockByColorSize": {
+      "white-38": 5,
+      "white-39": 2,
+      "white-40": 0,
+      "black-38": 3,
+      "black-39": 1,
+      "black-40": 0,
+      "blue-38": 2,
+      "blue-39": 2,
+      "blue-40": 1
+    },
     "quantityBySize": {
       "38": 10,
       "39": 10,
@@ -50,6 +61,17 @@
     "brand": "Adidas",
     "subtitle": "Vintage Running",
     "rating": 4.3,
+    "stockByColorSize": {
+      "white-38": 2,
+      "white-39": 1,
+      "white-40": 0,
+      "red-38": 3,
+      "red-39": 2,
+      "red-40": 1,
+      "blue-38": 2,
+      "blue-39": 2,
+      "blue-40": 1
+    },
     "quantityBySize": {
       "38": 10,
       "39": 10,

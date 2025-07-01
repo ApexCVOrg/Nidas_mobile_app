@@ -32,6 +32,7 @@ import ChatScreen from '../screens/Auth/ChatScreen';
 import SettingsScreen from '../screens/Auth/SettingsScreen';
 import CategoryProductDetail from '../screens/Product/CategoryProductDetail';
 
+
 export type TabNavigatorParamList = {
   MainTabs: undefined;
   CategoryList: undefined;
