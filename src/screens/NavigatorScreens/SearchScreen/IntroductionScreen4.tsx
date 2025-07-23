@@ -14,140 +14,149 @@ const { width } = Dimensions.get('window');
 
 const IntroductionScreen4 = () => {
   return (
-    <ScrollView style={arsenalStyles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView style={sl72Styles.container} showsVerticalScrollIndicator={false}>
       {/* Hero Section */}
-      <View style={arsenalStyles.heroSection}>
+      <View style={sl72Styles.heroSection}>
         <Image 
-          source={require('../../../../assets/arsenal_banner.jpg')}
-          style={arsenalStyles.heroImage}
+          source={require('../../../../assets/sl72.gif')}
+          style={sl72Styles.heroImage}
           resizeMode="cover"
         />
-        <View style={arsenalStyles.heroOverlay}>
-          <View style={arsenalStyles.heroContent}>
-            <Text style={arsenalStyles.heroTitle}>ARSENAL</Text>
-            <Text style={arsenalStyles.heroSubtitle}>NORTH LONDON FOREVER</Text>
-            <View style={arsenalStyles.heroLine} />
-            <Text style={arsenalStyles.heroDescription}>
-              The Pride of North London
+        <View style={sl72Styles.heroOverlay}>
+          <View style={sl72Styles.heroContent}>
+            <Text style={sl72Styles.heroTitle}>SL 72</Text>
+            <Text style={sl72Styles.heroSubtitle}>VINTAGE RUNNING REDEFINED</Text>
+            <View style={sl72Styles.heroLine} />
+            <Text style={sl72Styles.heroDescription}>
+              Born in the 70s, Built for Today
             </Text>
           </View>
         </View>
       </View>
 
-      {/* Club Heritage Section */}
-      <View style={arsenalStyles.section}>
-        <View style={arsenalStyles.sectionHeader}>
-          <Text style={arsenalStyles.sectionTitle}>CLUB HERITAGE</Text>
-          <View style={arsenalStyles.sectionDivider} />
+      {/* Heritage Section */}
+      <View style={sl72Styles.section}>
+        <View style={sl72Styles.sectionHeader}>
+          <Text style={sl72Styles.sectionTitle}>HERITAGE</Text>
+          <View style={sl72Styles.sectionDivider} />
         </View>
-        <Text style={arsenalStyles.sectionDescription}>
-          Founded in 1886, Arsenal Football Club has been a cornerstone of English football for over 135 years. 
-          Known as "The Gunners," we represent the spirit of North London with passion, pride, and unwavering determination. 
-          From Highbury to the Emirates Stadium, our legacy continues to inspire generations of football fans worldwide.
+        <Text style={sl72Styles.sectionDescription}>
+          The Adidas SL 72 made its debut during the 1972 Munich Olympics, representing the pinnacle of running technology. 
+          Designed as a lightweight training shoe, the SL 72 (Super Light) revolutionized athletic footwear with its 
+          innovative construction and timeless aesthetic. Today, this vintage icon continues to inspire with its 
+          perfect blend of retro style and modern comfort.
         </Text>
       </View>
 
-      {/* Values Grid */}
-      <View style={arsenalStyles.valuesSection}>
-        <Text style={arsenalStyles.valuesSectionTitle}>OUR VALUES</Text>
-        <View style={arsenalStyles.valuesGrid}>
+      {/* Features Grid */}
+      <View style={sl72Styles.featuresSection}>
+        <Text style={sl72Styles.featuresSectionTitle}>DESIGN FEATURES</Text>
+        <View style={sl72Styles.featuresGrid}>
           {[
             {
-              icon: 'trophy-outline',
-              title: 'EXCELLENCE',
-              description: 'Striving for greatness in every match, every season.'
+              icon: 'flash-outline',
+              title: 'LIGHTWEIGHT',
+              description: 'Super Light construction for enhanced performance.'
             },
             {
-              icon: 'people-outline',
-              title: 'UNITY',
-              description: 'One team, one family, one Arsenal.'
+              icon: 'time-outline',
+              title: 'VINTAGE',
+              description: 'Authentic 70s design with modern updates.'
             },
             {
-              icon: 'heart-outline',
-              title: 'PASSION',
-              description: 'The fire that burns in every Gunner\'s heart.'
+              icon: 'diamond-outline',
+              title: 'QUALITY',
+              description: 'Premium materials and expert craftsmanship.'
             },
             {
-              icon: 'shield-outline',
-              title: 'TRADITION',
-              description: 'Honoring our past while building our future.'
+              icon: 'trending-up-outline',
+              title: 'PERFORMANCE',
+              description: 'Engineered for running and everyday wear.'
             }
-          ].map((value, index) => (
-            <View key={index} style={arsenalStyles.valueCard}>
-              <View style={arsenalStyles.valueIconContainer}>
-                <Ionicons name={value.icon as any} size={28} color="#FFFFFF" />
+          ].map((feature, index) => (
+            <View key={index} style={sl72Styles.featureCard}>
+              <View style={sl72Styles.featureIconContainer}>
+                <Ionicons name={feature.icon as any} size={28} color="#FFFFFF" />
               </View>
-              <Text style={arsenalStyles.valueTitle}>{value.title}</Text>
-              <Text style={arsenalStyles.valueDescription}>{value.description}</Text>
+              <Text style={sl72Styles.featureTitle}>{feature.title}</Text>
+              <Text style={sl72Styles.featureDescription}>{feature.description}</Text>
             </View>
           ))}
         </View>
       </View>
 
-      {/* Achievements Section */}
-      <View style={arsenalStyles.achievementsSection}>
-        <Text style={arsenalStyles.achievementsSectionTitle}>ACHIEVEMENTS</Text>
-        <View style={arsenalStyles.achievementsGrid}>
+      {/* Specifications Section */}
+      <View style={sl72Styles.specsSection}>
+        <Text style={sl72Styles.specsSectionTitle}>SPECIFICATIONS</Text>
+        <View style={sl72Styles.specsGrid}>
           {[
-            { number: '13', title: 'Premier League Titles' },
-            { number: '14', title: 'FA Cup Wins' },
-            { number: '2', title: 'League Cup Titles' },
-            { number: '1', title: 'European Cup Winners\' Cup' }
-          ].map((achievement, index) => (
-            <View key={index} style={arsenalStyles.achievementCard}>
-              <Text style={arsenalStyles.achievementNumber}>{achievement.number}</Text>
-              <Text style={arsenalStyles.achievementTitle}>{achievement.title}</Text>
+            { label: 'Weight', value: '290g' },
+            { label: 'Drop', value: '12mm' },
+            { label: 'Upper', value: 'Suede & Nylon' },
+            { label: 'Sole', value: 'Rubber Outsole' }
+          ].map((spec, index) => (
+            <View key={index} style={sl72Styles.specCard}>
+              <Text style={sl72Styles.specValue}>{spec.value}</Text>
+              <Text style={sl72Styles.specLabel}>{spec.label}</Text>
             </View>
           ))}
         </View>
       </View>
 
-      {/* Stadium Section */}
-      <View style={arsenalStyles.stadiumSection}>
-        <View style={arsenalStyles.stadiumContent}>
-          <Text style={arsenalStyles.stadiumTitle}>EMIRATES STADIUM</Text>
-          <Text style={arsenalStyles.stadiumDescription}>
-            Our home since 2006, the Emirates Stadium stands as a modern fortress in North London. 
-            With a capacity of 60,704, it's where legends are made and dreams come true. 
-            The atmosphere on matchday is electric, with the roar of the crowd driving our players to victory.
+      {/* Technology Section */}
+      <View style={sl72Styles.techSection}>
+        <View style={sl72Styles.techContent}>
+          <Text style={sl72Styles.techTitle}>TECHNOLOGY</Text>
+          <Text style={sl72Styles.techDescription}>
+            The SL 72 features a classic suede and nylon upper construction that provides durability and breathability. 
+            The rubber outsole offers excellent grip and traction, while the EVA midsole delivers cushioning for 
+            all-day comfort. The iconic three stripes and vintage colorways make this shoe a timeless classic.
           </Text>
-          <View style={arsenalStyles.stadiumStats}>
-            <View style={arsenalStyles.stadiumStat}>
-              <Text style={arsenalStyles.stadiumStatNumber}>60,704</Text>
-              <Text style={arsenalStyles.stadiumStatLabel}>Capacity</Text>
+          <View style={sl72Styles.techFeatures}>
+            <View style={sl72Styles.techFeature}>
+              <Ionicons name="checkmark-circle" size={20} color="#1976D2" />
+              <Text style={sl72Styles.techFeatureText}>Suede & Nylon Upper</Text>
             </View>
-            <View style={arsenalStyles.stadiumStat}>
-              <Text style={arsenalStyles.stadiumStatNumber}>2006</Text>
-              <Text style={arsenalStyles.stadiumStatLabel}>Opened</Text>
+            <View style={sl72Styles.techFeature}>
+              <Ionicons name="checkmark-circle" size={20} color="#1976D2" />
+              <Text style={sl72Styles.techFeatureText}>EVA Midsole Cushioning</Text>
+            </View>
+            <View style={sl72Styles.techFeature}>
+              <Ionicons name="checkmark-circle" size={20} color="#1976D2" />
+              <Text style={sl72Styles.techFeatureText}>Rubber Outsole</Text>
+            </View>
+            <View style={sl72Styles.techFeature}>
+              <Ionicons name="checkmark-circle" size={20} color="#1976D2" />
+              <Text style={sl72Styles.techFeatureText}>Vintage Aesthetic</Text>
             </View>
           </View>
         </View>
       </View>
 
       {/* Call to Action */}
-      <View style={arsenalStyles.ctaSection}>
-        <Text style={arsenalStyles.ctaTitle}>JOIN THE ARSENAL FAMILY</Text>
-        <Text style={arsenalStyles.ctaDescription}>
-          Be part of the North London legacy. Support the Gunners and wear your colors with pride.
+      <View style={sl72Styles.ctaSection}>
+        <Text style={sl72Styles.ctaTitle}>STEP INTO HISTORY</Text>
+        <Text style={sl72Styles.ctaDescription}>
+          Experience the legendary SL 72. Where vintage meets performance in perfect harmony.
         </Text>
-        <TouchableOpacity style={arsenalStyles.ctaButton}>
-          <Text style={arsenalStyles.ctaButtonText}>EXPLORE COLLECTION</Text>
-          <Ionicons name="arrow-forward" size={20} color="#FFFFFF" />
+        <TouchableOpacity style={sl72Styles.ctaButton}>
+          <Text style={sl72Styles.ctaButtonText}>SHOP SL 72</Text>
+          <Ionicons name="arrow-forward" size={20} color="#1976D2" />
         </TouchableOpacity>
       </View>
 
       {/* Footer */}
-      <View style={arsenalStyles.footer}>
-        <Text style={arsenalStyles.footerText}>
-          "Remember who you are, what you are, and who you represent."
+      <View style={sl72Styles.footer}>
+        <Text style={sl72Styles.footerText}>
+          "Classics never go out of style."
         </Text>
-        <Text style={arsenalStyles.footerSignature}>- Arsène Wenger</Text>
+        <Text style={sl72Styles.footerSignature}>- Adidas Originals</Text>
       </View>
     </ScrollView>
   );
 };
 
-const arsenalStyles = StyleSheet.create({
+const sl72Styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
@@ -168,7 +177,7 @@ const arsenalStyles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(220, 20, 60, 0.7)', // Arsenal red overlay
+    backgroundColor: 'rgba(25, 118, 210, 0.7)', // Blue overlay
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -219,42 +228,42 @@ const arsenalStyles = StyleSheet.create({
   sectionTitle: {
     fontSize: 24,
     fontWeight: '800',
-    color: '#DC143C', // Arsenal red
+    color: '#1976D2', // Blue
     letterSpacing: 1,
   },
   sectionDivider: {
     width: 40,
     height: 3,
-    backgroundColor: '#DC143C',
+    backgroundColor: '#1976D2',
     marginTop: 8,
   },
   sectionDescription: {
     fontSize: 16,
     lineHeight: 26,
-    color: '#2C3E50', // Dark navy
+    color: '#2C3E50',
     textAlign: 'justify',
   },
 
-  // Values Section
-  valuesSection: {
+  // Features Section
+  featuresSection: {
     backgroundColor: '#F8F9FA',
     paddingHorizontal: 20,
     paddingVertical: 40,
   },
-  valuesSectionTitle: {
+  featuresSectionTitle: {
     fontSize: 28,
     fontWeight: '800',
-    color: '#DC143C',
+    color: '#1976D2',
     textAlign: 'center',
     marginBottom: 30,
     letterSpacing: 2,
   },
-  valuesGrid: {
+  featuresGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
-  valueCard: {
+  featureCard: {
     width: (width - 60) / 2,
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
@@ -267,38 +276,38 @@ const arsenalStyles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 4,
     borderTopWidth: 4,
-    borderTopColor: '#DC143C',
+    borderTopColor: '#1976D2',
   },
-  valueIconContainer: {
+  featureIconContainer: {
     width: 60,
     height: 60,
-    backgroundColor: '#DC143C',
+    backgroundColor: '#1976D2',
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 15,
   },
-  valueTitle: {
+  featureTitle: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#DC143C',
+    color: '#1976D2',
     marginBottom: 8,
     textAlign: 'center',
   },
-  valueDescription: {
+  featureDescription: {
     fontSize: 12,
     color: '#666',
     textAlign: 'center',
     lineHeight: 18,
   },
 
-  // Achievements Section
-  achievementsSection: {
-    backgroundColor: '#2C3E50', // Dark navy
+  // Specifications Section
+  specsSection: {
+    backgroundColor: '#2C3E50',
     paddingHorizontal: 20,
     paddingVertical: 40,
   },
-  achievementsSectionTitle: {
+  specsSectionTitle: {
     fontSize: 28,
     fontWeight: '800',
     color: '#FFFFFF',
@@ -306,12 +315,12 @@ const arsenalStyles = StyleSheet.create({
     marginBottom: 30,
     letterSpacing: 2,
   },
-  achievementsGrid: {
+  specsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
-  achievementCard: {
+  specCard: {
     width: (width - 60) / 2,
     backgroundColor: 'rgba(255, 255, 255, 0.1)',
     borderRadius: 12,
@@ -319,15 +328,15 @@ const arsenalStyles = StyleSheet.create({
     marginBottom: 20,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: 'rgba(220, 20, 60, 0.3)',
+    borderColor: 'rgba(25, 118, 210, 0.3)',
   },
-  achievementNumber: {
-    fontSize: 36,
+  specValue: {
+    fontSize: 24,
     fontWeight: '900',
-    color: '#DC143C',
+    color: '#1976D2',
     marginBottom: 8,
   },
-  achievementTitle: {
+  specLabel: {
     fontSize: 12,
     fontWeight: '600',
     color: '#FFFFFF',
@@ -335,52 +344,48 @@ const arsenalStyles = StyleSheet.create({
     lineHeight: 16,
   },
 
-  // Stadium Section
-  stadiumSection: {
+  // Technology Section
+  techSection: {
     paddingHorizontal: 20,
     paddingVertical: 40,
     backgroundColor: '#FFFFFF',
   },
-  stadiumContent: {
+  techContent: {
     alignItems: 'center',
   },
-  stadiumTitle: {
+  techTitle: {
     fontSize: 28,
     fontWeight: '800',
-    color: '#DC143C',
+    color: '#1976D2',
     marginBottom: 20,
     letterSpacing: 2,
   },
-  stadiumDescription: {
+  techDescription: {
     fontSize: 16,
     lineHeight: 26,
     color: '#2C3E50',
     textAlign: 'center',
     marginBottom: 30,
   },
-  stadiumStats: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+  techFeatures: {
     width: '100%',
   },
-  stadiumStat: {
+  techFeature: {
+    flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 15,
+    paddingHorizontal: 20,
   },
-  stadiumStatNumber: {
-    fontSize: 32,
-    fontWeight: '900',
-    color: '#DC143C',
-  },
-  stadiumStatLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#666',
-    marginTop: 4,
+  techFeatureText: {
+    fontSize: 16,
+    color: '#2C3E50',
+    marginLeft: 15,
+    fontWeight: '500',
   },
 
   // CTA Section
   ctaSection: {
-    backgroundColor: '#DC143C',
+    backgroundColor: '#1976D2',
     paddingHorizontal: 20,
     paddingVertical: 40,
     alignItems: 'center',
@@ -416,7 +421,7 @@ const arsenalStyles = StyleSheet.create({
   ctaButtonText: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#DC143C',
+    color: '#1976D2',
     marginRight: 10,
     letterSpacing: 1,
   },
@@ -438,7 +443,7 @@ const arsenalStyles = StyleSheet.create({
   footerSignature: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#DC143C',
+    color: '#1976D2',
   },
 });
 

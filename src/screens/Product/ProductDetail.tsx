@@ -67,11 +67,29 @@ const ProductDetail = () => {
   const autoScrollInterval = useRef<NodeJS.Timeout | undefined>(undefined);
   const [isFavorite, setIsFavorite] = useState(false);
   const favoriteScale = useRef(new RNAnimated.Value(1)).current;
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState<'success' | 'error'>('success');
+  const [showToast, setShowToast] = useState(false);
+  const [selectedColor, setSelectedColor] = useState(product.colors && product.colors.length > 0 ? product.colors[0] : '');
+  const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
   const [addCartSuccess, setAddCartSuccess] = useState(false);
   const [sizeError, setSizeError] = useState(false);
   const { token, user } = useSelector((state: RootState) => state.auth);
   const isLoggedIn = !!token && !!user;
+
+  // Lấy tồn kho theo tổ hợp màu + size
+  const getStock = (color: string, size: string | number) => {
+    return product.stockByColorSize?.[`${color}-${size}`] ?? 0;
+  };
+
+  // Reset quantity về 1 nếu đổi màu/size mà tồn kho mới < quantity
+  useEffect(() => {
+    if (selectedColor && selectedSize) {
+      const stock = getStock(selectedColor, selectedSize);
+      if (quantity > stock) setQuantity(stock > 0 ? 1 : 0);
+    }
+  }, [selectedColor, selectedSize]);
 
   const panResponder = useRef(
     PanResponder.create({
@@ -143,9 +161,9 @@ const ProductDetail = () => {
     : ['S', 'M', 'L', 'XL', 'XXL'];
 
   const productImages = [
-    getImageRequire(product.image),
-    getImageRequire(product.image),
-    getImageRequire(product.image),
+    getImageRequire(product.imageDefault),
+    getImageRequire(product.imageDefault),
+    getImageRequire(product.imageDefault),
   ];
 
   const handleZoom = (image: string) => {
@@ -197,33 +215,48 @@ const ProductDetail = () => {
     ]).start();
   };
 
-  const handleAddToCart = async () => {
-    if (!isLoggedIn) {
-      navigation.navigate('Auth' as never);
-      return;
-    }
+  const handleAddToCart = () => {
     if (!selectedSize) {
-      setSizeError(true);
-      setTimeout(() => setSizeError(false), 1000);
+      setToastMessage('Vui lòng chọn size');
+      setToastType('error');
+      setShowToast(true);
       return;
     }
-    const size = selectedSize;
-    const color = product.colors && product.colors.length > 0 ? product.colors[0] : 'default';
-    dispatch(addToCart({
+    if (!selectedColor) {
+      setToastMessage('Vui lòng chọn màu');
+      setToastType('error');
+      setShowToast(true);
+      return;
+    }
+    const stock = getStock(selectedColor, selectedSize);
+    if (stock === 0) {
+      setToastMessage('Hết hàng cho lựa chọn này!');
+      setToastType('error');
+      setShowToast(true);
+      return;
+    }
+    if (quantity > stock) {
+      setToastMessage('Vượt quá số lượng tồn kho!');
+      setToastType('error');
+      setShowToast(true);
+      return;
+    }
+    const numericPrice = typeof product.price === 'string' ? parseInt(product.price.replace(/[^\d]/g, '')) : product.price;
+    const cartItem = {
       productId: product.id,
       name: product.name,
-      price: typeof product.price === 'string' ? parseInt(product.price) : product.price,
-      image: product.image || product.imageDefault || 'icon.png',
-      color,
-      size,
-      quantity: 1,
-    }));
-    setAddCartSuccess(true);
-    setTimeout(() => {
-      setAddCartSuccess(false);
-      navigation.goBack();
-    }, 1000);
+      price: numericPrice,
+      image: product.image || product.imageDefault || '',
+      color: selectedColor,
+      size: selectedSize,
+      quantity,
+    };
+    dispatch(addToCart(cartItem));
+    setToastMessage(`✅ Đã thêm ${product.name} vào giỏ hàng!`);
+    setToastType('success');
+    setShowToast(true);
   };
+
 
   const renderCarouselItem = ({ item, index }: { item: string; index: number }) => {
     return (
@@ -444,6 +477,55 @@ const ProductDetail = () => {
               ))}
             </View>
           </Animated.View>
+
+          {/* Color Picker dưới tên sản phẩm */}
+          <View style={{ flexDirection: 'row', marginBottom: 16 }}>
+            {product.colors.map((color: string) => (
+              <TouchableOpacity
+                key={color}
+                style={{
+                  width: 32, height: 32, borderRadius: 16, marginRight: 12,
+                  backgroundColor: color,
+                  borderWidth: selectedColor === color ? 2 : 1,
+                  borderColor: selectedColor === color ? '#000' : '#ccc',
+                  justifyContent: 'center', alignItems: 'center'
+                }}
+                onPress={() => setSelectedColor(color)}
+              >
+                {selectedColor === color && (
+                  <Icon name="check" size={18} color="#fff" />
+                )}
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          {/* Hiển thị tồn kho cho tổ hợp màu + size */}
+          {selectedColor && selectedSize && (
+            <Text style={{ marginTop: 8, color: '#666' }}>
+              Số lượng còn: {getStock(selectedColor, selectedSize)}
+            </Text>
+          )}
+
+          {/* Chọn số lượng */}
+          {selectedColor && selectedSize && getStock(selectedColor, selectedSize) > 0 && (
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
+              <TouchableOpacity
+                onPress={() => setQuantity(q => Math.max(1, q - 1))}
+                disabled={quantity <= 1}
+                style={{ padding: 8, opacity: quantity <= 1 ? 0.5 : 1 }}
+              >
+                <Text style={{ fontSize: 20 }}>-</Text>
+              </TouchableOpacity>
+              <Text style={{ marginHorizontal: 16, fontSize: 16 }}>{quantity}</Text>
+              <TouchableOpacity
+                onPress={() => setQuantity(q => Math.min(getStock(selectedColor, selectedSize), q + 1))}
+                disabled={quantity >= getStock(selectedColor, selectedSize)}
+                style={{ padding: 8, opacity: quantity >= getStock(selectedColor, selectedSize) ? 0.5 : 1 }}
+              >
+                <Text style={{ fontSize: 20 }}>+</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </Animated.View>
 
         <Animated.View 
@@ -466,10 +548,10 @@ const ProductDetail = () => {
       >
         <TouchableOpacity 
           style={styles.addToCartButton}
-          activeOpacity={0.8}
           onPress={handleAddToCart}
+          activeOpacity={0.8}
         >
-          <Text style={styles.addToCartText}>ADD TO CART</Text>
+          <Text style={styles.addToCartText}>Thêm vào giỏ hàng</Text>
         </TouchableOpacity>
       </Animated.View>
 

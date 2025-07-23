@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image } from 'react-native';
 import Animated, { FadeIn, FadeOut, useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 import { Product } from '../types/Product';
@@ -10,6 +10,8 @@ import { useFavoritesContext } from '../hooks/FavoritesContext';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { RootState } from '../redux/store';
+import { getHandballImage } from '../utils/handballImageMap';
+import { getUltraboostImage } from '../utils/ultraboostImageMap';
 
 const { width } = Dimensions.get('window');
 
@@ -120,34 +122,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     }).format(price);
   };
 
-  const getImageSource = (imageName: string) => {
-    // Map image names to require statements
-    const imageMap: { [key: string]: any } = {
-      'samba.gif': require('../../assets/samba.gif'),
-      'sl72.gif': require('../../assets/sl72.gif'),
-      'yeezy750.gif': require('../../assets/yeezy750.gif'),
-      'handball.gif': require('../../assets/handball.gif'),
-      'banner1.gif': require('../../assets/banner1.gif'),
-      'Giay_Ultraboost_22.jpg': require('../../assets/Giay_Ultraboost_22.jpg'),
-      'Giay_Stan_Smith_x_Liberty_London.jpg': require('../../assets/Giay_Stan_Smith_x_Liberty_London.jpg'),
-      'Ao_Thun_Polo_Ba_La.jpg': require('../../assets/Ao_Thun_Polo_Ba_La.jpg'),
-      'Quan_Hiking_Terrex.jpg': require('../../assets/Quan_Hiking_Terrex.jpg'),
-      'aoadidasden.png': require('../../assets/aoadidasden.png'),
-      'aoadidastrang.png': require('../../assets/aoadidastrang.png'),
-      'aoadidasxanh.png': require('../../assets/aoadidasxanh.png'),
-      'ao1.jpg': require('../../assets/ao1.jpg'),
-      'ao3.jpg': require('../../assets/ao3.jpg'),
-      'ao4.jpg': require('../../assets/ao4.jpg'),
-      'ao5.jpg': require('../../assets/ao5.jpg'),
-      'quan1.jpg': require('../../assets/quan1.jpg'),
-      'quan2.jpg': require('../../assets/quan2.jpg'),
-      'quan3.jpg': require('../../assets/quan3.jpg'),
-      "Mu_2526.jpg": require("../../assets/category_images/Mu_2526.jpg")
-    };
-    
-    return imageMap[imageName] || require('../../assets/icon.png');
-  };
-
   const getColorCode = (colorName: string): string => {
     const colorMap: { [key: string]: string } = {
       'black': '#000000',
@@ -168,8 +142,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
     return colorMap[colorName.toLowerCase()] || '#CCCCCC';
   };
 
-  // Use new image structure or fallback to legacy
-  const imageSource = product.image ? getImageSource(product.image) : getImageRequire(product.imageDefault || '');
+  const isHandball = product.collections && product.collections.includes('Handball');
+  const isUltraboost = product.collections && (product.collections.includes('Ultraboost') || product.collections.includes('Pureboost'));
+  const imageSource = isHandball
+    ? getHandballImage(product.imageDefault ?? "")
+    : isUltraboost
+    ? getUltraboostImage(product.imageDefault ?? "")
+    : getImageRequire(product.imageDefault ?? "");
 
   // Truncate description
   const truncatedDescription = product.description.length > MAX_DESCRIPTION_LENGTH
@@ -189,7 +168,17 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <Animated.Image
             key={showImage}
             source={imageSource}
-            style={styles.imageRect}
+            style={[
+              styles.imageRect,
+              isUltraboost && {
+                height: 260,
+                width: '110%',
+                marginTop: -10,
+                marginBottom: 0,
+                alignSelf: 'center',
+                resizeMode: 'contain',
+              },
+            ]}
             entering={FadeIn.duration(300)}
             exiting={FadeOut.duration(300)}
           />

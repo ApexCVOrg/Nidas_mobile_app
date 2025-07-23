@@ -101,6 +101,11 @@ export const cartStyles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
+  checkboxContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+  },
   itemImageContainer: {
     width: 80,
     height: 80,
@@ -275,5 +280,35 @@ export const cartStyles = StyleSheet.create({
     fontSize: 16,
     color: '#666',
     textDecorationLine: 'underline',
+  },
+  selectAllRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: '#f8f9fa',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E5E5',
+  },
+  selectAllText: {
+    fontSize: 16,
+    color: '#222',
+    fontWeight: '500',
+    marginRight: 16,
+  },
+  removeCheckedButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ff4757',
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 8,
+    marginLeft: 'auto',
+  },
+  removeCheckedButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+    marginLeft: 6,
   },
 }); 

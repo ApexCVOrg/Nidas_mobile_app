@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { addToCart } from '../../../redux/slices/cartSlice';
 import Toast from '../../../components/Toast';
 import CheckoutBottomSheet from '../../../components/CheckoutBottomSheet';
+import categoryProducts from '../../../api/categoryProducts.json';
 
 const { width } = Dimensions.get('window');
 
@@ -22,51 +23,95 @@ const product = {
   colors: ['red', 'teal', 'beige', 'white'],
   sizes: [36, 37, 38, 39, 40, 41, 42, 43, 44, 45],
   tags: ['pharrell', 'tennis hu', 'collaboration', 'unique', 'colorful'],
+  quantityBySize: {
+    "36": 10,
+    "37": 10,
+    "38": 10,
+    "39": 10,
+    "40": 10,
+    "41": 10,
+    "42": 10,
+    "43": 10,
+    "44": 10,
+    "45": 10
+  }
+};
+
+const rawSizes = Object.entries(product.quantityBySize as unknown as Record<string, number>);
+const sizes: string[] = rawSizes.filter(([_, v]) => typeof v === 'number').map(([k]) => k);
+
+// Lấy tồn kho theo size (không phân biệt màu)
+const getStock = (size: string) => {
+  const stock = (product.quantityBySize as unknown as Record<string, number>)[size];
+  return typeof stock === 'number' ? stock : 0;
+};
+
+// Type for color map
+const colorMap: Record<string, string> = {
+  white: '#FFFFFF', black: '#000000', blue: '#0066CC', red: '#FF0000', yellow: '#FFCC00', pink: '#FF69B4', green: '#00CC00', gray: '#808080', grey: '#808080', brown: '#8B4513', teal: '#008080', beige: '#F5F5DC', silver: '#C0C0C0', navy: '#000080', floral: '#FFB6C1', orange: '#FFA500', purple: '#800080', pink2: '#FFC0CB', green2: '#228B22', gold: '#FFD700'
+};
+const availableColors = product.colors.map((c: string) => ({ name: c, code: colorMap[c] || '#ccc', label: c.charAt(0).toUpperCase() + c.slice(1) }));
+
+const formatPrice = (price: string | number) => {
+  const num = typeof price === 'string' ? parseInt((price as string).replace(/[^\d]/g, '')) : price;
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+  }).format(num);
 };
 
 const ProductScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [selectedSize, setSelectedSize] = useState<number | null>(null);
-  const [selectedColor, setSelectedColor] = useState('red');
+  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  const [selectedSize, setSelectedSize] = useState(sizes[0]);
+  const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [showQuickCheckout, setShowQuickCheckout] = useState(false);
 
-  const availableColors = [
-    { name: 'red', code: '#DC143C', label: 'Red' },
-    { name: 'teal', code: '#006699', label: 'Teal' },
-    { name: 'beige', code: '#F5F5DC', label: 'Beige' },
-    { name: 'white', code: '#FFFFFF', label: 'White' }
-  ];
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('vi-VN', {
-      style: 'currency',
-      currency: 'VND',
-    }).format(price);
-  };
+  React.useEffect(() => {
+    if (selectedSize) {
+      const stock = getStock(selectedSize);
+      if (quantity > stock) setQuantity(stock > 0 ? 1 : 0);
+    }
+  }, [selectedColor, selectedSize]);
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      setToastMessage('Please select a size');
+      setToastMessage('Vui lòng chọn size');
       setShowToast(true);
       return;
     }
-
+    if (!selectedColor) {
+      setToastMessage('Vui lòng chọn màu');
+      setShowToast(true);
+      return;
+    }
+    const stock = getStock(selectedSize);
+    if (stock === 0) {
+      setToastMessage('Hết hàng cho lựa chọn này!');
+      setShowToast(true);
+      return;
+    }
+    if (quantity > stock) {
+      setToastMessage('Vượt quá số lượng tồn kho!');
+      setShowToast(true);
+      return;
+    }
+    const numericPrice = typeof product.price === 'string' ? parseInt((product.price as string).replace(/[^\d]/g, '')) : product.price;
     const cartItem = {
       productId: product.id,
       name: product.name,
-      price: product.price,
+      price: numericPrice,
       image: product.image,
       color: selectedColor,
       size: selectedSize,
-      quantity: 1,
+      quantity,
     };
-
     dispatch(addToCart(cartItem));
-    setToastMessage(`✅ ${product.name} added to cart!`);
+    setToastMessage(`✅ Đã thêm ${product.name} vào giỏ hàng!`);
     setShowToast(true);
   };
 
@@ -178,15 +223,15 @@ const ProductScreen = () => {
             ))}
           </View>
           <Text style={styles.selectedText}>
-            Selected: {availableColors.find(c => c.name === selectedColor)?.label}
+            Đã chọn: {selectedColor}
           </Text>
         </View>
 
         {/* Size Selection */}
         <View style={styles.selectionSection}>
-          <Text style={styles.selectionTitle}>Size (EU)</Text>
+          <Text style={styles.selectionTitle}>Size</Text>
           <View style={styles.sizeOptions}>
-            {product.sizes.map((size) => (
+            {sizes.map((size) => (
               <TouchableOpacity
                 key={size}
                 style={[
@@ -204,6 +249,32 @@ const ProductScreen = () => {
               </TouchableOpacity>
             ))}
           </View>
+          {/* Hiển thị tồn kho cho size */}
+          {selectedSize && (
+            <Text style={{ marginTop: 8, color: '#666' }}>
+              Số lượng còn: {getStock(selectedSize)}
+            </Text>
+          )}
+          {/* Chọn số lượng */}
+          {selectedSize && getStock(selectedSize) > 0 && (
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 8 }}>
+              <TouchableOpacity
+                onPress={() => setQuantity(q => Math.max(1, q - 1))}
+                disabled={quantity <= 1}
+                style={{ padding: 8, opacity: quantity <= 1 ? 0.5 : 1 }}
+              >
+                <Text style={{ fontSize: 20 }}>-</Text>
+              </TouchableOpacity>
+              <Text style={{ marginHorizontal: 16, fontSize: 16 }}>{quantity}</Text>
+              <TouchableOpacity
+                onPress={() => setQuantity(q => Math.min(getStock(selectedSize), q + 1))}
+                disabled={quantity >= getStock(selectedSize)}
+                style={{ padding: 8, opacity: quantity >= getStock(selectedSize) ? 0.5 : 1 }}
+              >
+                <Text style={{ fontSize: 20 }}>+</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
 
         {/* Product Story */}
@@ -266,8 +337,7 @@ const ProductScreen = () => {
       {/* Bottom Actions */}
       <View style={styles.bottomActions}>
         <TouchableOpacity style={styles.addToCartButton} onPress={handleAddToCart}>
-          <Ionicons name="cart" size={20} color="#fff" style={styles.cartIcon} />
-          <Text style={styles.addToCartText}>Add to Cart</Text>
+          <Text style={styles.addToCartText}>Thêm vào giỏ hàng</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buyNowButton} onPress={handleBuyNow}>
           <Text style={styles.buyNowText}>Buy Now</Text>
@@ -286,7 +356,7 @@ const ProductScreen = () => {
       <CheckoutBottomSheet
         visible={showQuickCheckout}
         onClose={() => setShowQuickCheckout(false)}
-        product={product}
+        product={product as any}
         selectedColor={selectedColor}
         selectedSize={selectedSize || undefined}
         onCheckout={handleQuickCheckout}
