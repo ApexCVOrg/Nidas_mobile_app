@@ -11,10 +11,15 @@ import {
   Alert,
   ActivityIndicator,
   RefreshControl,
+  ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import ProductSelectorModal from '../../components/ProductSelectorModal';
+import ProductMessageCard from '../../components/ProductMessageCard';
+import ChatActionMenu from '../../components/ChatActionMenu';
+import ChatMediaMessage from '../../components/ChatMediaMessage';
 import { 
   getChats, 
   getMessages, 
@@ -45,6 +50,15 @@ interface Message {
   senderType: 'user' | 'manager' | 'bot';
   timestamp: string;
   isRead: boolean;
+  mediaType?: 'image' | 'file';
+  mediaUri?: string;
+  fileName?: string;
+  fileSize?: string;
+  metadata?: {
+    type?: string;
+    productId?: string;
+    productData?: any;
+  };
 }
 
 const ManagerChatScreen: React.FC = () => {
@@ -58,7 +72,21 @@ const ManagerChatScreen: React.FC = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [isManagerJoined, setIsManagerJoined] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showProductSelector, setShowProductSelector] = useState(false);
   const flatListRef = useRef<FlatList>(null);
+
+  // Suggestion messages cho manager
+  const managerSuggestions = [
+    "Xin chào! Tôi có thể giúp gì cho bạn?",
+    "Bạn cần hỗ trợ về sản phẩm nào?",
+    "Tôi sẽ kiểm tra thông tin đơn hàng của bạn",
+    "Bạn có muốn xem các sản phẩm mới không?",
+    "Cảm ơn bạn đã liên hệ!",
+    "Tôi sẽ chuyển thông tin cho bộ phận liên quan",
+    "Bạn có thể cho tôi biết thêm chi tiết không?",
+    "Tôi hiểu vấn đề của bạn, để tôi hỗ trợ ngay"
+  ];
 
   useEffect(() => {
     loadChats();
@@ -199,9 +227,10 @@ const ManagerChatScreen: React.FC = () => {
   const sendManagerMessage = async () => {
     if (!inputText.trim() || !selectedChat || !isManagerJoined) return;
 
-    const managerMessage = inputText.trim();
+    const textToSend = inputText.trim();
     setInputText('');
     setIsSending(true);
+    setShowSuggestions(false);
 
     try {
       // Gửi tin nhắn lên server
@@ -209,7 +238,7 @@ const ManagerChatScreen: React.FC = () => {
         chatId: selectedChat.id,
         senderId: 'manager001',
         senderType: 'manager',
-        content: managerMessage,
+        content: textToSend,
         timestamp: new Date().toISOString(),
         isRead: false
       });
@@ -219,6 +248,162 @@ const ManagerChatScreen: React.FC = () => {
     } catch (error) {
       console.error('Error sending message:', error);
       Alert.alert('Lỗi', 'Không thể gửi tin nhắn');
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const sendSuggestionMessage = async (suggestion: string) => {
+    if (!selectedChat || !isManagerJoined) return;
+
+    setIsSending(true);
+    setShowSuggestions(false);
+
+    try {
+      // Gửi tin nhắn lên server
+      await sendMessage({
+        chatId: selectedChat.id,
+        senderId: 'manager001',
+        senderType: 'manager',
+        content: suggestion,
+        timestamp: new Date().toISOString(),
+        isRead: false
+      });
+
+      // Reload messages
+      await loadMessages(selectedChat.id);
+    } catch (error) {
+      console.error('Error sending suggestion:', error);
+      Alert.alert('Lỗi', 'Không thể gửi tin nhắn');
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const handleKeyPress = (event: any) => {
+    if (event.nativeEvent.key === 'Enter' && !event.nativeEvent.shiftKey) {
+      event.preventDefault();
+      sendManagerMessage();
+    }
+  };
+
+  const handleSubmitEditing = () => {
+    sendManagerMessage();
+  };
+
+  const sendProductMessage = async (product: any) => {
+    if (!selectedChat || !isManagerJoined) return;
+
+    setIsSending(true);
+
+    try {
+      // Tạo tin nhắn với đầy đủ thông tin sản phẩm
+      const productMessage = `🛍️ **${product.name}**\n\n💰 Giá: ${product.price.toLocaleString()}đ\n🏷️ Thương hiệu: ${product.brand}\n📝 Mô tả: ${product.description}\n\nXem chi tiết sản phẩm tại đây!`;
+
+      // Gửi tin nhắn lên server với metadata sản phẩm
+      await sendMessage({
+        chatId: selectedChat.id,
+        senderId: 'manager001',
+        senderType: 'manager',
+        content: productMessage,
+        timestamp: new Date().toISOString(),
+        isRead: false,
+        metadata: {
+          type: 'product',
+          productId: product.id,
+          productData: {
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            description: product.description,
+            brand: product.brand,
+            category: product.category,
+            colors: product.colors || [],
+            sizes: product.sizes || [],
+            rating: product.rating || 4.5,
+            reviews: product.reviews || 0,
+            stock: product.stock || 10,
+            discount: product.discount || 0,
+            originalPrice: product.originalPrice || product.price,
+            imageDefault: product.image,
+            collections: product.collections || [],
+            features: product.features || [],
+            specifications: product.specifications || {},
+            tags: product.tags || [],
+            images: product.images || [product.image],
+          }
+        }
+      });
+
+      // Reload messages
+      await loadMessages(selectedChat.id);
+    } catch (error) {
+      console.error('Error sending product message:', error);
+      Alert.alert('Lỗi', 'Không thể gửi thông tin sản phẩm');
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const sendImageMessage = async (imageUri: string) => {
+    if (!selectedChat || !isManagerJoined) return;
+
+    setIsSending(true);
+
+    try {
+      const imageMessage = `📸 [Hình ảnh]`;
+
+      // Gửi tin nhắn lên server
+      await sendMessage({
+        chatId: selectedChat.id,
+        senderId: 'manager001',
+        senderType: 'manager',
+        content: imageMessage,
+        timestamp: new Date().toISOString(),
+        isRead: false,
+        mediaType: 'image',
+        mediaUri: imageUri
+      });
+
+      // Reload messages
+      await loadMessages(selectedChat.id);
+    } catch (error) {
+      console.error('Error sending image message:', error);
+      Alert.alert('Lỗi', 'Không thể gửi hình ảnh');
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const sendFileMessage = async (file: any) => {
+    if (!selectedChat || !isManagerJoined) return;
+
+    setIsSending(true);
+
+    try {
+      const fileMessage = `📎 [File] ${file.name}`;
+      const fileSize = file.size ? `${(file.size / 1024 / 1024).toFixed(1)} MB` : '';
+
+      // Gửi tin nhắn lên server
+      await sendMessage({
+        chatId: selectedChat.id,
+        senderId: 'manager001',
+        senderType: 'manager',
+        content: fileMessage,
+        timestamp: new Date().toISOString(),
+        isRead: false,
+        mediaType: 'file',
+        mediaUri: file.uri,
+        fileName: file.name,
+        fileSize: fileSize
+      });
+
+      // Reload messages
+      await loadMessages(selectedChat.id);
+    } catch (error) {
+      console.error('Error sending file message:', error);
+      Alert.alert('Lỗi', 'Không thể gửi file');
     } finally {
       setIsSending(false);
     }
@@ -270,6 +455,105 @@ const ManagerChatScreen: React.FC = () => {
   const renderMessage = ({ item }: { item: Message }) => {
     const isManager = item.senderType === 'manager';
     const isBot = item.senderType === 'bot';
+    
+    // Kiểm tra xem có phải tin nhắn sản phẩm không
+    const isProductMessage = item.content.includes('🛍️') && item.content.includes('💰');
+    
+    if (isProductMessage && isManager) {
+      // Sử dụng metadata nếu có, hoặc parse từ content
+      let product;
+      
+      if ((item as any).metadata?.type === 'product') {
+        product = (item as any).metadata.productData;
+      } else {
+        // Parse thông tin sản phẩm từ tin nhắn (fallback)
+        const productMatch = item.content.match(/🛍️ \*\*(.*?)\*\*\n\n💰 Giá: (.*?)đ\n🏷️ Thương hiệu: (.*?)\n📝 Mô tả: (.*?)\n\n/);
+        
+        if (productMatch) {
+          const [, name, priceStr, brand, description] = productMatch;
+          const price = parseInt(priceStr.replace(/,/g, ''));
+          
+          product = {
+            id: `temp_${Date.now()}`,
+            name,
+            price,
+            image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop',
+            description,
+            brand,
+            category: 'Product'
+          };
+        }
+      }
+      
+      if (product) {
+        return (
+          <View style={[
+            styles.messageContainer,
+            styles.managerMessage
+          ]}>
+            <ProductMessageCard product={product} />
+            <Text style={styles.timestamp}>
+              {new Date(item.timestamp).toLocaleTimeString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit'
+              })}
+            </Text>
+          </View>
+        );
+      }
+    }
+
+    // Kiểm tra xem có phải tin nhắn media không
+    if (item.mediaType === 'image' && item.mediaUri) {
+      return (
+        <View style={[
+          styles.messageContainer,
+          isManager ? styles.managerMessage : styles.userMessage
+        ]}>
+          <ChatMediaMessage
+            type="image"
+            uri={item.mediaUri}
+            onPress={() => {
+              // TODO: Mở ảnh fullscreen
+              console.log('Open image fullscreen');
+            }}
+            isUser={!isManager}
+          />
+          <Text style={styles.timestamp}>
+            {new Date(item.timestamp).toLocaleTimeString('vi-VN', {
+              hour: '2-digit',
+              minute: '2-digit'
+            })}
+          </Text>
+        </View>
+      );
+    }
+
+    if (item.mediaType === 'file' && item.fileName) {
+      return (
+        <View style={[
+          styles.messageContainer,
+          isManager ? styles.managerMessage : styles.userMessage
+        ]}>
+          <ChatMediaMessage
+            type="file"
+            fileName={item.fileName}
+            fileSize={item.fileSize}
+            onPress={() => {
+              // TODO: Download hoặc mở file
+              console.log('Open file:', item.fileName);
+            }}
+            isUser={!isManager}
+          />
+          <Text style={styles.timestamp}>
+            {new Date(item.timestamp).toLocaleTimeString('vi-VN', {
+              hour: '2-digit',
+              minute: '2-digit'
+            })}
+          </Text>
+        </View>
+      );
+    }
     
     return (
       <View style={[
@@ -391,28 +675,60 @@ const ManagerChatScreen: React.FC = () => {
                 }
               />
 
+              {/* Suggestions */}
+              {showSuggestions && (
+                <View style={styles.suggestionsContainer}>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    {managerSuggestions.map((suggestion, index) => (
+                      <TouchableOpacity
+                        key={index}
+                        style={styles.suggestionButton}
+                        onPress={() => sendSuggestionMessage(suggestion)}
+                      >
+                        <Text style={styles.suggestionText}>{suggestion}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                </View>
+              )}
+
               <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={styles.inputContainer}
               >
+                <ChatActionMenu
+                  onSendSuggestion={() => setShowSuggestions(!showSuggestions)}
+                  onSendProduct={() => setShowProductSelector(true)}
+                  onSendImage={sendImageMessage}
+                  onSendFile={sendFileMessage}
+                />
+                
                 <TextInput
                   style={styles.textInput}
                   value={inputText}
                   onChangeText={setInputText}
-                  placeholder="Nhập tin nhắn..."
+                  placeholder="Nhập tin nhắn... (Enter để gửi)"
                   multiline
                   maxLength={500}
+                  onKeyPress={handleKeyPress}
+                  onSubmitEditing={handleSubmitEditing}
+                  returnKeyType="send"
+                  blurOnSubmit={false}
                 />
                 <TouchableOpacity
-                  style={[styles.sendButton, !inputText.trim() && styles.sendButtonDisabled]}
+                  style={[styles.sendButton, (!inputText.trim() || isSending) && styles.sendButtonDisabled]}
                   onPress={sendManagerMessage}
-                  disabled={!inputText.trim()}
+                  disabled={!inputText.trim() || isSending}
                 >
-                  <Ionicons 
-                    name="send" 
-                    size={20} 
-                    color={inputText.trim() ? "#fff" : "#ccc"} 
-                  />
+                  {isSending ? (
+                    <ActivityIndicator size="small" color="#fff" />
+                  ) : (
+                    <Ionicons 
+                      name="send" 
+                      size={20} 
+                      color={inputText.trim() ? "#fff" : "#ccc"} 
+                    />
+                  )}
                 </TouchableOpacity>
               </KeyboardAvoidingView>
             </>
@@ -423,10 +739,16 @@ const ManagerChatScreen: React.FC = () => {
             </View>
           )}
         </View>
-      </View>
-    </SafeAreaView>
-  );
-};
+              </View>
+
+        <ProductSelectorModal
+          visible={showProductSelector}
+          onClose={() => setShowProductSelector(false)}
+          onSendProduct={sendProductMessage}
+        />
+      </SafeAreaView>
+    );
+  };
 
 const styles = StyleSheet.create({
   container: {
@@ -722,6 +1044,41 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
     marginLeft: 4,
+  },
+  suggestionsContainer: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
+    backgroundColor: '#f8f9fa',
+  },
+  suggestionButton: {
+    backgroundColor: '#fff',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 16,
+    marginRight: 8,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+  },
+  suggestionText: {
+    fontSize: 12,
+    color: '#333',
+    fontWeight: '500',
+  },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  actionButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#f0f0f0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
   },
 });
 

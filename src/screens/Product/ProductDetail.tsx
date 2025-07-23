@@ -77,7 +77,7 @@ const ProductDetail = () => {
 
   // --- Các hàm callback không khai báo hook bên trong ---
   const getProductType = React.useCallback(() => {
-    if (!product) return '';
+    if (!product) return 'clothing';
     const category = product.category;
     if (category === 'giay') {
       return 'shoes';
@@ -102,7 +102,7 @@ const ProductDetail = () => {
   }, [currentIndex]);
 
   const handleNext = React.useCallback(() => {
-    if (product && currentIndex < (product.images?.length || 1) - 1) {
+    if (product && currentIndex < (finalProductImages?.length || 1) - 1) {
       flatListRef.current?.scrollToIndex({
         index: currentIndex + 1,
         animated: true,
@@ -118,18 +118,26 @@ const ProductDetail = () => {
       >
         <TouchableOpacity 
           style={styles.carouselItem}
-          onPress={() => handleZoom(item)}
+          onPress={() => {
+            setSelectedZoomImage(item);
+            setShowZoomModal(true);
+            scale.setValue(1);
+            translateX.setValue(0);
+            translateY.setValue(0);
+          }}
           activeOpacity={0.9}
         >
           <Image
-            source={typeof item === 'string' ? { uri: item } : item}
+            source={typeof item === 'string' 
+              ? (item.startsWith('http') ? { uri: item } : getImageRequire(item))
+              : item}
             style={styles.productImage}
             resizeMode="cover"
           />
         </TouchableOpacity>
       </Animated.View>
     );
-  }, [handleZoom]);
+  }, []);
 
   const onViewableItemsChanged = useRef(({ viewableItems }: any) => {
     if (viewableItems.length > 0) {
@@ -140,8 +148,13 @@ const ProductDetail = () => {
   // --- useEffect và các hook ở đầu function ---
   useEffect(() => {
     getAllProducts().then(products => {
+      console.log('Products loaded:', products.length);
+      console.log('Looking for productId:', productId);
       const found = products.find((p: any) => p.id === productId);
+      console.log('Found product:', found);
       setProduct(found || null);
+    }).catch(error => {
+      console.error('Error loading products:', error);
     });
   }, [productId]);
 
@@ -191,7 +204,7 @@ const ProductDetail = () => {
   useEffect(() => {
     if (isAutoScrolling && product) {
       autoScrollInterval.current = setInterval(() => {
-        if (product && currentIndex < (product.images?.length || 1) - 1) {
+        if (product && currentIndex < (finalProductImages?.length || 1) - 1) {
           handleNext();
         } else {
           flatListRef.current?.scrollToIndex({
@@ -232,9 +245,33 @@ const ProductDetail = () => {
     ? ['28', '30', '32', '34', '36']
     : ['S', 'M', 'L', 'XL', 'XXL'];
 
-  const productImages = product.images && product.images.length > 0
-    ? product.images.map((img: string) => getImageRequire(img))
-    : [getImageRequire(product.imageDefault)];
+  // Debug product data
+  console.log('Product data:', {
+    id: product.id,
+    name: product.name,
+    image: product.image,
+    images: product.images,
+    imageDefault: product.imageDefault
+  });
+
+  const productImages = product.image 
+    ? (product.image.startsWith('http') ? { uri: product.image } : getImageRequire(product.image))
+    : product.images && product.images.length > 0
+    ? product.images.map((img: string) => {
+        // Nếu là URL (bắt đầu bằng http), sử dụng trực tiếp
+        if (img.startsWith('http')) {
+          return { uri: img };
+        }
+        // Nếu là local asset, sử dụng getImageRequire
+        return getImageRequire(img);
+      })
+    : product.imageDefault
+      ? (product.imageDefault.startsWith('http') ? { uri: product.imageDefault } : getImageRequire(product.imageDefault))
+      : [getImageRequire('icon.png')];
+
+  // Ensure productImages is always an array
+  const finalProductImages = Array.isArray(productImages) ? productImages : [productImages];
+  console.log('Final product images:', finalProductImages);
 
   const handleZoom = (image: string) => {
     setSelectedZoomImage(image);
@@ -386,7 +423,7 @@ const ProductDetail = () => {
         <View style={styles.imageContainer}>
           <FlatList
             ref={flatListRef}
-            data={productImages}
+            data={finalProductImages}
             renderItem={renderCarouselItem}
             horizontal
             pagingEnabled
@@ -418,7 +455,7 @@ const ProductDetail = () => {
             </TouchableOpacity>
           </Animated.View>
           <View style={styles.imagePagination}>
-            {productImages.map((_: any, index: number) => (
+            {finalProductImages.map((_: any, index: number) => (
               <Animated.View
                 key={index}
                 entering={FadeIn.delay(index * 100)}
@@ -457,7 +494,9 @@ const ProductDetail = () => {
               {...panResponder.panHandlers}
             >
               <Image
-                source={typeof selectedZoomImage === 'string' ? { uri: selectedZoomImage } : selectedZoomImage}
+                source={typeof selectedZoomImage === 'string' 
+                  ? (selectedZoomImage.startsWith('http') ? { uri: selectedZoomImage } : getImageRequire(selectedZoomImage))
+                  : selectedZoomImage}
                 style={styles.zoomImage}
                 resizeMode="contain"
               />

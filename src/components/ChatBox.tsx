@@ -10,9 +10,13 @@ import {
   Platform,
   Alert,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
+import ProductMessageCard from './ProductMessageCard';
+import ChatActionMenu from './ChatActionMenu';
+import ChatMediaMessage from './ChatMediaMessage';
 import { RootState } from '../redux/store';
 import { 
   getChats, 
@@ -30,6 +34,15 @@ interface Message {
   senderType: 'user' | 'manager' | 'bot';
   timestamp: string;
   isRead: boolean;
+  mediaType?: 'image' | 'file';
+  mediaUri?: string;
+  fileName?: string;
+  fileSize?: string;
+  metadata?: {
+    type?: string;
+    productId?: string;
+    productData?: any;
+  };
 }
 
 interface ChatBoxProps {
@@ -48,7 +61,20 @@ const ChatBox: React.FC<ChatBoxProps> = ({ isVisible, onClose }) => {
   const [shopChatId, setShopChatId] = useState<string | null>(null);
   const [isShopLoading, setIsShopLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const flatListRef = useRef<FlatList>(null);
+
+  // Suggestion messages cho user
+  const userSuggestions = [
+    "Xin chào! Tôi cần hỗ trợ",
+    "Tôi muốn hỏi về sản phẩm",
+    "Đơn hàng của tôi có vấn đề",
+    "Tôi muốn đổi trả sản phẩm",
+    "Có sản phẩm mới nào không?",
+    "Tôi cần tư vấn mua hàng",
+    "Cảm ơn bạn đã hỗ trợ!",
+    "Tôi có câu hỏi khác"
+  ];
 
   // Load chat history
   useEffect(() => {
@@ -310,6 +336,200 @@ const ChatBox: React.FC<ChatBoxProps> = ({ isVisible, onClose }) => {
     }
   };
 
+  const sendSuggestionMessage = async (suggestion: string) => {
+    setInputText(suggestion);
+    setShowSuggestions(false);
+    await sendUserMessage();
+  };
+
+  const sendImageMessage = async (imageUri: string) => {
+    if (!user) return;
+
+    setIsSending(true);
+
+    try {
+      const imageMessage = `📸 [Hình ảnh]`;
+
+      if (activeTab === 'bot') {
+        // Gửi tin nhắn bot
+        const newUserMessage: Message = {
+          id: `temp_${Date.now()}`,
+          content: imageMessage,
+          senderType: 'user',
+          timestamp: new Date().toISOString(),
+          isRead: false,
+          mediaType: 'image',
+          mediaUri: imageUri
+        };
+
+        setMessages(prev => [...prev, newUserMessage]);
+
+        // Gửi tin nhắn lên server
+        if (currentChatId && currentChatId !== 'temp_chat') {
+          await sendMessage({
+            chatId: currentChatId,
+            senderId: user.id,
+            senderType: 'user',
+            content: imageMessage,
+            timestamp: new Date().toISOString(),
+            isRead: false
+          });
+        }
+
+        // Lấy câu trả lời từ bot
+        const botResponse = await getBotResponse(imageMessage);
+        
+        if (botResponse.success) {
+          const botMessage: Message = {
+            id: `bot_${Date.now()}`,
+            content: botResponse.data.content,
+            senderType: 'bot',
+            timestamp: new Date().toISOString(),
+            isRead: false
+          };
+
+          setMessages(prev => [...prev, botMessage]);
+
+          if (currentChatId && currentChatId !== 'temp_chat') {
+            await sendMessage({
+              chatId: currentChatId,
+              senderId: 'bot',
+              senderType: 'bot',
+              content: botResponse.data.content,
+              timestamp: new Date().toISOString(),
+              isRead: false
+            });
+          }
+        }
+      } else {
+        // Gửi tin nhắn shop
+        const newUserMessage: Message = {
+          id: `temp_${Date.now()}`,
+          content: imageMessage,
+          senderType: 'user',
+          timestamp: new Date().toISOString(),
+          isRead: false,
+          mediaType: 'image',
+          mediaUri: imageUri
+        };
+
+        setShopMessages(prev => [...prev, newUserMessage]);
+
+        if (shopChatId) {
+          await sendMessage({
+            chatId: shopChatId,
+            senderId: user.id,
+            senderType: 'user',
+            content: imageMessage,
+            timestamp: new Date().toISOString(),
+            isRead: false
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error sending image message:', error);
+      Alert.alert('Lỗi', 'Không thể gửi hình ảnh');
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const sendFileMessage = async (file: any) => {
+    if (!user) return;
+
+    setIsSending(true);
+
+    try {
+      const fileMessage = `📎 [File] ${file.name}`;
+      const fileSize = file.size ? `${(file.size / 1024 / 1024).toFixed(1)} MB` : '';
+
+      if (activeTab === 'bot') {
+        // Gửi tin nhắn bot
+        const newUserMessage: Message = {
+          id: `temp_${Date.now()}`,
+          content: fileMessage,
+          senderType: 'user',
+          timestamp: new Date().toISOString(),
+          isRead: false,
+          mediaType: 'file',
+          mediaUri: file.uri,
+          fileName: file.name,
+          fileSize: fileSize
+        };
+
+        setMessages(prev => [...prev, newUserMessage]);
+
+        if (currentChatId && currentChatId !== 'temp_chat') {
+          await sendMessage({
+            chatId: currentChatId,
+            senderId: user.id,
+            senderType: 'user',
+            content: fileMessage,
+            timestamp: new Date().toISOString(),
+            isRead: false
+          });
+        }
+
+        // Lấy câu trả lời từ bot
+        const botResponse = await getBotResponse(fileMessage);
+        
+        if (botResponse.success) {
+          const botMessage: Message = {
+            id: `bot_${Date.now()}`,
+            content: botResponse.data.content,
+            senderType: 'bot',
+            timestamp: new Date().toISOString(),
+            isRead: false
+          };
+
+          setMessages(prev => [...prev, botMessage]);
+
+          if (currentChatId && currentChatId !== 'temp_chat') {
+            await sendMessage({
+              chatId: currentChatId,
+              senderId: 'bot',
+              senderType: 'bot',
+              content: botResponse.data.content,
+              timestamp: new Date().toISOString(),
+              isRead: false
+            });
+          }
+        }
+      } else {
+        // Gửi tin nhắn shop
+        const newUserMessage: Message = {
+          id: `temp_${Date.now()}`,
+          content: fileMessage,
+          senderType: 'user',
+          timestamp: new Date().toISOString(),
+          isRead: false,
+          mediaType: 'file',
+          mediaUri: file.uri,
+          fileName: file.name,
+          fileSize: fileSize
+        };
+
+        setShopMessages(prev => [...prev, newUserMessage]);
+
+        if (shopChatId) {
+          await sendMessage({
+            chatId: shopChatId,
+            senderId: user.id,
+            senderType: 'user',
+            content: fileMessage,
+            timestamp: new Date().toISOString(),
+            isRead: false
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error sending file message:', error);
+      Alert.alert('Lỗi', 'Không thể gửi file');
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   // Thêm useEffect để đảm bảo text field được xóa khi chuyển tab
   React.useEffect(() => {
     setInputText('');
@@ -319,6 +539,109 @@ const ChatBox: React.FC<ChatBoxProps> = ({ isVisible, onClose }) => {
     const isUser = item.senderType === 'user';
     const isBot = item.senderType === 'bot';
     const isShop = item.senderType === 'manager' && activeTab === 'shop';
+    
+    // Kiểm tra xem có phải tin nhắn sản phẩm không
+    const isProductMessage = item.content.includes('🛍️') && item.content.includes('💰');
+    
+    if (isProductMessage && isShop) {
+      // Sử dụng metadata nếu có, hoặc parse từ content
+      let product;
+      
+      if ((item as any).metadata?.type === 'product') {
+        product = (item as any).metadata.productData;
+      } else {
+        // Parse thông tin sản phẩm từ tin nhắn (fallback)
+        const productMatch = item.content.match(/🛍️ \*\*(.*?)\*\*\n\n💰 Giá: (.*?)đ\n🏷️ Thương hiệu: (.*?)\n📝 Mô tả: (.*?)\n\n/);
+        
+        if (productMatch) {
+          const [, name, priceStr, brand, description] = productMatch;
+          const price = parseInt(priceStr.replace(/,/g, ''));
+          
+          product = {
+            id: `temp_${Date.now()}`,
+            name,
+            price,
+            image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop',
+            description,
+            brand,
+            category: 'Product'
+          };
+        }
+      }
+      
+      if (product) {
+        return (
+          <View style={[
+            styles.messageContainer,
+            styles.otherMessage
+          ]}>
+            <View style={styles.shopHeader}>
+              <Ionicons name="storefront" size={16} color="#FF6B35" />
+              <Text style={styles.shopName}>Shop Nidas</Text>
+            </View>
+            <ProductMessageCard product={product} />
+            <Text style={styles.timestamp}>
+              {new Date(item.timestamp).toLocaleTimeString('vi-VN', {
+                hour: '2-digit',
+                minute: '2-digit'
+              })}
+            </Text>
+          </View>
+        );
+      }
+    }
+
+    // Kiểm tra xem có phải tin nhắn media không
+    if (item.mediaType === 'image' && item.mediaUri) {
+      return (
+        <View style={[
+          styles.messageContainer,
+          isUser ? styles.userMessage : styles.otherMessage
+        ]}>
+          <ChatMediaMessage
+            type="image"
+            uri={item.mediaUri}
+            onPress={() => {
+              // TODO: Mở ảnh fullscreen
+              console.log('Open image fullscreen');
+            }}
+            isUser={isUser}
+          />
+          <Text style={styles.timestamp}>
+            {new Date(item.timestamp).toLocaleTimeString('vi-VN', {
+              hour: '2-digit',
+              minute: '2-digit'
+            })}
+          </Text>
+        </View>
+      );
+    }
+
+    if (item.mediaType === 'file' && item.fileName) {
+      return (
+        <View style={[
+          styles.messageContainer,
+          isUser ? styles.userMessage : styles.otherMessage
+        ]}>
+          <ChatMediaMessage
+            type="file"
+            fileName={item.fileName}
+            fileSize={item.fileSize}
+            onPress={() => {
+              // TODO: Download hoặc mở file
+              console.log('Open file:', item.fileName);
+            }}
+            isUser={isUser}
+          />
+          <Text style={styles.timestamp}>
+            {new Date(item.timestamp).toLocaleTimeString('vi-VN', {
+              hour: '2-digit',
+              minute: '2-digit'
+            })}
+          </Text>
+        </View>
+      );
+    }
     
     return (
       <View style={[
@@ -453,10 +776,35 @@ const ChatBox: React.FC<ChatBoxProps> = ({ isVisible, onClose }) => {
         )}
       </View>
 
+      {/* Suggestions */}
+      {showSuggestions && (
+        <View style={styles.suggestionsContainer}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {userSuggestions.map((suggestion, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.suggestionButton}
+                onPress={() => sendSuggestionMessage(suggestion)}
+              >
+                <Text style={styles.suggestionText}>{suggestion}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+      )}
+
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.inputContainer}
       >
+        <ChatActionMenu
+          onSendSuggestion={() => setShowSuggestions(!showSuggestions)}
+          onSendProduct={() => {}}
+          onSendImage={sendImageMessage}
+          onSendFile={sendFileMessage}
+          showProductButton={false}
+        />
+        
         <TextInput
           style={styles.textInput}
           value={inputText}
@@ -465,8 +813,8 @@ const ChatBox: React.FC<ChatBoxProps> = ({ isVisible, onClose }) => {
             isSending 
               ? "Đang gửi..."
               : activeTab === 'bot' 
-                ? "Nhập tin nhắn... (có dấu hoặc không dấu đều được)"
-                : "Nhắn tin với shop..."
+                ? "Nhập tin nhắn... (Enter để gửi)"
+                : "Nhắn tin với shop... (Enter để gửi)"
           }
           multiline
           maxLength={500}
@@ -700,6 +1048,41 @@ const styles = StyleSheet.create({
   activeTabText: {
     color: '#007AFF',
     fontWeight: '600',
+  },
+  suggestionsContainer: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
+    backgroundColor: '#f8f9fa',
+  },
+  suggestionButton: {
+    backgroundColor: '#fff',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 16,
+    marginRight: 8,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+  },
+  suggestionText: {
+    fontSize: 12,
+    color: '#333',
+    fontWeight: '500',
+  },
+  inputRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  actionButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#f0f0f0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
   },
 });
 

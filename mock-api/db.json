@@ -168,6 +168,56 @@
       "id": "6e46",
       "name": "New Manager",
       "role": "manager"
+    },
+    {
+      "id": "fc5d",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "17dd",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "04ae",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "2709",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "e392",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "c2bb",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "19a4",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "9f7f",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "2dca",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "2ff1",
+      "name": "New Manager",
+      "role": "manager"
     }
   ],
   "addresses": [
@@ -308,6 +358,7 @@
         "ultraboost_black.jpg",
         "ultraboost_blue.jpg"
       ],
+      "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
       "tags": [
         "running",
         "boost",
@@ -361,6 +412,7 @@
         "handball_navy.jpg",
         "handball_green.jpg"
       ],
+      "image": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&h=400&fit=crop",
       "tags": [
         "indoor",
         "retro",
@@ -416,6 +468,7 @@
         "stansmith_green.jpg",
         "stansmith_pink.jpg"
       ],
+      "image": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&h=400&fit=crop",
       "tags": [
         "lifestyle",
         "classic",
@@ -469,6 +522,7 @@
         "climacool_black.jpg",
         "climacool_gray.jpg"
       ],
+      "image": "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400&h=400&fit=crop",
       "tags": [
         "running",
         "summer",
@@ -523,11 +577,836 @@
         "samba_black.jpg",
         "samba_brown.jpg"
       ],
+      "image": "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=400&h=400&fit=crop",
       "tags": [
         "lifestyle",
         "retro",
         "football",
         "streetwear"
+      ]
+    },
+    {
+      "id": "p006",
+      "name": "ADIDAS ORIGINALS T-SHIRT",
+      "brand": "Adidas",
+      "category": "Clothing",
+      "price": 1200000,
+      "originalPrice": 1500000,
+      "discount": 20,
+      "colors": [
+        "white",
+        "black",
+        "blue",
+        "red"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "description": "Áo thun Adidas Originals với logo Trefoil nổi tiếng, chất liệu cotton thoáng mát, phù hợp cho thể thao và thời trang hàng ngày.",
+      "features": [
+        "Logo Trefoil",
+        "Chất liệu cotton",
+        "Thoáng mát",
+        "Phù hợp thể thao",
+        "Thời trang hàng ngày"
+      ],
+      "specifications": {
+        "material": "100% Cotton",
+        "weight": "180g",
+        "fit": "Regular fit",
+        "care": "Giặt máy 30°C"
+      },
+      "stock": 78,
+      "rating": 4.6,
+      "reviews": 92,
+      "images": [
+        "tshirt_white.jpg",
+        "tshirt_black.jpg",
+        "tshirt_blue.jpg"
+      ],
+      "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+      "tags": [
+        "clothing",
+        "tshirt",
+        "originals",
+        "casual"
+      ]
+    },
+    {
+      "id": "p007",
+      "name": "ADIDAS TRACK PANTS",
+      "brand": "Adidas",
+      "category": "Clothing",
+      "price": 1800000,
+      "originalPrice": 2200000,
+      "discount": 18,
+      "colors": [
+        "black",
+        "gray",
+        "navy"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "description": "Quần track Adidas với thiết kế thể thao, chất liệu polyester thoáng mát, có túi zip và dây rút, phù hợp cho tập luyện và thời trang streetwear.",
+      "features": [
+        "Thiết kế thể thao",
+        "Chất liệu polyester",
+        "Túi zip",
+        "Dây rút",
+        "Streetwear style"
+      ],
+      "specifications": {
+        "material": "Polyester",
+        "weight": "250g",
+        "fit": "Regular fit",
+        "care": "Giặt máy 30°C"
+      },
+      "stock": 45,
+      "rating": 4.4,
+      "reviews": 67,
+      "images": [
+        "pants_black.jpg",
+        "pants_gray.jpg",
+        "pants_navy.jpg"
+      ],
+      "image": "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=400&fit=crop",
+      "tags": [
+        "clothing",
+        "pants",
+        "track",
+        "sportswear"
+      ]
+    },
+    {
+      "id": "p008",
+      "name": "ADIDAS BACKPACK",
+      "brand": "Adidas",
+      "category": "Accessories",
+      "price": 800000,
+      "originalPrice": 1000000,
+      "discount": 20,
+      "colors": [
+        "black",
+        "blue",
+        "red"
+      ],
+      "sizes": [
+        "One Size"
+      ],
+      "description": "Ba lô Adidas với thiết kế thể thao, nhiều ngăn tiện lợi, chất liệu bền bỉ, phù hợp cho thể thao và du lịch.",
+      "features": [
+        "Nhiều ngăn",
+        "Chất liệu bền",
+        "Đai vai thoải mái",
+        "Phù hợp thể thao",
+        "Du lịch"
+      ],
+      "specifications": {
+        "material": "Polyester",
+        "capacity": "25L",
+        "weight": "500g",
+        "waterproof": "Có"
+      },
+      "stock": 32,
+      "rating": 4.3,
+      "reviews": 45,
+      "images": [
+        "backpack_black.jpg",
+        "backpack_blue.jpg",
+        "backpack_red.jpg"
+      ],
+      "image": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop",
+      "tags": [
+        "accessories",
+        "backpack",
+        "sport",
+        "travel"
+      ]
+    },
+    {
+      "id": "p006-ultraboost",
+      "name": "ULTRABOOST 22",
+      "brand": "Adidas",
+      "category": "Running",
+      "price": 2800000,
+      "originalPrice": 3200000,
+      "discount": 12,
+      "colors": [
+        "white",
+        "black",
+        "blue"
+      ],
+      "sizes": [
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44"
+      ],
+      "description": "Giày thể thao cổ điển với thiết kế retro đặc trưng",
+      "features": [
+        "Thiết kế retro",
+        "Công nghệ Boost",
+        "Upper Primeknit",
+        "Continental Rubber"
+      ],
+      "specifications": {
+        "weight": "310g",
+        "material": "Primeknit, Boost",
+        "sole": "Continental Rubber"
+      },
+      "stock": 25,
+      "rating": 4.7,
+      "reviews": 120,
+      "images": [
+        "samba.gif"
+      ],
+      "image": "samba.gif",
+      "tags": [
+        "samba",
+        "originals",
+        "classics",
+        "retro",
+        "football"
+      ]
+    },
+    {
+      "id": "p008-originals",
+      "name": "ADIDAS ORIGINALS",
+      "brand": "Adidas",
+      "category": "Clothing",
+      "price": 1200000,
+      "originalPrice": 1500000,
+      "discount": 20,
+      "colors": [
+        "white",
+        "blue"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "description": "Trefoil T-shirt với logo Adidas Originals nổi tiếng",
+      "features": [
+        "Logo Trefoil",
+        "Chất liệu cotton",
+        "Thoáng mát",
+        "Phù hợp thể thao",
+        "Thời trang hàng ngày"
+      ],
+      "specifications": {
+        "material": "100% Cotton",
+        "weight": "180g",
+        "fit": "Regular fit",
+        "care": "Giặt máy 30°C"
+      },
+      "stock": 78,
+      "rating": 4.5,
+      "reviews": 92,
+      "images": [
+        "Ao_Thun_Polo_Ba_La.jpg"
+      ],
+      "image": "Ao_Thun_Polo_Ba_La.jpg",
+      "tags": [
+        "originals",
+        "t-shirt",
+        "trefoil",
+        "adidas",
+        "new arrival"
+      ]
+    },
+    {
+      "id": "p010-terrex",
+      "name": "TERREX HIKING PANTS",
+      "brand": "Adidas",
+      "category": "Clothing",
+      "price": 2500000,
+      "originalPrice": 3000000,
+      "discount": 17,
+      "colors": [
+        "black",
+        "gray"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL"
+      ],
+      "description": "Quần hiking chuyên dụng cho hoạt động ngoài trời",
+      "features": [
+        "Chất liệu bền bỉ",
+        "Thiết kế hiking",
+        "Nhiều túi",
+        "Chống nước",
+        "Thoáng mát"
+      ],
+      "specifications": {
+        "material": "Polyester, Nylon",
+        "weight": "350g",
+        "fit": "Regular fit",
+        "waterproof": "Yes"
+      },
+      "stock": 15,
+      "rating": 4.2,
+      "reviews": 45,
+      "images": [
+        "Quan_Hiking_Terrex.jpg"
+      ],
+      "image": "Quan_Hiking_Terrex.jpg",
+      "tags": [
+        "terrex",
+        "hiking",
+        "pants",
+        "outdoor",
+        "adidas"
+      ]
+    },
+    {
+      "id": "p002-sl72",
+      "name": "ADIDAS SL 72",
+      "brand": "Adidas",
+      "category": "Running",
+      "price": 2600000,
+      "originalPrice": 3000000,
+      "discount": 13,
+      "colors": [
+        "white",
+        "red",
+        "blue"
+      ],
+      "sizes": [
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44"
+      ],
+      "description": "Giày chạy bộ với phong cách vintage từ những năm 70",
+      "features": [
+        "Thiết kế vintage",
+        "Phong cách 70s",
+        "Đế cao su",
+        "Upper canvas"
+      ],
+      "specifications": {
+        "weight": "280g",
+        "material": "Canvas, Rubber",
+        "sole": "Vulcanized rubber"
+      },
+      "stock": 30,
+      "rating": 4.3,
+      "reviews": 78,
+      "images": [
+        "sl72.gif"
+      ],
+      "image": "sl72.gif",
+      "tags": [
+        "sl72",
+        "running",
+        "vintage",
+        "70s",
+        "originals"
+      ]
+    },
+    {
+      "id": "p003-yeezy",
+      "name": "ADIDAS YEEZY BOOST 750",
+      "brand": "Adidas",
+      "category": "Lifestyle",
+      "price": 8500000,
+      "originalPrice": 9500000,
+      "discount": 11,
+      "colors": [
+        "grey"
+      ],
+      "sizes": [
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44"
+      ],
+      "description": "Giày thể thao cao cấp với công nghệ Boost",
+      "features": [
+        "Công nghệ Boost",
+        "Thiết kế độc đáo",
+        "Chất liệu cao cấp",
+        "Phong cách streetwear"
+      ],
+      "specifications": {
+        "weight": "350g",
+        "material": "Premium materials",
+        "sole": "Boost midsole"
+      },
+      "stock": 8,
+      "rating": 4.9,
+      "reviews": 156,
+      "images": [
+        "yeezy750.gif"
+      ],
+      "image": "yeezy750.gif",
+      "tags": [
+        "yeezy",
+        "boost",
+        "kanye",
+        "premium",
+        "streetwear"
+      ]
+    },
+    {
+      "id": "p004-handball-std",
+      "name": "ADIDAS HANDBALL SPEZIAL STANDARD",
+      "brand": "Adidas",
+      "category": "Indoor",
+      "price": 3200000,
+      "originalPrice": 3800000,
+      "discount": 16,
+      "colors": [
+        "xanh lá",
+        "xanh da trời",
+        "cam",
+        "vàng",
+        "xanh da trời đen"
+      ],
+      "sizes": [
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44"
+      ],
+      "description": "Handball Spezial phiên bản tiêu chuẩn với nhiều phối màu retro.",
+      "features": [
+        "Thiết kế retro",
+        "Đế suede",
+        "Upper canvas",
+        "Nhiều màu sắc"
+      ],
+      "specifications": {
+        "weight": "280g",
+        "material": "Canvas, Suede",
+        "sole": "Rubber"
+      },
+      "stock": 50,
+      "rating": 4.6,
+      "reviews": 89,
+      "images": [
+        "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_xanh_da_troi_IG6194_01_standard.jpg"
+      ],
+      "image": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_xanh_da_troi_IG6194_01_standard.jpg",
+      "tags": [
+        "handball",
+        "spezial",
+        "retro",
+        "standard"
+      ]
+    },
+    {
+      "id": "p004-handball-nam",
+      "name": "ADIDAS HANDBALL SPEZIAL NAM",
+      "brand": "Adidas",
+      "category": "Indoor",
+      "price": 3200000,
+      "originalPrice": 3800000,
+      "discount": 16,
+      "colors": [
+        "xanh da trời",
+        "trắng xanh"
+      ],
+      "sizes": [
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44"
+      ],
+      "description": "Handball Spezial phiên bản nam với phối màu đặc trưng cho nam giới.",
+      "features": [
+        "Thiết kế nam",
+        "Phối màu nam tính",
+        "Đế suede",
+        "Upper canvas"
+      ],
+      "specifications": {
+        "weight": "280g",
+        "material": "Canvas, Suede",
+        "sole": "Rubber"
+      },
+      "stock": 35,
+      "rating": 4.5,
+      "reviews": 67,
+      "images": [
+        "assets/SearchPage/Collection/Handball/Handball_Spezial_Mau_xanh_da_troi_JS3866_01_00_standard_Nam.jpg"
+      ],
+      "image": "assets/SearchPage/Collection/Handball/Handball_Spezial_Mau_xanh_da_troi_JS3866_01_00_standard_Nam.jpg",
+      "tags": [
+        "handball",
+        "spezial",
+        "retro",
+        "nam"
+      ]
+    },
+    {
+      "id": "p004-handball-nu",
+      "name": "ADIDAS HANDBALL SPEZIAL NỮ",
+      "brand": "Adidas",
+      "category": "Indoor",
+      "price": 3200000,
+      "originalPrice": 3800000,
+      "discount": 16,
+      "colors": [
+        "maroon",
+        "xám"
+      ],
+      "sizes": [
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44"
+      ],
+      "description": "Handball Spezial phiên bản nữ với phối màu nữ tính, trẻ trung.",
+      "features": [
+        "Thiết kế nữ",
+        "Phối màu nữ tính",
+        "Đế suede",
+        "Upper canvas"
+      ],
+      "specifications": {
+        "weight": "280g",
+        "material": "Canvas, Suede",
+        "sole": "Rubber"
+      },
+      "stock": 28,
+      "rating": 4.4,
+      "reviews": 52,
+      "images": [
+        "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Maroon_JP8726_01_00_standard_Nu.jpg"
+      ],
+      "image": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Maroon_JP8726_01_00_standard_Nu.jpg",
+      "tags": [
+        "handball",
+        "spezial",
+        "retro",
+        "nữ"
+      ]
+    },
+    {
+      "id": "p005-pharrell",
+      "name": "PHARRELL WILLIAMS X TENNIS HU",
+      "brand": "Adidas",
+      "category": "Lifestyle",
+      "price": 3200000,
+      "originalPrice": 3800000,
+      "discount": 16,
+      "colors": [
+        "red",
+        "teal",
+        "beige",
+        "white"
+      ],
+      "sizes": [
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44"
+      ],
+      "description": "Giày thể thao thiết kế độc đáo từ Pharrell Williams",
+      "features": [
+        "Thiết kế độc đáo",
+        "Pharrell Williams",
+        "Nhiều màu sắc",
+        "Phong cách unique"
+      ],
+      "specifications": {
+        "weight": "250g",
+        "material": "Canvas, Rubber",
+        "sole": "Vulcanized rubber"
+      },
+      "stock": 22,
+      "rating": 4.7,
+      "reviews": 89,
+      "images": [
+        "banner1.gif"
+      ],
+      "image": "banner1.gif",
+      "tags": [
+        "pharrell",
+        "tennis hu",
+        "collaboration",
+        "unique",
+        "colorful"
+      ]
+    },
+    {
+      "id": "p006-ub5",
+      "name": "ADIDAS ULTRABOOST 5",
+      "brand": "Adidas",
+      "category": "Running",
+      "price": 4500000,
+      "originalPrice": 5200000,
+      "discount": 13,
+      "colors": [
+        "đen",
+        "xám"
+      ],
+      "sizes": [
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45"
+      ],
+      "description": "Giày chạy bộ Ultraboost 5 với công nghệ Boost mới nhất, thiết kế hiện đại, hiệu năng vượt trội.",
+      "features": [
+        "Công nghệ Boost mới nhất",
+        "Thiết kế hiện đại",
+        "Hiệu năng vượt trội",
+        "Primeknit upper"
+      ],
+      "specifications": {
+        "weight": "310g",
+        "material": "Primeknit, Boost",
+        "sole": "Continental Rubber"
+      },
+      "stock": 18,
+      "rating": 4.8,
+      "reviews": 134,
+      "images": [
+        "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5_Den_ID8812_HM1.png"
+      ],
+      "image": "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5_Den_ID8812_HM1.png",
+      "tags": [
+        "ultraboost",
+        "running",
+        "boost",
+        "performance",
+        "marathon"
+      ]
+    },
+    {
+      "id": "p006-ub5x",
+      "name": "ADIDAS ULTRABOOST 5X",
+      "brand": "Adidas",
+      "category": "Running",
+      "price": 4500000,
+      "originalPrice": 5200000,
+      "discount": 13,
+      "colors": [
+        "đen",
+        "trắng"
+      ],
+      "sizes": [
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45"
+      ],
+      "description": "Giày chạy bộ Ultraboost 5x với thiết kế tối ưu cho hiệu suất và sự thoải mái.",
+      "features": [
+        "Thiết kế tối ưu",
+        "Hiệu suất cao",
+        "Thoải mái tối đa",
+        "Primeknit upper"
+      ],
+      "specifications": {
+        "weight": "310g",
+        "material": "Primeknit, Boost",
+        "sole": "Continental Rubber"
+      },
+      "stock": 15,
+      "rating": 4.8,
+      "reviews": 98,
+      "images": [
+        "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5x_Den_IH3110_HM1.png"
+      ],
+      "image": "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5x_Den_IH3110_HM1.png",
+      "tags": [
+        "ultraboost",
+        "running",
+        "boost",
+        "performance",
+        "marathon"
+      ]
+    },
+    {
+      "id": "p006-pb5",
+      "name": "ADIDAS PUREBOOST 5",
+      "brand": "Adidas",
+      "category": "Running",
+      "price": 4200000,
+      "originalPrice": 4800000,
+      "discount": 12,
+      "colors": [
+        "đen",
+        "trắng"
+      ],
+      "sizes": [
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45"
+      ],
+      "description": "Giày chạy bộ Pureboost 5 nhẹ, linh hoạt, phù hợp tập luyện hàng ngày.",
+      "features": [
+        "Nhẹ và linh hoạt",
+        "Phù hợp tập luyện",
+        "Công nghệ Boost",
+        "Thiết kế thoải mái"
+      ],
+      "specifications": {
+        "weight": "280g",
+        "material": "Mesh, Boost",
+        "sole": "Continental Rubber"
+      },
+      "stock": 25,
+      "rating": 4.7,
+      "reviews": 76,
+      "images": [
+        "assets/SearchPage/Collection/Ultraboost/Giay_Chay_Bo_Pureboost_5_Den_ID1158_HM1.png"
+      ],
+      "image": "assets/SearchPage/Collection/Ultraboost/Giay_Chay_Bo_Pureboost_5_Den_ID1158_HM1.png",
+      "tags": [
+        "pureboost",
+        "running",
+        "boost",
+        "performance",
+        "marathon"
+      ]
+    },
+    {
+      "id": "p007-stan-liberty",
+      "name": "ADIDAS STAN SMITH X LIBERTY LONDON",
+      "brand": "Adidas",
+      "category": "Lifestyle",
+      "price": 3800000,
+      "originalPrice": 4500000,
+      "discount": 16,
+      "colors": [
+        "white"
+      ],
+      "sizes": [
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "40",
+        "41"
+      ],
+      "description": "Giày Stan Smith với họa tiết Liberty London độc đáo",
+      "features": [
+        "Họa tiết Liberty London",
+        "Thiết kế độc đáo",
+        "Phong cách nữ tính",
+        "Chất liệu cao cấp"
+      ],
+      "specifications": {
+        "weight": "250g",
+        "material": "Leather",
+        "sole": "Vulcanized rubber"
+      },
+      "stock": 12,
+      "rating": 4.6,
+      "reviews": 45,
+      "images": [
+        "Giay_Stan_Smith_x_Liberty_London.jpg"
+      ],
+      "image": "Giay_Stan_Smith_x_Liberty_London.jpg",
+      "tags": [
+        "stan smith",
+        "liberty london",
+        "floral",
+        "women",
+        "fashion"
+      ]
+    },
+    {
+      "id": "a001",
+      "name": "ÁO THUN ADIDAS",
+      "brand": "Adidas",
+      "category": "Clothing",
+      "price": 500000,
+      "originalPrice": 650000,
+      "discount": 23,
+      "colors": [
+        "trắng",
+        "đen"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "description": "Áo thun thể thao chất liệu cotton thoáng mát.",
+      "features": [
+        "Chất liệu cotton",
+        "Thoáng mát",
+        "Phù hợp thể thao",
+        "Thiết kế đơn giản"
+      ],
+      "specifications": {
+        "material": "100% Cotton",
+        "weight": "160g",
+        "fit": "Regular fit",
+        "care": "Giặt máy 30°C"
+      },
+      "stock": 85,
+      "rating": 4.3,
+      "reviews": 67,
+      "images": [
+        "ao1.jpg"
+      ],
+      "image": "ao1.jpg",
+      "tags": [
+        "áo thun",
+        "adidas",
+        "thể thao"
       ]
     }
   ],
@@ -716,6 +1595,25 @@
       "status": "active",
       "createdAt": "2025-07-23T21:43:00.839Z",
       "lastMessageAt": "2025-07-23T21:43:00.839Z",
+      "unreadCount": 0
+    },
+    {
+      "id": "9850",
+      "userId": "manager001",
+      "managerId": "manager001",
+      "status": "active",
+      "createdAt": "2025-07-23T23:04:55.071Z",
+      "lastMessageAt": "2025-07-23T23:04:55.071Z",
+      "unreadCount": 0
+    },
+    {
+      "id": "e111",
+      "userId": "manager001",
+      "managerId": "shop_manager_001",
+      "type": "shop",
+      "status": "active",
+      "createdAt": "2025-07-23T23:04:56.554Z",
+      "lastMessageAt": "2025-07-23T23:04:56.554Z",
       "unreadCount": 0
     }
   ],
@@ -1187,6 +2085,348 @@
       "content": "👋 Xin chào! Tôi là nhân viên shop. Tôi sẽ hỗ trợ bạn ngay bây giờ.",
       "timestamp": "2025-07-23T22:08:38.673Z",
       "isRead": false
+    },
+    {
+      "id": "adba",
+      "chatId": "a68e",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "👋 Xin chào! Tôi là nhân viên shop. Tôi sẽ hỗ trợ bạn ngay bây giờ.",
+      "timestamp": "2025-07-23T22:21:35.549Z",
+      "isRead": false
+    },
+    {
+      "id": "e019",
+      "chatId": "a68e",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "Xin chào! Tôi có thể giúp gì cho bạn?",
+      "timestamp": "2025-07-23T22:21:38.737Z",
+      "isRead": false
+    },
+    {
+      "id": "657a",
+      "chatId": "a68e",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "🛍️ **HANDBALL SPEZIAL**\n\n💰 Giá: 1,800,000đ\n🏷️ Thương hiệu: Adidas\n📝 Mô tả: Giày bóng ném cổ điển với thiết kế retro, đế suede mềm mại và upper canvas bền bỉ. Phù hợp cho các môn thể thao trong nhà và thời trang streetwear.\n\nXem chi tiết sản phẩm tại đây!",
+      "timestamp": "2025-07-23T22:21:43.022Z",
+      "isRead": false,
+      "metadata": {
+        "type": "product",
+        "productId": "p002",
+        "productData": {
+          "id": "p002",
+          "name": "HANDBALL SPEZIAL",
+          "price": 1800000,
+          "image": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&h=400&fit=crop",
+          "description": "Giày bóng ném cổ điển với thiết kế retro, đế suede mềm mại và upper canvas bền bỉ. Phù hợp cho các môn thể thao trong nhà và thời trang streetwear.",
+          "brand": "Adidas",
+          "category": "Indoor",
+          "colors": [
+            "white",
+            "navy",
+            "green",
+            "orange"
+          ],
+          "sizes": [
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43"
+          ],
+          "rating": 4.6,
+          "reviews": 89,
+          "stock": 32,
+          "discount": 18,
+          "originalPrice": 2200000,
+          "imageDefault": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&h=400&fit=crop",
+          "collections": [
+            "indoor",
+            "retro"
+          ],
+          "features": [
+            "Canvas upper",
+            "Suede sole",
+            "Retro design"
+          ],
+          "specifications": {
+            "weight": "280g",
+            "material": "Canvas, Suede"
+          },
+          "tags": [
+            "indoor",
+            "retro",
+            "streetwear"
+          ],
+          "images": [
+            "handball_white.jpg",
+            "handball_navy.jpg",
+            "handball_green.jpg"
+          ]
+        }
+      }
+    },
+    {
+      "id": "e4ed",
+      "chatId": "a68e",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "🛍️ **ULTRABOOST 22**\n\n💰 Giá: 4,200,000đ\n🏷️ Thương hiệu: Adidas\n📝 Mô tả: Giày chạy bộ công nghệ Boost với đế Boost midsole, upper Primeknit+ và Continental™ Rubber outsole. Thiết kế cho hiệu suất tối ưu và thoải mái tối đa.\n\nXem chi tiết sản phẩm tại đây!",
+      "timestamp": "2025-07-23T22:22:00.906Z",
+      "isRead": false,
+      "metadata": {
+        "type": "product",
+        "productId": "p001",
+        "productData": {
+          "id": "p001",
+          "name": "ULTRABOOST 22",
+          "price": 4200000,
+          "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
+          "description": "Giày chạy bộ công nghệ Boost với đế Boost midsole, upper Primeknit+ và Continental™ Rubber outsole. Thiết kế cho hiệu suất tối ưu và thoải mái tối đa.",
+          "brand": "Adidas",
+          "category": "Running",
+          "colors": [
+            "white",
+            "black",
+            "blue",
+            "red"
+          ],
+          "sizes": [
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44"
+          ],
+          "rating": 4.8,
+          "reviews": 156,
+          "stock": 45,
+          "discount": 12,
+          "originalPrice": 4800000,
+          "imageDefault": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
+          "collections": [
+            "running",
+            "premium"
+          ],
+          "features": [
+            "Boost midsole",
+            "Primeknit+",
+            "Continental Rubber"
+          ],
+          "specifications": {
+            "weight": "310g",
+            "drop": "10mm"
+          },
+          "tags": [
+            "running",
+            "boost",
+            "premium"
+          ],
+          "images": [
+            "ultraboost_white.jpg",
+            "ultraboost_black.jpg",
+            "ultraboost_blue.jpg"
+          ]
+        }
+      }
+    },
+    {
+      "id": "d691",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "Tôi muốn hỏi về sản phẩm",
+      "timestamp": "2025-07-23T22:24:32.980Z",
+      "isRead": true
+    },
+    {
+      "id": "ac1a",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Chúng tôi cung cấp đầy đủ các loại sản phẩm thể thao: giày, quần áo, phụ kiện. Tất cả đều chính hãng Adidas, Nike và các thương hiệu uy tín khác.",
+      "timestamp": "2025-07-23T22:24:33.312Z",
+      "isRead": false
+    },
+    {
+      "id": "eaa6",
+      "chatId": "a68e",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "📸 [Hình ảnh]",
+      "timestamp": "2025-07-23T22:42:21.065Z",
+      "isRead": true
+    },
+    {
+      "id": "ad2f",
+      "chatId": "a68e",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "📎 [File] demo-document.pdf",
+      "timestamp": "2025-07-23T22:42:26.035Z",
+      "isRead": true
+    },
+    {
+      "id": "f27a",
+      "chatId": "a68e",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "📸 [Hình ảnh]",
+      "timestamp": "2025-07-23T22:42:28.553Z",
+      "isRead": true
+    },
+    {
+      "id": "168b",
+      "chatId": "a68e",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "Tôi muốn hỏi về sản phẩm",
+      "timestamp": "2025-07-23T22:42:33.674Z",
+      "isRead": true
+    },
+    {
+      "id": "a6bf",
+      "chatId": "a68e",
+      "senderId": "shop_manager_001",
+      "senderType": "manager",
+      "content": "Cảm ơn bạn đã liên hệ! Nhân viên shop sẽ phản hồi trong thời gian sớm nhất. 🛍️",
+      "timestamp": "2025-07-23T22:42:34.874Z",
+      "isRead": false
+    },
+    {
+      "id": "a619",
+      "chatId": "a68e",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "📸 [Hình ảnh]",
+      "timestamp": "2025-07-23T22:45:55.176Z",
+      "isRead": true
+    },
+    {
+      "id": "7ed5",
+      "chatId": "9850",
+      "senderId": "manager001",
+      "senderType": "user",
+      "content": "Xin chào! Tôi cần hỗ trợ",
+      "timestamp": "2025-07-23T23:05:03.062Z",
+      "isRead": true
+    },
+    {
+      "id": "0460",
+      "chatId": "9850",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Bạn có thể đăng ký bằng email hoặc số điện thoại. Sau khi đăng ký, vui lòng xác thực email để kích hoạt tài khoản và nhận thông báo khuyến mãi.",
+      "timestamp": "2025-07-23T23:05:03.258Z",
+      "isRead": false
+    },
+    {
+      "id": "cc37",
+      "chatId": "9850",
+      "senderId": "manager001",
+      "senderType": "user",
+      "content": "Tôi muốn hỏi về sản phẩm",
+      "timestamp": "2025-07-23T23:05:10.180Z",
+      "isRead": true
+    },
+    {
+      "id": "5cc1",
+      "chatId": "9850",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Chúng tôi cung cấp đầy đủ các loại sản phẩm thể thao: giày, quần áo, phụ kiện. Tất cả đều chính hãng Adidas, Nike và các thương hiệu uy tín khác.",
+      "timestamp": "2025-07-23T23:05:10.408Z",
+      "isRead": false
+    },
+    {
+      "id": "7d03",
+      "chatId": "a68e",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "👋 Xin chào! Tôi là nhân viên shop. Tôi sẽ hỗ trợ bạn ngay bây giờ.",
+      "timestamp": "2025-07-23T23:05:36.695Z",
+      "isRead": false
+    },
+    {
+      "id": "e4d9",
+      "chatId": "a68e",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "Xin chào! Tôi có thể giúp gì cho bạn?",
+      "timestamp": "2025-07-23T23:05:42.696Z",
+      "isRead": false
+    },
+    {
+      "id": "9e13",
+      "chatId": "a68e",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "🛍️ **ADIDAS ORIGINALS T-SHIRT**\n\n💰 Giá: 1,200,000đ\n🏷️ Thương hiệu: Adidas\n📝 Mô tả: Áo thun Adidas Originals với logo Trefoil nổi tiếng, chất liệu cotton thoáng mát, phù hợp cho thể thao và thời trang hàng ngày.\n\nXem chi tiết sản phẩm tại đây!",
+      "timestamp": "2025-07-23T23:05:48.181Z",
+      "isRead": false,
+      "metadata": {
+        "type": "product",
+        "productId": "p006",
+        "productData": {
+          "id": "p006",
+          "name": "ADIDAS ORIGINALS T-SHIRT",
+          "price": 1200000,
+          "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+          "description": "Áo thun Adidas Originals với logo Trefoil nổi tiếng, chất liệu cotton thoáng mát, phù hợp cho thể thao và thời trang hàng ngày.",
+          "brand": "Adidas",
+          "category": "Clothing",
+          "colors": [
+            "white",
+            "black",
+            "blue",
+            "red"
+          ],
+          "sizes": [
+            "S",
+            "M",
+            "L",
+            "XL"
+          ],
+          "rating": 4.6,
+          "reviews": 92,
+          "stock": 78,
+          "discount": 20,
+          "originalPrice": 1500000,
+          "imageDefault": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+          "collections": [],
+          "features": [
+            "Logo Trefoil",
+            "Chất liệu cotton",
+            "Thoáng mát",
+            "Phù hợp thể thao",
+            "Thời trang hàng ngày"
+          ],
+          "specifications": {
+            "material": "100% Cotton",
+            "weight": "180g",
+            "fit": "Regular fit",
+            "care": "Giặt máy 30°C"
+          },
+          "tags": [
+            "clothing",
+            "tshirt",
+            "originals",
+            "casual"
+          ],
+          "images": [
+            "tshirt_white.jpg",
+            "tshirt_black.jpg",
+            "tshirt_blue.jpg"
+          ]
+        }
+      }
     }
   ],
   "faq": [
