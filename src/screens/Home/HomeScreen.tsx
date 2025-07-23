@@ -25,6 +25,7 @@ import type { Product } from '../../types/Product';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { setOnboardingComplete } from '../../store/slices/onboardingSlice';
+import ChatButton from '../../components/ChatButton';
 
 const { width } = Dimensions.get('window');
 
@@ -91,13 +92,13 @@ const HomeScreen: React.FC<HomeScreenWithPopupProps> = ({ showTabPopup, tabPopup
     });
 
     // Lấy categories
-    axios.get('http://192.168.100.246:3000/categories').then(res => setCategories(res.data));
+    axios.get('http://192.168.100.138:3000/categories').then(res => setCategories(res.data));
 
     // Lấy collections
-    axios.get('http://192.168.100.246:3000/collections').then(res => setCollections(res.data));
+    axios.get('http://192.168.100.138:3000/collections').then(res => setCollections(res.data));
 
     // Lấy bannerImages (chỉ lấy trường image)
-    axios.get('http://192.168.100.246:3000/bannerImages').then(res => setBannerImages(res.data.map((b: any) => b.image)));
+    axios.get('http://192.168.100.138:3000/bannerImages').then(res => setBannerImages(res.data.map((b: any) => b.image)));
   }, []);
 
   const handleCategoryPress = (category: { id: string; name: string; icon?: string }) => {
@@ -294,9 +295,12 @@ const HomeScreen: React.FC<HomeScreenWithPopupProps> = ({ showTabPopup, tabPopup
             </TouchableOpacity>
           ))}
         </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
+              </ScrollView>
+        
+        {/* Chat Button for logged in users */}
+        {isLoggedIn && <ChatButton />}
+      </SafeAreaView>
+    );
+  };
 
 export default HomeScreen; 

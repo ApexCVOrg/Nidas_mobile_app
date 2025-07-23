@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import AuthNavigator from './AuthNavigator';
 import AdminNavigator from './AdminNavigator';
+import ManagerNavigator from './ManagerNavigator';
 
 // Screens
 import HomeScreen from '../screens/Home/HomeScreen';
@@ -32,6 +33,7 @@ import BannerDetailClimacool from '../screens/BannerDetailClimacool';
 import ChatScreen from '../screens/Auth/ChatScreen';
 import SettingsScreen from '../screens/Auth/SettingsScreen';
 import CategoryProductDetail from '../screens/Product/CategoryProductDetail';
+import FAQScreen from '../screens/NavigatorScreens/FAQScreen';
 
 
 export type TabNavigatorParamList = {
@@ -50,6 +52,7 @@ export type TabNavigatorParamList = {
   Chat: undefined;
   Settings: undefined;
   CategoryProductDetail: { productId: string };
+  FAQ: undefined;
   Auth: undefined;
   AdminDashboard: undefined;
   ManagerDashboard: undefined;
@@ -202,6 +205,8 @@ function MainTabs() {
 
 const TabNavigator = () => {
   console.log('🏠 TabNavigator rendering');
+  console.log('🏠 TabNavigator - AdminNavigator imported:', !!AdminNavigator);
+  console.log('🏠 TabNavigator - ManagerNavigator imported:', !!ManagerNavigator);
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="MainTabs" component={MainTabs} />
@@ -217,9 +222,10 @@ const TabNavigator = () => {
       <Stack.Screen name="Chat" component={ChatScreen} />
       <Stack.Screen name="Settings" component={SettingsScreen} />
       <Stack.Screen name="CategoryProductDetail" component={CategoryProductDetail} />
+      <Stack.Screen name="FAQ" component={FAQScreen} />
       <Stack.Screen name="Auth" component={AuthNavigator} options={{ presentation: 'modal' }} />
       <Stack.Screen name="AdminDashboard" component={AdminNavigator} />
-      <Stack.Screen name="ManagerDashboard" component={AdminNavigator} />
+      <Stack.Screen name="ManagerDashboard" component={ManagerNavigator} />
     </Stack.Navigator>
   );
 };
