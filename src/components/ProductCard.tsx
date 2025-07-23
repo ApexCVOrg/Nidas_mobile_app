@@ -21,6 +21,7 @@ interface ProductCardProps {
   product: Product;
   onPress?: () => void;
   onRequireLogin?: () => void;
+  isHorizontal?: boolean;
 }
 
 const FAVORITES_FILE = FileSystem.documentDirectory + 'favorites.json';
@@ -53,7 +54,8 @@ const updateFavoriteFile = async (product: Product, add: boolean) => {
 const ProductCard: React.FC<ProductCardProps> = ({ 
   product, 
   onPress,
-  onRequireLogin
+  onRequireLogin,
+  isHorizontal = false
 }) => {
   // Debug product data
   console.log('ProductCard received:', {
@@ -188,14 +190,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
     : product.description;
 
   return (
-    <TouchableOpacity
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-      onPress={onPress}
-      activeOpacity={1}
-      style={styles.touchableCard}
-    >
-      <Animated.View style={[styles.card, animatedStyle]}>
+          <TouchableOpacity
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        onPress={onPress}
+        activeOpacity={1}
+        style={[
+          styles.touchableCard,
+          isHorizontal && styles.touchableCardHorizontal
+        ]}
+      >
+      <Animated.View style={[
+        styles.card, 
+        animatedStyle,
+        isHorizontal && styles.cardHorizontal
+      ]}>
         <View style={styles.imageRectWrapper}>
           <Animated.Image
             key={showImage}
@@ -263,6 +272,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 16,
   },
+  touchableCardHorizontal: {
+    width: width * 0.6,
+    marginHorizontal: 0,
+    marginVertical: 0,
+  },
   card: {
     borderRadius: 18,
     backgroundColor: '#fff',
@@ -274,6 +288,9 @@ const styles = StyleSheet.create({
     elevation: 3,
     height: 400,
     justifyContent: 'space-between',
+  },
+  cardHorizontal: {
+    height: 380,
   },
   imageRectWrapper: {
     width: '100%',

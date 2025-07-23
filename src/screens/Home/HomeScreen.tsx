@@ -83,12 +83,17 @@ const HomeScreen: React.FC<HomeScreenWithPopupProps> = ({ showTabPopup, tabPopup
   }).current;
   const viewConfigRef = useRef({ viewAreaCoveragePercentThreshold: 50 });
 
+  // State cho new arrivals
+  const [newArrivals, setNewArrivals] = useState<Product[]>([]);
+
   // useEffect lấy dữ liệu từ mock API
   useEffect(() => {
     // Lấy tất cả products
     getAllProducts().then(products => {
-      // Lấy 8 sản phẩm đầu tiên làm featuredProducts (hoặc lọc theo tiêu chí khác nếu muốn)
-      setFeaturedProducts(products.slice(0, 8));
+      // Lấy 6 sản phẩm đầu tiên làm featuredProducts (có thể kéo ngang)
+      setFeaturedProducts(products.slice(0, 6));
+      // Lấy 5 sản phẩm tiếp theo làm newArrivals (1 hàng)
+      setNewArrivals(products.slice(6, 11));
     });
 
     // Lấy categories
@@ -129,6 +134,19 @@ const HomeScreen: React.FC<HomeScreenWithPopupProps> = ({ showTabPopup, tabPopup
         onPress={() => handleProductPress(product)}
         onRequireLogin={() => setShowLoginPopup(true)}
       />
+    );
+  };
+
+  const renderHorizontalProduct = (product: Product) => {
+    return (
+      <View style={homeStyles.horizontalProductWrapper}>
+        <ProductCard
+          product={product}
+          onPress={() => handleProductPress(product)}
+          onRequireLogin={() => setShowLoginPopup(true)}
+          isHorizontal={true}
+        />
+      </View>
     );
   };
 
@@ -265,15 +283,41 @@ const HomeScreen: React.FC<HomeScreenWithPopupProps> = ({ showTabPopup, tabPopup
 
         {/* Featured Products */}
         <View style={homeStyles.productsContainer}>
-          <Text style={homeStyles.sectionTitle}>FEATURED PRODUCTS</Text>
+          <View style={homeStyles.sectionHeader}>
+            <Text style={homeStyles.sectionTitle}>FEATURED PRODUCTS</Text>
+            <TouchableOpacity style={homeStyles.viewAllButton}>
+              <Text style={homeStyles.viewAllText}>View All</Text>
+              <Icon name="arrow-forward-ios" size={14} color="#666" />
+            </TouchableOpacity>
+          </View>
           <FlatList
             data={featuredProducts}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => renderHomeProduct(item)}
-            numColumns={2}
-            columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: 16 }}
-            contentContainerStyle={{ paddingHorizontal: 8, paddingBottom: 16 }}
-            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => renderHorizontalProduct(item)}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 16 }}
+            ItemSeparatorComponent={() => <View style={{ width: 16 }} />}
+          />
+        </View>
+
+        {/* New Arrivals */}
+        <View style={homeStyles.productsContainer}>
+          <View style={homeStyles.sectionHeader}>
+            <Text style={homeStyles.sectionTitle}>NEW ARRIVALS</Text>
+            <TouchableOpacity style={homeStyles.viewAllButton}>
+              <Text style={homeStyles.viewAllText}>View All</Text>
+              <Icon name="arrow-forward-ios" size={14} color="#666" />
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={newArrivals}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => renderHorizontalProduct(item)}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 16 }}
+            ItemSeparatorComponent={() => <View style={{ width: 16 }} />}
           />
         </View>
 
