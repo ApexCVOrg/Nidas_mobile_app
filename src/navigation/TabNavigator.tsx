@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import AuthNavigator from './AuthNavigator';
+import AdminNavigator from './AdminNavigator';
 
 // Screens
 import HomeScreen from '../screens/Home/HomeScreen';
@@ -50,6 +51,8 @@ export type TabNavigatorParamList = {
   Settings: undefined;
   CategoryProductDetail: { productId: string };
   Auth: undefined;
+  AdminDashboard: undefined;
+  ManagerDashboard: undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -215,6 +218,8 @@ const TabNavigator = () => {
       <Stack.Screen name="Settings" component={SettingsScreen} />
       <Stack.Screen name="CategoryProductDetail" component={CategoryProductDetail} />
       <Stack.Screen name="Auth" component={AuthNavigator} options={{ presentation: 'modal' }} />
+      <Stack.Screen name="AdminDashboard" component={AdminNavigator} />
+      <Stack.Screen name="ManagerDashboard" component={AdminNavigator} />
     </Stack.Navigator>
   );
 };

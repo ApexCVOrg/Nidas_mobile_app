@@ -22,7 +22,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { TabNavigatorParamList } from '../../navigation/TabNavigator';
 import { useDispatch, useSelector } from 'react-redux';
 import { userProfileStyles } from '../../styles/auth/userProfile.styles';
-import axiosInstance from '../../api/axiosInstance';
+import { mockApi } from '../../services/mockApi/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { logout as logoutAction } from '../../redux/slices/authSlice';
 import { RootState } from '../../redux/store';
@@ -143,10 +143,32 @@ const UserProfile = () => {
         return;
       }
       
-      const res = await axiosInstance.get('/users/profile');
-      console.log('✅ Profile API response:', res.data);
-      setUserData(res.data.data || res.data);
-      setTempUserData(res.data.data || res.data);
+              const res = await mockApi.getCurrentUser();
+        console.log('✅ Profile API response:', res.data);
+                // Mock user data structure
+        const mockUserData = {
+          ...res.data,
+          firstName: res.data.name.split(' ')[0] || '',
+          lastName: res.data.name.split(' ').slice(1).join(' ') || '',
+          phone: '+84 123 456 789',
+          dateOfBirth: '1990-01-01',
+          gender: 'male',
+          address: '123 Main St, City',
+          city: 'Ho Chi Minh City',
+          country: 'Vietnam',
+          avatar: 'default-avatar.svg',
+          membershipLevel: 'Gold',
+          joinDate: '2024-01-01',
+          totalOrders: 15,
+          totalSpent: 2500000,
+          preferences: {
+            notifications: true,
+            marketing: false,
+            language: 'en'
+          }
+        };
+        setUserData(mockUserData as any);
+        setTempUserData(mockUserData as any);
     } catch (e: any) {
       console.error('❌ Profile API error:', e.response?.data || e.message);
       setError(e.response?.data?.message || 'Failed to load profile');
@@ -165,8 +187,10 @@ const UserProfile = () => {
     setError(null);
     setSuccess(null);
     try {
-      const res = await axiosInstance.put('/users/profile', tempUserData);
-      setUserData(res.data.data || res.data);
+              // Simulate updating profile
+        console.log('📧 Mock: Profile updated for user:', tempUserData.email);
+        const res = { data: { success: true, message: 'Profile updated successfully' } };
+              setUserData(tempUserData);
       setIsEditing(false);
       setFocusedInput(null);
       setSuccess('Profile updated successfully! 🎉');

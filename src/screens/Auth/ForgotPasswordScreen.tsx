@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '../../navigation/AuthNavigator';
-import axiosInstance from '../../api/axiosInstance';
+import { mockApi } from '../../services/mockApi/index';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type ForgotPasswordScreenProps = {
@@ -34,11 +34,11 @@ const ForgotPasswordScreen = ({ navigation }: ForgotPasswordScreenProps) => {
     setError('');
 
     try {
-      const response = await axiosInstance.post('/auth/forgot-password', { email });
-      if (response.data.success) {
+      const response = await mockApi.forgotPassword(email);
+      if (response.success) {
         setSuccess(true);
       } else {
-        setError(response.data.message || 'Something went wrong');
+        setError(response.message || 'Something went wrong');
       }
     } catch (err: any) {
       setError(err.response?.data?.message || 'Something went wrong');

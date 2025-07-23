@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { View, KeyboardAvoidingView, Platform, ScrollView, Animated } from 'react-native';
 import { TextInput, Text, IconButton, Button, Checkbox } from 'react-native-paper';
 import { registerStyles } from '../../styles/auth/register.styles';
-import api from '../../api/axiosInstance';
+import { mockApi } from '../../services/mockApi/index';
+import { addMockAddress, saveMockDataToFile } from '../../services/mockData/users';
 
 const initialBasicInfo = {
   username: '',
@@ -92,9 +93,9 @@ const RegisterScreen = ({ navigation }: any) => {
     setErrors({});
     setEmailInVerification(false);
     try {
-      await api.post('/auth/register', {
+      await mockApi.register({
         username: basicInfo.username,
-        fullName: basicInfo.fullName,
+        name: basicInfo.fullName,
         email: basicInfo.email,
         password: basicInfo.password,
         phone: basicInfo.phone,
@@ -129,40 +130,24 @@ const RegisterScreen = ({ navigation }: any) => {
     setLoading(true);
     setErrors({});
     try {
-      // Thử gọi resend-verification để gửi lại OTP
-      const response = await api.post('/auth/resend-verification', { email: basicInfo.email });
-      if (response.data && response.data.success) {
+      // Simulate resend verification
+      const response = await mockApi.sendOtp(basicInfo.email);
+      if (response.success) {
         setStep(2);
         setTimer(60);
         setErrors({});
         setCanResend(false);
         setOtp(['', '', '', '', '', '']);
         setEmailInVerification(false);
+        // Show OTP in console for testing
+        console.log('🔐 Mock OTP for testing:', response.data.otp);
         return;
       } else {
-        // Nếu resend không thành công, thử gọi lại register
-        const registerResponse = await api.post('/auth/register', {
-          username: basicInfo.username,
-          fullName: basicInfo.fullName,
-          email: basicInfo.email,
-          password: basicInfo.password,
-          phone: basicInfo.phone,
-        });
-        if (registerResponse.data && (registerResponse.data.success || registerResponse.data.status === 'pending')) {
-          setStep(2);
-          setTimer(60);
-          setErrors({});
-          setCanResend(false);
-          setOtp(['', '', '', '', '', '']);
-          setEmailInVerification(false);
-          return;
-        } else {
-          setErrors({ general: registerResponse.data.message || 'Cannot resend OTP' });
-        }
+        setErrors({ general: response.message || 'Cannot resend OTP' });
       }
     } catch (err: any) {
-      if (err.response && err.response.data) {
-        setErrors({ general: err.response.data.message || 'Server connection error' });
+      if (err.message) {
+        setErrors({ general: err.message || 'Server connection error' });
       } else {
         setErrors({ general: 'Server connection error' });
       }
@@ -180,15 +165,11 @@ const RegisterScreen = ({ navigation }: any) => {
     setLoading(true);
     setErrors({});
     try {
-      await api.post('/auth/verify-email', {
-        email: basicInfo.email,
-        code: otp.join(''),
-      });
+      await mockApi.verifyEmail(otp.join(''));
       setStep(3);
     } catch (e: any) {
-      if (e.response && e.response.data) {
-        if (e.response.data.errors) setErrors(e.response.data.errors);
-        else setErrors({ otp: e.response.data.message || 'OTP is incorrect' });
+      if (e.message) {
+        setErrors({ otp: e.message || 'OTP is incorrect' });
       } else {
         setErrors({ otp: 'Network or server error.' });
       }
@@ -203,15 +184,35 @@ const RegisterScreen = ({ navigation }: any) => {
     setLoading(true);
     setErrors({});
     try {
-      await api.post('/auth/save-address', {
-        email: basicInfo.email,
-        address: [address],
-      });
-      setStep(4);
+      // Get current user from mockApi
+      const currentUser = await mockApi.getCurrentUser();
+      
+      if (currentUser.success) {
+        // Save address to mock data
+        const newAddress = addMockAddress({
+          userId: currentUser.data.id,
+          recipientName: address.recipientName,
+          addressNumber: address.addressNumber,
+          street: address.street,
+          city: address.city,
+          state: address.state,
+          country: address.country,
+          isDefault: address.isDefault
+        });
+        
+        console.log('📁 Mock: Address saved for user:', currentUser.data.email);
+        console.log('📁 Mock: Address details:', newAddress);
+        
+        // Save all data to persistent storage
+        await saveMockDataToFile();
+        
+        setStep(4);
+      } else {
+        throw new Error('Failed to get current user');
+      }
     } catch (e: any) {
-      if (e.response && e.response.data) {
-        if (e.response.data.errors) setErrors(e.response.data.errors);
-        else setErrors({ general: e.response.data.message || 'Failed to save address' });
+      if (e.message) {
+        setErrors({ general: e.message || 'Failed to save address' });
       } else {
         setErrors({ general: 'Network or server error.' });
       }
@@ -561,7 +562,17 @@ const RegisterScreen = ({ navigation }: any) => {
             <View style={registerStyles.formContainer}>
               <Text style={registerStyles.title}>Registration Complete</Text>
               <Text style={{ textAlign: 'center', marginVertical: 16 }}>Your account has been created successfully!</Text>
-              <Button mode="contained" onPress={() => navigation.replace('Login')} style={registerStyles.button} labelStyle={registerStyles.buttonText}>Sign In</Button>
+              <Button 
+                mode="contained" 
+                onPress={() => {
+                  console.log('📁 Mock: Registration completed for:', basicInfo.email);
+                  navigation.replace('Login');
+                }} 
+                style={registerStyles.button} 
+                labelStyle={registerStyles.buttonText}
+              >
+                Sign In
+              </Button>
             </View>
           )}
         </Animated.View>

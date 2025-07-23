@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '../../navigation/AuthNavigator';
-import axiosInstance from '../../api/axiosInstance';
+import { mockApi } from '../../services/mockApi/index';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -112,12 +112,12 @@ export default function LoginScreen() {
     }
     setLoading(true);
     try {
-      const response = await axiosInstance.post('/auth/login', {
+      const response = await mockApi.login({
         username: formData.username,
         password: formData.password,
       });
 
-      if (response.data.success) {
+      if (response.success) {
         // Remember Me
         if (formData.rememberMe) {
           await saveCredentials(formData.username, formData.password);
@@ -125,22 +125,37 @@ export default function LoginScreen() {
           await clearSavedCredentials();
         }
         // Save token
-        if (response.data.data?.token) {
-          await AsyncStorage.setItem('auth_token', response.data.data.token);
+        if (response.data?.token) {
+          await AsyncStorage.setItem('auth_token', response.data.token);
         }
         // Navigate by role
-        const role = response.data.data?.user?.role || 'user';
+        const role = response.data?.user?.role || 'user';
         if (role === 'admin') {
-          // Nếu có màn AdminDashboard thì mở, nếu không thì chỉ login bình thường
-          // navigation.navigate('Auth', { screen: 'AdminDashboard' });
-        } else if (role === 'manager') {
-          // navigation.navigate('Auth', { screen: 'ManagerDashboard' });
-        } else {
-          dispatch(loginSuccess({ token: response.data.data.token, user: response.data.data.user }));
+          dispatch(loginSuccess({ token: response.data.token, user: response.data.user }));
           dispatch(setOnboardingComplete(true));
-          console.log('✅ Login successful - Dispatched loginSuccess and setOnboardingComplete');
-          console.log('🔍 Token:', response.data.data.token);
-          console.log('👤 User:', response.data.data.user);
+          console.log('✅ Admin login successful');
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: 'AdminDashboard' }],
+            })
+          );
+        } else if (role === 'manager') {
+          dispatch(loginSuccess({ token: response.data.token, user: response.data.user }));
+          dispatch(setOnboardingComplete(true));
+          console.log('✅ Manager login successful');
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [{ name: 'ManagerDashboard' }],
+            })
+          );
+        } else {
+          dispatch(loginSuccess({ token: response.data.token, user: response.data.user }));
+          dispatch(setOnboardingComplete(true));
+          console.log('✅ User login successful - Dispatched loginSuccess and setOnboardingComplete');
+          console.log('🔍 Token:', response.data.token);
+          console.log('👤 User:', response.data.user);
           navigation.dispatch(
             CommonActions.reset({
               index: 0,
@@ -149,10 +164,10 @@ export default function LoginScreen() {
           );
         }
       } else {
-        setError(response.data.message || 'Đăng nhập thất bại');
+        setError('Đăng nhập thất bại');
       }
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Đăng nhập thất bại');
+      setError(err.message || 'Đăng nhập thất bại');
     } finally {
       setLoading(false);
     }

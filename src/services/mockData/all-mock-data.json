@@ -1,0 +1,244 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "user",
+      "name": "Regular User",
+      "email": "user@example.com",
+      "password": "password123",
+      "phone": "0123456789",
+      "role": "user",
+      "avatar": "default-avatar.svg",
+      "isEmailVerified": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "2",
+      "username": "manager",
+      "name": "Store Manager",
+      "email": "manager@example.com",
+      "password": "manager123",
+      "phone": "0987654321",
+      "role": "manager",
+      "avatar": "default-avatar.svg",
+      "isEmailVerified": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "3",
+      "username": "admin",
+      "name": "System Admin",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "phone": "0555666777",
+      "role": "admin",
+      "avatar": "default-avatar.svg",
+      "isEmailVerified": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "4",
+      "username": "dinhthi",
+      "name": "Nguyen Dinh Thi",
+      "email": "thihtktk03@gmail.com",
+      "password": "Thithithi@0305",
+      "phone": "0359731884",
+      "role": "user",
+      "avatar": "default-avatar.svg",
+      "isEmailVerified": true,
+      "createdAt": "2025-07-23T15:28:52.796Z",
+      "updatedAt": "2025-07-23T15:29:07.170Z"
+    }
+  ],
+  "addresses": [
+    {
+      "id": "1",
+      "userId": "1",
+      "recipientName": "Regular User",
+      "street": "123 Main Street",
+      "city": "Ho Chi Minh City",
+      "state": "Ho Chi Minh",
+      "country": "Vietnam",
+      "isDefault": true,
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "2",
+      "userId": "2",
+      "recipientName": "Store Manager",
+      "street": "456 Business Ave",
+      "city": "Ha Noi",
+      "state": "Ha Noi",
+      "country": "Vietnam",
+      "isDefault": true,
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "3",
+      "userId": "3",
+      "recipientName": "System Admin",
+      "street": "789 Admin Blvd",
+      "city": "Da Nang",
+      "state": "Da Nang",
+      "country": "Vietnam",
+      "isDefault": true,
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "4",
+      "userId": "4",
+      "recipientName": "dinh thi",
+      "addressNumber": "",
+      "street": "dn",
+      "city": "dn",
+      "state": "dn",
+      "country": "vn",
+      "isDefault": true,
+      "createdAt": "2025-07-23T15:29:17.858Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "order_1",
+      "userId": "1",
+      "items": [
+        {
+          "productId": "p006",
+          "name": "ULTRABOOST 22",
+          "price": 4200000,
+          "quantity": 1,
+          "size": "40",
+          "color": "white"
+        }
+      ],
+      "total": 4200000,
+      "status": "pending",
+      "createdAt": "2024-01-15T10:00:00Z",
+      "shippingAddress": {
+        "fullName": "John Doe",
+        "phone": "0123456789",
+        "address": "123 Main St, City"
+      }
+    },
+    {
+      "id": "order_2",
+      "userId": "1",
+      "items": [
+        {
+          "productId": "p008",
+          "name": "ADIDAS ORIGINALS",
+          "price": 1200000,
+          "quantity": 2,
+          "size": "M",
+          "color": "blue"
+        }
+      ],
+      "total": 2400000,
+      "status": "completed",
+      "createdAt": "2024-01-10T14:30:00Z",
+      "shippingAddress": {
+        "fullName": "John Doe",
+        "phone": "0123456789",
+        "address": "123 Main St, City"
+      }
+    }
+  ],
+  "analytics": {
+    "dashboard": {
+      "totalSales": 156000000,
+      "totalOrders": 89,
+      "totalCustomers": 156,
+      "totalProducts": 234,
+      "monthlyGrowth": 12.5,
+      "topSellingProducts": [
+        {
+          "id": "p006",
+          "name": "ULTRABOOST 22",
+          "sales": 15,
+          "revenue": 63000000
+        },
+        {
+          "id": "p008",
+          "name": "ADIDAS ORIGINALS",
+          "sales": 12,
+          "revenue": 14400000
+        },
+        {
+          "id": "p007",
+          "name": "STAN SMITH",
+          "sales": 8,
+          "revenue": 22400000
+        }
+      ],
+      "recentOrders": [],
+      "salesChart": {
+        "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+        "data": [12000000, 19000000, 15000000, 25000000, 22000000, 30000000]
+      }
+    },
+    "products": {
+      "total": 234,
+      "categories": [
+        {
+          "name": "Men",
+          "count": 89
+        },
+        {
+          "name": "Women",
+          "count": 76
+        },
+        {
+          "name": "Kids",
+          "count": 45
+        },
+        {
+          "name": "Sport",
+          "count": 24
+        }
+      ],
+      "lowStock": [
+        {
+          "id": "p007",
+          "name": "STAN SMITH",
+          "stock": 2,
+          "threshold": 5
+        },
+        {
+          "id": "p010",
+          "name": "TERREX",
+          "stock": 1,
+          "threshold": 3
+        }
+      ]
+    },
+    "customers": {
+      "total": 156,
+      "newThisMonth": 23,
+      "activeUsers": 89,
+      "topCustomers": [
+        {
+          "id": "1",
+          "name": "John Doe",
+          "email": "john@example.com",
+          "totalSpent": 6600000,
+          "orders": 2
+        },
+        {
+          "id": "4",
+          "name": "Jane Smith",
+          "email": "jane@example.com",
+          "totalSpent": 4200000,
+          "orders": 1
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "lastUpdated": "2024-01-15T12:00:00Z",
+    "version": "1.0.0",
+    "description": "Tổng hợp tất cả dữ liệu mock cho ứng dụng Nidas Mobile"
+  }
+} 

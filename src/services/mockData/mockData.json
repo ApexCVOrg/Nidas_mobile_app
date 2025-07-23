@@ -1,0 +1,78 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "user",
+      "name": "Regular User",
+      "email": "user@example.com",
+      "password": "password123",
+      "phone": "0123456789",
+      "role": "user",
+      "avatar": "default-avatar.svg",
+      "isEmailVerified": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "2",
+      "username": "manager",
+      "name": "Store Manager",
+      "email": "manager@example.com",
+      "password": "manager123",
+      "phone": "0987654321",
+      "role": "manager",
+      "avatar": "default-avatar.svg",
+      "isEmailVerified": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "3",
+      "username": "admin",
+      "name": "System Admin",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "phone": "0555666777",
+      "role": "admin",
+      "avatar": "default-avatar.svg",
+      "isEmailVerified": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    }
+  ],
+  "addresses": [
+    {
+      "id": "1",
+      "userId": "1",
+      "recipientName": "Regular User",
+      "street": "123 Main Street",
+      "city": "Ho Chi Minh City",
+      "state": "Ho Chi Minh",
+      "country": "Vietnam",
+      "isDefault": true,
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "2",
+      "userId": "2",
+      "recipientName": "Store Manager",
+      "street": "456 Business Ave",
+      "city": "Ha Noi",
+      "state": "Ha Noi",
+      "country": "Vietnam",
+      "isDefault": true,
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "3",
+      "userId": "3",
+      "recipientName": "System Admin",
+      "street": "789 Admin Blvd",
+      "city": "Da Nang",
+      "state": "Da Nang",
+      "country": "Vietnam",
+      "isDefault": true,
+      "createdAt": "2024-01-01T00:00:00Z"
+    }
+  ]
+} 

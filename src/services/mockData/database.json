@@ -1,0 +1,90 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "user",
+      "name": "Regular User",
+      "email": "user@example.com",
+      "password": "password123",
+      "phone": "0123456789",
+      "role": "user",
+      "avatar": "default-avatar.svg",
+      "isEmailVerified": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "2",
+      "username": "manager",
+      "name": "Store Manager",
+      "email": "manager@example.com",
+      "password": "manager123",
+      "phone": "0987654321",
+      "role": "manager",
+      "avatar": "default-avatar.svg",
+      "isEmailVerified": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "3",
+      "username": "admin",
+      "name": "System Admin",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "phone": "0555666777",
+      "role": "admin",
+      "avatar": "default-avatar.svg",
+      "isEmailVerified": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "order_1",
+      "userId": "1",
+      "items": [
+        {
+          "productId": "p006",
+          "name": "ULTRABOOST 22",
+          "price": 4200000,
+          "quantity": 1,
+          "size": "40",
+          "color": "white"
+        }
+      ],
+      "total": 4200000,
+      "status": "pending",
+      "createdAt": "2024-01-15T10:00:00Z",
+      "shippingAddress": {
+        "fullName": "John Doe",
+        "phone": "0123456789",
+        "address": "123 Main St, City"
+      }
+    },
+    {
+      "id": "order_2",
+      "userId": "1",
+      "items": [
+        {
+          "productId": "p008",
+          "name": "ADIDAS ORIGINALS",
+          "price": 1200000,
+          "quantity": 2,
+          "size": "M",
+          "color": "blue"
+        }
+      ],
+      "total": 2400000,
+      "status": "completed",
+      "createdAt": "2024-01-10T14:30:00Z",
+      "shippingAddress": {
+        "fullName": "John Doe",
+        "phone": "0123456789",
+        "address": "123 Main St, City"
+      }
+    }
+  ],
+  "timestamp": "2024-01-15T12:00:00Z"
+} 
