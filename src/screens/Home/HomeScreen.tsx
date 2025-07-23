@@ -15,7 +15,8 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { TabNavigatorParamList } from '../../navigation/TabNavigator';
 import { homeStyles } from '../../styles/home/home.styles';
-import homeData from '../../api/homeData.json';
+import { getAllProducts } from '../../api/mockApi';
+import axios from 'axios';
 import { getImageRequire } from '../../utils/imageRequire';
 import ProductCard from '../../components/ProductCard';
 import { useFavoritesContext } from '../../hooks/FavoritesContext';
@@ -81,12 +82,22 @@ const HomeScreen: React.FC<HomeScreenWithPopupProps> = ({ showTabPopup, tabPopup
   }).current;
   const viewConfigRef = useRef({ viewAreaCoveragePercentThreshold: 50 });
 
-  // Load mock data from JSON
+  // useEffect lấy dữ liệu từ mock API
   useEffect(() => {
-    setCategories(homeData.categories);
-    setFeaturedProducts(homeData.featuredProducts);
-    setCollections(homeData.collections);
-    setBannerImages(homeData.bannerImages);
+    // Lấy tất cả products
+    getAllProducts().then(products => {
+      // Lấy 8 sản phẩm đầu tiên làm featuredProducts (hoặc lọc theo tiêu chí khác nếu muốn)
+      setFeaturedProducts(products.slice(0, 8));
+    });
+
+    // Lấy categories
+    axios.get('http://192.168.100.246:3000/categories').then(res => setCategories(res.data));
+
+    // Lấy collections
+    axios.get('http://192.168.100.246:3000/collections').then(res => setCollections(res.data));
+
+    // Lấy bannerImages (chỉ lấy trường image)
+    axios.get('http://192.168.100.246:3000/bannerImages').then(res => setBannerImages(res.data.map((b: any) => b.image)));
   }, []);
 
   const handleCategoryPress = (category: { id: string; name: string; icon?: string }) => {

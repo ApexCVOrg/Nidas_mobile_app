@@ -26,6 +26,7 @@ import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../../redux/slices/authSlice';
 import { setOnboardingComplete } from '../../store/slices/onboardingSlice';
 import { TabNavigatorParamList } from '../../navigation/TabNavigator';
+import { loginUser } from '../../api/mockApi';
 
 const REMEMBER_ME_KEY = 'remember_me_credentials';
 const REMEMBER_ME_ENABLED_KEY = 'remember_me_enabled';
@@ -112,8 +113,9 @@ export default function LoginScreen() {
     }
     setLoading(true);
     try {
-      const response = await mockApi.login({
-        username: formData.username,
+      // Cho phép nhập username hoặc email
+      const response = await loginUser({
+        usernameOrEmail: formData.username,
         password: formData.password,
       });
 
@@ -133,7 +135,6 @@ export default function LoginScreen() {
         if (role === 'admin') {
           dispatch(loginSuccess({ token: response.data.token, user: response.data.user }));
           dispatch(setOnboardingComplete(true));
-          console.log('✅ Admin login successful');
           navigation.dispatch(
             CommonActions.reset({
               index: 0,
@@ -143,7 +144,6 @@ export default function LoginScreen() {
         } else if (role === 'manager') {
           dispatch(loginSuccess({ token: response.data.token, user: response.data.user }));
           dispatch(setOnboardingComplete(true));
-          console.log('✅ Manager login successful');
           navigation.dispatch(
             CommonActions.reset({
               index: 0,
@@ -153,9 +153,6 @@ export default function LoginScreen() {
         } else {
           dispatch(loginSuccess({ token: response.data.token, user: response.data.user }));
           dispatch(setOnboardingComplete(true));
-          console.log('✅ User login successful - Dispatched loginSuccess and setOnboardingComplete');
-          console.log('🔍 Token:', response.data.token);
-          console.log('👤 User:', response.data.user);
           navigation.dispatch(
             CommonActions.reset({
               index: 0,

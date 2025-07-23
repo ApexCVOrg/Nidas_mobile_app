@@ -27,6 +27,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { logout as logoutAction } from '../../redux/slices/authSlice';
 import { RootState } from '../../redux/store';
 import { setOnboardingComplete } from '../../store/slices/onboardingSlice';
+import { getUserWithAddresses } from '../../api/mockApi';
 
 interface UserProfileData {
   firstName: string;
@@ -124,53 +125,54 @@ const UserProfile = () => {
     setLoading(true);
     setError(null);
     try {
-      // Debug: Check token from Redux
-      console.log('🔐 Redux token:', token);
-      console.log('👤 Redux user:', user);
-      
-      // Check token from AsyncStorage as fallback
-      const storedToken = await AsyncStorage.getItem('auth_token');
-      console.log('💾 Stored token:', storedToken);
-      
-      // Debug token content
-      if (storedToken) {
-        const decodedToken = decodeToken(storedToken);
-        console.log('🔓 Decoded token:', decodedToken);
+      // Lấy userId từ Redux hoặc token
+      let userId = user?.id;
+      if (!userId) {
+        const storedToken = await AsyncStorage.getItem('auth_token');
+        if (storedToken) {
+          // Token dạng mock_token_<userId>_<timestamp>
+          const parts = storedToken.split('_');
+          userId = parts[2];
+        }
       }
-      
-      if (!token && !storedToken) {
+      if (!userId) {
         setError('No authentication token found');
         return;
       }
-      
-              const res = await mockApi.getCurrentUser();
-        console.log('✅ Profile API response:', res.data);
-                // Mock user data structure
-        const mockUserData = {
-          ...res.data,
-          firstName: res.data.name.split(' ')[0] || '',
-          lastName: res.data.name.split(' ').slice(1).join(' ') || '',
-          phone: '+84 123 456 789',
-          dateOfBirth: '1990-01-01',
-          gender: 'male',
-          address: '123 Main St, City',
-          city: 'Ho Chi Minh City',
-          country: 'Vietnam',
-          avatar: 'default-avatar.svg',
-          membershipLevel: 'Gold',
-          joinDate: '2024-01-01',
-          totalOrders: 15,
-          totalSpent: 2500000,
-          preferences: {
-            notifications: true,
-            marketing: false,
-            language: 'en'
-          }
-        };
-        setUserData(mockUserData as any);
-        setTempUserData(mockUserData as any);
+      // Lấy user + address từ mock API
+      const { user: userInfo, addresses } = await getUserWithAddresses(userId);
+      if (!userInfo) {
+        setError('Không tìm thấy thông tin người dùng');
+        return;
+      }
+      // Gộp thông tin user + address (lấy address mặc định hoặc đầu tiên)
+      const mainAddress = addresses && addresses.length > 0 ? addresses.find((a: any) => a.isDefault) || addresses[0] : null;
+      const mockUserData = {
+        ...userInfo,
+        firstName: userInfo.name?.split(' ')[0] || '',
+        lastName: userInfo.name?.split(' ').slice(1).join(' ') || '',
+        phone: userInfo.phone || '',
+        dateOfBirth: userInfo.dateOfBirth || '1990-01-01',
+        gender: userInfo.gender || 'male',
+        address: mainAddress ? mainAddress.street : '',
+        city: mainAddress ? mainAddress.city : '',
+        country: mainAddress ? mainAddress.country : '',
+        avatar: userInfo.avatar || 'default-avatar.svg',
+        membershipLevel: 'Gold',
+        joinDate: userInfo.createdAt || '2024-01-01',
+        totalOrders: 15,
+        totalSpent: 2500000,
+        preferences: {
+          notifications: true,
+          marketing: false,
+          language: 'en'
+        },
+        addresses: addresses || [],
+        fullName: userInfo.name
+      };
+      setUserData(mockUserData as any);
+      setTempUserData(mockUserData as any);
     } catch (e: any) {
-      console.error('❌ Profile API error:', e.response?.data || e.message);
       setError(e.response?.data?.message || 'Failed to load profile');
     } finally {
       setLoading(false);
