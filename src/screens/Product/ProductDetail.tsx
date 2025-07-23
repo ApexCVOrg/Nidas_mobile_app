@@ -30,29 +30,24 @@ import Animated, {
 } from 'react-native-reanimated';
 import SizeGuideModal from '../../components/SizeGuideModal';
 import RecommendedProducts from '../../components/RecommendedProducts';
-import searchProducts from '../../api/searchProducts.json';
+import { getAllProducts } from '../../api/mockApi';
 import { getImageRequire } from '../../utils/imageRequire';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../redux/slices/cartSlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 type ProductDetailRouteProp = RouteProp<TabNavigatorParamList, 'ProductDetail'>;
 
 const { width, height } = Dimensions.get('window');
 
 const ProductDetail = () => {
+  // --- TẤT CẢ HOOK ở đây ---
   const route = useRoute<any>();
   const navigation = useNavigation();
   const { productId } = route.params;
-  const product = (searchProducts as any[]).find((p: any) => p.id === productId);
-  if (!product) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Product not found!</Text>
-      </View>
-    );
-  }
+  const [product, setProduct] = useState<any>(null);
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedImage, setSelectedImage] = useState(0);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
@@ -70,26 +65,98 @@ const ProductDetail = () => {
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
   const [showToast, setShowToast] = useState(false);
-  const [selectedColor, setSelectedColor] = useState(product.colors && product.colors.length > 0 ? product.colors[0] : '');
+  const [selectedColor, setSelectedColor] = useState('');
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
   const [addCartSuccess, setAddCartSuccess] = useState(false);
   const [sizeError, setSizeError] = useState(false);
   const { token, user } = useSelector((state: RootState) => state.auth);
   const isLoggedIn = !!token && !!user;
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
-  // Lấy tồn kho theo tổ hợp màu + size
-  const getStock = (color: string, size: string | number) => {
-    return product.stockByColorSize?.[`${color}-${size}`] ?? 0;
-  };
+  // --- Các hàm callback không khai báo hook bên trong ---
+  const getProductType = React.useCallback(() => {
+    if (!product) return '';
+    const category = product.category;
+    if (category === 'giay') {
+      return 'shoes';
+    } else if (category === 'quan_ao' && product.name.toLowerCase().includes('quần')) {
+      return 'pants';
+    } else {
+      return 'clothing';
+    }
+  }, [product]);
 
-  // Reset quantity về 1 nếu đổi màu/size mà tồn kho mới < quantity
+  const getStock = React.useCallback((color: string, size: string | number) => {
+    return product?.stockByColorSize?.[`${color}-${size}`] ?? 0;
+  }, [product]);
+
+  const handlePrev = React.useCallback(() => {
+    if (currentIndex > 0) {
+      flatListRef.current?.scrollToIndex({
+        index: currentIndex - 1,
+        animated: true,
+      });
+    }
+  }, [currentIndex]);
+
+  const handleNext = React.useCallback(() => {
+    if (product && currentIndex < (product.images?.length || 1) - 1) {
+      flatListRef.current?.scrollToIndex({
+        index: currentIndex + 1,
+        animated: true,
+      });
+    }
+  }, [currentIndex, product]);
+
+  const renderCarouselItem = React.useCallback(({ item, index }: { item: string; index: number }) => {
+    return (
+      <Animated.View
+        entering={SlideInRight.delay(index * 100)}
+        style={styles.carouselItem}
+      >
+        <TouchableOpacity 
+          style={styles.carouselItem}
+          onPress={() => handleZoom(item)}
+          activeOpacity={0.9}
+        >
+          <Image
+            source={typeof item === 'string' ? { uri: item } : item}
+            style={styles.productImage}
+            resizeMode="cover"
+          />
+        </TouchableOpacity>
+      </Animated.View>
+    );
+  }, [handleZoom]);
+
+  const onViewableItemsChanged = useRef(({ viewableItems }: any) => {
+    if (viewableItems.length > 0) {
+      setCurrentIndex(viewableItems[0].index);
+    }
+  }).current;
+
+  // --- useEffect và các hook ở đầu function ---
+  useEffect(() => {
+    getAllProducts().then(products => {
+      const found = products.find((p: any) => p.id === productId);
+      setProduct(found || null);
+    });
+  }, [productId]);
+
+  useEffect(() => {
+    if (product && product.colors && product.colors.length > 0) {
+      setSelectedColor(product.colors[0]);
+    }
+  }, [product]);
+
   useEffect(() => {
     if (selectedColor && selectedSize) {
       const stock = getStock(selectedColor, selectedSize);
       if (quantity > stock) setQuantity(stock > 0 ? 1 : 0);
     }
-  }, [selectedColor, selectedSize]);
+  }, [selectedColor, selectedSize, getStock]);
 
   const panResponder = useRef(
     PanResponder.create({
@@ -122,9 +189,9 @@ const ProductDetail = () => {
   ).current;
 
   useEffect(() => {
-    if (isAutoScrolling) {
+    if (isAutoScrolling && product) {
       autoScrollInterval.current = setInterval(() => {
-        if (currentIndex < productImages.length - 1) {
+        if (product && currentIndex < (product.images?.length || 1) - 1) {
           handleNext();
         } else {
           flatListRef.current?.scrollToIndex({
@@ -132,39 +199,42 @@ const ProductDetail = () => {
             animated: true,
           });
         }
-      }, 2000); // Switch image every 2 seconds
+      }, 2000);
     }
-
     return () => {
       if (autoScrollInterval.current) {
         clearInterval(autoScrollInterval.current);
       }
     };
-  }, [currentIndex, isAutoScrolling]);
+  }, [currentIndex, isAutoScrolling, product, handleNext]);
 
-  // Determine product type based on product category
-  const getProductType = () => {
-    const category = product.category;
-    if (category === 'giay') {
-      return 'shoes';
-    } else if (category === 'quan_ao' && product.name.toLowerCase().includes('quần')) {
-      return 'pants';
-    } else {
-      return 'clothing';
+  // Toast tự động ẩn sau 2 giây
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => setShowToast(false), 2000);
+      return () => clearTimeout(timer);
     }
-  };
+  }, [showToast]);
 
-  const sizes = getProductType() === 'shoes' 
+  // --- KHÔNG có hook phía sau đoạn này ---
+  if (!product) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  // Các biến phụ thuộc vào product
+  const sizes = getProductType() === 'shoes'
     ? ['38', '39', '40', '41', '42', '43', '44']
     : getProductType() === 'pants'
     ? ['28', '30', '32', '34', '36']
     : ['S', 'M', 'L', 'XL', 'XXL'];
 
-  const productImages = [
-    getImageRequire(product.imageDefault),
-    getImageRequire(product.imageDefault),
-    getImageRequire(product.imageDefault),
-  ];
+  const productImages = product.images && product.images.length > 0
+    ? product.images.map((img: string) => getImageRequire(img))
+    : [getImageRequire(product.imageDefault)];
 
   const handleZoom = (image: string) => {
     setSelectedZoomImage(image);
@@ -172,24 +242,6 @@ const ProductDetail = () => {
     scale.setValue(1);
     translateX.setValue(0);
     translateY.setValue(0);
-  };
-
-  const handlePrev = () => {
-    if (currentIndex > 0) {
-      flatListRef.current?.scrollToIndex({
-        index: currentIndex - 1,
-        animated: true,
-      });
-    }
-  };
-
-  const handleNext = () => {
-    if (currentIndex < productImages.length - 1) {
-      flatListRef.current?.scrollToIndex({
-        index: currentIndex + 1,
-        animated: true,
-      });
-    }
   };
 
   const handleScroll = () => {
@@ -241,7 +293,21 @@ const ProductDetail = () => {
       setShowToast(true);
       return;
     }
-    const numericPrice = typeof product.price === 'string' ? parseInt(product.price.replace(/[^\d]/g, '')) : product.price;
+    const numericPrice = typeof product.price === 'string' ? parseInt(product.price.replace(/[^ -9]/g, '')) : product.price;
+    // Kiểm tra nếu đã có sản phẩm cùng id, size, color thì chỉ tăng số lượng
+    const existing = cartItems.find(
+      (item) => item.productId === product.id && item.size === selectedSize && item.color === selectedColor
+    );
+    let addQuantity = quantity;
+    if (existing) {
+      addQuantity = existing.quantity + quantity;
+      if (addQuantity > stock) {
+        setToastMessage('Vượt quá số lượng tồn kho!');
+        setToastType('error');
+        setShowToast(true);
+        return;
+      }
+    }
     const cartItem = {
       productId: product.id,
       name: product.name,
@@ -257,33 +323,6 @@ const ProductDetail = () => {
     setShowToast(true);
   };
 
-
-  const renderCarouselItem = ({ item, index }: { item: string; index: number }) => {
-    return (
-      <Animated.View
-        entering={SlideInRight.delay(index * 100)}
-        style={styles.carouselItem}
-      >
-        <TouchableOpacity 
-          style={styles.carouselItem}
-          onPress={() => handleZoom(item)}
-          activeOpacity={0.9}
-        >
-          <Image
-            source={typeof item === 'string' ? { uri: item } : item}
-            style={styles.productImage}
-            resizeMode="cover"
-          />
-        </TouchableOpacity>
-      </Animated.View>
-    );
-  };
-
-  const onViewableItemsChanged = useRef(({ viewableItems }: any) => {
-    if (viewableItems.length > 0) {
-      setCurrentIndex(viewableItems[0].index);
-    }
-  }).current;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -314,6 +353,28 @@ const ProductDetail = () => {
           <TouchableOpacity style={styles.iconButton}>
             <Icon name="share" size={24} color="#000" />
           </TouchableOpacity>
+          {/* Badge số lượng cart */}
+          <View style={{ marginLeft: 8 }}>
+            <TouchableOpacity onPress={() => (navigation as any).navigate('CartScreen')}>
+              <MaterialCommunityIcons name="cart-outline" size={28} color="#000" />
+              {cartCount > 0 && (
+                <View style={{
+                  position: 'absolute',
+                  top: -4,
+                  right: -4,
+                  backgroundColor: '#ff3b30',
+                  borderRadius: 8,
+                  minWidth: 16,
+                  height: 16,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingHorizontal: 3,
+                }}>
+                  <Text style={{ color: '#fff', fontSize: 10, fontWeight: 'bold' }}>{cartCount}</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
       </Animated.View>
 
@@ -357,7 +418,7 @@ const ProductDetail = () => {
             </TouchableOpacity>
           </Animated.View>
           <View style={styles.imagePagination}>
-            {productImages.map((_, index) => (
+            {productImages.map((_: any, index: number) => (
               <Animated.View
                 key={index}
                 entering={FadeIn.delay(index * 100)}
@@ -581,6 +642,27 @@ const ProductDetail = () => {
         }}>
           <View style={{backgroundColor: '#d32f2f', paddingHorizontal: 24, paddingVertical: 12, borderRadius: 24}}>
             <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 16}}>Vui lòng chọn size!</Text>
+          </View>
+        </View>
+      )}
+
+      {/* Toast thông báo */}
+      {showToast && (
+        <View style={{
+          position: 'absolute',
+          top: 60,
+          left: 0,
+          right: 0,
+          alignItems: 'center',
+          zIndex: 100,
+        }}>
+          <View style={{
+            backgroundColor: toastType === 'success' ? '#222' : '#d32f2f',
+            paddingHorizontal: 24,
+            paddingVertical: 12,
+            borderRadius: 24,
+          }}>
+            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>{toastMessage}</Text>
           </View>
         </View>
       )}

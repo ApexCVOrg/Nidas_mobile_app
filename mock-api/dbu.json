@@ -1,0 +1,1908 @@
+{
+  "users": [
+    {
+      "name": "Admin Updated",
+      "role": "admin",
+      "id": "1"
+    },
+    {
+      "id": "3",
+      "username": "admin",
+      "name": "System Admin",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "phone": "0555666777",
+      "role": "admin",
+      "avatar": "default-avatar.svg",
+      "isEmailVerified": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "686e",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "8eb8",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "1734",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "6339",
+      "username": "trung",
+      "name": "tredffsd",
+      "email": "thanhtrung8ctv@gmail.com",
+      "password": "concatre",
+      "phone": "0988449222",
+      "role": "user",
+      "isEmailVerified": true,
+      "avatar": "default-avatar.svg",
+      "createdAt": "2025-07-23T17:35:18.874Z",
+      "updatedAt": "2025-07-23T17:35:18.875Z"
+    },
+    {
+      "id": "3c0f",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "f52a",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "68ad",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "d0cf",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "a7b9",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "6986",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "6e5e",
+      "name": "New Manager",
+      "role": "manager"
+    }
+  ],
+  "addresses": [
+    {
+      "id": "1",
+      "userId": "1",
+      "recipientName": "Regular User",
+      "street": "123 Main Street",
+      "city": "Ho Chi Minh City",
+      "state": "Ho Chi Minh",
+      "country": "Vietnam",
+      "isDefault": true,
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "2",
+      "userId": null,
+      "recipientName": "Store Manager",
+      "street": "456 Business Ave",
+      "city": "Ha Noi",
+      "state": "Ha Noi",
+      "country": "Vietnam",
+      "isDefault": true,
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "3",
+      "userId": "3",
+      "recipientName": "System Admin",
+      "street": "789 Admin Blvd",
+      "city": "Da Nang",
+      "state": "Da Nang",
+      "country": "Vietnam",
+      "isDefault": true,
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "7689",
+      "userId": "6339",
+      "recipientName": "sdfiuhdsfiouhhfiusduih",
+      "street": "fsadhivbdfsihjbuopsdfihbju",
+      "city": "daibasubjnhoofsidhapuonijasdf",
+      "state": "sfdo0inuhbsdfoihsfdohiopjksadf",
+      "country": "sfdyugfsed8gysdfg879fsd9hgu",
+      "isDefault": true,
+      "createdAt": "2025-07-23T17:35:33.692Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "order_1",
+      "userId": "1",
+      "items": [
+        {
+          "productId": "p006",
+          "name": "ULTRABOOST 22",
+          "price": 4200000,
+          "quantity": 1,
+          "size": "40",
+          "color": "white"
+        }
+      ],
+      "total": 4200000,
+      "status": "pending",
+      "createdAt": "2024-01-15T10:00:00Z",
+      "shippingAddress": {
+        "fullName": "John Doe",
+        "phone": "0123456789",
+        "address": "123 Main St, City"
+      }
+    },
+    {
+      "id": "order_2",
+      "userId": "1",
+      "items": [
+        {
+          "productId": "p008",
+          "name": "ADIDAS ORIGINALS",
+          "price": 1200000,
+          "quantity": 2,
+          "size": "M",
+          "color": "blue"
+        }
+      ],
+      "total": 2400000,
+      "status": "completed",
+      "createdAt": "2024-01-10T14:30:00Z",
+      "shippingAddress": {
+        "fullName": "John Doe",
+        "phone": "0123456789",
+        "address": "123 Main St, City"
+      }
+    }
+  ],
+  "products": [
+    {
+      "id": "p1",
+      "name": "Áo Thun Polo Adidas",
+      "category": "men",
+      "price": "599.000 VNĐ",
+      "description": "Áo thun polo nam phong cách, thoáng mát, chất liệu cotton cao cấp.",
+      "imageDefault": "thun_adidas.jpg",
+      "imageByColor": {
+        "white": "category_images/aoadidastrang.png",
+        "black": "category_images/aoadidasden.png",
+        "blue": "category_images/aoadidasxanh.png"
+      },
+      "colors": [
+        "white",
+        "black",
+        "blue"
+      ],
+      "collections": [
+        "New Arrivals",
+        "FAVORITES"
+      ],
+      "brand": "Adidas",
+      "subtitle": "New Arrival 2024",
+      "rating": 4.5,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2,
+        "XL": 0
+      },
+      "stockByColorSize": {
+        "white-S": 5,
+        "white-M": 3,
+        "white-L": 2,
+        "white-XL": 0,
+        "black-S": 3,
+        "black-M": 2,
+        "black-L": 1,
+        "black-XL": 0,
+        "blue-S": 2,
+        "blue-M": 1,
+        "blue-L": 0,
+        "blue-XL": 0
+      }
+    },
+    {
+      "id": "p2",
+      "name": "Quần Jean Nữ Slim Fit",
+      "category": "women",
+      "price": "750.000 VNĐ",
+      "description": "Quần jean nữ co giãn, tôn dáng, phù hợp mọi phong cách.",
+      "imageDefault": "SlimFit.jpg",
+      "imageByColor": {
+        "blue": "category_images/quanjeannu.png",
+        "black": "category_images/quanjeannublack.png"
+      },
+      "colors": [
+        "blue",
+        "black"
+      ],
+      "collections": [
+        "Best Sellers",
+        "FAVORITES"
+      ],
+      "brand": "Levi's",
+      "subtitle": "Best Seller",
+      "rating": 4.2,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2,
+        "XL": 0
+      },
+      "stockByColorSize": {
+        "blue-S": 5,
+        "blue-M": 3,
+        "blue-L": 2,
+        "blue-XL": 0,
+        "black-S": 3,
+        "black-M": 2,
+        "black-L": 1,
+        "black-XL": 0
+      }
+    },
+    {
+      "id": "p3",
+      "name": "Adidas Originals KIDS",
+      "category": "kids",
+      "price": "350.000 VNĐ",
+      "description": "Áo khoác gió nhẹ cho trẻ em, chống nước, nhiều màu sắc tươi sáng.",
+      "imageDefault": "Kid_O.jpg",
+      "imageByColor": {
+        "red": "category_images/aokhoactreem.png",
+        "yellow": "category_images/aokhoactreemvang.png"
+      },
+      "colors": [
+        "red",
+        "yellow"
+      ],
+      "collections": [
+        "Kids Collection"
+      ],
+      "brand": "Adidas",
+      "subtitle": "Kids Collection",
+      "rating": 4.8,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2,
+        "XL": 0
+      },
+      "stockByColorSize": {
+        "red-S": 5,
+        "red-M": 3,
+        "red-L": 2,
+        "red-XL": 0,
+        "yellow-S": 3,
+        "yellow-M": 2,
+        "yellow-L": 1,
+        "yellow-XL": 0
+      }
+    },
+    {
+      "id": "p4",
+      "name": "Giày Superstar II Xanh",
+      "category": "sport",
+      "price": "2.600.000 VNĐ",
+      "description": "Giày chạy bộ chuyên nghiệp, đế êm ái, hỗ trợ tối đa cho mọi hoạt động thể thao.",
+      "imageDefault": "category_images/giayadidas.png",
+      "imageByColor": {
+        "blue": "category_images/giayadidas.png",
+        "green": "category_images/giayadidasxanh.png"
+      },
+      "colors": [
+        "blue",
+        "green"
+      ],
+      "collections": [
+        "SUPERSTAR",
+        "FAVORITES"
+      ],
+      "brand": "Adidas",
+      "subtitle": "Superstar Collection",
+      "rating": 4.6,
+      "quantityBySize": {
+        "38": 3,
+        "39": 2,
+        "40": 0
+      },
+      "stockByColorSize": {
+        "blue-38": 3,
+        "blue-39": 2,
+        "blue-40": 0,
+        "green-38": 2,
+        "green-39": 1,
+        "green-40": 0
+      }
+    },
+    {
+      "id": "p5",
+      "name": "Đồng Hồ Thông Minh",
+      "category": "accessories",
+      "price": "2.500.000 VNĐ",
+      "description": "Đồng hồ thông minh đa năng, theo dõi sức khỏe, nghe gọi, kết nối bluetooth.",
+      "imageDefault": "category_images/donghothongminh.png",
+      "imageByColor": {
+        "black": "category_images/donghothongminh.png",
+        "silver": "category_images/donghothongminhbac.png"
+      },
+      "colors": [
+        "black",
+        "silver"
+      ],
+      "collections": [
+        "Accessories"
+      ],
+      "brand": "Generic",
+      "subtitle": "Smart Watch",
+      "rating": 4.3,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2,
+        "XL": 0
+      },
+      "stockByColorSize": {
+        "black-S": 5,
+        "black-M": 3,
+        "black-L": 2,
+        "black-XL": 0,
+        "silver-S": 3,
+        "silver-M": 2,
+        "silver-L": 1,
+        "silver-XL": 0
+      }
+    },
+    {
+      "id": "p6",
+      "name": "Cruising Hanoi Streets Key City Tee",
+      "category": "men",
+      "price": "450.000 VNĐ",
+      "description": "Áo sơ mi nam cao cấp, thiết kế lịch lãm, phù hợp môi trường công sở.",
+      "imageDefault": "HaNoiAo.jpg",
+      "imageByColor": {
+        "white": "category_images/aosominamtrang.png",
+        "blue": "category_images/aosominamblue.png"
+      },
+      "colors": [
+        "white",
+        "blue"
+      ],
+      "collections": [
+        "New Arrivals",
+        "FAVORITES"
+      ],
+      "brand": "Generic",
+      "subtitle": "Key City Tee",
+      "rating": 4.1,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2,
+        "XL": 0
+      },
+      "stockByColorSize": {
+        "white-S": 5,
+        "white-M": 3,
+        "white-L": 2,
+        "white-XL": 0,
+        "blue-S": 3,
+        "blue-M": 2,
+        "blue-L": 1,
+        "blue-XL": 0
+      }
+    },
+    {
+      "id": "p7",
+      "name": "Dép Adilette Comfort",
+      "category": "women",
+      "price": "750.000 VNĐ",
+      "description": "Dép Adilette thoải mái, thiết kế hiện đại, phù hợp cho mùa hè.",
+      "imageDefault": "adilette.jpg",
+      "imageByColor": {
+        "pink": "category_images/depadidas.png",
+        "yellow": "category_images/depadidas.png"
+      },
+      "colors": [
+        "pink",
+        "yellow"
+      ],
+      "collections": [
+        "SLIDE INTO SUMMER",
+        "FAVORITES"
+      ],
+      "brand": "Adidas",
+      "subtitle": "Slide Into Summer",
+      "rating": 4.4,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2,
+        "XL": 0
+      },
+      "stockByColorSize": {
+        "pink-S": 5,
+        "pink-M": 3,
+        "pink-L": 2,
+        "pink-XL": 0,
+        "yellow-S": 3,
+        "yellow-M": 2,
+        "yellow-L": 1,
+        "yellow-XL": 0
+      }
+    },
+    {
+      "id": "p8",
+      "name": "Mini Rodini x Adidas Originals",
+      "category": "kids",
+      "price": "420.000 VNĐ",
+      "description": "Bộ đồ thể thao cho bé, chất liệu cotton mềm mại, thoải mái vận động.",
+      "imageDefault": "Kid_O2.jpg",
+      "imageByColor": {
+        "red": "category_images/bodothethaotreem.png",
+        "blue": "category_images/bodothethaotreemxanh.png"
+      },
+      "colors": [
+        "red",
+        "blue"
+      ],
+      "collections": [
+        "Kids Collection"
+      ],
+      "brand": "Adidas",
+      "subtitle": "Kids Collection",
+      "rating": 4.7,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2,
+        "XL": 0
+      },
+      "stockByColorSize": {
+        "red-S": 5,
+        "red-M": 3,
+        "red-L": 2,
+        "red-XL": 0,
+        "blue-S": 3,
+        "blue-M": 2,
+        "blue-L": 1,
+        "blue-XL": 0
+      }
+    },
+    {
+      "id": "p9",
+      "name": "Balo Thể Thao Đa Năng",
+      "category": "sport",
+      "price": "680.000 VNĐ",
+      "description": "Balo thể thao lớn, nhiều ngăn, chống thấm nước, lý tưởng cho tập gym và du lịch.",
+      "imageDefault": "category_images/balothethao.png",
+      "imageByColor": {
+        "black": "category_images/balothethao.png",
+        "gray": "category_images/balothethaogray.png"
+      },
+      "colors": [
+        "black",
+        "gray"
+      ],
+      "collections": [
+        "Sport Gear"
+      ],
+      "brand": "Generic",
+      "subtitle": "Sport Gear",
+      "rating": 4.2,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2,
+        "XL": 0
+      },
+      "stockByColorSize": {
+        "black-S": 5,
+        "black-M": 3,
+        "black-L": 2,
+        "black-XL": 0,
+        "gray-S": 3,
+        "gray-M": 2,
+        "gray-L": 1,
+        "gray-XL": 0
+      }
+    },
+    {
+      "id": "p10",
+      "name": "Kính Mát Thời Trang",
+      "category": "accessories",
+      "price": "300.000 VNĐ",
+      "description": "Kính mát chống tia UV, thiết kế hiện đại, phù hợp với nhiều khuôn mặt.",
+      "imageDefault": "category_images/kinhmattraitim.png",
+      "imageByColor": {
+        "black": "category_images/kinhmattraitim.png",
+        "brown": "category_images/kinhmattraitimbrown.png"
+      },
+      "colors": [
+        "black",
+        "brown"
+      ],
+      "collections": [
+        "Accessories"
+      ],
+      "brand": "Generic",
+      "subtitle": "UV Protection",
+      "rating": 4,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2,
+        "XL": 0
+      },
+      "stockByColorSize": {
+        "black-S": 5,
+        "black-M": 3,
+        "black-L": 2,
+        "black-XL": 0,
+        "brown-S": 3,
+        "brown-M": 2,
+        "brown-L": 1,
+        "brown-XL": 0
+      }
+    },
+    {
+      "id": "p11",
+      "name": "Giày Superstar III Đen Trắng",
+      "category": "sport",
+      "price": "2.800.000 VNĐ",
+      "description": "Mẫu giày Superstar cổ điển với phối màu đen trắng tinh tế và hiện đại.",
+      "imageDefault": "category_images/giayadidasden.png",
+      "imageByColor": {
+        "black": "category_images/giayadidasden.png",
+        "white": "category_images/giayadidastrang.png"
+      },
+      "colors": [
+        "black",
+        "white"
+      ],
+      "collections": [
+        "SUPERSTAR",
+        "FAVORITES"
+      ],
+      "brand": "Adidas",
+      "subtitle": "Superstar Classic",
+      "rating": 4.8,
+      "quantityBySize": {
+        "38": 3,
+        "39": 2,
+        "40": 0
+      },
+      "stockByColorSize": {
+        "black-38": 3,
+        "black-39": 2,
+        "black-40": 0,
+        "white-38": 2,
+        "white-39": 1,
+        "white-40": 0
+      }
+    },
+    {
+      "id": "p12",
+      "name": "Dép Quai Ngang Adilette Aqua",
+      "category": "sport",
+      "price": "500.000 VNĐ",
+      "description": "Dép quai ngang nhẹ, chống trượt, lý tưởng cho đi biển hoặc đi trong nhà.",
+      "imageDefault": "category_images/depadidasvang.png",
+      "imageByColor": {
+        "yellow": "category_images/depadidasvang.png",
+        "blue": "category_images/depadidasxanh.png"
+      },
+      "colors": [
+        "yellow",
+        "blue"
+      ],
+      "collections": [
+        "SLIDE INTO SUMMER"
+      ],
+      "brand": "Adidas",
+      "subtitle": "Aqua Slide",
+      "rating": 4.5,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2,
+        "XL": 0
+      },
+      "stockByColorSize": {
+        "yellow-S": 5,
+        "yellow-M": 3,
+        "yellow-L": 2,
+        "yellow-XL": 0,
+        "blue-S": 3,
+        "blue-M": 2,
+        "blue-L": 1,
+        "blue-XL": 0
+      }
+    },
+    {
+      "id": "p13",
+      "name": "Áo Hoodie Unisex Mới",
+      "category": "men",
+      "price": "850.000 VNĐ",
+      "description": "Áo hoodie unisex phong cách trẻ trung, chất liệu nỉ bông cao cấp.",
+      "imageDefault": "Hoodie_Unisex.jpg",
+      "imageByColor": {
+        "black": "category_images/hoodieunisex.png",
+        "gray": "category_images/hoodieunisexgray.png"
+      },
+      "colors": [
+        "black",
+        "gray"
+      ],
+      "collections": [
+        "New Arrivals"
+      ],
+      "brand": "Generic",
+      "subtitle": "Unisex Hoodie",
+      "rating": 4.3,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2,
+        "XL": 0
+      },
+      "stockByColorSize": {
+        "black-S": 5,
+        "black-M": 3,
+        "black-L": 2,
+        "black-XL": 0,
+        "gray-S": 3,
+        "gray-M": 2,
+        "gray-L": 1,
+        "gray-XL": 0
+      }
+    },
+    {
+      "id": "p23",
+      "name": "Áo Thể Thao Premium",
+      "category": "men",
+      "price": "1.200.000 VNĐ",
+      "description": "Áo thể thao cao cấp với công nghệ thấm hút mồ hôi",
+      "imageDefault": "ao1.jpg",
+      "imageByColor": {
+        "red": "ao1.jpg",
+        "blue": "ao3.jpg",
+        "black": "ao4.jpg"
+      },
+      "colors": [
+        "red",
+        "blue",
+        "black"
+      ],
+      "collections": [
+        "Sport Gear"
+      ],
+      "brand": "Generic",
+      "subtitle": "Premium Sportswear",
+      "rating": 4.7,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2,
+        "XL": 0
+      },
+      "stockByColorSize": {
+        "red-S": 5,
+        "red-M": 3,
+        "red-L": 2,
+        "red-XL": 0,
+        "blue-S": 3,
+        "blue-M": 2,
+        "blue-L": 1,
+        "blue-XL": 0,
+        "black-S": 3,
+        "black-M": 2,
+        "black-L": 1,
+        "black-XL": 0
+      }
+    },
+    {
+      "id": "p24",
+      "name": "Quần Thể Thao Nam",
+      "category": "men",
+      "price": "1.300.000 VNĐ",
+      "description": "Quần thể thao nam với thiết kế thoải mái",
+      "imageDefault": "quan1.jpg",
+      "imageByColor": {
+        "black": "quan1.jpg",
+        "navy": "quan2.jpg",
+        "grey": "quan3.jpg"
+      },
+      "colors": [],
+      "collections": [
+        "Sport Gear"
+      ],
+      "brand": "Generic",
+      "subtitle": "Men's Sport Pants",
+      "rating": 4,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2,
+        "XL": 0
+      },
+      "stockByColorSize": {
+        "black-S": 5,
+        "black-M": 3,
+        "black-L": 2,
+        "black-XL": 0,
+        "navy-S": 3,
+        "navy-M": 2,
+        "navy-L": 1,
+        "navy-XL": 0,
+        "grey-S": 3,
+        "grey-M": 2,
+        "grey-L": 1,
+        "grey-XL": 0
+      }
+    },
+    {
+      "id": "p25",
+      "name": "Adidas Samba OG",
+      "category": "sport",
+      "price": "2.800.000 VNĐ",
+      "description": "Giày thể thao cổ điển với thiết kế retro đặc trưng",
+      "imageDefault": "samba.gif",
+      "imageByColor": {
+        "white": "samba.gif",
+        "black": "handball.gif",
+        "blue": "sl72.gif"
+      },
+      "colors": [
+        "white",
+        "black",
+        "blue"
+      ],
+      "collections": [
+        "SUPERSTAR"
+      ],
+      "brand": "Adidas",
+      "subtitle": "Retro Classic",
+      "rating": 4.9,
+      "quantityBySize": {
+        "38": 3,
+        "39": 2,
+        "40": 0
+      },
+      "stockByColorSize": {
+        "white-38": 3,
+        "white-39": 2,
+        "white-40": 0,
+        "black-38": 3,
+        "black-39": 2,
+        "black-40": 0,
+        "blue-38": 2,
+        "blue-39": 2,
+        "blue-40": 1
+      }
+    },
+    {
+      "id": "p26",
+      "name": "Áo Đấu Manchester United 25/26 Home Kit",
+      "category": "sport",
+      "price": "2.200.000 VNĐ",
+      "description": "Áo đấu chính thức sân nhà mùa giải 2025/2026 của Manchester United. Thiết kế mới, chất liệu thoáng mát, tôn vinh Nhà hát của những giấc mơ.",
+      "imageDefault": "Mu_2526.jpg",
+      "imageByColor": {
+        "red": "category_images/ManU_home.jpg"
+      },
+      "colors": [
+        "red"
+      ],
+      "collections": [
+        "Football Club"
+      ],
+      "brand": "Manchester United",
+      "subtitle": "Home Kit 25/26",
+      "rating": 4.8,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2,
+        "XL": 0
+      },
+      "stockByColorSize": {
+        "red-S": 5,
+        "red-M": 3,
+        "red-L": 2,
+        "red-XL": 0
+      }
+    },
+    {
+      "id": "p27",
+      "name": "Áo Thun ClimaCool 2024",
+      "category": "sport",
+      "price": "1.100.000 VNĐ",
+      "description": "Áo thun thể thao công nghệ ClimaCool 2024, siêu nhẹ, thoáng khí, phù hợp tập luyện mùa hè.",
+      "imageDefault": "category_images/Climacool.jpg",
+      "imageByColor": {
+        "blue": "category_images/Climacool.jpg"
+      },
+      "colors": [
+        "blue"
+      ],
+      "collections": [
+        "ClimaCool"
+      ],
+      "brand": "Adidas",
+      "subtitle": "ClimaCool 2024",
+      "rating": 4.6,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2,
+        "XL": 0
+      },
+      "stockByColorSize": {
+        "blue-S": 5,
+        "blue-M": 3,
+        "blue-L": 2,
+        "blue-XL": 0
+      }
+    },
+    {
+      "id": "p28",
+      "name": "ULTRABOOST 22",
+      "category": "giay",
+      "gender": "nam",
+      "type": "originals",
+      "price": "2,800,000 VNĐ",
+      "description": "Giày thể thao cổ điển với thiết kế retro đặc trưng",
+      "imageDefault": "Giay_Ultraboost_22.jpg",
+      "imageByColor": {
+        "white": "samba.gif",
+        "black": "samba.gif",
+        "blue": "samba.gif"
+      },
+      "colors": [
+        "white",
+        "black",
+        "blue"
+      ],
+      "sizes": [
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44
+      ],
+      "tags": [
+        "samba",
+        "originals",
+        "classics",
+        "retro",
+        "football"
+      ],
+      "brand": "Adidas",
+      "subtitle": "Retro Classic",
+      "rating": 4.7,
+      "stockByColorSize": {
+        "white-38": 5,
+        "white-39": 2,
+        "white-40": 0,
+        "black-38": 3,
+        "black-39": 1,
+        "black-40": 0,
+        "blue-38": 2,
+        "blue-39": 2,
+        "blue-40": 1
+      },
+      "quantityBySize": {
+        "38": 10,
+        "39": 10,
+        "40": 10,
+        "41": 10,
+        "42": 10,
+        "43": 10,
+        "44": 10
+      }
+    },
+    {
+      "id": "p29",
+      "name": "ADIDAS ORIGINALS",
+      "description": "Trefoil T-shirt",
+      "price": "1.200.000đ",
+      "imageDefault": "Ao_Thun_Polo_Ba_La.jpg",
+      "imageByColor": {
+        "white": "Ao_Thun_Polo_Ba_La.jpg",
+        "blue": "Ao_Thun_Polo_Ba_La.jpg"
+      },
+      "category": "men",
+      "colors": [
+        "white",
+        "blue"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "tags": [
+        "originals",
+        "t-shirt",
+        "trefoil",
+        "adidas",
+        "new arrival"
+      ],
+      "brand": "Adidas",
+      "subtitle": "New Arrival",
+      "rating": 4.5,
+      "quantityBySize": {
+        "S": 10,
+        "M": 5,
+        "L": 2
+      },
+      "stockByColorSize": {
+        "white-S": 5,
+        "white-M": 3,
+        "white-L": 2,
+        "blue-S": 3,
+        "blue-M": 2,
+        "blue-L": 1
+      }
+    },
+    {
+      "id": "p30",
+      "name": "TERREX",
+      "description": "Hiking Pants",
+      "price": "2.500.000đ",
+      "imageDefault": "Quan_Hiking_Terrex.jpg",
+      "imageByColor": {
+        "black": "Quan_Hiking_Terrex.jpg",
+        "gray": "Quan_Hiking_Terrex.jpg"
+      },
+      "category": "men",
+      "colors": [
+        "black",
+        "gray"
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL"
+      ],
+      "tags": [
+        "terrex",
+        "hiking",
+        "pants",
+        "outdoor",
+        "adidas"
+      ],
+      "brand": "Adidas",
+      "subtitle": "Outdoor",
+      "rating": 4.2,
+      "quantityBySize": {
+        "M": 7,
+        "L": 4,
+        "XL": 1
+      },
+      "stockByColorSize": {
+        "black-M": 7,
+        "black-L": 4,
+        "black-XL": 1,
+        "gray-M": 7,
+        "gray-L": 4,
+        "gray-XL": 1
+      }
+    },
+    {
+      "id": "p31",
+      "name": "Adidas SL 72",
+      "category": "giay",
+      "gender": "nam",
+      "type": "originals",
+      "price": "2.600.000 VNĐ",
+      "description": "Giày chạy bộ với phong cách vintage từ những năm 70",
+      "imageDefault": "sl72.gif",
+      "imageByColor": {
+        "white": "sl72.gif",
+        "red": "sl72.gif",
+        "blue": "sl72.gif"
+      },
+      "colors": [
+        "white",
+        "red",
+        "blue"
+      ],
+      "sizes": [
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44
+      ],
+      "tags": [
+        "sl72",
+        "running",
+        "vintage",
+        "70s",
+        "originals"
+      ],
+      "brand": "Adidas",
+      "subtitle": "Vintage Running",
+      "rating": 4.3,
+      "stockByColorSize": {
+        "white-38": 2,
+        "white-39": 1,
+        "white-40": 0,
+        "red-38": 3,
+        "red-39": 2,
+        "red-40": 1,
+        "blue-38": 2,
+        "blue-39": 2,
+        "blue-40": 1
+      },
+      "quantityBySize": {
+        "38": 10,
+        "39": 10,
+        "40": 10,
+        "41": 10,
+        "42": 10,
+        "43": 10,
+        "44": 10
+      }
+    },
+    {
+      "id": "p32",
+      "name": "Adidas Yeezy Boost 750",
+      "category": "giay",
+      "gender": "unisex",
+      "type": "yeezy",
+      "price": "8.500.000 VNĐ",
+      "description": "Giày thể thao cao cấp với công nghệ Boost",
+      "imageDefault": "yeezy750.gif",
+      "imageByColor": {
+        "grey": "yeezy750.gif",
+        "brown": "yeezy750.gif",
+        "black": "yeezy750.gif"
+      },
+      "colors": [
+        "grey"
+      ],
+      "sizes": [
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44
+      ],
+      "tags": [
+        "yeezy",
+        "boost",
+        "kanye",
+        "premium",
+        "streetwear"
+      ],
+      "brand": "Adidas",
+      "subtitle": "Premium Boost",
+      "rating": 4.9,
+      "quantityBySize": {
+        "36": 10,
+        "37": 10,
+        "38": 10,
+        "39": 10,
+        "40": 10,
+        "41": 10,
+        "42": 10,
+        "43": 10,
+        "44": 10
+      },
+      "stockByColorSize": {
+        "grey-36": 10,
+        "grey-37": 10,
+        "grey-38": 10,
+        "grey-39": 10,
+        "grey-40": 10,
+        "grey-41": 10,
+        "grey-42": 10,
+        "grey-43": 10,
+        "grey-44": 10
+      }
+    },
+    {
+      "id": "p33",
+      "name": "Adidas Handball Spezial Standard",
+      "category": "giay",
+      "gender": "unisex",
+      "type": "originals",
+      "price": "3.200.000 VNĐ",
+      "description": "Handball Spezial phiên bản tiêu chuẩn với nhiều phối màu retro.",
+      "imageDefault": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_xanh_da_troi_IG6194_01_standard.jpg",
+      "imageByColor": {
+        "xanh lá": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_mau_xanh_la_IG6192_01_standard.jpg",
+        "xanh da trời": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_xanh_da_troi_IG6194_01_standard.jpg",
+        "cam": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Cam_IG6191_01_standard.jpg",
+        "vàng": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_vang_IF7088_01_standard.jpg",
+        "xanh da trời đen": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_xanh_da_troi__denIF7087_01_standard.jpg"
+      },
+      "colors": [
+        "xanh lá",
+        "xanh da trời",
+        "cam",
+        "vàng",
+        "xanh da trời đen"
+      ],
+      "sizes": [
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44
+      ],
+      "tags": [
+        "handball",
+        "spezial",
+        "retro",
+        "standard"
+      ],
+      "quantityBySize": {
+        "36": 10,
+        "37": 10,
+        "38": 10,
+        "39": 10,
+        "40": 10,
+        "41": 10,
+        "42": 10,
+        "43": 10,
+        "44": 10
+      },
+      "stockByColorSize": {
+        "xanh lá-36": 10,
+        "xanh lá-37": 10,
+        "xanh lá-38": 10,
+        "xanh lá-39": 10,
+        "xanh lá-40": 10,
+        "xanh lá-41": 10,
+        "xanh lá-42": 10,
+        "xanh lá-43": 10,
+        "xanh lá-44": 10,
+        "xanh da trời-36": 10,
+        "xanh da trời-37": 10,
+        "xanh da trời-38": 10,
+        "xanh da trời-39": 10,
+        "xanh da trời-40": 10,
+        "xanh da trời-41": 10,
+        "xanh da trời-42": 10,
+        "xanh da trời-43": 10,
+        "xanh da trời-44": 10,
+        "cam-36": 10,
+        "cam-37": 10,
+        "cam-38": 10,
+        "cam-39": 10,
+        "cam-40": 10,
+        "cam-41": 10,
+        "cam-42": 10,
+        "cam-43": 10,
+        "cam-44": 10,
+        "vàng-36": 10,
+        "vàng-37": 10,
+        "vàng-38": 10,
+        "vàng-39": 10,
+        "vàng-40": 10,
+        "vàng-41": 10,
+        "vàng-42": 10,
+        "vàng-43": 10,
+        "vàng-44": 10,
+        "xanh da trời đen-36": 10,
+        "xanh da trời đen-37": 10,
+        "xanh da trời đen-38": 10,
+        "xanh da trời đen-39": 10,
+        "xanh da trời đen-40": 10,
+        "xanh da trời đen-41": 10,
+        "xanh da trời đen-42": 10,
+        "xanh da trời đen-43": 10,
+        "xanh da trời đen-44": 10
+      }
+    },
+    {
+      "id": "p34",
+      "name": "Adidas Handball Spezial Nam",
+      "category": "giay",
+      "gender": "nam",
+      "type": "originals",
+      "price": "3.200.000 VNĐ",
+      "description": "Handball Spezial phiên bản nam với phối màu đặc trưng cho nam giới.",
+      "imageDefault": "assets/SearchPage/Collection/Handball/Handball_Spezial_Mau_xanh_da_troi_JS3866_01_00_standard_Nam.jpg",
+      "imageByColor": {
+        "xanh da trời": "assets/SearchPage/Collection/Handball/Handball_Spezial_Mau_xanh_da_troi_JS3866_01_00_standard_Nam.jpg",
+        "trắng xanh": "assets/SearchPage/Collection/Handball/Handball_Spezial_trang_xanh_JS3865_01_00_standard_Nam.jpg"
+      },
+      "colors": [
+        "xanh da trời",
+        "trắng xanh"
+      ],
+      "sizes": [
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44
+      ],
+      "tags": [
+        "handball",
+        "spezial",
+        "retro",
+        "nam"
+      ],
+      "quantityBySize": {
+        "36": 10,
+        "37": 10,
+        "38": 10,
+        "39": 10,
+        "40": 10,
+        "41": 10,
+        "42": 10,
+        "43": 10,
+        "44": 10
+      },
+      "stockByColorSize": {
+        "xanh da trời-36": 10,
+        "xanh da trời-37": 10,
+        "xanh da trời-38": 10,
+        "xanh da trời-39": 10,
+        "xanh da trời-40": 10,
+        "xanh da trời-41": 10,
+        "xanh da trời-42": 10,
+        "xanh da trời-43": 10,
+        "xanh da trời-44": 10,
+        "trắng xanh-36": 10,
+        "trắng xanh-37": 10,
+        "trắng xanh-38": 10,
+        "trắng xanh-39": 10,
+        "trắng xanh-40": 10,
+        "trắng xanh-41": 10,
+        "trắng xanh-42": 10,
+        "trắng xanh-43": 10,
+        "trắng xanh-44": 10
+      }
+    },
+    {
+      "id": "p35",
+      "name": "Adidas Handball Spezial Nữ",
+      "category": "giay",
+      "gender": "nu",
+      "type": "originals",
+      "price": "3.200.000 VNĐ",
+      "description": "Handball Spezial phiên bản nữ với phối màu nữ tính, trẻ trung.",
+      "imageDefault": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Maroon_JP8726_01_00_standard_Nu.jpg",
+      "imageByColor": {
+        "maroon": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Maroon_JP8726_01_00_standard_Nu.jpg",
+        "xám": "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Xam_IF7086_01_standard.jpg"
+      },
+      "colors": [
+        "maroon",
+        "xám"
+      ],
+      "sizes": [
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44
+      ],
+      "tags": [
+        "handball",
+        "spezial",
+        "retro",
+        "nữ"
+      ],
+      "quantityBySize": {
+        "36": 10,
+        "37": 10,
+        "38": 10,
+        "39": 10,
+        "40": 10,
+        "41": 10,
+        "42": 10,
+        "43": 10,
+        "44": 10
+      },
+      "stockByColorSize": {
+        "maroon-36": 10,
+        "maroon-37": 10,
+        "maroon-38": 10,
+        "maroon-39": 10,
+        "maroon-40": 10,
+        "maroon-41": 10,
+        "maroon-42": 10,
+        "maroon-43": 10,
+        "maroon-44": 10,
+        "xám-36": 10,
+        "xám-37": 10,
+        "xám-38": 10,
+        "xám-39": 10,
+        "xám-40": 10,
+        "xám-41": 10,
+        "xám-42": 10,
+        "xám-43": 10,
+        "xám-44": 10
+      }
+    },
+    {
+      "id": "p36",
+      "name": "Pharrell Williams x Tennis Hu",
+      "category": "giay",
+      "gender": "unisex",
+      "type": "collaboration",
+      "price": "3.200.000 VNĐ",
+      "description": "Giày thể thao thiết kế độc đáo từ Pharrell Williams",
+      "imageDefault": "banner1.gif",
+      "imageByColor": {
+        "red": "banner1.gif",
+        "teal": "banner1.gif",
+        "beige": "banner1.gif",
+        "white": "banner1.gif"
+      },
+      "colors": [
+        "red",
+        "teal",
+        "beige",
+        "white"
+      ],
+      "sizes": [
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44
+      ],
+      "tags": [
+        "pharrell",
+        "tennis hu",
+        "collaboration",
+        "unique",
+        "colorful"
+      ],
+      "quantityBySize": {
+        "36": 10,
+        "37": 10,
+        "38": 10,
+        "39": 10,
+        "40": 10,
+        "41": 10,
+        "42": 10,
+        "43": 10,
+        "44": 10
+      },
+      "stockByColorSize": {
+        "red-36": 10,
+        "red-37": 10,
+        "red-38": 10,
+        "red-39": 10,
+        "red-40": 10,
+        "red-41": 10,
+        "red-42": 10,
+        "red-43": 10,
+        "red-44": 10,
+        "teal-36": 10,
+        "teal-37": 10,
+        "teal-38": 10,
+        "teal-39": 10,
+        "teal-40": 10,
+        "teal-41": 10,
+        "teal-42": 10,
+        "teal-43": 10,
+        "teal-44": 10,
+        "beige-36": 10,
+        "beige-37": 10,
+        "beige-38": 10,
+        "beige-39": 10,
+        "beige-40": 10,
+        "beige-41": 10,
+        "beige-42": 10,
+        "beige-43": 10,
+        "beige-44": 10,
+        "white-36": 10,
+        "white-37": 10,
+        "white-38": 10,
+        "white-39": 10,
+        "white-40": 10,
+        "white-41": 10,
+        "white-42": 10,
+        "white-43": 10,
+        "white-44": 10
+      }
+    },
+    {
+      "id": "p37",
+      "name": "Adidas Ultraboost 5",
+      "category": "giay",
+      "gender": "nam",
+      "type": "running",
+      "price": "4.500.000 VNĐ",
+      "description": "Giày chạy bộ Ultraboost 5 với công nghệ Boost mới nhất, thiết kế hiện đại, hiệu năng vượt trội.",
+      "imageDefault": "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5_Den_ID8812_HM1.png",
+      "imageByColor": {
+        "đen": "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5_Den_ID8812_HM1.png",
+        "xám": "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5_Xam_IF1481_HM1.png"
+      },
+      "colors": [
+        "đen",
+        "xám"
+      ],
+      "sizes": [
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "tags": [
+        "ultraboost",
+        "running",
+        "boost",
+        "performance",
+        "marathon"
+      ],
+      "brand": "Adidas",
+      "subtitle": "Ultra Boost 5",
+      "rating": 4.8,
+      "quantityBySize": {
+        "38": 10,
+        "39": 10,
+        "40": 10,
+        "41": 10,
+        "42": 10,
+        "43": 10,
+        "44": 10,
+        "45": 10
+      },
+      "stockByColorSize": {
+        "đen-38": 10,
+        "đen-39": 10,
+        "đen-40": 10,
+        "đen-41": 10,
+        "đen-42": 10,
+        "đen-43": 10,
+        "đen-44": 10,
+        "đen-45": 10,
+        "xám-38": 10,
+        "xám-39": 10,
+        "xám-40": 10,
+        "xám-41": 10,
+        "xám-42": 10,
+        "xám-43": 10,
+        "xám-44": 10,
+        "xám-45": 10
+      }
+    },
+    {
+      "id": "p38",
+      "name": "Adidas Ultraboost 5x",
+      "category": "giay",
+      "gender": "nam",
+      "type": "running",
+      "price": "4,500,000 VNĐ",
+      "description": "Giày chạy bộ Ultraboost 5x với thiết kế tối ưu cho hiệu suất và sự thoải mái.",
+      "imageDefault": "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5x_Den_IH3110_HM1.png",
+      "imageByColor": {
+        "đen": "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5x_Den_IH3110_HM1.png",
+        "trắng": "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5x_trang_IH3111_HM1.png"
+      },
+      "colors": [
+        "đen",
+        "trắng"
+      ],
+      "sizes": [
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "tags": [
+        "ultraboost",
+        "running",
+        "boost",
+        "performance",
+        "marathon"
+      ],
+      "brand": "Adidas",
+      "subtitle": "Ultra Boost 5x",
+      "rating": 4.8,
+      "quantityBySize": {
+        "38": 10,
+        "39": 10,
+        "40": 10,
+        "41": 10,
+        "42": 10,
+        "43": 10,
+        "44": 10,
+        "45": 10
+      },
+      "stockByColorSize": {
+        "đen-38": 10,
+        "đen-39": 10,
+        "đen-40": 10,
+        "đen-41": 10,
+        "đen-42": 10,
+        "đen-43": 10,
+        "đen-44": 10,
+        "đen-45": 10,
+        "trắng-38": 10,
+        "trắng-39": 10,
+        "trắng-40": 10,
+        "trắng-41": 10,
+        "trắng-42": 10,
+        "trắng-43": 10,
+        "trắng-44": 10,
+        "trắng-45": 10
+      }
+    },
+    {
+      "id": "p39",
+      "name": "Adidas Pureboost 5",
+      "category": "giay",
+      "gender": "nam",
+      "type": "running",
+      "price": "4,200,000 VNĐ",
+      "description": "Giày chạy bộ Pureboost 5 nhẹ, linh hoạt, phù hợp tập luyện hàng ngày.",
+      "imageDefault": "assets/SearchPage/Collection/Ultraboost/Giay_Chay_Bo_Pureboost_5_Den_ID1158_HM1.png",
+      "imageByColor": {
+        "đen": "assets/SearchPage/Collection/Ultraboost/Giay_Chay_Bo_Pureboost_5_Den_ID1158_HM1.png",
+        "trắng": "assets/SearchPage/Collection/Ultraboost/Giay_Chay_Bo_Pureboost_5_trang_IF9192_01_standard.png"
+      },
+      "colors": [
+        "đen",
+        "trắng"
+      ],
+      "sizes": [
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "tags": [
+        "pureboost",
+        "running",
+        "boost",
+        "performance",
+        "marathon"
+      ],
+      "brand": "Adidas",
+      "subtitle": "Pureboost 5",
+      "rating": 4.7,
+      "quantityBySize": {
+        "38": 10,
+        "39": 10,
+        "40": 10,
+        "41": 10,
+        "42": 10,
+        "43": 10,
+        "44": 10,
+        "45": 10
+      },
+      "stockByColorSize": {
+        "đen-38": 10,
+        "đen-39": 10,
+        "đen-40": 10,
+        "đen-41": 10,
+        "đen-42": 10,
+        "đen-43": 10,
+        "đen-44": 10,
+        "đen-45": 10,
+        "trắng-38": 10,
+        "trắng-39": 10,
+        "trắng-40": 10,
+        "trắng-41": 10,
+        "trắng-42": 10,
+        "trắng-43": 10,
+        "trắng-44": 10,
+        "trắng-45": 10
+      }
+    },
+    {
+      "id": "p40",
+      "name": "Adidas Stan Smith x Liberty London",
+      "category": "giay",
+      "gender": "nu",
+      "type": "originals",
+      "price": "3,800,000 VNĐ",
+      "description": "Giày Stan Smith với họa tiết Liberty London độc đáo",
+      "imageDefault": "Giay_Stan_Smith_x_Liberty_London.jpg",
+      "imageByColor": {
+        "white": "Giay_Stan_Smith_x_Liberty_London.jpg"
+      },
+      "colors": [
+        "white"
+      ],
+      "sizes": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41
+      ],
+      "tags": [
+        "stan smith",
+        "liberty london",
+        "floral",
+        "women",
+        "fashion"
+      ],
+      "brand": "Adidas",
+      "subtitle": "Stan Smith x Liberty London",
+      "rating": 4.6,
+      "quantityBySize": {
+        "35": 10,
+        "36": 10,
+        "37": 10,
+        "38": 10,
+        "39": 10,
+        "40": 10,
+        "41": 10
+      },
+      "stockByColorSize": {
+        "white-35": 10,
+        "white-36": 10,
+        "white-37": 10,
+        "white-38": 10,
+        "white-39": 10,
+        "white-40": 10,
+        "white-41": 10
+      }
+    },
+    {
+      "id": "p41",
+      "name": "Áo Thun Adidas",
+      "category": "quan_ao",
+      "gender": "unisex",
+      "type": "tshirt",
+      "price": "500,000 VNĐ",
+      "description": "Áo thun thể thao chất liệu cotton thoáng mát.",
+      "imageDefault": "ao1.jpg",
+      "imageByColor": {
+        "trắng": "ao1.jpg",
+        "đen": "ao3.jpg"
+      },
+      "colors": [
+        "trắng",
+        "đen"
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "tags": [
+        "áo thun",
+        "adidas",
+        "thể thao"
+      ],
+      "quantityBySize": {
+        "S": 10,
+        "M": 10,
+        "L": 10,
+        "XL": 10
+      },
+      "stockByColorSize": {
+        "trắng-S": 10,
+        "trắng-M": 10,
+        "trắng-L": 10,
+        "trắng-XL": 10,
+        "đen-S": 10,
+        "đen-M": 10,
+        "đen-L": 10,
+        "đen-XL": 10
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": "men",
+      "name": "Men",
+      "icon": "person"
+    },
+    {
+      "id": "women",
+      "name": "Women",
+      "icon": "person"
+    },
+    {
+      "id": "kids",
+      "name": "Kids",
+      "icon": "child-care"
+    },
+    {
+      "id": "sport",
+      "name": "Sport",
+      "icon": "sports-basketball"
+    },
+    {
+      "id": "accessories",
+      "name": "Accessories",
+      "icon": "watch"
+    }
+  ],
+  "collections": [
+    {
+      "id": "1",
+      "name": "Summer Collection",
+      "image": "banner.jpg"
+    },
+    {
+      "id": "2",
+      "name": "Sport Collection",
+      "image": "sport.jpg"
+    }
+  ],
+  "bannerImages": [
+    {
+      "id": "1",
+      "image": "NikeBanner.jpg"
+    },
+    {
+      "id": "2",
+      "image": "NikeBanner2.jpg"
+    },
+    {
+      "id": "3",
+      "image": "NikeBanner3.jpg"
+    }
+  ],
+  "timestamp": "2024-01-15T12:00:00Z",
+  "analytics": {
+    "dashboard": {
+      "totalSales": 156000000,
+      "totalOrders": 89,
+      "totalCustomers": 156,
+      "totalProducts": 234,
+      "monthlyGrowth": 12.5,
+      "topSellingProducts": [
+        {
+          "id": "p28",
+          "name": "ULTRABOOST 22",
+          "sales": 15,
+          "revenue": 63000000
+        },
+        {
+          "id": "p008",
+          "name": "ADIDAS ORIGINALS",
+          "sales": 12,
+          "revenue": 14400000
+        },
+        {
+          "id": "p007",
+          "name": "STAN SMITH",
+          "sales": 8,
+          "revenue": 22400000
+        }
+      ],
+      "recentOrders": [],
+      "salesChart": {
+        "labels": [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun"
+        ],
+        "data": [
+          12000000,
+          19000000,
+          15000000,
+          25000000,
+          22000000,
+          30000000
+        ]
+      }
+    },
+    "products": {
+      "total": 234,
+      "categories": [
+        {
+          "name": "Men",
+          "count": 89
+        },
+        {
+          "name": "Women",
+          "count": 76
+        },
+        {
+          "name": "Kids",
+          "count": 45
+        },
+        {
+          "name": "Sport",
+          "count": 24
+        }
+      ],
+      "lowStock": [
+        {
+          "id": "p007",
+          "name": "STAN SMITH",
+          "stock": 2,
+          "threshold": 5
+        },
+        {
+          "id": "p010",
+          "name": "TERREX",
+          "stock": 1,
+          "threshold": 3
+        }
+      ]
+    },
+    "customers": {
+      "total": 156,
+      "newThisMonth": 23,
+      "activeUsers": 89,
+      "topCustomers": [
+        {
+          "id": "1",
+          "name": "John Doe",
+          "email": "john@example.com",
+          "totalSpent": 6600000,
+          "orders": 2
+        },
+        {
+          "id": "4",
+          "name": "Jane Smith",
+          "email": "jane@example.com",
+          "totalSpent": 4200000,
+          "orders": 1
+        }
+      ]
+    }
+  }
+}

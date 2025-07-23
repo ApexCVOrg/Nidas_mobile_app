@@ -9,6 +9,8 @@ import {
   SafeAreaView,
   StatusBar,
   Alert,
+  ToastAndroid,
+  Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRoute, useNavigation } from '@react-navigation/native';
@@ -16,6 +18,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/store';
 import { clearCart } from '../redux/slices/cartSlice';
 import { TabNavigatorParamList } from '../navigation/TabNavigator';
+import axios from 'axios';
 
 const CheckoutScreen = () => {
   const route = useRoute<any>();
@@ -36,6 +39,15 @@ const CheckoutScreen = () => {
   
   const [paymentMethod, setPaymentMethod] = useState(orderData?.paymentMethod || 'cod');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  // Toast tự động ẩn sau 2 giây
+  React.useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => setToast(null), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', {
@@ -72,16 +84,15 @@ const CheckoutScreen = () => {
 
   const handlePlaceOrder = async () => {
     if (!customerInfo.name || !customerInfo.phone || !customerInfo.address) {
-      Alert.alert('Notification', 'Please fill in all required information');
+      setToast({ message: 'Vui lòng nhập đầy đủ thông tin giao hàng!', type: 'error' });
       return;
     }
-
+    if (!/^0\d{9,10}$/.test(customerInfo.phone)) {
+      setToast({ message: 'Số điện thoại không hợp lệ!', type: 'error' });
+      return;
+    }
     setIsProcessing(true);
-
     try {
-      // Simulate order processing
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
       const order = {
         id: Date.now().toString(),
         items: getOrderItems(),
@@ -91,33 +102,21 @@ const CheckoutScreen = () => {
         status: 'pending',
         createdAt: new Date().toISOString(),
       };
-
-      // Here you would normally send to your backend
-      console.log('Order placed:', order);
-
-      // Clear cart if it's a cart checkout
+      // Gửi đơn hàng lên mock API
+      await axios.post('http://192.168.100.246:3000/orders', order);
+      // Clear cart nếu là checkout từ cart
       if (type === 'cart') {
         dispatch(clearCart());
       }
-
-      // Show success and navigate
-      Alert.alert(
-        'Order successful!',
-        `Order #${order.id} has been placed successfully. We will contact you soon.`,
-        [
-          {
-            text: 'OK',
-            onPress: () => {
-              navigation.goBack();
-              if (type === 'cart') {
-                navigation.navigate('Home' as never);
-              }
-            },
-          },
-        ]
-      );
+      setToast({ message: 'Đặt hàng thành công!', type: 'success' });
+      setTimeout(() => {
+        navigation.goBack();
+        if (type === 'cart') {
+          navigation.navigate('Home' as never);
+        }
+      }, 1200);
     } catch (error) {
-      Alert.alert('Error', 'An error occurred while placing the order. Please try again.');
+      setToast({ message: 'Có lỗi khi đặt hàng, vui lòng thử lại!', type: 'error' });
     } finally {
       setIsProcessing(false);
     }
@@ -289,6 +288,26 @@ const CheckoutScreen = () => {
           )}
         </TouchableOpacity>
       </View>
+      {/* Toast thông báo */}
+      {toast && (
+        <View style={{
+          position: 'absolute',
+          top: 60,
+          left: 0,
+          right: 0,
+          alignItems: 'center',
+          zIndex: 100,
+        }}>
+          <View style={{
+            backgroundColor: toast.type === 'success' ? '#222' : '#d32f2f',
+            paddingHorizontal: 24,
+            paddingVertical: 12,
+            borderRadius: 24,
+          }}>
+            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>{toast.message}</Text>
+          </View>
+        </View>
+      )}
     </SafeAreaView>
   );
 };

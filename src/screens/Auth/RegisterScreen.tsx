@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, KeyboardAvoidingView, Platform, ScrollView, Animated } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
 import { TextInput, Text, IconButton, Button, Checkbox } from 'react-native-paper';
 import { registerStyles } from '../../styles/auth/register.styles';
-import { mockApi } from '../../services/mockApi/index';
-import { addMockAddress, saveMockDataToFile } from '../../services/mockData/users';
+import { createUser } from '../../api/mockApi';
+import axios from 'axios';
+import { sendOtpEmail } from '../../services/emailService';
 
 const initialBasicInfo = {
   username: '',
@@ -15,7 +16,6 @@ const initialBasicInfo = {
 };
 const initialAddress = {
   recipientName: '',
-  addressNumber: '',
   street: '',
   city: '',
   state: '',
@@ -24,44 +24,18 @@ const initialAddress = {
 };
 
 const RegisterScreen = ({ navigation }: any) => {
-  // Step state
   const [step, setStep] = useState(1);
-  // Basic info
   const [basicInfo, setBasicInfo] = useState({ ...initialBasicInfo });
-  // OTP
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [generatedOtp, setGeneratedOtp] = useState('');
   const [timer, setTimer] = useState(60);
-  // Address
   const [address, setAddress] = useState({ ...initialAddress });
-  // UI/logic
   const [errors, setErrors] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const otpInputs = useRef<any[]>([]);
-  // Animation
-  const fadeAnim = useRef(new Animated.Value(1)).current;
-  const slideAnim = useRef(new Animated.Value(0)).current;
-  const [canResend, setCanResend] = useState(false);
-  const [emailInVerification, setEmailInVerification] = useState(false);
-
-  // Timer for OTP
-  useEffect(() => {
-    if (step === 2 && timer > 0) {
-      const interval = setInterval(() => setTimer(t => t - 1), 1000);
-      return () => clearInterval(interval);
-    }
-  }, [step, timer]);
-
-  // Animation for step change
-  useEffect(() => {
-    fadeAnim.setValue(0);
-    slideAnim.setValue(40);
-    Animated.parallel([
-      Animated.timing(fadeAnim, { toValue: 1, duration: 350, useNativeDriver: true }),
-      Animated.timing(slideAnim, { toValue: 0, duration: 350, useNativeDriver: true }),
-    ]).start();
-  }, [step]);
+  const [createdUserId, setCreatedUserId] = useState<string | null>(null);
 
   // Validate helpers
   const validateBasicInfo = () => {
@@ -86,136 +60,86 @@ const RegisterScreen = ({ navigation }: any) => {
     return Object.keys(err).length === 0;
   };
 
-  // Step 1: Register
+  // Step 1: Register - Sinh OTP và chuyển sang bước nhập OTP
   const handleSendOtp = async () => {
     if (!validateBasicInfo()) return;
     setLoading(true);
     setErrors({});
-    setEmailInVerification(false);
     try {
-      await mockApi.register({
-        username: basicInfo.username,
-        name: basicInfo.fullName,
-        email: basicInfo.email,
-        password: basicInfo.password,
-        phone: basicInfo.phone,
-      });
+      // Sinh OTP 6 số
+      const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+      setGeneratedOtp(otpCode);
+
+      // Gửi email thực tế
+      await sendOtpEmail(basicInfo.email, otpCode);
+
       setStep(2);
       setTimer(60);
-      setCanResend(false);
-    } catch (e: any) {
-      if (e.response && e.response.data) {
-        const msg = e.response.data.message || '';
-        if (
-          msg.toLowerCase().includes('pending') ||
-          msg.toLowerCase().includes('verification email sent') ||
-          msg.toLowerCase().includes('already in verification process')
-        ) {
-          setEmailInVerification(true);
-          setCanResend(true);
-          setErrors({ email: 'Email is already in verification process' });
-          return;
-        }
-        if (e.response.data.errors) setErrors(e.response.data.errors);
-        else setErrors({ general: msg || 'Failed to send OTP' });
-      } else {
-        setErrors({ general: 'Network or server error.' });
-      }
+      setOtp(['', '', '', '', '', '']);
+      // Không cần Alert nữa
+    } catch (e) {
+      setErrors({ general: 'Không gửi được email xác thực. Vui lòng kiểm tra lại email hoặc thử lại.' });
     } finally {
       setLoading(false);
     }
   };
 
-  const handleResendOtp = async () => {
-    setLoading(true);
-    setErrors({});
-    try {
-      // Simulate resend verification
-      const response = await mockApi.sendOtp(basicInfo.email);
-      if (response.success) {
-        setStep(2);
-        setTimer(60);
-        setErrors({});
-        setCanResend(false);
-        setOtp(['', '', '', '', '', '']);
-        setEmailInVerification(false);
-        // Show OTP in console for testing
-        console.log('🔐 Mock OTP for testing:', response.data.otp);
-        return;
-      } else {
-        setErrors({ general: response.message || 'Cannot resend OTP' });
-      }
-    } catch (err: any) {
-      if (err.message) {
-        setErrors({ general: err.message || 'Server connection error' });
-      } else {
-        setErrors({ general: 'Server connection error' });
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Step 2: Verify OTP
+  // Step 2: Xác thực OTP và tạo user
   const handleVerifyOtp = async () => {
     if (otp.some(d => !d)) {
-      setErrors({ otp: 'Please enter complete OTP code' });
+      setErrors({ otp: 'Vui lòng nhập đủ mã OTP' });
       return;
     }
     setLoading(true);
     setErrors({});
     try {
-      await mockApi.verifyEmail(otp.join(''));
+      if (otp.join('') !== generatedOtp) {
+        setErrors({ otp: 'OTP không đúng' });
+        return;
+      }
+      // Tạo user mới trên mock API
+      const res = await createUser({
+        username: basicInfo.username,
+        name: basicInfo.fullName,
+        email: basicInfo.email,
+        password: basicInfo.password,
+        phone: basicInfo.phone,
+        role: 'user',
+        isEmailVerified: true,
+        avatar: 'default-avatar.svg',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
+      setCreatedUserId(res.data.id);
       setStep(3);
     } catch (e: any) {
-      if (e.message) {
-        setErrors({ otp: e.message || 'OTP is incorrect' });
-      } else {
-        setErrors({ otp: 'Network or server error.' });
-      }
+      setErrors({ general: 'Không thể tạo tài khoản. Email hoặc username đã tồn tại.' });
     } finally {
       setLoading(false);
     }
   };
 
-  // Step 3: Save Address
+  // Step 3: Lưu địa chỉ cho user vừa tạo
   const handleSaveAddress = async () => {
     if (!validateAddress()) return;
     setLoading(true);
     setErrors({});
     try {
-      // Get current user from mockApi
-      const currentUser = await mockApi.getCurrentUser();
-      
-      if (currentUser.success) {
-        // Save address to mock data
-        const newAddress = addMockAddress({
-          userId: currentUser.data.id,
-          recipientName: address.recipientName,
-          addressNumber: address.addressNumber,
-          street: address.street,
-          city: address.city,
-          state: address.state,
-          country: address.country,
-          isDefault: address.isDefault
-        });
-        
-        console.log('📁 Mock: Address saved for user:', currentUser.data.email);
-        console.log('📁 Mock: Address details:', newAddress);
-        
-        // Save all data to persistent storage
-        await saveMockDataToFile();
-        
-        setStep(4);
-      } else {
-        throw new Error('Failed to get current user');
-      }
+      if (!createdUserId) throw new Error('Không tìm thấy user');
+      // Lưu address vào mock API
+      await axios.post('http://192.168.100.246:3000/addresses', {
+        userId: createdUserId,
+        recipientName: address.recipientName,
+        street: address.street,
+        city: address.city,
+        state: address.state,
+        country: address.country,
+        isDefault: address.isDefault,
+        createdAt: new Date().toISOString(),
+      });
+      setStep(4);
     } catch (e: any) {
-      if (e.message) {
-        setErrors({ general: e.message || 'Failed to save address' });
-      } else {
-        setErrors({ general: 'Network or server error.' });
-      }
+      setErrors({ general: 'Không thể lưu địa chỉ' });
     } finally {
       setLoading(false);
     }
@@ -231,11 +155,11 @@ const RegisterScreen = ({ navigation }: any) => {
     if (!v && idx > 0) otpInputs.current[idx - 1]?.focus();
   };
 
-  // UI rendering
+  // UI rendering giữ nguyên
   return (
     <KeyboardAvoidingView style={registerStyles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <ScrollView contentContainerStyle={registerStyles.scrollContent} keyboardShouldPersistTaps="handled">
-        <Animated.View style={{ opacity: fadeAnim, transform: [{ translateY: slideAnim }] }}>
+        <View>
           {/* Step 1: Basic Info */}
           {step === 1 && (
             <View style={registerStyles.formContainer}>
@@ -257,7 +181,7 @@ const RegisterScreen = ({ navigation }: any) => {
                   dense
                   autoCapitalize="words"
                   selectionColor="#222"
-                  editable={!emailInVerification}
+                  editable={true}
                 />
               </View>
               {errors.fullName && <Text style={registerStyles.errorText}>{errors.fullName}</Text>}
@@ -270,7 +194,6 @@ const RegisterScreen = ({ navigation }: any) => {
                   value={basicInfo.email}
                   onChangeText={v => {
                     setBasicInfo({ ...basicInfo, email: v });
-                    setEmailInVerification(false);
                     setErrors({ ...errors, email: undefined });
                   }}
                   style={registerStyles.input}
@@ -282,16 +205,10 @@ const RegisterScreen = ({ navigation }: any) => {
                   keyboardType="email-address"
                   autoCapitalize="none"
                   selectionColor="#222"
-                  editable={!emailInVerification}
+                  editable={true}
                 />
               </View>
               {errors.email && <Text style={registerStyles.errorText}>{errors.email}</Text>}
-              {emailInVerification && (
-                <>
-                  <Text style={registerStyles.errorMessage}>Email is already in verification process</Text>
-                  <Button mode="contained" onPress={handleResendOtp} loading={loading} style={registerStyles.button} labelStyle={registerStyles.buttonText} disabled={loading}>Resend OTP</Button>
-                </>
-              )}
               {/* Username */}
               <View style={registerStyles.inputContainer}>
                 <IconButton icon="account" size={26} style={registerStyles.inputIcon} disabled iconColor="#222" />
@@ -444,9 +361,6 @@ const RegisterScreen = ({ navigation }: any) => {
               >
                 Verify OTP
               </Button>
-              {(canResend || timer === 0) && (
-                <Button mode="text" onPress={handleResendOtp} style={{ marginTop: 8 }} disabled={loading}>Resend OTP</Button>
-              )}
               <Button mode="text" onPress={() => setStep(1)} style={{ marginTop: 8 }}>Change Email</Button>
             </View>
           )}
@@ -575,7 +489,7 @@ const RegisterScreen = ({ navigation }: any) => {
               </Button>
             </View>
           )}
-        </Animated.View>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
