@@ -18,6 +18,8 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { TabNavigatorParamList } from '../../navigation/TabNavigator';
 import { useDispatch, useSelector } from 'react-redux';
 import { userProfileStyles } from '../../styles/auth/userProfile.styles';
 import axiosInstance from '../../api/axiosInstance';
@@ -49,7 +51,7 @@ interface UserProfileData {
 const { width } = Dimensions.get('window');
 
 const UserProfile = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<TabNavigatorParamList>>();
   const dispatch = useDispatch();
   const { token, user } = useSelector((state: RootState) => state.auth);
 
@@ -515,7 +517,7 @@ const UserProfile = () => {
             ]}
           >
             {renderMenuItem('shopping-bag', 'My Orders', 'Track your orders and view history', undefined, () => navigation.navigate('Orders' as never), false, '#1A1A1A')}
-            {renderMenuItem('favorite', 'Wishlist', 'Your saved items', undefined, () => navigation.navigate('Wishlist' as never), false, '#E91E63')}
+            {renderMenuItem('favorite', 'Wishlist', 'Your saved items', undefined, () => navigation.navigate('MainTabs', { screen: 'Favorites' } as any), false, '#E91E63')}
             {renderMenuItem('star', 'Reviews', 'Your product reviews', undefined, () => navigation.navigate('Reviews' as never), false, '#FF9800')}
             {renderMenuItem('card-giftcard', 'Rewards', 'Points and rewards', undefined, () => navigation.navigate('Rewards' as never), false, '#4CAF50')}
             {renderMenuItem('notifications', 'Notifications', 'Manage your notifications', '3', () => navigation.navigate('Notifications' as never), false, '#2196F3')}

@@ -78,6 +78,19 @@ const ProductDetail = () => {
   const { token, user } = useSelector((state: RootState) => state.auth);
   const isLoggedIn = !!token && !!user;
 
+  // Lấy tồn kho theo tổ hợp màu + size
+  const getStock = (color: string, size: string | number) => {
+    return product.stockByColorSize?.[`${color}-${size}`] ?? 0;
+  };
+
+  // Reset quantity về 1 nếu đổi màu/size mà tồn kho mới < quantity
+  useEffect(() => {
+    if (selectedColor && selectedSize) {
+      const stock = getStock(selectedColor, selectedSize);
+      if (quantity > stock) setQuantity(stock > 0 ? 1 : 0);
+    }
+  }, [selectedColor, selectedSize]);
+
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -201,19 +214,6 @@ const ProductDetail = () => {
       }),
     ]).start();
   };
-
-  // Lấy tồn kho theo tổ hợp màu + size
-  const getStock = (color: string, size: string | number) => {
-    return product.stockByColorSize?.[`${color}-${size}`] ?? 0;
-  };
-
-  // Reset quantity về 1 nếu đổi màu/size mà tồn kho mới < quantity
-  useEffect(() => {
-    if (selectedColor && selectedSize) {
-      const stock = getStock(selectedColor, selectedSize);
-      if (quantity > stock) setQuantity(stock > 0 ? 1 : 0);
-    }
-  }, [selectedColor, selectedSize]);
 
   const handleAddToCart = () => {
     if (!selectedSize) {
