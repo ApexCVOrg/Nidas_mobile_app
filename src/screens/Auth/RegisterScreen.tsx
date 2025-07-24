@@ -127,7 +127,7 @@ const RegisterScreen = ({ navigation }: any) => {
     try {
       if (!createdUserId) throw new Error('Không tìm thấy user');
       // Lưu address vào mock API
-      await axios.post('http://192.168.100.246:3000/addresses', {
+      await axios.post('http://192.168.100.233:3000/addresses', {
         userId: createdUserId,
         recipientName: address.recipientName,
         street: address.street,

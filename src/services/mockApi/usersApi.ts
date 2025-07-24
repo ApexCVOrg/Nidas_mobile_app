@@ -1,42 +1,22 @@
 import { mockUsers, MockUser } from '../mockData/users';
+import api from '../../api/axiosInstance';
 
 // Simulate API delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export class UsersApiService {
-  // Get all users
+  // Get all users từ json-server
   async getUsers(params?: any) {
-    await delay(400);
-    
-    let users = mockUsers.filter(u => u.role !== 'admin'); // Don't show admin users
-    
-    if (params?.role) {
-      users = users.filter(u => u.role === params.role);
-    }
-    
-    if (params?.search) {
-      const searchTerm = params.search.toLowerCase();
-      users = users.filter(u => 
-        u.name.toLowerCase().includes(searchTerm) ||
-        u.email.toLowerCase().includes(searchTerm)
-      );
-    }
-    
-    // Pagination
-    const page = params?.page || 1;
-    const limit = params?.limit || 20;
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
-    const paginatedUsers = users.slice(startIndex, endIndex);
-    
+    const response = await api.get('/users');
+    let users = response.data;
     return {
       success: true,
       data: {
-        users: paginatedUsers,
+        users,
         total: users.length,
-        page,
-        limit,
-        totalPages: Math.ceil(users.length / limit)
+        page: 1,
+        limit: users.length,
+        totalPages: 1
       }
     };
   }
@@ -76,21 +56,11 @@ export class UsersApiService {
 
   // Update user
   async updateUser(id: string, userData: any) {
-    await delay(400);
-    
-    const userIndex = mockUsers.findIndex(u => u.id === id);
-    if (userIndex === -1) {
-      throw new Error('User not found');
-    }
-    
-    mockUsers[userIndex] = {
-      ...mockUsers[userIndex],
-      ...userData
-    };
-    
+    // PATCH /users/:id (id có thể là chuỗi)
+    const response = await api.patch(`/users/${id}`, userData);
     return {
       success: true,
-      data: mockUsers[userIndex]
+      data: response.data,
     };
   }
 

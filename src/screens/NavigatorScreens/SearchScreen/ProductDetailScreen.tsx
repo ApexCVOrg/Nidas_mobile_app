@@ -34,6 +34,7 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../redux/slices/cartSlice';
 import Toast from '../../../components/Toast';
 import ProductCard from '../../../components/ProductCard';
+import { mockApi } from '../../../services/mockApi';
 
 const { width, height } = Dimensions.get('window');
 
@@ -41,13 +42,41 @@ const ProductDetailScreen = () => {
   const route = useRoute<any>();
   const navigation = useNavigation();
   const { productId } = route.params;
-  const product = (searchProducts as any[]).find((p: any) => p.id === productId);
-  
+
+  // State cho product
+  const [product, setProduct] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Tìm trong searchProducts trước
+    const found = (searchProducts as any[]).find((p: any) => p.id === productId);
+    if (found) {
+      setProduct(found);
+      setLoading(false);
+    } else {
+      // Nếu không có, fetch từ API
+      mockApi.getProductById(productId)
+        .then((res: any) => {
+          setProduct(res.data.product || res.data);
+        })
+        .catch(() => setProduct(null))
+        .finally(() => setLoading(false));
+    }
+  }, [productId]);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
   if (!product) {
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Product not found!</Text>
-        </View>
+      </View>
     );
   }
 

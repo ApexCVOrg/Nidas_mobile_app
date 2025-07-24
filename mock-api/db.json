@@ -3,7 +3,8 @@
     {
       "name": "Admin Updated",
       "role": "admin",
-      "id": "1"
+      "id": 1,
+      "isBanned": false
     },
     {
       "id": "3",
@@ -16,22 +17,26 @@
       "avatar": "default-avatar.svg",
       "isEmailVerified": true,
       "createdAt": "2024-01-01T00:00:00Z",
-      "updatedAt": "2024-01-01T00:00:00Z"
+      "updatedAt": "2024-01-01T00:00:00Z",
+      "isBanned": false
     },
     {
       "id": "686e",
       "name": "New Manager",
-      "role": "manager"
+      "role": "manager",
+      "isBanned": false
     },
     {
       "id": "8eb8",
       "name": "New Manager",
-      "role": "manager"
+      "role": "manager",
+      "isBanned": false
     },
     {
       "id": "1734",
       "name": "New Manager",
-      "role": "manager"
+      "role": "manager",
+      "isBanned": false
     },
     {
       "id": "6339",
@@ -44,40 +49,144 @@
       "isEmailVerified": true,
       "avatar": "default-avatar.svg",
       "createdAt": "2025-07-23T17:35:18.874Z",
-      "updatedAt": "2025-07-23T17:35:18.875Z"
+      "updatedAt": "2025-07-23T17:35:18.875Z",
+      "isBanned": false
     },
     {
       "id": "3c0f",
       "name": "New Manager",
-      "role": "manager"
+      "role": "manager",
+      "isBanned": false
     },
     {
       "id": "f52a",
       "name": "New Manager",
-      "role": "manager"
+      "role": "manager",
+      "isBanned": false
     },
     {
       "id": "68ad",
       "name": "New Manager",
-      "role": "manager"
+      "role": "manager",
+      "isBanned": false
     },
     {
       "id": "d0cf",
       "name": "New Manager",
-      "role": "manager"
+      "role": "manager",
+      "isBanned": false
     },
     {
       "id": "a7b9",
       "name": "New Manager",
-      "role": "manager"
+      "role": "manager",
+      "isBanned": false
     },
     {
       "id": "6986",
       "name": "New Manager",
-      "role": "manager"
+      "role": "manager",
+      "isBanned": false
     },
     {
       "id": "6e5e",
+      "name": "New Manager",
+      "role": "manager",
+      "isBanned": false
+    },
+    {
+      "id": "af33",
+      "name": "New Manager",
+      "role": "manager",
+      "isBanned": false
+    },
+    {
+      "id": "7689",
+      "name": "New Manager",
+      "role": "manager",
+      "isBanned": false
+    },
+    {
+      "id": "387a",
+      "name": "New Manager",
+      "role": "manager",
+      "isBanned": false
+    },
+    {
+      "id": "75d7",
+      "name": "New Manager",
+      "role": "manager",
+      "isBanned": false
+    },
+    {
+      "id": "661b",
+      "name": "New Manager",
+      "role": "manager",
+      "isBanned": false
+    },
+    {
+      "id": "c1ea",
+      "name": "New Manager",
+      "role": "manager",
+      "isBanned": false
+    },
+    {
+      "id": "7824",
+      "name": "New Manager",
+      "role": "manager",
+      "isBanned": false
+    },
+    {
+      "id": "b611",
+      "name": "New Manager",
+      "role": "manager",
+      "isBanned": false
+    },
+    {
+      "id": "ed51",
+      "username": "baotuan",
+      "name": "Huynh Pham Bao Tuan",
+      "email": "baotuangay@gmail.com",
+      "password": "baotuan812004",
+      "phone": "0934840520",
+      "role": "user",
+      "isEmailVerified": true,
+      "avatar": "default-avatar.svg",
+      "createdAt": "2025-07-23T23:11:51.550Z",
+      "updatedAt": "2025-07-23T23:11:51.550Z"
+    },
+    {
+      "id": "b51d",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "c479",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "4f36",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "4a24",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "a033",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "71e2",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "58f0",
       "name": "New Manager",
       "role": "manager"
     }
@@ -126,6 +235,17 @@
       "country": "sfdyugfsed8gysdfg879fsd9hgu",
       "isDefault": true,
       "createdAt": "2025-07-23T17:35:33.692Z"
+    },
+    {
+      "id": "b346",
+      "userId": "ed51",
+      "recipientName": "123",
+      "street": "123",
+      "city": "1231",
+      "state": "23",
+      "country": "1123",
+      "isDefault": true,
+      "createdAt": "2025-07-23T23:11:57.969Z"
     }
   ],
   "orders": [
@@ -179,7 +299,7 @@
       "id": "p1",
       "name": "Áo Thun Polo Adidas",
       "category": "men",
-      "price": "599.000 VNĐ",
+      "price": "600.000 VNĐ",
       "description": "Áo thun polo nam phong cách, thoáng mát, chất liệu cotton cao cấp.",
       "imageDefault": "thun_adidas.jpg",
       "imageByColor": {
@@ -224,7 +344,7 @@
       "id": "p2",
       "name": "Quần Jean Nữ Slim Fit",
       "category": "women",
-      "price": "750.000 VNĐ",
+      "price": "780.000 VNĐ",
       "description": "Quần jean nữ co giãn, tôn dáng, phù hợp mọi phong cách.",
       "imageDefault": "SlimFit.jpg",
       "imageByColor": {
@@ -1745,6 +1865,41 @@
         "đen-L": 10,
         "đen-XL": 10
       }
+    },
+    {
+      "id": "p1753325426383",
+      "name": "New Jean",
+      "category": "men",
+      "gender": "nam",
+      "type": "originals",
+      "price": "200000",
+      "description": "khong",
+      "imageDefault": "category_images/aoadidastrang.png",
+      "imageByColor": {
+        "white": "category_images/aoadidastrang.png"
+      },
+      "colors": [
+        "white"
+      ],
+      "sizes": [
+        "S"
+      ],
+      "tags": [
+        "ha",
+        "ho"
+      ],
+      "brand": "Adidas",
+      "subtitle": "không",
+      "rating": 0,
+      "quantityBySize": {
+        "S": 10
+      },
+      "stockByColorSize": {
+        "white-S": 10
+      },
+      "collections": [
+        "New Arrivals"
+      ]
     }
   ],
   "categories": [

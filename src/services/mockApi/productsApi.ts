@@ -1,5 +1,7 @@
 import categoryProducts from '../../api/categoryProducts.json';
 import homeData from '../../api/homeData.json';
+import api from '../../api/axiosInstance';
+import { Product } from '../../types/Product';
 
 // Simulate API delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -7,41 +9,18 @@ const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 export class ProductsApiService {
   // Get all products
   async getProducts(params?: any) {
-    await delay(300);
-    
-    let products = [...categoryProducts];
-    
-    if (params?.category) {
-      products = products.filter(p => p.category === params.category);
-    }
-    
-    if (params?.search) {
-      const searchTerm = params.search.toLowerCase();
-      products = products.filter(p => 
-        p.name.toLowerCase().includes(searchTerm) ||
-        p.description.toLowerCase().includes(searchTerm)
-      );
-    }
-    
-    if (params?.brand) {
-      products = products.filter(p => p.brand === params.brand);
-    }
-    
-    // Pagination
-    const page = params?.page || 1;
-    const limit = params?.limit || 20;
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
-    const paginatedProducts = products.slice(startIndex, endIndex);
-    
+    // Gọi API GET /products từ json-server
+    const response = await api.get('/products');
+    let products: Product[] = response.data;
+    // (Có thể filter, search, paginate ở phía client nếu muốn)
     return {
       success: true,
       data: {
-        products: paginatedProducts,
+        products,
         total: products.length,
-        page,
-        limit,
-        totalPages: Math.ceil(products.length / limit)
+        page: 1,
+        limit: products.length,
+        totalPages: 1
       }
     };
   }
@@ -49,8 +28,8 @@ export class ProductsApiService {
   // Get product by ID
   async getProductById(id: string) {
     await delay(200);
-    
-    const product = categoryProducts.find(p => p.id === id);
+    const products: Product[] = []; // No longer reading from file
+    const product = products.find((p: Product) => p.id === id);
     if (!product) {
       throw new Error('Product not found');
     }
@@ -58,6 +37,35 @@ export class ProductsApiService {
     return {
       success: true,
       data: product
+    };
+  }
+
+  // Update product sử dụng json-server
+  async updateProduct(id: string, productData: Partial<Product>) {
+    // PATCH /products/:id
+    const response = await api.patch(`/products/${id}`, productData);
+    return {
+      success: true,
+      data: response.data,
+    };
+  }
+
+  // Add new product sử dụng json-server
+  async addProduct(productData: any) {
+    // POST /products
+    const response = await api.post('/products', productData);
+    return {
+      success: true,
+      data: response.data,
+    };
+  }
+
+  // Delete product sử dụng json-server
+  async deleteProduct(id: string) {
+    const response = await api.delete(`/products/${id}`);
+    return {
+      success: true,
+      data: response.data,
     };
   }
 
