@@ -3,7 +3,7 @@ import axios from 'axios';
 export const sendOtpEmail = async (to: string, otp: string) => {
   const subject = 'Mã xác thực OTP của bạn';
   const html = `<p>Mã OTP của bạn là: <b>${otp}</b></p>`;
-  await axios.post('http://192.168.100.246:3001/send-email', {
+  await axios.post('http://192.168.100.233:3001/send-email', {
     to,
     subject,
     html,

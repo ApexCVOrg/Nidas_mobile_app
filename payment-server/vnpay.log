@@ -354,3 +354,5 @@
 [2025-07-24T04:03:29.264Z] [VNPAY LOG]: {"createdAt":"2025-07-24T04:03:29.260Z","method":"queryDr","isVerified":true,"isSuccess":false,"message":"Các lỗi khác (lỗi còn lại, không có trong danh sách mã lỗi đã liệt kê)","vnp_ResponseCode":"99","vnp_Message":"Các lỗi khác (lỗi còn lại, không có trong danh sách mã lỗi đã liệt kê)"}
 [2025-07-24T04:03:29.268Z] [VNPAY][QUERY][DEBUG] Response từ VNPAY: {"isVerified":true,"isSuccess":false,"message":"Các lỗi khác (lỗi còn lại, không có trong danh sách mã lỗi đã liệt kê)","vnp_ResponseCode":"99","vnp_Message":"Các lỗi khác (lỗi còn lại, không có trong danh sách mã lỗi đã liệt kê)"}
 [2025-07-24T04:03:29.268Z] [VNPAY][QUERY][DEBUG] vnp_ResponseCode: 99, vnp_Message: Các lỗi khác (lỗi còn lại, không có trong danh sách mã lỗi đã liệt kê)
+[2025-07-24T04:12:09.509Z] VNPay payment server started at http://localhost:8000
+[2025-07-24T04:43:28.938Z] VNPay payment server started at http://localhost:8000

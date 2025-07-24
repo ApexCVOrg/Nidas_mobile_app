@@ -11,6 +11,7 @@ import UserManagement from '../screens/Admin/UserManagement';
 import Analytics from '../screens/Admin/Analytics';
 import SalesAnalytics from '../screens/Admin/SalesAnalytics';
 import CustomerAnalytics from '../screens/Admin/CustomerAnalytics';
+import ProductAnalytics from '../screens/Admin/ProductAnalytics';
 
 // Manager Screens
 import ManagerDashboard from '../screens/Manager/ManagerDashboard';
@@ -18,6 +19,7 @@ import InventoryManagement from '../screens/Manager/InventoryManagement';
 import OrderProcessing from '../screens/Manager/OrderProcessing';
 import CustomerSupport from '../screens/Manager/CustomerSupport';
 import StaffManagement from '../screens/Manager/StaffManagement';
+import ManagerChatScreen from '../screens/Manager/ManagerChatScreen';
 
 export type AdminStackParamList = {
   AdminDashboard: undefined;
@@ -27,11 +29,13 @@ export type AdminStackParamList = {
   Analytics: undefined;
   SalesAnalytics: undefined;
   CustomerAnalytics: undefined;
+  ProductAnalytics: undefined;
   ManagerDashboard: undefined;
   InventoryManagement: undefined;
   OrderProcessing: undefined;
   CustomerSupport: undefined;
   StaffManagement: undefined;
+  ManagerChat: undefined;
 };
 
 const Stack = createNativeStackNavigator<AdminStackParamList>();
@@ -134,11 +138,13 @@ const AdminNavigator = () => {
       <Stack.Screen name="Analytics" component={Analytics} />
       <Stack.Screen name="SalesAnalytics" component={SalesAnalytics} />
       <Stack.Screen name="CustomerAnalytics" component={CustomerAnalytics} />
+      <Stack.Screen name="ProductAnalytics" component={ProductAnalytics} />
       <Stack.Screen name="ManagerDashboard" component={ManagerTabNavigator} />
       <Stack.Screen name="InventoryManagement" component={InventoryManagement} />
       <Stack.Screen name="OrderProcessing" component={OrderProcessing} />
       <Stack.Screen name="CustomerSupport" component={CustomerSupport} />
       <Stack.Screen name="StaffManagement" component={StaffManagement} />
+      <Stack.Screen name="ManagerChat" component={ManagerChatScreen} />
     </Stack.Navigator>
   );
 };

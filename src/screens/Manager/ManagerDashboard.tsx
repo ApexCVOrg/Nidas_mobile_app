@@ -251,11 +251,11 @@ const ManagerDashboard: React.FC = () => {
               onPress={() => navigation.navigate('InventoryManagement' as never)}
             />
             <ActionCard
-              title="Customer Support"
-              subtitle="Handle customer inquiries and chat"
-              icon="support-agent"
+              title="Customer Chat"
+              subtitle="Chat with customers and handle inquiries"
+              icon="chat"
               color="#4CAF50"
-              onPress={() => navigation.navigate('CustomerSupport' as never)}
+              onPress={() => navigation.navigate('ManagerChat' as never)}
             />
             <ActionCard
               title="Sales Report"

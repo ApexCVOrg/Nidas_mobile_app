@@ -1,5 +1,6 @@
 import { mockAnalytics } from '../mockData/analytics';
 import { mockOrders } from '../mockData/orders';
+import api from '../../api/axiosInstance';
 
 // Simulate API delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -8,13 +9,17 @@ export class AnalyticsApiService {
   // Get dashboard stats
   async getDashboardStats() {
     await delay(500);
-    
-    // Populate recent orders from mock data
+    // Lấy recent orders từ json-server
+    const response = await api.get('/orders');
+    const allOrders: any[] = response.data;
+    // Sắp xếp theo ngày tạo mới nhất
+    allOrders.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    // Lấy 5 đơn hàng gần nhất
+    const recentOrders = allOrders.slice(0, 5);
     const dashboardStats = {
       ...mockAnalytics.dashboard,
-      recentOrders: mockOrders.slice(0, 5)
+      recentOrders
     };
-    
     return {
       success: true,
       data: dashboardStats
@@ -27,7 +32,10 @@ export class AnalyticsApiService {
     
     return {
       success: true,
-      data: mockAnalytics.products
+      data: {
+        ...mockAnalytics.products,
+        topSellingProducts: mockAnalytics.dashboard.topSellingProducts
+      }
     };
   }
 

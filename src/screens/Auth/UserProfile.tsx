@@ -551,6 +551,7 @@ const UserProfile = () => {
             {renderMenuItem('settings', 'Settings', 'App and account settings', undefined, () => navigation.navigate('Settings' as never), false, '#757575')}
             {renderMenuItem('security', 'Security', 'Password and privacy settings', undefined, () => navigation.navigate('Security' as never), false, '#9C27B0')}
             {renderMenuItem('help', 'Help & Support', 'Get help and contact support', undefined, () => navigation.navigate('Support' as never), false, '#607D8B')}
+            {renderMenuItem('help-circle-outline', 'FAQ', 'Câu hỏi thường gặp', undefined, () => navigation.navigate('FAQ' as never), false, '#FF9800')}
             {renderMenuItem('info', 'About', 'App version and legal information', undefined, () => navigation.navigate('About' as never), true, '#795548')}
           </Animated.View>
           {/* Logout Button */}
