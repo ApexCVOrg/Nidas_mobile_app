@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   FlatList,
   Alert,
-  RefreshControl
+  RefreshControl,
+  Modal
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -18,6 +19,9 @@ const UserManagement: React.FC = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [viewingUser, setViewingUser] = useState<any>(null);
+  const [viewModalVisible, setViewModalVisible] = useState(false);
+  const [banLoading, setBanLoading] = useState(false);
 
   const fetchUsers = async () => {
     try {
@@ -36,6 +40,24 @@ const UserManagement: React.FC = () => {
     setRefreshing(false);
   };
 
+  const handleViewUser = (user: any) => {
+    setViewingUser(user);
+    setViewModalVisible(true);
+  };
+
+  const handleBanUnban = async (user: any) => {
+    setBanLoading(true);
+    try {
+      // Đảo trạng thái ban: nếu user.isBanned thì unban, ngược lại ban
+      await mockApi.updateUser(user.id, { isBanned: !user.isBanned });
+      fetchUsers();
+    } catch (error) {
+      Alert.alert('Error', 'Failed to update user status');
+    } finally {
+      setBanLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -46,13 +68,14 @@ const UserManagement: React.FC = () => {
         <Text style={styles.userName}>{item.name}</Text>
         <Text style={styles.userEmail}>{item.email}</Text>
         <Text style={styles.userRole}>{item.role}</Text>
+        {item.isBanned && <Text style={{ color: 'red', fontWeight: 'bold' }}>(Banned)</Text>}
       </View>
       <View style={styles.userActions}>
-        <TouchableOpacity style={styles.actionButton}>
-          <Icon name="edit" size={20} color="#2196F3" />
+        <TouchableOpacity style={styles.actionButton} onPress={() => handleViewUser(item)}>
+          <Icon name="visibility" size={20} color="#2196F3" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton}>
-          <Icon name="delete" size={20} color="#f44336" />
+        <TouchableOpacity style={styles.actionButton} onPress={() => handleBanUnban(item)} disabled={banLoading}>
+          <Icon name={item.isBanned ? "lock-open" : "block"} size={20} color={item.isBanned ? "#4CAF50" : "#f44336"} />
         </TouchableOpacity>
       </View>
     </View>
@@ -83,6 +106,36 @@ const UserManagement: React.FC = () => {
           </View>
         }
       />
+
+      <Modal
+        visible={viewModalVisible}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setViewModalVisible(false)}
+      >
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.3)' }}>
+          <View style={{ width: '90%', backgroundColor: 'white', borderRadius: 10, padding: 20 }}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10 }}>Thông tin người dùng</Text>
+            {viewingUser && (
+              <>
+                <Text>ID: {viewingUser.id}</Text>
+                <Text>Tên: {viewingUser.name}</Text>
+                <Text>Email: {viewingUser.email}</Text>
+                <Text>Role: {viewingUser.role}</Text>
+                <Text>Phone: {viewingUser.phone}</Text>
+                <Text>Trạng thái: {viewingUser.isBanned ? 'Banned' : 'Active'}</Text>
+                <Text>Ngày tạo: {viewingUser.createdAt}</Text>
+                <Text>Ngày cập nhật: {viewingUser.updatedAt}</Text>
+              </>
+            )}
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20 }}>
+              <TouchableOpacity onPress={() => setViewModalVisible(false)}>
+                <Text style={{ color: '#2196F3' }}>Đóng</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };

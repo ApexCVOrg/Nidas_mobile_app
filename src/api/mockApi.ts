@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://192.168.100.138:3000'; // Thay <YOUR_IP> bằng IP máy tính của bạn
+const API_URL = 'http://192.168.100.233:3000'; // Thay <YOUR_IP> bằng IP máy tính của bạn
 
 // USERS
 export const getUsers = () => axios.get(`${API_URL}/users`);
@@ -19,6 +19,9 @@ export const loginUser = async ({ usernameOrEmail, password }: { usernameOrEmail
   );
   if (!user) {
     throw new Error('Tài khoản không tồn tại');
+  }
+  if (user.isBanned === true) {
+    throw new Error('Tài khoản của bạn đã bị khóa bởi admin');
   }
   if (!user.isEmailVerified) {
     throw new Error('Tài khoản chưa xác thực email. Vui lòng kiểm tra email để xác thực.');

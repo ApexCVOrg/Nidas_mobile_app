@@ -1,46 +1,22 @@
 import { mockOrders, MockOrder } from '../mockData/orders';
+import api from '../../api/axiosInstance';
 
 // Simulate API delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export class OrdersApiService {
-  // Get all orders
+  // Get all orders từ json-server
   async getOrders(params?: any) {
-    await delay(400);
-    
-    let orders = [...mockOrders];
-    
-    if (params?.userId) {
-      orders = orders.filter(o => o.userId === params.userId);
-    }
-    
-    if (params?.status) {
-      orders = orders.filter(o => o.status === params.status);
-    }
-    
-    if (params?.dateFrom) {
-      orders = orders.filter(o => new Date(o.createdAt) >= new Date(params.dateFrom));
-    }
-    
-    if (params?.dateTo) {
-      orders = orders.filter(o => new Date(o.createdAt) <= new Date(params.dateTo));
-    }
-    
-    // Pagination
-    const page = params?.page || 1;
-    const limit = params?.limit || 20;
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
-    const paginatedOrders = orders.slice(startIndex, endIndex);
-    
+    const response = await api.get('/orders');
+    let orders = response.data;
     return {
       success: true,
       data: {
-        orders: paginatedOrders,
+        orders,
         total: orders.length,
-        page,
-        limit,
-        totalPages: Math.ceil(orders.length / limit)
+        page: 1,
+        limit: orders.length,
+        totalPages: 1
       }
     };
   }
@@ -81,18 +57,11 @@ export class OrdersApiService {
 
   // Update order status
   async updateOrderStatus(orderId: string, status: 'pending' | 'completed' | 'cancelled') {
-    await delay(300);
-    
-    const order = mockOrders.find(o => o.id === orderId);
-    if (!order) {
-      throw new Error('Order not found');
-    }
-    
-    order.status = status;
-    
+    // PATCH /orders/:id
+    const response = await api.patch(`/orders/${orderId}`, { status });
     return {
       success: true,
-      data: order
+      data: response.data,
     };
   }
 

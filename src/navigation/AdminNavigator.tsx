@@ -11,6 +11,7 @@ import UserManagement from '../screens/Admin/UserManagement';
 import Analytics from '../screens/Admin/Analytics';
 import SalesAnalytics from '../screens/Admin/SalesAnalytics';
 import CustomerAnalytics from '../screens/Admin/CustomerAnalytics';
+import ProductAnalytics from '../screens/Admin/ProductAnalytics';
 
 // Manager Screens
 import ManagerDashboard from '../screens/Manager/ManagerDashboard';
@@ -28,6 +29,7 @@ export type AdminStackParamList = {
   Analytics: undefined;
   SalesAnalytics: undefined;
   CustomerAnalytics: undefined;
+  ProductAnalytics: undefined;
   ManagerDashboard: undefined;
   InventoryManagement: undefined;
   OrderProcessing: undefined;
@@ -136,6 +138,7 @@ const AdminNavigator = () => {
       <Stack.Screen name="Analytics" component={Analytics} />
       <Stack.Screen name="SalesAnalytics" component={SalesAnalytics} />
       <Stack.Screen name="CustomerAnalytics" component={CustomerAnalytics} />
+      <Stack.Screen name="ProductAnalytics" component={ProductAnalytics} />
       <Stack.Screen name="ManagerDashboard" component={ManagerTabNavigator} />
       <Stack.Screen name="InventoryManagement" component={InventoryManagement} />
       <Stack.Screen name="OrderProcessing" component={OrderProcessing} />

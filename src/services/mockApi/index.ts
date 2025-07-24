@@ -30,6 +30,9 @@ export class MockApiService {
   searchProducts = productsApi.searchProducts.bind(productsApi);
   getFeaturedProducts = productsApi.getFeaturedProducts.bind(productsApi);
   getProductsByCategory = productsApi.getProductsByCategory.bind(productsApi);
+  updateProduct = productsApi.updateProduct.bind(productsApi);
+  addProduct = productsApi.addProduct.bind(productsApi);
+  deleteProduct = productsApi.deleteProduct.bind(productsApi);
 
   // Orders methods
   getOrders = ordersApi.getOrders.bind(ordersApi);

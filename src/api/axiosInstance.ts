@@ -5,11 +5,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HOST =
   Platform.OS === 'android'
-    ? 'http://10.0.2.2:5000'
-    : 'http://localhost:5000';
+    ? 'http://10.0.2.2:3000'
+    : 'http://localhost:3000';
 
 const api = axios.create({
-  baseURL: `${HOST}/api`,
+  baseURL: `${HOST}`,
   timeout: 20000,
   headers: { 'Content-Type': 'application/json' },
 });

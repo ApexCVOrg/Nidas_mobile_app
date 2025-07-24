@@ -1,5 +1,6 @@
 import { mockUsers, MockUser, addMockUser, verifyMockUserEmail, addMockAddress, saveMockDataToFile } from '../mockData/users';
-import { EmailService, sendMockEmail } from '../emailService';
+//import { EmailService, sendMockEmail } from '../emailService';
+import api from '../../api/axiosInstance';
 
 // Simulate API delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -19,19 +20,20 @@ export class AuthApiService {
 
   // Login
   async login(credentials: { username: string; password: string }) {
-    await delay(500); // Simulate network delay
-    
-    const user = mockUsers.find(u => 
-      u.username === credentials.username && u.password === credentials.password
-    );
-    
-    if (!user) {
+    await delay(500);
+    // Lấy user từ API json-server (theo username)
+    const response = await api.get('/users', { params: { username: credentials.username } });
+    const user = response.data[0];
+    console.log('DEBUG login user:', user); // Thêm log để kiểm tra user thực tế
+    if (!user || user.password !== credentials.password) {
       throw new Error('Invalid credentials');
     }
-
+    // Đảm bảo kiểm tra đúng trường isBanned (có thể là undefined nếu thiếu trong db.json)
+    if (user.isBanned === true) {
+      throw new Error('Tài khoản của bạn đã bị khóa bởi admin');
+    }
     const token = `mock_token_${user.id}_${Date.now()}`;
     this.setToken(token);
-    
     return {
       success: true,
       data: {
@@ -144,21 +146,21 @@ export class AuthApiService {
     
     // Try to send real email first
     try {
-      const success = await EmailService.sendWelcomeEmail(email, name);
-      if (success) {
-        console.log('📧 Real welcome email sent to:', email);
-        return;
-      }
+      // Removed: const success = await EmailService.sendWelcomeEmail(email, name);
+      // Removed: if (success) {
+      // Removed:   console.log('📧 Real welcome email sent to:', email);
+      // Removed:   return;
+      // Removed: }
     } catch (error) {
       console.log('📧 EmailJS not configured, falling back to mock email');
     }
     
     // Fallback to mock email
-    sendMockEmail('Welcome', email, { 
-      name, 
-      message: `Welcome ${name}! Your account has been created successfully.`,
-      verificationLink: 'https://example.com/verify?token=mock_verification_token'
-    });
+    // Removed: sendMockEmail('Welcome', email, { 
+    // Removed:   name, 
+    // Removed:   message: `Welcome ${name}! Your account has been created successfully.`,
+    // Removed:   verificationLink: 'https://example.com/verify?token=mock_verification_token'
+    // Removed: });
   }
 
   // Send OTP email (real or mock)
@@ -167,17 +169,17 @@ export class AuthApiService {
     
     // Try to send real email first
     try {
-      const success = await EmailService.sendOtpEmail(email, 'User', otp);
-      if (success) {
-        console.log('📧 Real OTP email sent to:', email);
-        return;
-      }
+      // Removed: const success = await EmailService.sendOtpEmail(email, 'User', otp);
+      // Removed: if (success) {
+      // Removed:   console.log('📧 Real OTP email sent to:', email);
+      // Removed:   return;
+      // Removed: }
     } catch (error) {
       console.log('📧 EmailJS not configured, falling back to mock email');
     }
     
     // Fallback to mock email
-    sendMockEmail('OTP', email, { otp, message: `Your verification code is: ${otp}. Valid for 5 minutes.` });
+    // Removed: sendMockEmail('OTP', email, { otp, message: `Your verification code is: ${otp}. Valid for 5 minutes.` });
   }
 
   // Logout
@@ -266,20 +268,20 @@ export class AuthApiService {
     
     // Try to send real email first
     try {
-      const success = await EmailService.sendPasswordResetEmail(email, name, resetLink);
-      if (success) {
-        console.log('📧 Real password reset email sent to:', email);
-        return;
-      }
+      // Removed: const success = await EmailService.sendPasswordResetEmail(email, name, resetLink);
+      // Removed: if (success) {
+      // Removed:   console.log('📧 Real password reset email sent to:', email);
+      // Removed:   return;
+      // Removed: }
     } catch (error) {
       console.log('📧 EmailJS not configured, falling back to mock email');
     }
     
     // Fallback to mock email
-    sendMockEmail('Password Reset', email, { 
-      name, 
-      resetLink,
-      message: `Click the link to reset your password: ${resetLink}`
-    });
+    // Removed: sendMockEmail('Password Reset', email, { 
+    // Removed:   name, 
+    // Removed:   resetLink,
+    // Removed:   message: `Click the link to reset your password: ${resetLink}`
+    // Removed: });
   }
 } 

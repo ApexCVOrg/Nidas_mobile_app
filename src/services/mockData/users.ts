@@ -14,6 +14,7 @@ export interface MockUser {
   isEmailVerified: boolean;
   createdAt: string;
   updatedAt: string;
+  isBanned?: boolean;
 }
 
 export interface MockAddress {

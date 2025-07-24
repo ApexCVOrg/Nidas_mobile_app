@@ -1,9 +1,9 @@
 import React, { useMemo, useState, useRef, useEffect } from 'react';
-import { View, ScrollView, Text, StyleSheet, Dimensions, TouchableOpacity, Modal, NativeSyntheticEvent, LayoutChangeEvent, Image } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, Dimensions, TouchableOpacity, Modal, NativeSyntheticEvent, LayoutChangeEvent, Image, Alert } from 'react-native';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import ProductCard from '../components/ProductCard';
 import { Product } from '../types/Product';
-import productsData from '../api/categoryProducts.json';
+import { mockApi } from '../services/mockApi';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { TabNavigatorParamList } from '../navigation/TabNavigator';
@@ -38,6 +38,8 @@ const CategoryScreen = () => {
   const [sortOrder, setSortOrder] = useState('newest'); // State for sorting order
   const [isSortDropdownVisible, setSortDropdownVisible] = useState(false); // State for dropdown visibility
   const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // For GooeyNav effect
   const translateX = useSharedValue(0);
@@ -92,8 +94,21 @@ const CategoryScreen = () => {
     navigation.navigate('CategoryProductDetail', { productId: product.id });
   };
 
+  // Hàm fetch products từ API
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const response = await mockApi.getProducts();
+      setProducts(response.data.products as unknown as Product[]);
+    } catch (error) {
+      Alert.alert('Error', 'Failed to load products');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const groupedProducts = useMemo(() => {
-    let filteredAndSortedProducts = (productsData as unknown as Product[]).filter(
+    let filteredAndSortedProducts = products.filter(
       (item) => item.category === categoryId
     );
 
@@ -171,6 +186,11 @@ const CategoryScreen = () => {
       width: indicatorWidth.value,
     };
   });
+
+  // Fetch products khi component mount và khi categoryId thay đổi
+  useEffect(() => {
+    fetchProducts();
+  }, [categoryId]);
 
   // Auto scroll banner carousel mỗi 3s
   useEffect(() => {
@@ -309,8 +329,14 @@ const CategoryScreen = () => {
             onPressItem={item => item.screen && navigation.navigate(item.screen as any, { item })}
           />
 
-          {/* Sản phẩm và các collection */}
-          {groupedProducts.map((collection, index) => (
+          {/* Loading indicator */}
+          {loading ? (
+            <View style={styles.loadingContainer}>
+              <Text style={styles.loadingText}>Loading products...</Text>
+            </View>
+          ) : (
+            /* Sản phẩm và các collection */
+            groupedProducts.map((collection, index) => (
             <View key={index} style={styles.collectionSection}>
               <View style={styles.collectionHeader}>
                 <Text style={styles.collectionTitle}>{collection.name}</Text>
@@ -330,7 +356,8 @@ const CategoryScreen = () => {
                 ))}
               </ScrollView>
             </View>
-          ))}
+          ))
+          )}
         </ScrollView>
         {/* Pop-up đăng nhập toàn màn hình */}
         {showLoginPopup && (
@@ -487,6 +514,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#000',
     fontWeight: 'bold',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 50,
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#666',
   },
 });
 

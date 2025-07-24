@@ -11,6 +11,15 @@ import CustomerSupport from '../screens/Manager/CustomerSupport';
 import StaffManagement from '../screens/Manager/StaffManagement';
 import ManagerChatScreen from '../screens/Manager/ManagerChatScreen';
 
+// Import thêm các màn hình admin cần cho manager
+import ProductManagement from '../screens/Admin/ProductManagement';
+import OrderManagement from '../screens/Admin/OrderManagement';
+import Analytics from '../screens/Admin/Analytics';
+import SalesAnalytics from '../screens/Admin/SalesAnalytics';
+import ProductAnalytics from '../screens/Admin/ProductAnalytics';
+import UserManagement from '../screens/Admin/UserManagement';
+import CustomerAnalytics from '../screens/Admin/CustomerAnalytics';
+
 export type ManagerStackParamList = {
   ManagerDashboard: undefined;
   InventoryManagement: undefined;
@@ -18,6 +27,13 @@ export type ManagerStackParamList = {
   CustomerSupport: undefined;
   StaffManagement: undefined;
   ManagerChat: undefined;
+  ProductManagement: undefined;
+  OrderManagement: undefined;
+  Analytics: undefined;
+  SalesAnalytics: undefined;
+  ProductAnalytics: undefined;
+  UserManagement: undefined;
+  CustomerAnalytics: undefined;
 };
 
 const Stack = createNativeStackNavigator<ManagerStackParamList>();
@@ -41,6 +57,12 @@ const ManagerTabNavigator = () => {
             iconName = focused ? 'support-agent' : 'support-agent';
           } else if (route.name === 'Staff') {
             iconName = focused ? 'people-alt' : 'people-alt';
+          } else if (route.name === 'Products') {
+            iconName = focused ? 'add-box' : 'add-box';
+          } else if (route.name === 'Analytics') {
+            iconName = focused ? 'analytics' : 'analytics';
+          } else if (route.name === 'Users') {
+            iconName = focused ? 'people' : 'people';
           }
 
           return <Icon name={iconName} size={size} color={color} />;
@@ -56,8 +78,11 @@ const ManagerTabNavigator = () => {
       })}
     >
       <Tab.Screen name="Dashboard" component={ManagerDashboard} />
+      <Tab.Screen name="Products" component={ProductManagement} />
       <Tab.Screen name="Inventory" component={InventoryManagement} />
-      <Tab.Screen name="Orders" component={OrderProcessing} />
+      <Tab.Screen name="Orders" component={OrderManagement} />
+      <Tab.Screen name="Analytics" component={Analytics} />
+      <Tab.Screen name="Users" component={UserManagement} />
       <Tab.Screen name="Support" component={ManagerChatScreen} />
       <Tab.Screen name="Staff" component={StaffManagement} />
     </Tab.Navigator>
@@ -79,6 +104,13 @@ const ManagerNavigator = () => {
       <Stack.Screen name="CustomerSupport" component={CustomerSupport} />
       <Stack.Screen name="StaffManagement" component={StaffManagement} />
       <Stack.Screen name="ManagerChat" component={ManagerChatScreen} />
+      <Stack.Screen name="ProductManagement" component={ProductManagement} />
+      <Stack.Screen name="OrderManagement" component={OrderManagement} />
+      <Stack.Screen name="Analytics" component={Analytics} />
+      <Stack.Screen name="SalesAnalytics" component={SalesAnalytics} />
+      <Stack.Screen name="ProductAnalytics" component={ProductAnalytics} />
+      <Stack.Screen name="UserManagement" component={UserManagement} />
+      <Stack.Screen name="CustomerAnalytics" component={CustomerAnalytics} />
     </Stack.Navigator>
   );
 };

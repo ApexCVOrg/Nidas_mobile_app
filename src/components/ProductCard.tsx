@@ -125,11 +125,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
     }
   };
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('vi-VN', {
-      style: 'currency',
-      currency: 'VND',
-    }).format(price);
+  const formatPrice = (price: number | string) => {
+    const numeric = String(price).replace(/[^0-9]/g, '');
+    if (!numeric) return '0 VNĐ';
+    // Thêm dấu chấm phân tách hàng nghìn
+    return numeric.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' VNĐ';
   };
 
   const getColorCode = (colorName: string): string => {
@@ -258,7 +258,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               />
             ))}
           </View>
-          <Text style={styles.priceFooter}>{typeof product.price === 'number' ? formatPrice(product.price) : product.price}</Text>
+          <Text style={styles.priceFooter}>{formatPrice(product.price)}</Text>
         </View>
       </Animated.View>
       {showLoginNotice && false}

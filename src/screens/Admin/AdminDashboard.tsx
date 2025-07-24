@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import { mockApi } from '../../services/mockApi/index';
 
 const { width } = Dimensions.get('window');
@@ -37,6 +38,7 @@ interface DashboardStats {
 
 const AdminDashboard: React.FC = () => {
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -89,9 +91,13 @@ const AdminDashboard: React.FC = () => {
     );
   };
 
+  // Reload mỗi khi focus
   useEffect(() => {
-    fetchDashboardData();
-  }, []);
+    if (isFocused) {
+      setLoading(true);
+      fetchDashboardData();
+    }
+  }, [isFocused]);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('vi-VN', {
