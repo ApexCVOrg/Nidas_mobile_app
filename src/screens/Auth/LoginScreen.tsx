@@ -132,6 +132,10 @@ export default function LoginScreen() {
         }
         // Navigate by role
         const role = response.data?.user?.role || 'user';
+        console.log('🔐 Login - User role:', role);
+        console.log('🔐 Login - User data:', response.data?.user);
+        console.log('🔐 Login - Navigating to:', role === 'admin' ? 'AdminDashboard' : role === 'manager' ? 'ManagerDashboard' : 'MainTabs');
+        
         if (role === 'admin') {
           dispatch(loginSuccess({ token: response.data.token, user: response.data.user }));
           dispatch(setOnboardingComplete(true));

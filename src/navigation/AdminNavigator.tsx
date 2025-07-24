@@ -19,6 +19,7 @@ import InventoryManagement from '../screens/Manager/InventoryManagement';
 import OrderProcessing from '../screens/Manager/OrderProcessing';
 import CustomerSupport from '../screens/Manager/CustomerSupport';
 import StaffManagement from '../screens/Manager/StaffManagement';
+import ManagerChatScreen from '../screens/Manager/ManagerChatScreen';
 
 export type AdminStackParamList = {
   AdminDashboard: undefined;
@@ -34,6 +35,7 @@ export type AdminStackParamList = {
   OrderProcessing: undefined;
   CustomerSupport: undefined;
   StaffManagement: undefined;
+  ManagerChat: undefined;
 };
 
 const Stack = createNativeStackNavigator<AdminStackParamList>();
@@ -142,6 +144,7 @@ const AdminNavigator = () => {
       <Stack.Screen name="OrderProcessing" component={OrderProcessing} />
       <Stack.Screen name="CustomerSupport" component={CustomerSupport} />
       <Stack.Screen name="StaffManagement" component={StaffManagement} />
+      <Stack.Screen name="ManagerChat" component={ManagerChatScreen} />
     </Stack.Navigator>
   );
 };

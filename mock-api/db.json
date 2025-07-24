@@ -21,6 +21,19 @@
       "isBanned": false
     },
     {
+      "id": "manager001",
+      "username": "manager",
+      "name": "Store Manager",
+      "email": "manager@nidas.com",
+      "password": "concatre",
+      "phone": "0987654321",
+      "role": "manager",
+      "avatar": "default-avatar.svg",
+      "isEmailVerified": true,
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
       "id": "686e",
       "name": "New Manager",
       "role": "manager",
@@ -189,6 +202,11 @@
       "id": "58f0",
       "name": "New Manager",
       "role": "manager"
+    },
+    {
+      "id": "49c1",
+      "name": "New Manager",
+      "role": "manager"
     }
   ],
   "addresses": [
@@ -263,7 +281,7 @@
         }
       ],
       "total": 4200000,
-      "status": "pending",
+      "status": "completed",
       "createdAt": "2024-01-15T10:00:00Z",
       "shippingAddress": {
         "fullName": "John Doe",
@@ -611,12 +629,12 @@
       "id": "p9",
       "name": "Balo Thể Thao Đa Năng",
       "category": "sport",
-      "price": "680.000 VNĐ",
+      "price": "618000",
       "description": "Balo thể thao lớn, nhiều ngăn, chống thấm nước, lý tưởng cho tập gym và du lịch.",
       "imageDefault": "category_images/balothethao.png",
       "imageByColor": {
         "black": "category_images/balothethao.png",
-        "gray": "category_images/balothethaogray.png"
+        "gray": "category_images/balothethao.png"
       },
       "colors": [
         "black",
@@ -629,21 +647,16 @@
       "subtitle": "Sport Gear",
       "rating": 4.2,
       "quantityBySize": {
-        "S": 10,
-        "M": 5,
-        "L": 2,
-        "XL": 0
+        "S": 8
       },
       "stockByColorSize": {
         "black-S": 5,
-        "black-M": 3,
-        "black-L": 2,
-        "black-XL": 0,
-        "gray-S": 3,
-        "gray-M": 2,
-        "gray-L": 1,
-        "gray-XL": 0
-      }
+        "gray-S": 3
+      },
+      "tags": [],
+      "sizes": [
+        "S"
+      ]
     },
     {
       "id": "p10",
@@ -2058,6 +2071,1096 @@
           "orders": 1
         }
       ]
+    }
+  },
+  "chats": [
+    {
+      "id": "chat_1",
+      "userId": "6339",
+      "managerId": "manager001",
+      "status": "active",
+      "createdAt": "2024-01-15T10:00:00Z",
+      "lastMessageAt": "2024-01-15T14:30:00Z",
+      "unreadCount": 2
+    },
+    {
+      "id": "chat_2",
+      "userId": "1",
+      "managerId": "manager001",
+      "status": "active",
+      "createdAt": "2024-01-14T09:00:00Z",
+      "lastMessageAt": "2024-01-15T12:00:00Z",
+      "unreadCount": 0
+    },
+    {
+      "id": "a68e",
+      "userId": "6339",
+      "managerId": "shop_manager_001",
+      "type": "shop",
+      "status": "active",
+      "createdAt": "2025-07-23T21:43:00.839Z",
+      "lastMessageAt": "2025-07-23T21:43:00.839Z",
+      "unreadCount": 0
+    },
+    {
+      "id": "9850",
+      "userId": "manager001",
+      "managerId": "manager001",
+      "status": "active",
+      "createdAt": "2025-07-23T23:04:55.071Z",
+      "lastMessageAt": "2025-07-23T23:04:55.071Z",
+      "unreadCount": 0
+    },
+    {
+      "id": "e111",
+      "userId": "manager001",
+      "managerId": "shop_manager_001",
+      "type": "shop",
+      "status": "active",
+      "createdAt": "2025-07-23T23:04:56.554Z",
+      "lastMessageAt": "2025-07-23T23:04:56.554Z",
+      "unreadCount": 0
+    },
+    {
+      "id": "0f56",
+      "userId": "3",
+      "managerId": "manager001",
+      "status": "active",
+      "createdAt": "2025-07-24T03:14:02.288Z",
+      "lastMessageAt": "2025-07-24T03:14:02.288Z",
+      "unreadCount": 0
+    }
+  ],
+  "messages": [
+    {
+      "id": "msg_1",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "Xin chào, tôi muốn hỏi về chính sách đổi trả",
+      "timestamp": "2024-01-15T10:00:00Z",
+      "isRead": true
+    },
+    {
+      "id": "msg_2",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Chào bạn! Về chính sách đổi trả, chúng tôi cho phép đổi trả trong vòng 30 ngày kể từ ngày nhận hàng. Bạn có thể xem chi tiết tại đây: [Link chính sách]",
+      "timestamp": "2024-01-15T10:01:00Z",
+      "isRead": true
+    },
+    {
+      "id": "msg_3",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "Cảm ơn bạn, tôi còn muốn hỏi về thời gian giao hàng",
+      "timestamp": "2024-01-15T14:30:00Z",
+      "isRead": false
+    },
+    {
+      "id": "msg_4",
+      "chatId": "chat_2",
+      "senderId": "1",
+      "senderType": "user",
+      "content": "Tôi muốn hỏi về sản phẩm ULTRABOOST 22",
+      "timestamp": "2024-01-14T09:00:00Z",
+      "isRead": true
+    },
+    {
+      "id": "msg_5",
+      "chatId": "chat_2",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "Chào bạn! ULTRABOOST 22 là giày chạy bộ cao cấp với công nghệ Boost. Hiện tại có các size từ 38-44 và giá 2.800.000 VNĐ. Bạn cần size nào ạ?",
+      "timestamp": "2024-01-15T12:00:00Z",
+      "isRead": true
+    },
+    {
+      "id": "ca18",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "hi",
+      "timestamp": "2025-07-23T21:04:54.106Z",
+      "isRead": true
+    },
+    {
+      "id": "943b",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Xin chào! Tôi có thể giúp bạn với các câu hỏi về sản phẩm, chính sách đổi trả, giao hàng, thanh toán, đặt hàng, bảo hành, khuyến mãi và tài khoản. Bạn có thể hỏi bằng tiếng Việt.",
+      "timestamp": "2025-07-23T21:04:54.168Z",
+      "isRead": false
+    },
+    {
+      "id": "bfd6",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "mua",
+      "timestamp": "2025-07-23T21:05:01.632Z",
+      "isRead": true
+    },
+    {
+      "id": "e6be",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Bạn có thể đặt hàng qua app hoặc website: Chọn sản phẩm → Thêm vào giỏ → Điền thông tin giao hàng → Chọn phương thức thanh toán → Xác nhận đơn hàng.",
+      "timestamp": "2025-07-23T21:05:01.680Z",
+      "isRead": false
+    },
+    {
+      "id": "ab6f",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "nike",
+      "timestamp": "2025-07-23T21:05:08.271Z",
+      "isRead": true
+    },
+    {
+      "id": "3719",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Xin chào! Tôi có thể giúp bạn với các câu hỏi về sản phẩm, chính sách đổi trả, giao hàng, thanh toán, đặt hàng, bảo hành, khuyến mãi và tài khoản. Bạn có thể hỏi bằng tiếng Việt.",
+      "timestamp": "2025-07-23T21:05:08.349Z",
+      "isRead": false
+    },
+    {
+      "id": "65c1",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "chinh sach",
+      "timestamp": "2025-07-23T21:05:16.571Z",
+      "isRead": true
+    },
+    {
+      "id": "b067",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Xin chào! Tôi có thể giúp bạn với các câu hỏi về sản phẩm, chính sách đổi trả, giao hàng, thanh toán, đặt hàng, bảo hành, khuyến mãi và tài khoản. Bạn có thể hỏi bằng tiếng Việt.",
+      "timestamp": "2025-07-23T21:05:16.649Z",
+      "isRead": false
+    },
+    {
+      "id": "de9f",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "thanh toan",
+      "timestamp": "2025-07-23T21:05:29.687Z",
+      "isRead": true
+    },
+    {
+      "id": "9c82",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Xin chào! Tôi có thể giúp bạn với các câu hỏi về sản phẩm, chính sách đổi trả, giao hàng, thanh toán, đặt hàng, bảo hành, khuyến mãi và tài khoản. Bạn có thể hỏi bằng tiếng Việt.",
+      "timestamp": "2025-07-23T21:05:29.779Z",
+      "isRead": false
+    },
+    {
+      "id": "fd41",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "tra tien",
+      "timestamp": "2025-07-23T21:20:10.206Z",
+      "isRead": true
+    },
+    {
+      "id": "1425",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "hihi",
+      "timestamp": "2025-07-23T21:20:14.149Z",
+      "isRead": true
+    },
+    {
+      "id": "ceb5",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "hi",
+      "timestamp": "2025-07-23T21:22:16.595Z",
+      "isRead": true
+    },
+    {
+      "id": "4185",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Chào bạn! Tôi là trợ lý ảo của Nidas. Tôi có thể tư vấn về:\n• Các dòng giày Adidas\n• Chính sách mua hàng\n• Hướng dẫn sử dụng\n• Khuyến mãi hiện tại\n\nHãy hỏi tôi bất cứ điều gì!",
+      "timestamp": "2025-07-23T21:22:16.721Z",
+      "isRead": false
+    },
+    {
+      "id": "8ef1",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "giay",
+      "timestamp": "2025-07-23T21:22:24.790Z",
+      "isRead": true
+    },
+    {
+      "id": "994b",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Chào bạn! Tôi là trợ lý ảo của Nidas. Tôi có thể tư vấn về:\n• Các dòng giày Adidas\n• Chính sách mua hàng\n• Hướng dẫn sử dụng\n• Khuyến mãi hiện tại\n\nHãy hỏi tôi bất cứ điều gì!",
+      "timestamp": "2025-07-23T21:22:24.880Z",
+      "isRead": false
+    },
+    {
+      "id": "71cd",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "adidas",
+      "timestamp": "2025-07-23T21:22:31.386Z",
+      "isRead": true
+    },
+    {
+      "id": "9de1",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "👟 **ULTRABOOST 22**\n💰 Giá: 4,200,000đ (Giảm 12%)\n📝 Mô tả: Giày chạy bộ công nghệ Boost với đế Boost midsole, upper Primeknit+ và Continental™ Rubber outsole. Thiết kế cho hiệu suất tối ưu và thoải mái tối đa.\n🎯 Tính năng:\n• Công nghệ Boost midsole\n• Upper Primeknit+\n• Continental™ Rubber outsole\n• Linear Energy Push system\n• Torsion System\n📊 Đánh giá: ⭐ 4.8/5 (156 đánh giá)\n📦 Còn lại: 45 sản phẩm\n🎨 Màu sắc: white, black, blue, red\n📏 Size có sẵn: 38, 39, 40, 41, 42, 43, 44",
+      "timestamp": "2025-07-23T21:22:31.662Z",
+      "isRead": false
+    },
+    {
+      "id": "a56e",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "khác",
+      "timestamp": "2025-07-23T21:22:37.774Z",
+      "isRead": true
+    },
+    {
+      "id": "36d7",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Xin chào! Tôi có thể giúp bạn với:\n• Thông tin sản phẩm (Ultraboost, Handball, Stan Smith, Climacool, Samba)\n• Chính sách giao hàng, đổi trả, bảo hành\n• Hướng dẫn chọn size\n• Phương thức thanh toán\n• Trả góp\n\nBạn muốn biết thông tin gì?",
+      "timestamp": "2025-07-23T21:22:37.883Z",
+      "isRead": false
+    },
+    {
+      "id": "27f5",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "khác\nultraboost",
+      "timestamp": "2025-07-23T21:22:44.109Z",
+      "isRead": true
+    },
+    {
+      "id": "8ac7",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Xin chào! Tôi sẵn sàng hỗ trợ bạn với mọi thắc mắc về sản phẩm và dịch vụ của chúng tôi. Bạn có thể hỏi bằng tiếng Việt.",
+      "timestamp": "2025-07-23T21:22:44.250Z",
+      "isRead": false
+    },
+    {
+      "id": "4d70",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "ultraboost",
+      "timestamp": "2025-07-23T21:22:51.938Z",
+      "isRead": true
+    },
+    {
+      "id": "fb11",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Chào bạn! Tôi là trợ lý ảo của Nidas. Tôi có thể tư vấn về:\n• Các dòng giày Adidas\n• Chính sách mua hàng\n• Hướng dẫn sử dụng\n• Khuyến mãi hiện tại\n\nHãy hỏi tôi bất cứ điều gì!",
+      "timestamp": "2025-07-23T21:22:52.096Z",
+      "isRead": false
+    },
+    {
+      "id": "aac0",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "đoi tra",
+      "timestamp": "2025-07-23T21:23:49.247Z",
+      "isRead": true
+    },
+    {
+      "id": "ae89",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Xin chào! Tôi sẵn sàng hỗ trợ bạn với mọi thắc mắc về sản phẩm và dịch vụ của chúng tôi. Bạn có thể hỏi bằng tiếng Việt.",
+      "timestamp": "2025-07-23T21:23:49.364Z",
+      "isRead": false
+    },
+    {
+      "id": "36d9",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "doi tra",
+      "timestamp": "2025-07-23T21:23:53.596Z",
+      "isRead": true
+    },
+    {
+      "id": "bed1",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Chào bạn! Tôi là trợ lý ảo của Nidas. Tôi có thể tư vấn về:\n• Các dòng giày Adidas\n• Chính sách mua hàng\n• Hướng dẫn sử dụng\n• Khuyến mãi hiện tại\n\nHãy hỏi tôi bất cứ điều gì!",
+      "timestamp": "2025-07-23T21:23:53.747Z",
+      "isRead": false
+    },
+    {
+      "id": "7d16",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "hi",
+      "timestamp": "2025-07-23T21:32:06.820Z",
+      "isRead": true
+    },
+    {
+      "id": "72dc",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Xin chào! Tôi có thể giúp bạn với:\n• Thông tin sản phẩm (Ultraboost, Handball, Stan Smith, Climacool, Samba)\n• Chính sách giao hàng, đổi trả, bảo hành\n• Hướng dẫn chọn size\n• Phương thức thanh toán\n• Trả góp\n\nBạn muốn biết thông tin gì?",
+      "timestamp": "2025-07-23T21:32:06.959Z",
+      "isRead": false
+    },
+    {
+      "id": "f722",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "tra gop",
+      "timestamp": "2025-07-23T21:38:34.736Z",
+      "isRead": true
+    },
+    {
+      "id": "496d",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Chúng tôi cho phép đổi trả trong vòng 30 ngày kể từ ngày nhận hàng. Sản phẩm phải còn nguyên vẹn, chưa sử dụng và có đầy đủ phụ kiện đi kèm.",
+      "timestamp": "2025-07-23T21:38:35.501Z",
+      "isRead": false
+    },
+    {
+      "id": "4a10",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "hi",
+      "timestamp": "2025-07-23T21:38:41.171Z",
+      "isRead": true
+    },
+    {
+      "id": "9e40",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "📦 **Chính sách giao hàng:**\n• Miễn phí vận chuyển cho đơn hàng từ 500,000đ\n• Phí vận chuyển tiêu chuẩn: 30,000đ\n• Phí vận chuyển nhanh: 50,000đ\n• Thời gian giao hàng tiêu chuẩn: 3-5 ngày làm việc\n• Thời gian giao hàng nhanh: 1-2 ngày làm việc",
+      "timestamp": "2025-07-23T21:38:41.435Z",
+      "isRead": false
+    },
+    {
+      "id": "0e81",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "giao hang",
+      "timestamp": "2025-07-23T21:38:50.366Z",
+      "isRead": true
+    },
+    {
+      "id": "0e41",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "📦 **Chính sách giao hàng:**\n• Miễn phí vận chuyển cho đơn hàng từ 500,000đ\n• Phí vận chuyển tiêu chuẩn: 30,000đ\n• Phí vận chuyển nhanh: 50,000đ\n• Thời gian giao hàng tiêu chuẩn: 3-5 ngày làm việc\n• Thời gian giao hàng nhanh: 1-2 ngày làm việc",
+      "timestamp": "2025-07-23T21:38:50.658Z",
+      "isRead": false
+    },
+    {
+      "id": "bcd7",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "haha",
+      "timestamp": "2025-07-23T21:38:56.666Z",
+      "isRead": true
+    },
+    {
+      "id": "3100",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Chào bạn! Tôi là trợ lý ảo của Nidas. Tôi có thể tư vấn về:\n• Các dòng giày Adidas\n• Chính sách mua hàng\n• Hướng dẫn sử dụng\n• Khuyến mãi hiện tại\n\nHãy hỏi tôi bất cứ điều gì!",
+      "timestamp": "2025-07-23T21:38:56.942Z",
+      "isRead": false
+    },
+    {
+      "id": "56a9",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "khuyen mai",
+      "timestamp": "2025-07-23T21:39:01.374Z",
+      "isRead": true
+    },
+    {
+      "id": "05d7",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Chúng tôi thường xuyên có các chương trình khuyến mãi: Giảm giá theo mùa, flash sale, mã giảm giá cho khách hàng VIP. Theo dõi app để cập nhật.",
+      "timestamp": "2025-07-23T21:39:01.655Z",
+      "isRead": false
+    },
+    {
+      "id": "5b55",
+      "chatId": "a68e",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "hi",
+      "timestamp": "2025-07-23T21:44:21.537Z",
+      "isRead": true
+    },
+    {
+      "id": "4417",
+      "chatId": "a68e",
+      "senderId": "shop_manager_001",
+      "senderType": "manager",
+      "content": "Cảm ơn bạn đã liên hệ! Nhân viên shop sẽ phản hồi trong thời gian sớm nhất. 🛍️",
+      "timestamp": "2025-07-23T21:44:22.578Z",
+      "isRead": false
+    },
+    {
+      "id": "8456",
+      "chatId": "a68e",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "hi",
+      "timestamp": "2025-07-23T21:54:59.224Z",
+      "isRead": true
+    },
+    {
+      "id": "dc53",
+      "chatId": "a68e",
+      "senderId": "shop_manager_001",
+      "senderType": "manager",
+      "content": "Cảm ơn bạn đã liên hệ! Nhân viên shop sẽ phản hồi trong thời gian sớm nhất. 🛍️",
+      "timestamp": "2025-07-23T21:55:00.263Z",
+      "isRead": false
+    },
+    {
+      "id": "e1b3",
+      "chatId": "a68e",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "hi",
+      "timestamp": "2025-07-23T22:06:51.774Z",
+      "isRead": true
+    },
+    {
+      "id": "02bc",
+      "chatId": "a68e",
+      "senderId": "shop_manager_001",
+      "senderType": "manager",
+      "content": "Cảm ơn bạn đã liên hệ! Nhân viên shop sẽ phản hồi trong thời gian sớm nhất. 🛍️",
+      "timestamp": "2025-07-23T22:06:52.839Z",
+      "isRead": false
+    },
+    {
+      "id": "099a",
+      "chatId": "a68e",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "👋 Xin chào! Tôi là nhân viên shop. Tôi sẽ hỗ trợ bạn ngay bây giờ.",
+      "timestamp": "2025-07-23T22:08:38.673Z",
+      "isRead": false
+    },
+    {
+      "id": "adba",
+      "chatId": "a68e",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "👋 Xin chào! Tôi là nhân viên shop. Tôi sẽ hỗ trợ bạn ngay bây giờ.",
+      "timestamp": "2025-07-23T22:21:35.549Z",
+      "isRead": false
+    },
+    {
+      "id": "e019",
+      "chatId": "a68e",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "Xin chào! Tôi có thể giúp gì cho bạn?",
+      "timestamp": "2025-07-23T22:21:38.737Z",
+      "isRead": false
+    },
+    {
+      "id": "657a",
+      "chatId": "a68e",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "🛍️ **HANDBALL SPEZIAL**\n\n💰 Giá: 1,800,000đ\n🏷️ Thương hiệu: Adidas\n📝 Mô tả: Giày bóng ném cổ điển với thiết kế retro, đế suede mềm mại và upper canvas bền bỉ. Phù hợp cho các môn thể thao trong nhà và thời trang streetwear.\n\nXem chi tiết sản phẩm tại đây!",
+      "timestamp": "2025-07-23T22:21:43.022Z",
+      "isRead": false,
+      "metadata": {
+        "type": "product",
+        "productId": "p002",
+        "productData": {
+          "id": "p002",
+          "name": "HANDBALL SPEZIAL",
+          "price": 1800000,
+          "image": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&h=400&fit=crop",
+          "description": "Giày bóng ném cổ điển với thiết kế retro, đế suede mềm mại và upper canvas bền bỉ. Phù hợp cho các môn thể thao trong nhà và thời trang streetwear.",
+          "brand": "Adidas",
+          "category": "Indoor",
+          "colors": [
+            "white",
+            "navy",
+            "green",
+            "orange"
+          ],
+          "sizes": [
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43"
+          ],
+          "rating": 4.6,
+          "reviews": 89,
+          "stock": 32,
+          "discount": 18,
+          "originalPrice": 2200000,
+          "imageDefault": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400&h=400&fit=crop",
+          "collections": [
+            "indoor",
+            "retro"
+          ],
+          "features": [
+            "Canvas upper",
+            "Suede sole",
+            "Retro design"
+          ],
+          "specifications": {
+            "weight": "280g",
+            "material": "Canvas, Suede"
+          },
+          "tags": [
+            "indoor",
+            "retro",
+            "streetwear"
+          ],
+          "images": [
+            "handball_white.jpg",
+            "handball_navy.jpg",
+            "handball_green.jpg"
+          ]
+        }
+      }
+    },
+    {
+      "id": "e4ed",
+      "chatId": "a68e",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "🛍️ **ULTRABOOST 22**\n\n💰 Giá: 4,200,000đ\n🏷️ Thương hiệu: Adidas\n📝 Mô tả: Giày chạy bộ công nghệ Boost với đế Boost midsole, upper Primeknit+ và Continental™ Rubber outsole. Thiết kế cho hiệu suất tối ưu và thoải mái tối đa.\n\nXem chi tiết sản phẩm tại đây!",
+      "timestamp": "2025-07-23T22:22:00.906Z",
+      "isRead": false,
+      "metadata": {
+        "type": "product",
+        "productId": "p001",
+        "productData": {
+          "id": "p001",
+          "name": "ULTRABOOST 22",
+          "price": 4200000,
+          "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
+          "description": "Giày chạy bộ công nghệ Boost với đế Boost midsole, upper Primeknit+ và Continental™ Rubber outsole. Thiết kế cho hiệu suất tối ưu và thoải mái tối đa.",
+          "brand": "Adidas",
+          "category": "Running",
+          "colors": [
+            "white",
+            "black",
+            "blue",
+            "red"
+          ],
+          "sizes": [
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44"
+          ],
+          "rating": 4.8,
+          "reviews": 156,
+          "stock": 45,
+          "discount": 12,
+          "originalPrice": 4800000,
+          "imageDefault": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
+          "collections": [
+            "running",
+            "premium"
+          ],
+          "features": [
+            "Boost midsole",
+            "Primeknit+",
+            "Continental Rubber"
+          ],
+          "specifications": {
+            "weight": "310g",
+            "drop": "10mm"
+          },
+          "tags": [
+            "running",
+            "boost",
+            "premium"
+          ],
+          "images": [
+            "ultraboost_white.jpg",
+            "ultraboost_black.jpg",
+            "ultraboost_blue.jpg"
+          ]
+        }
+      }
+    },
+    {
+      "id": "d691",
+      "chatId": "chat_1",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "Tôi muốn hỏi về sản phẩm",
+      "timestamp": "2025-07-23T22:24:32.980Z",
+      "isRead": true
+    },
+    {
+      "id": "ac1a",
+      "chatId": "chat_1",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Chúng tôi cung cấp đầy đủ các loại sản phẩm thể thao: giày, quần áo, phụ kiện. Tất cả đều chính hãng Adidas, Nike và các thương hiệu uy tín khác.",
+      "timestamp": "2025-07-23T22:24:33.312Z",
+      "isRead": false
+    },
+    {
+      "id": "eaa6",
+      "chatId": "a68e",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "📸 [Hình ảnh]",
+      "timestamp": "2025-07-23T22:42:21.065Z",
+      "isRead": true
+    },
+    {
+      "id": "ad2f",
+      "chatId": "a68e",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "📎 [File] demo-document.pdf",
+      "timestamp": "2025-07-23T22:42:26.035Z",
+      "isRead": true
+    },
+    {
+      "id": "f27a",
+      "chatId": "a68e",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "📸 [Hình ảnh]",
+      "timestamp": "2025-07-23T22:42:28.553Z",
+      "isRead": true
+    },
+    {
+      "id": "168b",
+      "chatId": "a68e",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "Tôi muốn hỏi về sản phẩm",
+      "timestamp": "2025-07-23T22:42:33.674Z",
+      "isRead": true
+    },
+    {
+      "id": "a6bf",
+      "chatId": "a68e",
+      "senderId": "shop_manager_001",
+      "senderType": "manager",
+      "content": "Cảm ơn bạn đã liên hệ! Nhân viên shop sẽ phản hồi trong thời gian sớm nhất. 🛍️",
+      "timestamp": "2025-07-23T22:42:34.874Z",
+      "isRead": false
+    },
+    {
+      "id": "a619",
+      "chatId": "a68e",
+      "senderId": "6339",
+      "senderType": "user",
+      "content": "📸 [Hình ảnh]",
+      "timestamp": "2025-07-23T22:45:55.176Z",
+      "isRead": true
+    },
+    {
+      "id": "7ed5",
+      "chatId": "9850",
+      "senderId": "manager001",
+      "senderType": "user",
+      "content": "Xin chào! Tôi cần hỗ trợ",
+      "timestamp": "2025-07-23T23:05:03.062Z",
+      "isRead": true
+    },
+    {
+      "id": "0460",
+      "chatId": "9850",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Bạn có thể đăng ký bằng email hoặc số điện thoại. Sau khi đăng ký, vui lòng xác thực email để kích hoạt tài khoản và nhận thông báo khuyến mãi.",
+      "timestamp": "2025-07-23T23:05:03.258Z",
+      "isRead": false
+    },
+    {
+      "id": "cc37",
+      "chatId": "9850",
+      "senderId": "manager001",
+      "senderType": "user",
+      "content": "Tôi muốn hỏi về sản phẩm",
+      "timestamp": "2025-07-23T23:05:10.180Z",
+      "isRead": true
+    },
+    {
+      "id": "5cc1",
+      "chatId": "9850",
+      "senderId": "bot",
+      "senderType": "bot",
+      "content": "Chúng tôi cung cấp đầy đủ các loại sản phẩm thể thao: giày, quần áo, phụ kiện. Tất cả đều chính hãng Adidas, Nike và các thương hiệu uy tín khác.",
+      "timestamp": "2025-07-23T23:05:10.408Z",
+      "isRead": false
+    },
+    {
+      "id": "7d03",
+      "chatId": "a68e",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "👋 Xin chào! Tôi là nhân viên shop. Tôi sẽ hỗ trợ bạn ngay bây giờ.",
+      "timestamp": "2025-07-23T23:05:36.695Z",
+      "isRead": false
+    },
+    {
+      "id": "e4d9",
+      "chatId": "a68e",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "Xin chào! Tôi có thể giúp gì cho bạn?",
+      "timestamp": "2025-07-23T23:05:42.696Z",
+      "isRead": false
+    },
+    {
+      "id": "9e13",
+      "chatId": "a68e",
+      "senderId": "manager001",
+      "senderType": "manager",
+      "content": "🛍️ **ADIDAS ORIGINALS T-SHIRT**\n\n💰 Giá: 1,200,000đ\n🏷️ Thương hiệu: Adidas\n📝 Mô tả: Áo thun Adidas Originals với logo Trefoil nổi tiếng, chất liệu cotton thoáng mát, phù hợp cho thể thao và thời trang hàng ngày.\n\nXem chi tiết sản phẩm tại đây!",
+      "timestamp": "2025-07-23T23:05:48.181Z",
+      "isRead": false,
+      "metadata": {
+        "type": "product",
+        "productId": "p006",
+        "productData": {
+          "id": "p006",
+          "name": "ADIDAS ORIGINALS T-SHIRT",
+          "price": 1200000,
+          "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+          "description": "Áo thun Adidas Originals với logo Trefoil nổi tiếng, chất liệu cotton thoáng mát, phù hợp cho thể thao và thời trang hàng ngày.",
+          "brand": "Adidas",
+          "category": "Clothing",
+          "colors": [
+            "white",
+            "black",
+            "blue",
+            "red"
+          ],
+          "sizes": [
+            "S",
+            "M",
+            "L",
+            "XL"
+          ],
+          "rating": 4.6,
+          "reviews": 92,
+          "stock": 78,
+          "discount": 20,
+          "originalPrice": 1500000,
+          "imageDefault": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=400&fit=crop",
+          "collections": [],
+          "features": [
+            "Logo Trefoil",
+            "Chất liệu cotton",
+            "Thoáng mát",
+            "Phù hợp thể thao",
+            "Thời trang hàng ngày"
+          ],
+          "specifications": {
+            "material": "100% Cotton",
+            "weight": "180g",
+            "fit": "Regular fit",
+            "care": "Giặt máy 30°C"
+          },
+          "tags": [
+            "clothing",
+            "tshirt",
+            "originals",
+            "casual"
+          ],
+          "images": [
+            "tshirt_white.jpg",
+            "tshirt_black.jpg",
+            "tshirt_blue.jpg"
+          ]
+        }
+      }
+    }
+  ],
+  "faq": [
+    {
+      "id": "faq_1",
+      "category": "sản phẩm",
+      "keywords": [
+        "sản phẩm",
+        "hàng",
+        "món",
+        "item",
+        "product"
+      ],
+      "question": "Các loại sản phẩm có sẵn?",
+      "answer": "Chúng tôi cung cấp đầy đủ các loại sản phẩm thể thao: giày, quần áo, phụ kiện. Tất cả đều chính hãng Adidas, Nike và các thương hiệu uy tín khác.",
+      "priority": 1
+    },
+    {
+      "id": "faq_2",
+      "category": "đổi trả",
+      "keywords": [
+        "đổi trả",
+        "hoàn tiền",
+        "refund",
+        "return",
+        "đổi",
+        "trả"
+      ],
+      "question": "Chính sách đổi trả như thế nào?",
+      "answer": "Chúng tôi cho phép đổi trả trong vòng 30 ngày kể từ ngày nhận hàng. Sản phẩm phải còn nguyên vẹn, chưa sử dụng và có đầy đủ phụ kiện đi kèm.",
+      "priority": 1
+    },
+    {
+      "id": "faq_3",
+      "category": "giao hàng",
+      "keywords": [
+        "giao hàng",
+        "shipping",
+        "delivery",
+        "vận chuyển",
+        "thời gian",
+        "bao lâu"
+      ],
+      "question": "Thời gian giao hàng bao lâu?",
+      "answer": "Thời gian giao hàng: Hà Nội 1-2 ngày, TP.HCM 2-3 ngày, các tỉnh khác 3-5 ngày làm việc. Miễn phí ship cho đơn hàng từ 500.000 VNĐ.",
+      "priority": 1
+    },
+    {
+      "id": "faq_4",
+      "category": "thanh toán",
+      "keywords": [
+        "thanh toán",
+        "payment",
+        "tiền",
+        "trả tiền",
+        "cod",
+        "online"
+      ],
+      "question": "Các phương thức thanh toán?",
+      "answer": "Chúng tôi hỗ trợ: Thanh toán khi nhận hàng (COD), chuyển khoản ngân hàng, ví điện tử (MoMo, ZaloPay), thẻ tín dụng/ghi nợ.",
+      "priority": 1
+    },
+    {
+      "id": "faq_5",
+      "category": "đặt hàng",
+      "keywords": [
+        "đặt hàng",
+        "order",
+        "mua",
+        "purchase",
+        "checkout"
+      ],
+      "question": "Cách đặt hàng?",
+      "answer": "Bạn có thể đặt hàng qua app hoặc website: Chọn sản phẩm → Thêm vào giỏ → Điền thông tin giao hàng → Chọn phương thức thanh toán → Xác nhận đơn hàng.",
+      "priority": 1
+    },
+    {
+      "id": "faq_6",
+      "category": "kích thước",
+      "keywords": [
+        "size",
+        "kích thước",
+        "số giày",
+        "số áo",
+        "quần"
+      ],
+      "question": "Làm sao chọn size phù hợp?",
+      "answer": "Chúng tôi có bảng size guide chi tiết cho từng sản phẩm. Bạn có thể đo chân/cơ thể và so sánh với bảng size để chọn size phù hợp nhất.",
+      "priority": 2
+    },
+    {
+      "id": "faq_7",
+      "category": "chất lượng",
+      "keywords": [
+        "chất lượng",
+        "quality",
+        "chính hãng",
+        "authentic",
+        "real"
+      ],
+      "question": "Sản phẩm có chính hãng không?",
+      "answer": "100% sản phẩm chính hãng, có đầy đủ giấy tờ bảo hành và tem chống giả. Chúng tôi cam kết hoàn tiền 200% nếu phát hiện hàng giả.",
+      "priority": 1
+    },
+    {
+      "id": "faq_8",
+      "category": "bảo hành",
+      "keywords": [
+        "bảo hành",
+        "warranty",
+        "hư hỏng",
+        "lỗi",
+        "defect"
+      ],
+      "question": "Chính sách bảo hành?",
+      "answer": "Giày có bảo hành 6 tháng, quần áo 3 tháng. Bảo hành miễn phí các lỗi do nhà sản xuất. Hư hỏng do sử dụng không được bảo hành.",
+      "priority": 2
+    },
+    {
+      "id": "faq_9",
+      "category": "khuyến mãi",
+      "keywords": [
+        "khuyến mãi",
+        "sale",
+        "giảm giá",
+        "discount",
+        "promotion"
+      ],
+      "question": "Có khuyến mãi gì không?",
+      "answer": "Chúng tôi thường xuyên có các chương trình khuyến mãi: Giảm giá theo mùa, flash sale, mã giảm giá cho khách hàng VIP. Theo dõi app để cập nhật.",
+      "priority": 2
+    },
+    {
+      "id": "faq_10",
+      "category": "tài khoản",
+      "keywords": [
+        "tài khoản",
+        "account",
+        "đăng ký",
+        "đăng nhập",
+        "profile"
+      ],
+      "question": "Cách tạo tài khoản?",
+      "answer": "Bạn có thể đăng ký bằng email hoặc số điện thoại. Sau khi đăng ký, vui lòng xác thực email để kích hoạt tài khoản và nhận thông báo khuyến mãi.",
+      "priority": 2
+    }
+  ],
+  "policies": {
+    "shipping": {
+      "free_shipping_threshold": 500000,
+      "standard_shipping": 30000,
+      "express_shipping": 50000,
+      "delivery_time": {
+        "standard": "3-5 ngày làm việc",
+        "express": "1-2 ngày làm việc"
+      },
+      "regions": {
+        "hanoi": "Miễn phí vận chuyển",
+        "hcm": "Miễn phí vận chuyển",
+        "other": "30,000đ - 50,000đ"
+      }
+    },
+    "returns": {
+      "return_period": "30 ngày",
+      "conditions": [
+        "Sản phẩm chưa sử dụng",
+        "Còn nguyên tem mác",
+        "Hộp đựng nguyên vẹn",
+        "Không có dấu hiệu mài mòn"
+      ],
+      "refund_time": "3-7 ngày làm việc",
+      "return_shipping": "Khách hàng chịu phí vận chuyển"
+    },
+    "warranty": {
+      "period": "12 tháng",
+      "coverage": [
+        "Lỗi sản xuất",
+        "Hỏng hóc do chất lượng",
+        "Bong tróc đế",
+        "Rách đường may"
+      ],
+      "exclusions": [
+        "Hỏng hóc do sử dụng sai cách",
+        "Mài mòn tự nhiên",
+        "Hư hại do tai nạn",
+        "Sản phẩm đã qua sửa chữa"
+      ]
+    },
+    "payment": {
+      "methods": [
+        "Tiền mặt khi nhận hàng (COD)",
+        "Chuyển khoản ngân hàng",
+        "Ví điện tử (Momo, ZaloPay, VNPay)",
+        "Thẻ tín dụng/ghi nợ"
+      ],
+      "installment": {
+        "available": true,
+        "partners": [
+          "Home Credit",
+          "FE Credit",
+          "HD Saison"
+        ],
+        "terms": "3-12 tháng"
+      }
+    },
+    "size_guide": {
+      "eu_to_vn": {
+        "35": "VN 35",
+        "36": "VN 36",
+        "37": "VN 37",
+        "38": "VN 38",
+        "39": "VN 39",
+        "40": "VN 40",
+        "41": "VN 41",
+        "42": "VN 42",
+        "43": "VN 43",
+        "44": "VN 44",
+        "45": "VN 45"
+      },
+      "measurement_guide": "Đo từ gót chân đến đầu ngón chân dài nhất"
     }
   }
 }

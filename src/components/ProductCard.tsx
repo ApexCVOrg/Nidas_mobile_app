@@ -21,6 +21,7 @@ interface ProductCardProps {
   product: Product;
   onPress?: () => void;
   onRequireLogin?: () => void;
+  isHorizontal?: boolean;
 }
 
 const FAVORITES_FILE = FileSystem.documentDirectory + 'favorites.json';
@@ -53,15 +54,24 @@ const updateFavoriteFile = async (product: Product, add: boolean) => {
 const ProductCard: React.FC<ProductCardProps> = ({ 
   product, 
   onPress,
-  onRequireLogin
+  onRequireLogin,
+  isHorizontal = false
 }) => {
+  // Debug product data
+  console.log('ProductCard received:', {
+    id: product.id,
+    name: product.name,
+    image: product.image,
+    imageDefault: product.imageDefault,
+    collections: product.collections
+  });
   // Sử dụng giá trị mặc định nếu thiếu colors
   const safeColors = Array.isArray(product.colors) && product.colors.length > 0 ? product.colors : ['default'];
   const [selectedColor, setSelectedColor] = useState(safeColors[0]);
   const [showImage, setShowImage] = useState(
     (product.imageByColor && product.imageByColor[selectedColor]) ||
-    product.imageDefault ||
     product.image ||
+    product.imageDefault ||
     ''
   );
 
@@ -86,8 +96,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
     setSelectedColor(color);
     setShowImage(
       (product.imageByColor && product.imageByColor[color]) ||
-      product.imageDefault ||
       product.image ||
+      product.imageDefault ||
       ''
     );
   };
@@ -144,11 +154,35 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   const isHandball = product.collections && product.collections.includes('Handball');
   const isUltraboost = product.collections && (product.collections.includes('Ultraboost') || product.collections.includes('Pureboost'));
-  const imageSource = isHandball
-    ? getHandballImage(product.imageDefault ?? "")
-    : isUltraboost
-    ? getUltraboostImage(product.imageDefault ?? "")
-    : getImageRequire(product.imageDefault ?? "");
+  // Xử lý image source - ưu tiên product.image (URL) trước
+  const getImageSource = () => {
+    // Nếu có product.image và là URL
+    if (product.image && product.image.startsWith('http')) {
+      return { uri: product.image };
+    }
+    
+    // Nếu có product.image và là local asset
+    if (product.image && !product.image.startsWith('http')) {
+      return getImageRequire(product.image);
+    }
+    
+    // Nếu có product.imageDefault và là local asset
+    if (product.imageDefault && !product.imageDefault.startsWith('http')) {
+      if (isHandball) {
+        return getHandballImage(product.imageDefault);
+      } else if (isUltraboost) {
+        return getUltraboostImage(product.imageDefault);
+      } else {
+        return getImageRequire(product.imageDefault);
+      }
+    }
+    
+    // Fallback
+    return getImageRequire('icon.png');
+  };
+
+  const imageSource = getImageSource();
+  console.log('ProductCard imageSource:', imageSource);
 
   // Truncate description
   const truncatedDescription = product.description.length > MAX_DESCRIPTION_LENGTH
@@ -156,14 +190,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
     : product.description;
 
   return (
-    <TouchableOpacity
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-      onPress={onPress}
-      activeOpacity={1}
-      style={styles.touchableCard}
-    >
-      <Animated.View style={[styles.card, animatedStyle]}>
+          <TouchableOpacity
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        onPress={onPress}
+        activeOpacity={1}
+        style={[
+          styles.touchableCard,
+          isHorizontal && styles.touchableCardHorizontal
+        ]}
+      >
+      <Animated.View style={[
+        styles.card, 
+        animatedStyle,
+        isHorizontal && styles.cardHorizontal
+      ]}>
         <View style={styles.imageRectWrapper}>
           <Animated.Image
             key={showImage}
@@ -231,6 +272,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 16,
   },
+  touchableCardHorizontal: {
+    width: width * 0.6,
+    marginHorizontal: 0,
+    marginVertical: 0,
+  },
   card: {
     borderRadius: 18,
     backgroundColor: '#fff',
@@ -242,6 +288,9 @@ const styles = StyleSheet.create({
     elevation: 3,
     height: 400,
     justifyContent: 'space-between',
+  },
+  cardHorizontal: {
+    height: 380,
   },
   imageRectWrapper: {
     width: '100%',

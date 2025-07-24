@@ -40,6 +40,229 @@
       "updatedAt": "2024-01-01T00:00:00Z"
     }
   ],
+  "products": [
+    {
+      "id": "p001",
+      "name": "ULTRABOOST 22",
+      "brand": "Adidas",
+      "category": "Running",
+      "price": 4200000,
+      "originalPrice": 4800000,
+      "discount": 12,
+      "colors": ["white", "black", "blue", "red"],
+      "sizes": ["38", "39", "40", "41", "42", "43", "44"],
+      "description": "Giày chạy bộ công nghệ Boost với đế Boost midsole, upper Primeknit+ và Continental™ Rubber outsole. Thiết kế cho hiệu suất tối ưu và thoải mái tối đa.",
+      "features": [
+        "Công nghệ Boost midsole",
+        "Upper Primeknit+",
+        "Continental™ Rubber outsole",
+        "Linear Energy Push system",
+        "Torsion System"
+      ],
+      "specifications": {
+        "weight": "310g",
+        "drop": "10mm",
+        "stack": "22mm/32mm",
+        "material": "Primeknit+, Boost, Continental Rubber"
+      },
+      "stock": 45,
+      "rating": 4.8,
+      "reviews": 156,
+      "images": ["ultraboost_white.jpg", "ultraboost_black.jpg", "ultraboost_blue.jpg"],
+      "tags": ["running", "boost", "premium", "performance"]
+    },
+    {
+      "id": "p002",
+      "name": "HANDBALL SPEZIAL",
+      "brand": "Adidas",
+      "category": "Indoor",
+      "price": 1800000,
+      "originalPrice": 2200000,
+      "discount": 18,
+      "colors": ["white", "navy", "green", "orange"],
+      "sizes": ["36", "37", "38", "39", "40", "41", "42", "43"],
+      "description": "Giày bóng ném cổ điển với thiết kế retro, đế suede mềm mại và upper canvas bền bỉ. Phù hợp cho các môn thể thao trong nhà và thời trang streetwear.",
+      "features": [
+        "Upper canvas bền bỉ",
+        "Đế suede mềm mại",
+        "Thiết kế retro",
+        "Phù hợp indoor sports",
+        "Streetwear style"
+      ],
+      "specifications": {
+        "weight": "280g",
+        "material": "Canvas, Suede",
+        "sole": "Rubber",
+        "closure": "Lace-up"
+      },
+      "stock": 32,
+      "rating": 4.6,
+      "reviews": 89,
+      "images": ["handball_white.jpg", "handball_navy.jpg", "handball_green.jpg"],
+      "tags": ["indoor", "retro", "streetwear", "classic"]
+    },
+    {
+      "id": "p003",
+      "name": "STAN SMITH",
+      "brand": "Adidas",
+      "category": "Lifestyle",
+      "price": 1500000,
+      "originalPrice": 1800000,
+      "discount": 17,
+      "colors": ["white", "green", "pink", "blue"],
+      "sizes": ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44"],
+      "description": "Giày sneaker huyền thoại với thiết kế tối giản, logo Stan Smith nổi tiếng và đế vulcanized. Biểu tượng của thời trang streetwear toàn cầu.",
+      "features": [
+        "Thiết kế tối giản",
+        "Logo Stan Smith",
+        "Đế vulcanized",
+        "Upper leather",
+        "Timeless design"
+      ],
+      "specifications": {
+        "weight": "250g",
+        "material": "Leather",
+        "sole": "Vulcanized rubber",
+        "closure": "Lace-up"
+      },
+      "stock": 67,
+      "rating": 4.7,
+      "reviews": 234,
+      "images": ["stansmith_white.jpg", "stansmith_green.jpg", "stansmith_pink.jpg"],
+      "tags": ["lifestyle", "classic", "streetwear", "timeless"]
+    },
+    {
+      "id": "p004",
+      "name": "CLIMACOOL",
+      "brand": "Adidas",
+      "category": "Running",
+      "price": 2200000,
+      "originalPrice": 2600000,
+      "discount": 15,
+      "colors": ["white", "black", "gray", "blue"],
+      "sizes": ["38", "39", "40", "41", "42", "43", "44", "45"],
+      "description": "Giày chạy bộ với công nghệ Climacool thông thoáng, đế Cloudfoam mềm mại và thiết kế nhẹ. Lý tưởng cho chạy bộ mùa hè và tập luyện.",
+      "features": [
+        "Công nghệ Climacool",
+        "Đế Cloudfoam",
+        "Thiết kế nhẹ",
+        "Thông thoáng",
+        "Phù hợp mùa hè"
+      ],
+      "specifications": {
+        "weight": "280g",
+        "material": "Mesh, Cloudfoam",
+        "sole": "Rubber",
+        "drop": "8mm"
+      },
+      "stock": 28,
+      "rating": 4.5,
+      "reviews": 67,
+      "images": ["climacool_white.jpg", "climacool_black.jpg", "climacool_gray.jpg"],
+      "tags": ["running", "summer", "lightweight", "breathable"]
+    },
+    {
+      "id": "p005",
+      "name": "SAMBA OG",
+      "brand": "Adidas",
+      "category": "Lifestyle",
+      "price": 1900000,
+      "originalPrice": 2400000,
+      "discount": 21,
+      "colors": ["white", "black", "brown", "navy"],
+      "sizes": ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
+      "description": "Giày sneaker cổ điển với thiết kế bóng đá retro, đế suede và upper leather. Biểu tượng của văn hóa streetwear và thời trang urban.",
+      "features": [
+        "Thiết kế bóng đá retro",
+        "Đế suede",
+        "Upper leather",
+        "Logo Trefoil",
+        "Streetwear icon"
+      ],
+      "specifications": {
+        "weight": "260g",
+        "material": "Leather, Suede",
+        "sole": "Vulcanized rubber",
+        "closure": "Lace-up"
+      },
+      "stock": 41,
+      "rating": 4.9,
+      "reviews": 189,
+      "images": ["samba_white.jpg", "samba_black.jpg", "samba_brown.jpg"],
+      "tags": ["lifestyle", "retro", "football", "streetwear"]
+    }
+  ],
+  "policies": {
+    "shipping": {
+      "free_shipping_threshold": 500000,
+      "standard_shipping": 30000,
+      "express_shipping": 50000,
+      "delivery_time": {
+        "standard": "3-5 ngày làm việc",
+        "express": "1-2 ngày làm việc"
+      },
+      "regions": {
+        "hanoi": "Miễn phí vận chuyển",
+        "hcm": "Miễn phí vận chuyển",
+        "other": "30,000đ - 50,000đ"
+      }
+    },
+    "returns": {
+      "return_period": "30 ngày",
+      "conditions": [
+        "Sản phẩm chưa sử dụng",
+        "Còn nguyên tem mác",
+        "Hộp đựng nguyên vẹn",
+        "Không có dấu hiệu mài mòn"
+      ],
+      "refund_time": "3-7 ngày làm việc",
+      "return_shipping": "Khách hàng chịu phí vận chuyển"
+    },
+    "warranty": {
+      "period": "12 tháng",
+      "coverage": [
+        "Lỗi sản xuất",
+        "Hỏng hóc do chất lượng",
+        "Bong tróc đế",
+        "Rách đường may"
+      ],
+      "exclusions": [
+        "Hỏng hóc do sử dụng sai cách",
+        "Mài mòn tự nhiên",
+        "Hư hại do tai nạn",
+        "Sản phẩm đã qua sửa chữa"
+      ]
+    },
+    "payment": {
+      "methods": [
+        "Tiền mặt khi nhận hàng (COD)",
+        "Chuyển khoản ngân hàng",
+        "Ví điện tử (Momo, ZaloPay, VNPay)",
+        "Thẻ tín dụng/ghi nợ"
+      ],
+      "installment": {
+        "available": true,
+        "partners": ["Home Credit", "FE Credit", "HD Saison"],
+        "terms": "3-12 tháng"
+      }
+    },
+    "size_guide": {
+      "eu_to_vn": {
+        "35": "VN 35",
+        "36": "VN 36", 
+        "37": "VN 37",
+        "38": "VN 38",
+        "39": "VN 39",
+        "40": "VN 40",
+        "41": "VN 41",
+        "42": "VN 42",
+        "43": "VN 43",
+        "44": "VN 44",
+        "45": "VN 45"
+      },
+      "measurement_guide": "Đo từ gót chân đến đầu ngón chân dài nhất"
+    }
+  },
   "orders": [
     {
       "id": "order_1",
@@ -84,6 +307,113 @@
         "phone": "0123456789",
         "address": "123 Main St, City"
       }
+    }
+  ],
+  "faq": [
+    {
+      "id": "faq_1",
+      "question": "Làm thế nào để đặt hàng?",
+      "answer": "Để đặt hàng, bạn có thể:\n1. Chọn sản phẩm yêu thích\n2. Chọn size và màu sắc\n3. Thêm vào giỏ hàng\n4. Điền thông tin giao hàng\n5. Chọn phương thức thanh toán\n6. Xác nhận đơn hàng",
+      "category": "ordering",
+      "keywords": ["đặt hàng", "mua hàng", "order", "purchase", "giỏ hàng", "cart"]
+    },
+    {
+      "id": "faq_2", 
+      "question": "Thời gian giao hàng là bao lâu?",
+      "answer": "Thời gian giao hàng:\n• Giao hàng tiêu chuẩn: 3-5 ngày làm việc\n• Giao hàng nhanh: 1-2 ngày làm việc\n• Miễn phí vận chuyển cho đơn hàng từ 500,000đ",
+      "category": "shipping",
+      "keywords": ["giao hàng", "vận chuyển", "delivery", "shipping", "thời gian", "bao lâu"]
+    },
+    {
+      "id": "faq_3",
+      "question": "Chính sách đổi trả như thế nào?",
+      "answer": "Chính sách đổi trả:\n• Thời gian: 30 ngày kể từ ngày nhận hàng\n• Điều kiện: Sản phẩm chưa sử dụng, còn nguyên tem mác\n• Hoàn tiền trong 3-7 ngày làm việc",
+      "category": "returns",
+      "keywords": ["đổi trả", "hoàn tiền", "return", "refund", "chính sách"]
+    },
+    {
+      "id": "faq_4",
+      "question": "Có thể trả góp không?",
+      "answer": "Có! Chúng tôi hỗ trợ trả góp qua:\n• Home Credit\n• FE Credit\n• HD Saison\n\nKỳ hạn: 3-12 tháng",
+      "category": "payment",
+      "keywords": ["trả góp", "installment", "thanh toán", "payment", "credit"]
+    },
+    {
+      "id": "faq_5",
+      "question": "Làm sao để chọn size giày đúng?",
+      "answer": "Để chọn size đúng:\n1. Đo chân từ gót đến đầu ngón chân dài nhất\n2. Tham khảo bảng quy đổi size EU sang VN\n3. Nếu chân rộng, nên chọn size lớn hơn 0.5\n4. Có thể dùng thước đo chân tại cửa hàng",
+      "category": "size",
+      "keywords": ["size", "kích thước", "số giày", "measurement", "chọn size"]
+    },
+    {
+      "id": "faq_6",
+      "question": "Sản phẩm có bảo hành không?",
+      "answer": "Có! Tất cả sản phẩm đều được bảo hành 12 tháng:\n• Lỗi sản xuất\n• Hỏng hóc do chất lượng\n• Bong tróc đế\n• Rách đường may",
+      "category": "warranty",
+      "keywords": ["bảo hành", "warranty", "hỏng", "lỗi", "sửa chữa"]
+    },
+    {
+      "id": "faq_7",
+      "question": "Ultraboost có tốt cho chạy bộ không?",
+      "answer": "Ultraboost là dòng giày chạy bộ cao cấp của Adidas:\n• Công nghệ Boost midsole siêu nhẹ\n• Upper Primeknit+ ôm chân\n• Continental™ Rubber outsole bám đường\n• Thiết kế cho hiệu suất tối ưu\n• Phù hợp cho chạy đường dài",
+      "category": "product",
+      "keywords": ["ultraboost", "chạy bộ", "running", "adidas", "boost"]
+    },
+    {
+      "id": "faq_8",
+      "question": "Stan Smith có phù hợp với trang phục nào?",
+      "answer": "Stan Smith là giày sneaker đa năng:\n• Phù hợp với mọi trang phục casual\n• Kết hợp tốt với quần jean, chinos\n• Có thể mặc với váy, quần short\n• Thiết kế tối giản, dễ phối đồ\n• Phù hợp cho mọi lứa tuổi",
+      "category": "product",
+      "keywords": ["stan smith", "sneaker", "casual", "thời trang", "phối đồ"]
+    },
+    {
+      "id": "faq_9",
+      "question": "Handball Spezial có thể chơi thể thao không?",
+      "answer": "Handball Spezial được thiết kế cho:\n• Các môn thể thao trong nhà\n• Bóng ném, bóng rổ, cầu lông\n• Đế suede mềm mại, bám sàn tốt\n• Upper canvas bền bỉ\n• Cũng phù hợp cho streetwear",
+      "category": "product",
+      "keywords": ["handball", "thể thao", "indoor", "bóng ném", "sport"]
+    },
+    {
+      "id": "faq_10",
+      "question": "Climacool có mát không?",
+      "answer": "Climacool được thiết kế đặc biệt cho mùa hè:\n• Công nghệ Climacool thông thoáng\n• Đế Cloudfoam mềm mại\n• Thiết kế nhẹ, thoáng khí\n• Phù hợp cho chạy bộ mùa hè\n• Giữ chân mát mẻ suốt ngày",
+      "category": "product",
+      "keywords": ["climacool", "mát", "mùa hè", "thoáng", "summer"]
+    },
+    {
+      "id": "faq_11",
+      "question": "Samba có phải giày bóng đá không?",
+      "answer": "Samba ban đầu là giày bóng đá trong nhà:\n• Thiết kế retro từ những năm 1950\n• Đế suede bám sàn tốt\n• Upper leather bền bỉ\n• Hiện tại chủ yếu dùng cho streetwear\n• Biểu tượng của văn hóa urban",
+      "category": "product",
+      "keywords": ["samba", "bóng đá", "football", "retro", "streetwear"]
+    },
+    {
+      "id": "faq_12",
+      "question": "Có khuyến mãi gì hiện tại không?",
+      "answer": "Hiện tại chúng tôi có các khuyến mãi:\n• Giảm giá lên đến 21% cho Samba OG\n• Giảm 18% cho Handball Spezial\n• Giảm 17% cho Stan Smith\n• Giảm 15% cho Climacool\n• Giảm 12% cho Ultraboost 22",
+      "category": "promotion",
+      "keywords": ["khuyến mãi", "giảm giá", "sale", "discount", "promotion"]
+    },
+    {
+      "id": "faq_13",
+      "question": "Làm sao để liên hệ hỗ trợ?",
+      "answer": "Bạn có thể liên hệ chúng tôi qua:\n• Chat trực tuyến (nút chat góc phải)\n• Hotline: 1900-xxxx\n• Email: support@nidas.com\n• Fanpage: Nidas Official\n• Giờ làm việc: 8h-22h hàng ngày",
+      "category": "support",
+      "keywords": ["liên hệ", "hỗ trợ", "support", "hotline", "contact"]
+    },
+    {
+      "id": "faq_14",
+      "question": "Có cửa hàng offline không?",
+      "answer": "Có! Chúng tôi có các cửa hàng tại:\n• Hà Nội: 123 Nguyễn Huệ, Hoàn Kiếm\n• TP.HCM: 456 Lê Lợi, Quận 1\n• Đà Nẵng: 789 Trần Phú, Hải Châu\n• Giờ mở cửa: 9h-21h hàng ngày",
+      "category": "store",
+      "keywords": ["cửa hàng", "offline", "store", "địa chỉ", "address"]
+    },
+    {
+      "id": "faq_15",
+      "question": "Có thể đặt hàng qua điện thoại không?",
+      "answer": "Có! Bạn có thể đặt hàng qua:\n• Hotline: 1900-xxxx\n• Zalo: Nidas Official\n• Facebook Messenger\n• Nhân viên sẽ hỗ trợ tư vấn và đặt hàng",
+      "category": "ordering",
+      "keywords": ["đặt hàng", "điện thoại", "phone", "hotline", "zalo"]
     }
   ],
   "timestamp": "2024-01-15T12:00:00Z"
