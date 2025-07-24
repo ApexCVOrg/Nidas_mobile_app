@@ -103,7 +103,7 @@ const CheckoutScreen = () => {
         createdAt: new Date().toISOString(),
       };
       // Gửi đơn hàng lên mock API
-      await axios.post('http://192.168.100.233:3000/orders', order);
+      await axios.post('http://192.168.100.138:3000/orders', order);
       // Clear cart nếu là checkout từ cart
       if (type === 'cart') {
         dispatch(clearCart());

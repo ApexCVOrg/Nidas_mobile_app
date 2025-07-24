@@ -156,29 +156,62 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const isUltraboost = product.collections && (product.collections.includes('Ultraboost') || product.collections.includes('Pureboost'));
   // Xử lý image source - ưu tiên product.image (URL) trước
   const getImageSource = () => {
+    // Debug product data
+    console.log('ProductCard getImageSource - product:', {
+      id: product.id,
+      name: product.name,
+      image: product.image,
+      imageDefault: product.imageDefault,
+      collections: product.collections
+    });
+
     // Nếu có product.image và là URL
     if (product.image && product.image.startsWith('http')) {
+      console.log('Using product.image URL:', product.image);
       return { uri: product.image };
     }
     
     // Nếu có product.image và là local asset
     if (product.image && !product.image.startsWith('http')) {
+      console.log('Using product.image local:', product.image);
       return getImageRequire(product.image);
+    }
+    
+    // Nếu có product.imageDefault và là URL
+    if (product.imageDefault && product.imageDefault.startsWith('http')) {
+      console.log('Using product.imageDefault URL:', product.imageDefault);
+      return { uri: product.imageDefault };
     }
     
     // Nếu có product.imageDefault và là local asset
     if (product.imageDefault && !product.imageDefault.startsWith('http')) {
       if (isHandball) {
+        console.log('Using handball image:', product.imageDefault);
         return getHandballImage(product.imageDefault);
       } else if (isUltraboost) {
+        console.log('Using ultraboost image:', product.imageDefault);
         return getUltraboostImage(product.imageDefault);
       } else {
+        console.log('Using imageDefault local:', product.imageDefault);
         return getImageRequire(product.imageDefault);
       }
     }
     
-    // Fallback
-    return getImageRequire('icon.png');
+    // Fallback - thử một số tên file phổ biến
+    const fallbackImages = ['icon.png', 'default-product.jpg', 'product-placeholder.jpg', 'placeholder.jpg'];
+    for (const fallback of fallbackImages) {
+      try {
+        console.log('Trying fallback:', fallback);
+        return getImageRequire(fallback);
+      } catch (error) {
+        console.log('Fallback failed:', fallback);
+        continue;
+      }
+    }
+    
+    // Final fallback
+    console.log('Using final fallback icon.png');
+    return require('../../assets/icon.png');
   };
 
   const imageSource = getImageSource();

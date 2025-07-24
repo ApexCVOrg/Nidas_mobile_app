@@ -14,6 +14,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { useIsFocused } from '@react-navigation/native';
 import { mockApi } from '../../services/mockApi/index';
+import { useOfflineSync } from '../../hooks/useOfflineSync';
+import OfflineSyncOverview from '../../components/OfflineSyncOverview';
+import { cacheData, getCachedData, checkNetworkStatus } from '../../utils/offlineSync';
 
 const { width } = Dimensions.get('window');
 
@@ -42,14 +45,31 @@ const AdminDashboard: React.FC = () => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const { syncStatus, performSync, addOfflineAction } = useOfflineSync();
 
   const fetchDashboardData = async () => {
     try {
+      // Try to get cached data first
+      const cachedStats = await getCachedData('admin_dashboard_stats');
+      if (cachedStats) {
+        setStats(cachedStats);
+        setLoading(false);
+      }
+
+      // Fetch fresh data
       const response = await mockApi.getDashboardStats();
-      setStats(response.data);
+      const freshStats = response.data;
+      setStats(freshStats);
+      
+      // Cache the fresh data
+      await cacheData('admin_dashboard_stats', freshStats);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
-      Alert.alert('Error', 'Failed to load dashboard data');
+      
+      // If no cached data and fetch failed, show error
+      if (!stats) {
+        Alert.alert('Lỗi', 'Không thể tải dữ liệu dashboard. Vui lòng kiểm tra kết nối mạng.');
+      }
     } finally {
       setLoading(false);
     }
@@ -163,6 +183,12 @@ const AdminDashboard: React.FC = () => {
         }
         showsVerticalScrollIndicator={false}
       >
+        {/* Offline Sync Overview */}
+        <OfflineSyncOverview
+          syncStatus={syncStatus}
+          onManualSync={performSync}
+          onRefresh={onRefresh}
+        />
         {/* Stats Overview */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Overview</Text>

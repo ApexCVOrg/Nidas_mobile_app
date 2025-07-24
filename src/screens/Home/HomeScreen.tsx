@@ -90,18 +90,23 @@ const HomeScreen: React.FC<HomeScreenWithPopupProps> = ({ showTabPopup, tabPopup
   useEffect(() => {
     // Lấy tất cả products
     getAllProducts().then(products => {
-      // Lấy 8 sản phẩm đầu tiên làm featuredProducts (hoặc lọc theo tiêu chí khác nếu muốn)
-      setFeaturedProducts(products.slice(0, 8));
+      console.log('Total products loaded:', products.length);
+      // Lấy 6 sản phẩm đầu tiên làm featuredProducts (có thể kéo ngang)
+      setFeaturedProducts(products.slice(0, 6));
+      // Lấy 5 sản phẩm tiếp theo làm newArrivals (1 hàng)
+      setNewArrivals(products.slice(6, 11));
+      console.log('Featured products:', products.slice(0, 6).length);
+      console.log('New arrivals:', products.slice(6, 11).length);
     });
 
     // Lấy categories
-    axios.get('http://192.168.100.233:3000/categories').then(res => setCategories(res.data));
+    axios.get('http://192.168.100.138:3000/categories').then(res => setCategories(res.data));
 
     // Lấy collections
-    axios.get('http://192.168.100.233:3000/collections').then(res => setCollections(res.data));
+    axios.get('http://192.168.100.138:3000/collections').then(res => setCollections(res.data));
 
     // Lấy bannerImages (chỉ lấy trường image)
-    axios.get('http://192.168.100.233:3000/bannerImages').then(res => setBannerImages(res.data.map((b: any) => b.image)));
+    axios.get('http://192.168.100.138:3000/bannerImages').then(res => setBannerImages(res.data.map((b: any) => b.image)));
   }, []);
 
   const handleCategoryPress = (category: { id: string; name: string; icon?: string }) => {

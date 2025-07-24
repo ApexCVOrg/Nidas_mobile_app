@@ -14,6 +14,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { mockApi } from '../../services/mockApi/index';
+import { useOfflineSync } from '../../hooks/useOfflineSync';
+import SyncStatusIndicator from '../../components/SyncStatusIndicator';
+import { cacheData, getCachedData, checkNetworkStatus } from '../../utils/offlineSync';
 
 const { width } = Dimensions.get('window');
 
@@ -43,21 +46,39 @@ const ManagerDashboard: React.FC = () => {
   const [stats, setStats] = useState<ManagerStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const { syncStatus, performSync, addOfflineAction } = useOfflineSync();
 
   const fetchDashboardData = async () => {
     try {
+      // Try to get cached data first
+      const cachedStats = await getCachedData('manager_dashboard_stats');
+      if (cachedStats) {
+        setStats(cachedStats);
+        setLoading(false);
+      }
+
+      // Fetch fresh data
       const [dashboardResponse, productResponse] = await Promise.all([
         mockApi.getDashboardStats(),
         mockApi.getProductAnalytics()
       ]);
       
-      setStats({
+      const freshStats = {
         ...dashboardResponse.data,
         lowStockProducts: productResponse.data.lowStock
-      });
+      };
+      
+      setStats(freshStats);
+      
+      // Cache the fresh data
+      await cacheData('manager_dashboard_stats', freshStats);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
-      Alert.alert('Error', 'Failed to load dashboard data');
+      
+      // If no cached data and fetch failed, show error
+      if (!stats) {
+        Alert.alert('Lỗi', 'Không thể tải dữ liệu dashboard. Vui lòng kiểm tra kết nối mạng.');
+      }
     } finally {
       setLoading(false);
     }
@@ -194,6 +215,12 @@ const ManagerDashboard: React.FC = () => {
         }
         showsVerticalScrollIndicator={false}
       >
+        {/* Sync Status Indicator */}
+        <SyncStatusIndicator
+          syncStatus={syncStatus}
+          onManualSync={performSync}
+          showDetails={true}
+        />
         {/* Stats Overview */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Store Overview</Text>
@@ -208,14 +235,14 @@ const ManagerDashboard: React.FC = () => {
             />
             <StatCard
               title="Pending Orders"
-              value={stats?.recentOrders.filter((o: any) => o.status === 'pending').length || 0}
+              value={stats?.recentOrders?.filter((o: any) => o.status === 'pending').length || 0}
               icon="pending"
               color="#FF9800"
               onPress={() => navigation.navigate('OrderManagement' as never)}
             />
             <StatCard
               title="Low Stock Items"
-              value={stats?.lowStockProducts.length || 0}
+              value={stats?.lowStockProducts?.length || 0}
               icon="warning"
               color="#f44336"
               onPress={() => navigation.navigate('Inventory' as never)}
@@ -239,7 +266,7 @@ const ManagerDashboard: React.FC = () => {
               subtitle="Review and process pending orders"
               icon="receipt"
               color="#2196F3"
-              badge={stats?.recentOrders.filter((o: any) => o.status === 'pending').length || 0}
+              badge={stats?.recentOrders?.filter((o: any) => o.status === 'pending').length || 0}
               onPress={() => navigation.navigate('OrderProcessing' as never)}
             />
             <ActionCard
@@ -247,7 +274,7 @@ const ManagerDashboard: React.FC = () => {
               subtitle="Check stock levels and reorder"
               icon="inventory-2"
               color="#FF9800"
-              badge={stats?.lowStockProducts.length || 0}
+              badge={stats?.lowStockProducts?.length || 0}
               onPress={() => navigation.navigate('InventoryManagement' as never)}
             />
             <ActionCard
@@ -282,7 +309,7 @@ const ManagerDashboard: React.FC = () => {
         </View>
 
         {/* Low Stock Alert */}
-        {stats?.lowStockProducts && stats.lowStockProducts.length > 0 && (
+        {stats?.lowStockProducts && stats.lowStockProducts?.length > 0 && (
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionTitle}>Low Stock Alert</Text>
@@ -290,7 +317,7 @@ const ManagerDashboard: React.FC = () => {
                 <Text style={styles.viewAllText}>View All</Text>
               </TouchableOpacity>
             </View>
-            {stats.lowStockProducts.slice(0, 3).map((product) => (
+            {stats.lowStockProducts?.slice(0, 3).map((product) => (
               <LowStockItem key={product.id} product={product} />
             ))}
           </View>
@@ -304,7 +331,7 @@ const ManagerDashboard: React.FC = () => {
               <Text style={styles.viewAllText}>View All</Text>
             </TouchableOpacity>
           </View>
-          {stats?.recentOrders.slice(0, 3).map((order) => (
+          {stats?.recentOrders?.slice(0, 3).map((order) => (
             <View key={order.id} style={styles.orderItem}>
               <View style={styles.orderInfo}>
                 <Text style={styles.orderId}>#{order.id}</Text>
@@ -312,7 +339,7 @@ const ManagerDashboard: React.FC = () => {
                   {new Date(order.createdAt).toLocaleDateString()}
                 </Text>
                 <Text style={styles.orderItems}>
-                  {order.items.length} item{order.items.length > 1 ? 's' : ''}
+                  {order.items?.length || 0} item{(order.items?.length || 0) > 1 ? 's' : ''}
                 </Text>
               </View>
               <View style={styles.orderStatus}>
@@ -333,7 +360,7 @@ const ManagerDashboard: React.FC = () => {
               <Text style={styles.viewAllText}>View All</Text>
             </TouchableOpacity>
           </View>
-          {stats?.topSellingProducts.slice(0, 3).map((product, index) => (
+          {stats?.topSellingProducts?.slice(0, 3).map((product, index) => (
             <View key={product.id} style={styles.productItem}>
               <View style={styles.productRank}>
                 <Text style={styles.rankText}>#{index + 1}</Text>

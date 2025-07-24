@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { mockApi } from '../../services/mockApi';
 import { Product } from '../../types/Product';
+import { useOfflineSync } from '../../hooks/useOfflineSync';
+import SyncStatusIndicator from '../../components/SyncStatusIndicator';
+import OfflineIndicator from '../../components/OfflineIndicator';
+import { cacheData, getCachedData, checkNetworkStatus, getOfflineActions } from '../../utils/offlineSync';
 
 const ProductManagement: React.FC = () => {
   const navigation = useNavigation();
@@ -86,20 +90,67 @@ const ProductManagement: React.FC = () => {
   const [allCollections, setAllCollections] = useState<string[]>([]);
   const [newCollectionInput, setNewCollectionInput] = useState('');
 
+  // Ref để lưu callback cho auto sync
+  const fetchProductsRef = useRef<(() => Promise<void>) | null>(null);
+
+  // State cho modal xem thay đổi offline
+  const [pendingChangesModalVisible, setPendingChangesModalVisible] = useState(false);
+  const [pendingChanges, setPendingChanges] = useState<any[]>([]);
+
+  const { syncStatus, performSync, addOfflineAction } = useOfflineSync();
+
   // Khi fetchProducts, tổng hợp tất cả collection từ sản phẩm
   const fetchProducts = async () => {
+    // Lưu reference để sử dụng cho auto sync
+    fetchProductsRef.current = fetchProducts;
     try {
-      const response = await mockApi.getProducts();
-      let products = response.data.products as Product[];
-      // Sản phẩm mới nhất lên đầu (id dạng p+timestamp)
-      products = products.sort((a, b) => (b.id > a.id ? 1 : -1));
-      setProducts(products);
-      // Tổng hợp collection như cũ
-      const collectionSet = new Set<string>();
-      products.forEach(p => p.collections?.forEach((c: string) => collectionSet.add(c)));
-      setAllCollections(Array.from(collectionSet));
+      setLoading(true);
+      
+      // Kiểm tra kết nối mạng trước
+      const isOnline = await checkNetworkStatus();
+      
+      // Try to get cached data first
+      const cachedProducts = await getCachedData('products_data');
+      if (cachedProducts) {
+        setProducts(cachedProducts);
+        // Tổng hợp collection từ cached data
+        const collectionSet = new Set<string>();
+        cachedProducts.forEach((p: Product) => p.collections?.forEach((c: string) => collectionSet.add(c)));
+        setAllCollections(Array.from(collectionSet));
+      }
+
+      // Chỉ fetch fresh data khi online
+      if (isOnline) {
+        try {
+          const response = await mockApi.getProducts();
+          let products = response.data.products as Product[];
+          // Sản phẩm mới nhất lên đầu (id dạng p+timestamp)
+          products = products.sort((a, b) => (b.id > a.id ? 1 : -1));
+          setProducts(products);
+          
+          // Cache the fresh data
+          await cacheData('products_data', products);
+          
+          // Tổng hợp collection như cũ
+          const collectionSet = new Set<string>();
+          products.forEach(p => p.collections?.forEach((c: string) => collectionSet.add(c)));
+          setAllCollections(Array.from(collectionSet));
+        } catch (error) {
+          console.error('Error fetching fresh data:', error);
+          // Nếu fetch fresh data thất bại và không có cached data, hiển thị lỗi
+          if (!cachedProducts) {
+            Alert.alert('Lỗi', 'Không thể tải dữ liệu sản phẩm. Vui lòng kiểm tra kết nối mạng.');
+          }
+        }
+      } else {
+        // Khi offline, chỉ dùng cached data
+        if (!cachedProducts) {
+          Alert.alert('Không có dữ liệu', 'Không có dữ liệu cached. Vui lòng kết nối mạng để tải dữ liệu.');
+        }
+      }
     } catch (error) {
-      Alert.alert('Error', 'Failed to load products');
+      console.error('Error in fetchProducts:', error);
+      Alert.alert('Lỗi', 'Có lỗi xảy ra khi tải dữ liệu sản phẩm.');
     } finally {
       setLoading(false);
     }
@@ -107,6 +158,18 @@ const ProductManagement: React.FC = () => {
 
   const onRefresh = async () => {
     setRefreshing(true);
+    
+    // Kiểm tra kết nối mạng trước khi refresh
+    const isOnline = await checkNetworkStatus();
+    if (!isOnline) {
+      Alert.alert(
+        'Không có kết nối mạng',
+        'Không thể refresh dữ liệu khi offline. Vui lòng kết nối mạng và thử lại.'
+      );
+      setRefreshing(false);
+      return;
+    }
+    
     await fetchProducts();
     setRefreshing(false);
   };
@@ -182,6 +245,7 @@ const ProductManagement: React.FC = () => {
       return;
     }
     setEditLoading(true);
+    
     try {
       // Tạo lại quantityBySize và stockByColorSize
       const quantityBySize: any = {};
@@ -207,16 +271,35 @@ const ProductManagement: React.FC = () => {
         stockByColorSize,
         imageByColor,
       };
-      await mockApi.updateProduct(editingProduct.id, updateData);
+
+      // Kiểm tra kết nối mạng trước
+      const isOnline = await checkNetworkStatus();
+      
+      // Lưu offline action cho cả online và offline
+      console.log('Saving offline action for manual sync');
+      await addOfflineAction('UPDATE', 'product', { id: editingProduct.id, ...updateData });
+      
+      Alert.alert(
+        'Đã lưu thay đổi',
+        'Thay đổi đã được lưu. Vui lòng ấn nút "Đồng bộ" để áp dụng thay đổi.'
+      );
+      
+      // KHÔNG update local state - giữ nguyên dữ liệu cũ cho cả online và offline
+      // Chỉ thay đổi UI khi ấn nút đồng bộ và sync thành công
+      
       setEditModalVisible(false);
       setEditingProduct(null);
       setEditFields({});
       setEditSelectedColors([]);
       setEditSelectedSizes([]);
       setEditStockQuantities({});
-      fetchProducts();
+      
+      // Cache data
+      await cacheData('products_data', products);
+      
     } catch (error) {
-      Alert.alert('Error', 'Failed to update product');
+      console.error('Error in handleSaveEdit:', error);
+      Alert.alert('Lỗi', 'Có lỗi xảy ra khi lưu thay đổi');
     } finally {
       setEditLoading(false);
     }
@@ -388,8 +471,20 @@ const ProductManagement: React.FC = () => {
         collections: newProduct.collections,
       };
 
-      // Gọi API để thêm sản phẩm mới
-      await mockApi.addProduct(productData);
+      // Kiểm tra kết nối mạng trước
+      const isOnline = await checkNetworkStatus();
+      
+      // Lưu offline action cho cả online và offline
+      console.log('Saving offline action for manual sync');
+      await addOfflineAction('CREATE', 'product', productData);
+      
+      Alert.alert(
+        'Đã lưu thay đổi',
+        'Thay đổi đã được lưu. Vui lòng ấn nút "Đồng bộ" để áp dụng thay đổi.'
+      );
+      
+      // KHÔNG update local state - giữ nguyên dữ liệu cũ cho cả online và offline
+      // Chỉ thay đổi UI khi ấn nút đồng bộ và sync thành công
       
       setAddModalVisible(false);
       setNewProduct({
@@ -414,8 +509,6 @@ const ProductManagement: React.FC = () => {
       setSelectedColors([]);
       setSelectedSizes([]);
       setStockQuantities({});
-      fetchProducts();
-      Alert.alert('Success', 'Sản phẩm đã được thêm thành công');
     } catch (error) {
       Alert.alert('Error', 'Failed to add product');
     } finally {
@@ -433,9 +526,20 @@ const ProductManagement: React.FC = () => {
         {
           text: 'Xóa', style: 'destructive', onPress: async () => {
             try {
-              await mockApi.deleteProduct(productId);
-              fetchProducts();
-              Alert.alert('Đã xóa sản phẩm thành công');
+              // Kiểm tra kết nối mạng trước
+              const isOnline = await checkNetworkStatus();
+              
+              // Lưu offline action cho cả online và offline
+              console.log('Saving offline action for manual sync');
+              await addOfflineAction('DELETE', 'product', { id: productId });
+              
+              Alert.alert(
+                'Đã lưu thay đổi',
+                'Thay đổi đã được lưu. Vui lòng ấn nút "Đồng bộ" để áp dụng thay đổi.'
+              );
+              
+              // KHÔNG update local state - giữ nguyên dữ liệu cũ cho cả online và offline
+              // Chỉ thay đổi UI khi ấn nút đồng bộ và sync thành công
             } catch (error) {
               Alert.alert('Lỗi', 'Không thể xóa sản phẩm');
             }
@@ -448,6 +552,49 @@ const ProductManagement: React.FC = () => {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  // Tắt auto sync - chỉ sync khi user ấn nút đồng bộ
+  // useEffect(() => {
+  //   if (syncStatus.isOnline && syncStatus.pendingActions > 0 && fetchProductsRef.current) {
+  //     // Trigger manual sync with callback to refresh data
+  //     performSync(fetchProductsRef.current);
+  //   }
+  // }, [syncStatus.isOnline, syncStatus.pendingActions]);
+
+  // Hàm load pending changes
+  const loadPendingChanges = async () => {
+    try {
+      const productActions = await getOfflineActions('product');
+      setPendingChanges(productActions);
+    } catch (error) {
+      console.error('Error loading pending changes:', error);
+    }
+  };
+
+  // Hàm mở modal xem thay đổi
+  const handleViewPendingChanges = async () => {
+    await loadPendingChanges();
+    setPendingChangesModalVisible(true);
+  };
+
+  // Helper functions cho hiển thị action
+  const getActionText = (type: string) => {
+    switch (type) {
+      case 'CREATE': return 'Thêm mới';
+      case 'UPDATE': return 'Cập nhật';
+      case 'DELETE': return 'Xóa';
+      default: return type;
+    }
+  };
+
+  const getActionColor = (type: string) => {
+    switch (type) {
+      case 'CREATE': return '#4CAF50';
+      case 'UPDATE': return '#2196F3';
+      case 'DELETE': return '#f44336';
+      default: return '#666';
+    }
+  };
 
   // Filter và search sản phẩm trước khi render
   const filteredProducts = products
@@ -488,10 +635,30 @@ const ProductManagement: React.FC = () => {
           <Icon name="arrow-back" size={24} color="#333" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Product Management</Text>
-        <TouchableOpacity style={styles.addButton} onPress={handleAddPress}>
-          <Icon name="add" size={24} color="#4CAF50" />
-        </TouchableOpacity>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          {syncStatus.isOnline && syncStatus.pendingActions > 0 && (
+            <TouchableOpacity 
+              style={[styles.addButton, { marginRight: 10, backgroundColor: '#FF9800' }]} 
+              onPress={handleViewPendingChanges}
+            >
+              <Icon name="visibility" size={20} color="#fff" />
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity style={styles.addButton} onPress={handleAddPress}>
+            <Icon name="add" size={24} color="#4CAF50" />
+          </TouchableOpacity>
+        </View>
       </View>
+
+      {/* Offline Indicator */}
+      <OfflineIndicator
+        isOnline={syncStatus.isOnline}
+        pendingActions={syncStatus.pendingActions}
+        onManualSync={() => performSync(() => {
+          // Refresh data from server after successful sync
+          fetchProducts();
+        })}
+      />
 
       <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 15, marginTop: 10, marginBottom: 5 }}>
         <TextInput
@@ -527,6 +694,79 @@ const ProductManagement: React.FC = () => {
           </View>
         }
       />
+
+      {/* Modal xem thay đổi pending */}
+      <Modal
+        visible={pendingChangesModalVisible}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setPendingChangesModalVisible(false)}
+      >
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.3)' }}>
+          <View style={{ width: '95%', backgroundColor: 'white', borderRadius: 10, padding: 20, maxHeight: '90%' }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15 }}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Thay đổi chờ đồng bộ</Text>
+              <TouchableOpacity onPress={() => setPendingChangesModalVisible(false)}>
+                <Icon name="close" size={24} color="#666" />
+              </TouchableOpacity>
+            </View>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {pendingChanges.length === 0 ? (
+                <Text style={{ textAlign: 'center', color: '#666', marginTop: 20 }}>Không có thay đổi nào</Text>
+              ) : (
+                pendingChanges.map((action, index) => (
+                  <View key={action.id} style={{ 
+                    backgroundColor: '#f5f5f5', 
+                    padding: 15, 
+                    borderRadius: 8, 
+                    marginBottom: 10 
+                  }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                      <Text style={{ fontWeight: 'bold', color: getActionColor(action.type) }}>
+                        {getActionText(action.type)}
+                      </Text>
+                      <Text style={{ fontSize: 12, color: '#666' }}>
+                        {new Date(action.timestamp).toLocaleString()}
+                      </Text>
+                    </View>
+                    {action.type === 'UPDATE' && (
+                      <View>
+                        <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Sản phẩm: {action.data.name || 'N/A'}</Text>
+                        {action.data.price && (
+                          <Text>Giá mới: {displayPrice(action.data.price)} VNĐ</Text>
+                        )}
+                        {action.data.category && (
+                          <Text>Danh mục mới: {action.data.category}</Text>
+                        )}
+                        {action.data.colors && action.data.colors.length > 0 && (
+                          <Text>Màu sắc: {action.data.colors.join(', ')}</Text>
+                        )}
+                        {action.data.sizes && action.data.sizes.length > 0 && (
+                          <Text>Kích thước: {action.data.sizes.join(', ')}</Text>
+                        )}
+                      </View>
+                    )}
+                    {action.type === 'CREATE' && (
+                      <View>
+                        <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Sản phẩm mới: {action.data.name}</Text>
+                        <Text>Giá: {displayPrice(action.data.price)} VNĐ</Text>
+                        <Text>Danh mục: {action.data.category}</Text>
+                        <Text>Màu sắc: {action.data.colors?.join(', ') || 'N/A'}</Text>
+                        <Text>Kích thước: {action.data.sizes?.join(', ') || 'N/A'}</Text>
+                      </View>
+                    )}
+                    {action.type === 'DELETE' && (
+                      <View>
+                        <Text style={{ fontWeight: 'bold', color: '#f44336' }}>Xóa sản phẩm ID: {action.data.id}</Text>
+                      </View>
+                    )}
+                  </View>
+                ))
+              )}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
 
       {/* Modal chỉnh sửa sản phẩm */}
       <Modal

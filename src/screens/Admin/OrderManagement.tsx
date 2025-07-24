@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -7,12 +7,17 @@ import {
   FlatList,
   Alert,
   RefreshControl,
-  Modal
+  Modal,
+  ScrollView
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import { mockApi } from '../../services/mockApi';
+import { useOfflineSync } from '../../hooks/useOfflineSync';
+import SyncStatusIndicator from '../../components/SyncStatusIndicator';
+import OfflineIndicator from '../../components/OfflineIndicator';
+import { cacheData, getCachedData, checkNetworkStatus, getOfflineActions } from '../../utils/offlineSync';
 // XÓA: import { Picker } from '@react-native-picker/picker';
 
 const OrderManagement: React.FC = () => {
@@ -25,13 +30,55 @@ const OrderManagement: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [viewingOrder, setViewingOrder] = useState<any>(null);
   const [viewModalVisible, setViewModalVisible] = useState(false);
+  // Ref để lưu callback cho auto sync
+  const fetchOrdersRef = useRef<(() => Promise<void>) | null>(null);
+
+  // State cho modal xem thay đổi offline
+  const [pendingChangesModalVisible, setPendingChangesModalVisible] = useState(false);
+  const [pendingChanges, setPendingChanges] = useState<any[]>([]);
+
+  const { syncStatus, performSync, addOfflineAction } = useOfflineSync();
 
   const fetchOrders = async () => {
+    // Lưu reference để sử dụng cho auto sync
+    fetchOrdersRef.current = fetchOrders;
     try {
-      const response = await mockApi.getOrders();
-      setOrders(response.data.orders);
+      setLoading(true);
+      
+      // Kiểm tra kết nối mạng trước
+      const isOnline = await checkNetworkStatus();
+      
+      // Try to get cached data first
+      const cachedOrders = await getCachedData('orders_data');
+      if (cachedOrders) {
+        setOrders(cachedOrders);
+      }
+
+      // Chỉ fetch fresh data khi online
+      if (isOnline) {
+        try {
+          const response = await mockApi.getOrders();
+          const freshOrders = response.data.orders;
+          setOrders(freshOrders);
+          
+          // Cache the fresh data
+          await cacheData('orders_data', freshOrders);
+        } catch (error) {
+          console.error('Error fetching fresh data:', error);
+          // Nếu fetch fresh data thất bại và không có cached data, hiển thị lỗi
+          if (!cachedOrders) {
+            Alert.alert('Lỗi', 'Không thể tải danh sách đơn hàng. Vui lòng kiểm tra kết nối mạng.');
+          }
+        }
+      } else {
+        // Khi offline, chỉ dùng cached data
+        if (!cachedOrders) {
+          Alert.alert('Không có dữ liệu', 'Không có dữ liệu cached. Vui lòng kết nối mạng để tải dữ liệu.');
+        }
+      }
     } catch (error) {
-      Alert.alert('Error', 'Failed to load orders');
+      console.error('Error in fetchOrders:', error);
+      Alert.alert('Lỗi', 'Có lỗi xảy ra khi tải danh sách đơn hàng.');
     } finally {
       setLoading(false);
     }
@@ -39,6 +86,18 @@ const OrderManagement: React.FC = () => {
 
   const onRefresh = async () => {
     setRefreshing(true);
+    
+    // Kiểm tra kết nối mạng trước khi refresh
+    const isOnline = await checkNetworkStatus();
+    if (!isOnline) {
+      Alert.alert(
+        'Không có kết nối mạng',
+        'Không thể refresh dữ liệu khi offline. Vui lòng kết nối mạng và thử lại.'
+      );
+      setRefreshing(false);
+      return;
+    }
+    
     await fetchOrders();
     setRefreshing(false);
   };
@@ -51,14 +110,34 @@ const OrderManagement: React.FC = () => {
 
   const handleSaveStatus = async () => {
     if (!editingOrder) return;
+    
+    const updatedOrder = { ...editingOrder, status: newStatus };
+    
     try {
-      await mockApi.updateOrderStatus(editingOrder.id, newStatus);
+      // Kiểm tra kết nối mạng trước
+      const isOnline = await checkNetworkStatus();
+      
+      // Lưu offline action cho cả online và offline
+      console.log('Saving offline action for manual sync');
+      await addOfflineAction('UPDATE', 'order', updatedOrder);
+      
+      Alert.alert(
+        'Đã lưu thay đổi',
+        'Thay đổi đã được lưu. Vui lòng ấn nút "Đồng bộ" để áp dụng thay đổi.'
+      );
+      
+      // KHÔNG update local state - giữ nguyên dữ liệu cũ cho cả online và offline
+      // Chỉ thay đổi UI khi ấn nút đồng bộ và sync thành công
+      
       setModalVisible(false);
       setEditingOrder(null);
-      // Đợi update xong mới fetch lại đơn hàng
-      await fetchOrders();
+      
+      // Cache data
+      await cacheData('orders_data', orders);
+      
     } catch (error) {
-      Alert.alert('Error', 'Failed to update order status');
+      console.error('Error in handleSaveStatus:', error);
+      Alert.alert('Lỗi', 'Có lỗi xảy ra khi lưu thay đổi');
     }
   };
 
@@ -70,6 +149,49 @@ const OrderManagement: React.FC = () => {
   useEffect(() => {
     fetchOrders();
   }, []);
+
+  // Tắt auto sync - chỉ sync khi user ấn nút đồng bộ
+  // useEffect(() => {
+  //   if (syncStatus.isOnline && syncStatus.pendingActions > 0 && fetchOrdersRef.current) {
+  //     // Trigger manual sync with callback to refresh data
+  //     performSync(fetchOrdersRef.current);
+  //   }
+  // }, [syncStatus.isOnline, syncStatus.pendingActions]);
+
+  // Hàm load pending changes
+  const loadPendingChanges = async () => {
+    try {
+      const orderActions = await getOfflineActions('order');
+      setPendingChanges(orderActions);
+    } catch (error) {
+      console.error('Error loading pending changes:', error);
+    }
+  };
+
+  // Hàm mở modal xem thay đổi
+  const handleViewPendingChanges = async () => {
+    await loadPendingChanges();
+    setPendingChangesModalVisible(true);
+  };
+
+  // Helper functions cho hiển thị action
+  const getActionText = (type: string) => {
+    switch (type) {
+      case 'CREATE': return 'Thêm mới';
+      case 'UPDATE': return 'Cập nhật';
+      case 'DELETE': return 'Xóa';
+      default: return type;
+    }
+  };
+
+  const getActionColor = (type: string) => {
+    switch (type) {
+      case 'CREATE': return '#4CAF50';
+      case 'UPDATE': return '#2196F3';
+      case 'DELETE': return '#f44336';
+      default: return '#666';
+    }
+  };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('vi-VN', {
@@ -122,10 +244,30 @@ const OrderManagement: React.FC = () => {
           <Icon name="arrow-back" size={24} color="#333" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Order Management</Text>
-        <TouchableOpacity style={styles.filterButton}>
-          <Icon name="filter-list" size={24} color="#666" />
-        </TouchableOpacity>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          {syncStatus.isOnline && syncStatus.pendingActions > 0 && (
+            <TouchableOpacity 
+              style={[styles.filterButton, { marginRight: 10, backgroundColor: '#FF9800' }]} 
+              onPress={handleViewPendingChanges}
+            >
+              <Icon name="visibility" size={20} color="#fff" />
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity style={styles.filterButton}>
+            <Icon name="filter-list" size={24} color="#666" />
+          </TouchableOpacity>
+        </View>
       </View>
+
+      {/* Offline Indicator */}
+      <OfflineIndicator
+        isOnline={syncStatus.isOnline}
+        pendingActions={syncStatus.pendingActions}
+        onManualSync={() => performSync(() => {
+          // Refresh data from server after successful sync
+          fetchOrders();
+        })}
+      />
 
       <FlatList
         data={orders}
@@ -179,6 +321,69 @@ const OrderManagement: React.FC = () => {
                 </View>
               </TouchableOpacity>
             </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal xem thay đổi pending */}
+      <Modal
+        visible={pendingChangesModalVisible}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setPendingChangesModalVisible(false)}
+      >
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.3)' }}>
+          <View style={{ width: '95%', backgroundColor: 'white', borderRadius: 10, padding: 20, maxHeight: '90%' }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15 }}>
+              <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Thay đổi chờ đồng bộ</Text>
+              <TouchableOpacity onPress={() => setPendingChangesModalVisible(false)}>
+                <Icon name="close" size={24} color="#666" />
+              </TouchableOpacity>
+            </View>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {pendingChanges.length === 0 ? (
+                <Text style={{ textAlign: 'center', color: '#666', marginTop: 20 }}>Không có thay đổi nào</Text>
+              ) : (
+                pendingChanges.map((action, index) => (
+                  <View key={action.id} style={{ 
+                    backgroundColor: '#f5f5f5', 
+                    padding: 15, 
+                    borderRadius: 8, 
+                    marginBottom: 10 
+                  }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                      <Text style={{ fontWeight: 'bold', color: getActionColor(action.type) }}>
+                        {getActionText(action.type)}
+                      </Text>
+                      <Text style={{ fontSize: 12, color: '#666' }}>
+                        {new Date(action.timestamp).toLocaleString()}
+                      </Text>
+                    </View>
+                    {action.type === 'UPDATE' && (
+                      <View>
+                        <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Đơn hàng: #{action.data.id}</Text>
+                        <Text>Trạng thái mới: {action.data.status}</Text>
+                        <Text>Tổng tiền: {formatCurrency(action.data.total)}</Text>
+                        <Text>Ngày tạo: {new Date(action.data.createdAt).toLocaleString()}</Text>
+                      </View>
+                    )}
+                    {action.type === 'CREATE' && (
+                      <View>
+                        <Text style={{ fontWeight: 'bold', marginBottom: 5 }}>Đơn hàng mới: #{action.data.id}</Text>
+                        <Text>Trạng thái: {action.data.status}</Text>
+                        <Text>Tổng tiền: {formatCurrency(action.data.total)}</Text>
+                        <Text>Ngày tạo: {new Date(action.data.createdAt).toLocaleString()}</Text>
+                      </View>
+                    )}
+                    {action.type === 'DELETE' && (
+                      <View>
+                        <Text style={{ fontWeight: 'bold', color: '#f44336' }}>Xóa đơn hàng ID: {action.data.id}</Text>
+                      </View>
+                    )}
+                  </View>
+                ))
+              )}
+            </ScrollView>
           </View>
         </View>
       </Modal>

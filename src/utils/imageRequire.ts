@@ -26,6 +26,8 @@ const imageMap: { [key: string]: any } = {
   "quan2.jpg": require("../../assets/quan2.jpg"),
   "quan3.jpg": require("../../assets/quan3.jpg"),
   "icon.png": require("../../assets/icon.png"),
+  "favicon.png": require("../../assets/favicon.png"),
+  "adaptive-icon.png": require("../../assets/adaptive-icon.png"),
   "nike_collection.jpg": require("../../assets/nike_collection.jpg"),
   "pharrelwilliamsxtennishu.png": require("../../assets/pharrelwilliamsxtennishu.png"),
   "arsenal_banner.jpg": require("../../assets/arsenal_banner.jpg"),
@@ -41,6 +43,10 @@ const imageMap: { [key: string]: any } = {
   "Kid_O.jpg": require("../../assets/category_images/Kid_O.jpg"),
   "Kid_O2.jpg": require("../../assets/category_images/Kid_O2.jpg"),
   "Mu_2526.jpg": require("../../assets/category_images/Mu_2526.jpg"),
+  "Climacool.jpg": require("../../assets/category_images/Climacool.jpg"),
+  "ManU_home.jpg": require("../../assets/category_images/ManU_home.jpg"),
+  "Alien_Predator_Football.gif": require("../../assets/category_images/Alien_Predator_Football.gif"),
+  "Shocked_Sport_adidas.gif": require("../../assets/category_images/Shocked_Sport_adidas.gif"),
   
   // Ultraboost Collection images
   "assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5_Den_ID8812_HM1.png": require("../../assets/SearchPage/Collection/Ultraboost/Giay_Ultraboost_5_Den_ID8812_HM1.png"),
@@ -59,7 +65,12 @@ const imageMap: { [key: string]: any } = {
   "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Xam_IF7086_01_standard.jpg": require("../../assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Xam_IF7086_01_standard.jpg"),
   "assets/SearchPage/Collection/Handball/Handball_Spezial_Mau_xanh_da_troi_JS3866_01_00_standard_Nam.jpg": require("../../assets/SearchPage/Collection/Handball/Handball_Spezial_Mau_xanh_da_troi_JS3866_01_00_standard_Nam.jpg"),
   "assets/SearchPage/Collection/Handball/Handball_Spezial_trang_xanh_JS3865_01_00_standard_Nam.jpg": require("../../assets/SearchPage/Collection/Handball/Handball_Spezial_trang_xanh_JS3865_01_00_standard_Nam.jpg"),
-  "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Maroon_JP8726_01_00_standard_Nu.jpg": require("../../assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Maroon_JP8726_01_00_standard_Nu.jpg")
+  "assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Maroon_JP8726_01_00_standard_Nu.jpg": require("../../assets/SearchPage/Collection/Handball/Giay_Handball_Spezial_Mau_Maroon_JP8726_01_00_standard_Nu.jpg"),
+  
+  // Additional fallback images
+  "default-product.jpg": require("../../assets/icon.png"),
+  "product-placeholder.jpg": require("../../assets/icon.png"),
+  "placeholder.jpg": require("../../assets/icon.png")
 };
 
 export function getImageRequire(fileName: string) {

@@ -27,6 +27,9 @@ import {
   markMessageAsRead,
   getUsers 
 } from '../../api/mockApi';
+import { useOfflineSync } from '../../hooks/useOfflineSync';
+import SyncStatusIndicator from '../../components/SyncStatusIndicator';
+import { cacheData, getCachedData } from '../../utils/offlineSync';
 
 interface Chat {
   id: string;
@@ -75,6 +78,7 @@ const ManagerChatScreen: React.FC = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showProductSelector, setShowProductSelector] = useState(false);
   const flatListRef = useRef<FlatList>(null);
+  const { syncStatus, performSync, addOfflineAction } = useOfflineSync();
 
   // Suggestion messages cho manager
   const managerSuggestions = [
@@ -112,6 +116,25 @@ const ManagerChatScreen: React.FC = () => {
   const loadChats = async () => {
     try {
       setIsLoading(true);
+      
+      // Try to get cached data first
+      const cachedChats = await getCachedData('manager_chats_data');
+      if (cachedChats) {
+        const chatsWithUsers = cachedChats.map((chat: Chat) => {
+          const user = users.find(u => u.id === chat.userId);
+          return {
+            ...chat,
+            user: user || { name: 'Unknown User', email: 'unknown@email.com' },
+            isManagerJoined: chat.isManagerJoined || false
+          };
+        });
+        
+        const shopChats = chatsWithUsers.filter((chat: Chat) => chat.type === 'shop');
+        setChats(shopChats);
+        setIsLoading(false);
+      }
+
+      // Fetch fresh data
       const response = await getChats();
       const chatsWithUsers = response.data.map((chat: Chat) => {
         const user = users.find(u => u.id === chat.userId);
@@ -125,9 +148,16 @@ const ManagerChatScreen: React.FC = () => {
       // Lọc chỉ hiển thị shop chats
       const shopChats = chatsWithUsers.filter((chat: Chat) => chat.type === 'shop');
       setChats(shopChats);
+      
+      // Cache the fresh data
+      await cacheData('manager_chats_data', response.data);
     } catch (error) {
       console.error('Error loading chats:', error);
-      Alert.alert('Lỗi', 'Không thể tải danh sách chat');
+      
+      // If no cached data and fetch failed, show error
+      if (chats.length === 0) {
+        Alert.alert('Lỗi', 'Không thể tải danh sách chat. Vui lòng kiểm tra kết nối mạng.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -595,6 +625,13 @@ const ManagerChatScreen: React.FC = () => {
       </View>
 
       <View style={styles.content}>
+        {/* Sync Status Indicator */}
+        <SyncStatusIndicator
+          syncStatus={syncStatus}
+          onManualSync={performSync}
+          showDetails={false}
+        />
+
         {/* Chat List */}
         <View style={styles.chatList}>
           <Text style={styles.sectionTitle}>Danh sách chat ({chats.length})</Text>

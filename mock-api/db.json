@@ -3,8 +3,7 @@
     {
       "name": "Admin Updated",
       "role": "admin",
-      "id": 1,
-      "isBanned": false
+      "id": "1"
     },
     {
       "id": "3",
@@ -207,6 +206,66 @@
       "id": "49c1",
       "name": "New Manager",
       "role": "manager"
+    },
+    {
+      "id": "71b9",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "6639",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "63eb",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "d73b",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "e3bc",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "a69b",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "1458",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "6f03",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "4a28",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "7b91",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "4e9b",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "ed2e",
+      "name": "New Manager",
+      "role": "manager"
     }
   ],
   "addresses": [
@@ -281,7 +340,7 @@
         }
       ],
       "total": 4200000,
-      "status": "completed",
+      "status": "cancelled",
       "createdAt": "2024-01-15T10:00:00Z",
       "shippingAddress": {
         "fullName": "John Doe",
@@ -591,12 +650,12 @@
       "id": "p8",
       "name": "Mini Rodini x Adidas Originals",
       "category": "kids",
-      "price": "420.000 VNĐ",
+      "price": "422000",
       "description": "Bộ đồ thể thao cho bé, chất liệu cotton mềm mại, thoải mái vận động.",
       "imageDefault": "Kid_O2.jpg",
       "imageByColor": {
-        "red": "category_images/bodothethaotreem.png",
-        "blue": "category_images/bodothethaotreemxanh.png"
+        "red": "Kid_O2.jpg",
+        "blue": "Kid_O2.jpg"
       },
       "colors": [
         "red",
@@ -609,27 +668,22 @@
       "subtitle": "Kids Collection",
       "rating": 4.7,
       "quantityBySize": {
-        "S": 10,
-        "M": 5,
-        "L": 2,
-        "XL": 0
+        "S": 8
       },
       "stockByColorSize": {
         "red-S": 5,
-        "red-M": 3,
-        "red-L": 2,
-        "red-XL": 0,
-        "blue-S": 3,
-        "blue-M": 2,
-        "blue-L": 1,
-        "blue-XL": 0
-      }
+        "blue-S": 3
+      },
+      "tags": [],
+      "sizes": [
+        "S"
+      ]
     },
     {
       "id": "p9",
       "name": "Balo Thể Thao Đa Năng",
       "category": "sport",
-      "price": "618000",
+      "price": "698000",
       "description": "Balo thể thao lớn, nhiều ngăn, chống thấm nước, lý tưởng cho tập gym và du lịch.",
       "imageDefault": "category_images/balothethao.png",
       "imageByColor": {

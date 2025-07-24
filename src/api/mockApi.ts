@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://192.168.100.233:3000'; // Thay <YOUR_IP> bằng IP máy tính của bạn
+const API_URL = 'http://192.168.100.138:3000'; // Thay <YOUR_IP> bằng IP máy tính của bạn
 
 // USERS
 export const getUsers = () => axios.get(`${API_URL}/users`);
