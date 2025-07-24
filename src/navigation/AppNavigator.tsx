@@ -1,54 +1,39 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { OnboardingStackParamList } from './OnboardingNavigator';
+import { Provider } from 'react-redux';
+import { store } from '../redux/store';
+import { FavoritesProvider } from '../hooks/FavoritesContext';
 
-// Import screens
-import WelcomeScreen from '../screens/onboarding/WelcomeScreen';
-import NotificationPermissionScreen from '../screens/onboarding/NotificationPermissionScreen';
-import LocationPermissionScreen from '../screens/onboarding/LocationPermissionScreen';
-import PreferenceScreen from '../screens/onboarding/PreferenceScreen';
-import OnboardingComplete from '../screens/onboarding/OnboardingCompleteScreen';
-import LoginScreen from '../screens/Auth/LoginScreen';
-import RegisterScreen from '../screens/Auth/RegisterScreen';
-import HomeScreen from '../screens/Home/HomeScreen';
-import CategoryScreen from '../screens/CategoryScreen';
-import ProductDetail from '../screens/Product/ProductDetail';
+// Import các màn hình
+import CheckoutScreen from '../screens/CheckoutScreen';
+import PaymentCallbackScreen from '../screens/PaymentCallbackScreen';
+import PaymentSuccessScreen from '../screens/PaymentSuccessScreen';
+import TransactionHistoryScreen from '../screens/TransactionHistoryScreen';
 
-const Stack = createNativeStackNavigator<OnboardingStackParamList>();
+const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Welcome"
-        screenOptions={{
-          headerShown: false,
-          animation: 'fade',
-        }}
-      >
-        {/* Onboarding Screens */}
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen name="NotificationPermission" component={NotificationPermissionScreen} />
-        <Stack.Screen name="LocationPermission" component={LocationPermissionScreen} />
-        <Stack.Screen name="Preference" component={PreferenceScreen} />
-        <Stack.Screen name="OnboardingComplete" component={OnboardingComplete} />
-        
-        {/* Auth Screens */}
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
-        
-        {/* Main Screens */}
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen
-          name="Category"
-          component={CategoryScreen}
-          options={({ route }) => ({ title: route.params?.title || 'Danh mục' })}
-        />
-        <Stack.Screen name="ProductDetail" component={ProductDetail} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <FavoritesProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="Checkout"
+            screenOptions={{
+              headerShown: false,
+              animation: 'fade',
+            }}
+          >
+            <Stack.Screen name="Checkout" component={CheckoutScreen} />
+            <Stack.Screen name="PaymentCallback" component={PaymentCallbackScreen} />
+            <Stack.Screen name="PaymentSuccess" component={PaymentSuccessScreen} />
+            <Stack.Screen name="TransactionHistory" component={TransactionHistoryScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </FavoritesProvider>
+    </Provider>
   );
 };
 
-export default AppNavigator; 
+export default AppNavigator;

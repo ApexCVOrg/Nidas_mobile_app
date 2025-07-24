@@ -1,53 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
-  TextInput,
   ScrollView,
   SafeAreaView,
-  StatusBar,
-  Alert,
-  ToastAndroid,
-  Platform,
+  TouchableOpacity,
+  Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useRoute, useNavigation } from '@react-navigation/native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { clearCart } from '../redux/slices/cartSlice';
-import { TabNavigatorParamList } from '../navigation/TabNavigator';
-import axios from 'axios';
+import SimplePaymentButton from '../components/SimplePaymentButton';
 
 const CheckoutScreen = () => {
-  const route = useRoute<any>();
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const cartTotal = useSelector((state: RootState) => state.cart.totalAmount);
-  
-  const { type = 'cart', orderData } = route.params || {};
-  
-  const [customerInfo, setCustomerInfo] = useState({
-    name: orderData?.customerInfo?.name || '',
-    phone: orderData?.customerInfo?.phone || '',
-    address: orderData?.customerInfo?.address || '',
-    note: orderData?.customerInfo?.note || '',
-  });
-  
-  const [paymentMethod, setPaymentMethod] = useState(orderData?.paymentMethod || 'cod');
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
-
-  // Toast tự động ẩn sau 2 giây
-  React.useEffect(() => {
-    if (toast) {
-      const timer = setTimeout(() => setToast(null), 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [toast]);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', {
@@ -56,90 +26,67 @@ const CheckoutScreen = () => {
     }).format(price);
   };
 
-  const getTotal = () => {
-    if (type === 'quick' && orderData) {
-      return orderData.total;
-    }
-    return cartTotal;
+  const getImageSource = (item: any) => {
+    if (!item.image) return require('../../assets/icon.png');
+    if (item.image.startsWith('http')) return { uri: item.image };
+    
+    const imageMap: { [key: string]: any } = {
+      'samba.gif': require('../../assets/samba.gif'),
+      'sl72.gif': require('../../assets/sl72.gif'),
+      'yeezy750.gif': require('../../assets/yeezy750.gif'),
+      'handball.gif': require('../../assets/handball.gif'),
+      'banner1.gif': require('../../assets/banner1.gif'),
+      'Giay_Ultraboost_22.jpg': require('../../assets/Giay_Ultraboost_22.jpg'),
+      'Giay_Stan_Smith_x_Liberty_London.jpg': require('../../assets/Giay_Stan_Smith_x_Liberty_London.jpg'),
+      'Ao_Thun_Polo_Ba_La.jpg': require('../../assets/Ao_Thun_Polo_Ba_La.jpg'),
+      'Quan_Hiking_Terrex.jpg': require('../../assets/Quan_Hiking_Terrex.jpg'),
+      'aoadidasden.png': require('../../assets/aoadidasden.png'),
+      'aoadidastrang.png': require('../../assets/aoadidastrang.png'),
+      'aoadidasxanh.png': require('../../assets/aoadidasxanh.png'),
+      'ao1.jpg': require('../../assets/ao1.jpg'),
+      'ao3.jpg': require('../../assets/ao3.jpg'),
+      'ao4.jpg': require('../../assets/ao4.jpg'),
+      'ao5.jpg': require('../../assets/ao5.jpg'),
+      'quan1.jpg': require('../../assets/quan1.jpg'),
+      'quan2.jpg': require('../../assets/quan2.jpg'),
+      'quan3.jpg': require('../../assets/quan3.jpg'),
+      'thun_adidas.jpg': require('../../assets/category_images/thun_adidas.jpg'),
+      'HaNoiAo.jpg': require('../../assets/category_images/HaNoiAo.jpg'),
+      'Hoodie_Unisex.jpg': require('../../assets/category_images/Hoodie_Unisex.jpg'),
+      'adilette.jpg': require('../../assets/category_images/adilette.jpg'),
+      'SlimFit.jpg': require('../../assets/category_images/SlimFit.jpg'),
+      'Kid_O.jpg': require('../../assets/category_images/Kid_O.jpg'),
+      'Kid_O2.jpg': require('../../assets/category_images/Kid_O2.jpg'),
+      'Mu_2526.jpg': require('../../assets/category_images/Mu_2526.jpg'),
+    };
+    return imageMap[item.image] || require('../../assets/icon.png');
   };
 
-  const getOrderItems = () => {
-    if (type === 'quick' && orderData) {
-      return [{
-        name: orderData.product.name,
-        color: orderData.selectedColor,
-        size: orderData.selectedSize,
-        price: orderData.product.price,
-        quantity: 1,
-      }];
-    }
-    return cartItems.map(item => ({
-      name: item.name,
-      color: item.color,
-      size: item.size,
-      price: item.price,
-      quantity: item.quantity,
-    }));
-  };
-
-  const handlePlaceOrder = async () => {
-    if (!customerInfo.name || !customerInfo.phone || !customerInfo.address) {
-      setToast({ message: 'Vui lòng nhập đầy đủ thông tin giao hàng!', type: 'error' });
-      return;
-    }
-    if (!/^0\d{9,10}$/.test(customerInfo.phone)) {
-      setToast({ message: 'Số điện thoại không hợp lệ!', type: 'error' });
-      return;
-    }
-    setIsProcessing(true);
-    try {
-      const order = {
-        id: Date.now().toString(),
-        items: getOrderItems(),
-        customerInfo,
-        paymentMethod,
-        total: getTotal(),
-        status: 'pending',
-        createdAt: new Date().toISOString(),
-      };
-      // Gửi đơn hàng lên mock API
-      await axios.post('http://192.168.100.246:3000/orders', order);
-      // Clear cart nếu là checkout từ cart
-      if (type === 'cart') {
-        dispatch(clearCart());
-      }
-      setToast({ message: 'Đặt hàng thành công!', type: 'success' });
-      setTimeout(() => {
-        navigation.goBack();
-        if (type === 'cart') {
-          navigation.navigate('Home' as never);
-        }
-      }, 1200);
-    } catch (error) {
-      setToast({ message: 'Có lỗi khi đặt hàng, vui lòng thử lại!', type: 'error' });
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  const paymentMethods = [
-    { id: 'cod', name: 'Cash on Delivery (COD)', icon: 'cash-outline' },
-    { id: 'banking', name: 'Bank Transfer', icon: 'card-outline' },
-    { id: 'momo', name: 'MoMo Wallet', icon: 'wallet-outline' },
-  ];
-
-  const orderItems = getOrderItems();
+  if (cartItems.length === 0) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+            <Ionicons name="arrow-back" size={24} color="#000" />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>Checkout</Text>
+          <View style={styles.headerRight} />
+        </View>
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>Giỏ hàng trống</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-      
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Payment</Text>
+        <Text style={styles.headerTitle}>Checkout</Text>
         <View style={styles.headerRight} />
       </View>
 
@@ -147,8 +94,13 @@ const CheckoutScreen = () => {
         {/* Order Summary */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Order Information</Text>
-          {orderItems.map((item, index) => (
+          {cartItems.map((item, index) => (
             <View key={index} style={styles.orderItem}>
+              <Image
+                source={getImageSource(item)}
+                style={styles.orderItemImage}
+                resizeMode="cover"
+              />
               <View style={styles.orderItemInfo}>
                 <Text style={styles.orderItemName} numberOfLines={2}>
                   {item.name}
@@ -156,11 +108,9 @@ const CheckoutScreen = () => {
                 <Text style={styles.orderItemDetails}>
                   Màu: {item.color} • Size: {item.size}
                 </Text>
-                {type === 'cart' && (
-                  <Text style={styles.orderItemQuantity}>
-                    Số lượng: {item.quantity}
-                  </Text>
-                )}
+                <Text style={styles.orderItemQuantity}>
+                  Số lượng: {item.quantity}
+                </Text>
               </View>
               <View style={styles.orderItemPrice}>
                 <Text style={styles.orderItemPriceText}>
@@ -173,7 +123,7 @@ const CheckoutScreen = () => {
           <View style={styles.totalContainer}>
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Subtotal:</Text>
-              <Text style={styles.totalValue}>{formatPrice(getTotal())}</Text>
+              <Text style={styles.totalValue}>{formatPrice(cartTotal)}</Text>
             </View>
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Shipping:</Text>
@@ -182,132 +132,36 @@ const CheckoutScreen = () => {
             <View style={styles.divider} />
             <View style={styles.totalRow}>
               <Text style={styles.grandTotalLabel}>Total:</Text>
-              <Text style={styles.grandTotalValue}>{formatPrice(getTotal())}</Text>
+              <Text style={styles.grandTotalValue}>{formatPrice(cartTotal)}</Text>
             </View>
           </View>
         </View>
 
-        {/* Customer Information */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Shipping Information</Text>
-          
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Name *</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your name"
-              value={customerInfo.name}
-              onChangeText={(text) => setCustomerInfo({...customerInfo, name: text})}
-            />
-          </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Phone *</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your phone"
-              keyboardType="phone-pad"
-              value={customerInfo.phone}
-              onChangeText={(text) => setCustomerInfo({...customerInfo, phone: text})}
-            />
-          </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Shipping Address *</Text>
-            <TextInput
-              style={[styles.input, styles.textArea]}
-              placeholder="Enter your address"
-              multiline
-              numberOfLines={3}
-              value={customerInfo.address}
-              onChangeText={(text) => setCustomerInfo({...customerInfo, address: text})}
-            />
-          </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>Note (optional)</Text>
-            <TextInput
-              style={[styles.input, styles.textArea]}
-              placeholder="Enter your note"
-              multiline
-              numberOfLines={2}
-              value={customerInfo.note}
-              onChangeText={(text) => setCustomerInfo({...customerInfo, note: text})}
-            />
-          </View>
-        </View>
-
-        {/* Payment Methods */}
+        {/* Payment Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Payment Method</Text>
-          {paymentMethods.map((method) => (
-            <TouchableOpacity
-              key={method.id}
-              style={[
-                styles.paymentMethod,
-                paymentMethod === method.id && styles.paymentMethodSelected
-              ]}
-              onPress={() => setPaymentMethod(method.id)}
-            >
-              <Ionicons 
-                name={method.icon as any} 
-                size={24} 
-                color={paymentMethod === method.id ? '#000' : '#666'} 
-              />
-              <Text style={[
-                styles.paymentMethodText,
-                paymentMethod === method.id && styles.paymentMethodTextSelected
-              ]}>
-                {method.name}
-              </Text>
-              <View style={[
-                styles.radio,
-                paymentMethod === method.id && styles.radioSelected
-              ]}>
-                {paymentMethod === method.id && <View style={styles.radioInner} />}
-              </View>
-            </TouchableOpacity>
-          ))}
+          <SimplePaymentButton
+            amount={cartTotal}
+            orderInfo={`Thanh toán đơn hàng #${Date.now()}`}
+            onPaymentSuccess={(result) => {
+              console.log('Payment successful:', result);
+            }}
+            onPaymentError={(error) => {
+              console.log('Payment error:', error);
+            }}
+          />
+          
+          {/* Link to Transaction History */}
+          <TouchableOpacity
+            style={styles.transactionHistoryButton}
+            onPress={() => navigation.navigate('TransactionHistory' as never)}
+          >
+            <Ionicons name="receipt-outline" size={20} color="#0066CC" />
+            <Text style={styles.transactionHistoryText}>Xem lịch sử giao dịch</Text>
+            <Ionicons name="chevron-forward" size={16} color="#666" />
+          </TouchableOpacity>
         </View>
       </ScrollView>
-
-      {/* Place Order Button */}
-      <View style={styles.checkoutSection}>
-        <TouchableOpacity 
-          style={[styles.checkoutButton, isProcessing && styles.checkoutButtonDisabled]} 
-          onPress={handlePlaceOrder}
-          disabled={isProcessing}
-        >
-          {isProcessing ? (
-            <Text style={styles.checkoutButtonText}>PROCESSING...</Text>
-          ) : (
-            <>
-              <Text style={styles.checkoutButtonText}>ORDER</Text>
-              <Ionicons name="arrow-forward" size={20} color="#fff" style={styles.checkoutIcon} />
-            </>
-          )}
-        </TouchableOpacity>
-      </View>
-      {/* Toast thông báo */}
-      {toast && (
-        <View style={{
-          position: 'absolute',
-          top: 60,
-          left: 0,
-          right: 0,
-          alignItems: 'center',
-          zIndex: 100,
-        }}>
-          <View style={{
-            backgroundColor: toast.type === 'success' ? '#222' : '#d32f2f',
-            paddingHorizontal: 24,
-            paddingVertical: 12,
-            borderRadius: 24,
-          }}>
-            <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>{toast.message}</Text>
-          </View>
-        </View>
-      )}
     </SafeAreaView>
   );
 };
@@ -357,6 +211,13 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#f0f0f0',
+  },
+  orderItemImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 8,
+    marginRight: 12,
+    backgroundColor: '#eee',
   },
   orderItemInfo: {
     flex: 1,
@@ -424,96 +285,30 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#e74c3c',
   },
-  inputGroup: {
-    marginBottom: 16,
-  },
-  inputLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 8,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    backgroundColor: '#fff',
-  },
-  textArea: {
-    height: 80,
-    textAlignVertical: 'top',
-  },
-  paymentMethod: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    backgroundColor: '#f8f9fa',
-    borderRadius: 12,
-    marginBottom: 12,
-  },
-  paymentMethodSelected: {
-    backgroundColor: '#e3f2fd',
-    borderWidth: 2,
-    borderColor: '#000',
-  },
-  paymentMethodText: {
+  emptyContainer: {
     flex: 1,
-    fontSize: 16,
-    color: '#666',
-    marginLeft: 12,
-  },
-  paymentMethodTextSelected: {
-    color: '#000',
-    fontWeight: '600',
-  },
-  radio: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#ddd',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
-  radioSelected: {
-    borderColor: '#000',
+  emptyText: {
+    fontSize: 18,
+    color: '#666',
   },
-  radioInner: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: '#000',
-  },
-  checkoutSection: {
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    borderTopWidth: 1,
-    borderTopColor: '#E5E5E5',
-    backgroundColor: '#fff',
-  },
-  checkoutButton: {
-    backgroundColor: '#000',
+  transactionHistoryButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 18,
-    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    backgroundColor: '#F8F9FF',
+    borderRadius: 8,
+    marginTop: 16,
+    borderWidth: 1,
+    borderColor: '#E5E5E5',
   },
-  checkoutButtonDisabled: {
-    backgroundColor: '#999',
-  },
-  checkoutButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-  },
-  checkoutIcon: {
+  transactionHistoryText: {
+    flex: 1,
+    fontSize: 14,
+    color: '#0066CC',
     marginLeft: 8,
   },
 });

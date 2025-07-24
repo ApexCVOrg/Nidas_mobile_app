@@ -107,8 +107,23 @@ const cartSlice = createSlice({
       state.totalItems = totals.totalItems;
       state.totalAmount = totals.totalAmount;
     },
+
+    // Cập nhật toàn bộ cart từ API, giữ trạng thái checked nếu có, mặc định checked=true nếu chưa có
+    setCartFromApi: (state, action: PayloadAction<any[]>) => {
+      const newItems = action.payload.map(apiItem => {
+        const existing = state.items.find(i => i.id === apiItem.id);
+        return {
+          ...apiItem,
+          checked: existing ? existing.checked : (apiItem.checked !== undefined ? apiItem.checked : true),
+        };
+      });
+      state.items = newItems;
+      const totals = calculateTotals(state.items);
+      state.totalItems = totals.totalItems;
+      state.totalAmount = totals.totalAmount;
+    },
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity, clearCart, toggleCheckItem, toggleCheckAll, removeCheckedItems } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateQuantity, clearCart, toggleCheckItem, toggleCheckAll, removeCheckedItems, setCartFromApi } = cartSlice.actions;
 export default cartSlice.reducer; 

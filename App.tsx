@@ -5,11 +5,22 @@ import TabNavigator from './src/navigation/TabNavigator';
 import OnboardingNavigator from './src/navigation/OnboardingNavigator';
 import { NavigationContainer } from '@react-navigation/native';
 import { FavoritesProvider } from './src/hooks/FavoritesContext';
+import * as Linking from 'expo-linking';
 
 // Selector để lấy trạng thái onboarding
 import { RootState } from './src/redux/store';
 import { getUsers, createUser, updateUser, deleteUser } from './src/api/mockApi';
 import { initOfflineData, getOfflineData, addOfflineProduct, updateOfflineProduct, deleteOfflineProduct } from './src/utils/initOfflineData';
+
+const linking = {
+  prefixes: ['nidas://'],
+  config: {
+    screens: {
+      PaymentCallback: 'payment-callback',
+      // Thêm các screen khác nếu cần
+    },
+  },
+};
 
 function MainApp() {
   // Nếu chưa có Provider, useSelector sẽ lỗi, nhưng sau khi bọc Provider thì sẽ chạy được
@@ -51,12 +62,14 @@ export default function App() {
     addOfflineProduct({ id: 3, name: 'Áo khoác', price: 300000 });
     updateOfflineProduct(1, { id: 1, name: 'Áo thun updated', price: 210000 });
     deleteOfflineProduct(2);
+
+    console.log('🚀 App started successfully!');
   }, []);
 
   return (
     <Provider store={store}>
       <FavoritesProvider>
-        <NavigationContainer>
+        <NavigationContainer linking={linking}>
           <MainApp />
         </NavigationContainer>
       </FavoritesProvider>

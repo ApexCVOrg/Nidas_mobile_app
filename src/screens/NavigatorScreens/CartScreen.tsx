@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -9,10 +9,11 @@ import {
   StatusBar,
   Image,
   Dimensions,
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { RootState } from "../../redux/store";
 import {
   removeFromCart,
@@ -22,34 +23,87 @@ import {
   toggleCheckItem,
   toggleCheckAll,
   removeCheckedItems,
+  setCartFromApi,
 } from "../../redux/slices/cartSlice";
 import { cartStyles as styles } from "../../styles/cart/cart.styles";
 import { MaterialIcons } from '@expo/vector-icons';
+import axios from 'axios';
+import categoryProducts from '../../api/categoryProducts.json';
 
 const { width } = Dimensions.get("window");
+const API_URL = 'http://192.168.100.246:3000'; // Đổi thành IP của bạn
 
 const CartScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const { items, totalItems, totalAmount } = useSelector(
-    (state: RootState) => state.cart
-  );
   const { token, user } = useSelector((state: RootState) => state.auth);
   const isLoggedIn = !!token && !!user;
   const [showLoginNotice, setShowLoginNotice] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      setShowPopup(true);
+  // Tính tổng số lượng và tổng tiền từ cartItems
+  const totalItems = cartItems.reduce((sum, item) => sum + (item.quantity || 0), 0);
+  const totalAmount = cartItems.reduce((sum, item) => sum + (item.price * item.quantity || 0), 0);
+
+  const migrateCartImages = async (cart, userId) => {
+    if (!cart || !cart.items) return;
+    let updated = false;
+    const newItems = cart.items.map((item) => {
+      if (!item.image || item.image === '' || item.image === null) {
+        const prod = categoryProducts.find((p) => p.id === item.productId);
+        let image = '';
+        if (prod) {
+          if (prod.imageByColor && item.color && prod.imageByColor[item.color]) {
+            image = prod.imageByColor[item.color];
+          } else {
+            image = prod.imageDefault || '';
+          }
+        }
+        updated = true;
+        return { ...item, image };
+      }
+      return item;
+    });
+    if (updated) {
+      // Patch lại cart trên API
+      await axios.patch(`${API_URL}/carts/${cart.id}`, { items: newItems });
     }
-  }, [isLoggedIn]);
+  };
+
+  // Hàm fetchCart để có thể gọi lại sau mỗi thao tác
+  const fetchCart = async () => {
+    if (!user || !user.id) return;
+    setLoading(true);
+    try {
+      const userIdStr = String(user.id);
+      const res = await axios.get(`${API_URL}/carts?userId=${userIdStr}`);
+      const cart = res.data[0];
+      if (cart) {
+        await migrateCartImages(cart, userIdStr); // migrate nếu thiếu image
+        dispatch(setCartFromApi(cart.items || []));
+      } else {
+        dispatch(setCartFromApi([]));
+      }
+    } catch (e) {
+      dispatch(setCartFromApi([]));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchCart();
+    }, [user?.id])
+  );
 
   const delivery = 0; // Free delivery
   const total = totalAmount + delivery;
 
-  const allChecked = items.length > 0 && items.every(item => item.checked);
-  const anyChecked = items.some(item => item.checked);
+  const allChecked = cartItems.length > 0 && cartItems.every(item => item.checked);
+  const anyChecked = cartItems.some(item => item.checked);
 
   const getImageSource = (imageName: string) => {
     const imageMap: { [key: string]: any } = {
@@ -93,7 +147,7 @@ const CartScreen = () => {
   };
 
   const handleQuantityChange = (id: string, change: number) => {
-    const item = items.find((item) => item.id === id);
+    const item = cartItems.find((item) => item.id === id);
     if (item) {
       const newQuantity = item.quantity + change;
       dispatch(updateQuantity({ id, quantity: newQuantity }));
@@ -108,7 +162,53 @@ const CartScreen = () => {
     dispatch(clearCart());
   };
 
-  const renderCartItem = (item: CartItem) => (
+  // Xóa sản phẩm khỏi cart (db.json)
+  const handleRemoveCartItem = async (itemIdx: number) => {
+    if (!user || !user.id) return;
+    setLoading(true);
+    try {
+      const userIdStr = String(user.id);
+      const res = await axios.get(`${API_URL}/carts?userId=${userIdStr}`);
+      const cart = res.data[0];
+      if (!cart) return;
+      const newItems = cart.items.filter((_: any, idx: number) => idx !== itemIdx);
+      await axios.patch(`${API_URL}/carts/${cart.id}`, { items: newItems });
+      await fetchCart(); // fetch lại sau khi xóa
+    } catch (e) {
+      // Có thể show toast hoặc alert nếu muốn
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Cập nhật số lượng sản phẩm trong cart (db.json)
+  const handleUpdateCartItemQuantity = async (itemIdx: number, newQuantity: number) => {
+    if (!user || !user.id) return;
+    setLoading(true);
+    try {
+      const userIdStr = String(user.id);
+      const res = await axios.get(`${API_URL}/carts?userId=${userIdStr}`);
+      const cart = res.data[0];
+      if (!cart) return;
+      if (newQuantity <= 0) {
+        // Nếu số lượng <= 0 thì xóa luôn
+        const newItems = cart.items.filter((_: any, idx: number) => idx !== itemIdx);
+        await axios.patch(`${API_URL}/carts/${cart.id}`, { items: newItems });
+      } else {
+        const newItems = cart.items.map((item: any, idx: number) =>
+          idx === itemIdx ? { ...item, quantity: newQuantity } : item
+        );
+        await axios.patch(`${API_URL}/carts/${cart.id}`, { items: newItems });
+      }
+      await fetchCart(); // fetch lại sau khi cập nhật
+    } catch (e) {
+      // Có thể show toast hoặc alert nếu muốn
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const renderCartItem = (item: CartItem, index: number) => (
     <View key={item.id} style={styles.cartItem}>
       {/* Checkbox chọn sản phẩm */}
       <TouchableOpacity
@@ -144,7 +244,7 @@ const CartScreen = () => {
       <View style={styles.itemActions}>
         <TouchableOpacity
           style={styles.removeButton}
-          onPress={() => handleRemoveItem(item.id)}
+          onPress={() => handleRemoveCartItem(index)}
         >
           <Ionicons name="trash-outline" size={20} color="#ff4757" />
         </TouchableOpacity>
@@ -152,7 +252,7 @@ const CartScreen = () => {
         <View style={styles.quantityContainer}>
           <TouchableOpacity
             style={styles.quantityButton}
-            onPress={() => handleQuantityChange(item.id, -1)}
+            onPress={() => handleUpdateCartItemQuantity(index, item.quantity - 1)}
           >
             <Ionicons name="remove" size={16} color="#000" />
           </TouchableOpacity>
@@ -161,7 +261,7 @@ const CartScreen = () => {
 
           <TouchableOpacity
             style={styles.quantityButton}
-            onPress={() => handleQuantityChange(item.id, 1)}
+            onPress={() => handleUpdateCartItemQuantity(index, item.quantity + 1)}
           >
             <Ionicons name="add" size={16} color="#000" />
           </TouchableOpacity>
@@ -198,7 +298,7 @@ const CartScreen = () => {
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>CART</Text>
-        {items.length > 0 && (
+        {cartItems.length > 0 && (
           <TouchableOpacity
             onPress={handleClearCart}
             style={styles.clearButton}
@@ -209,7 +309,7 @@ const CartScreen = () => {
       </View>
 
       {/* Chọn tất cả và xóa các sản phẩm đã chọn */}
-      {items.length > 0 && (
+      {cartItems.length > 0 && (
         <View style={styles.selectAllRow}>
           <TouchableOpacity
             style={styles.checkboxContainer}
@@ -234,14 +334,14 @@ const CartScreen = () => {
       )}
 
       {/* Cart Items Count */}
-      {items.length > 0 && (
+      {cartItems.length > 0 && (
         <View style={styles.itemsCountContainer}>
           <Text style={styles.itemsCountText}>{totalItems} items in cart</Text>
         </View>
       )}
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        {items.length === 0 ? (
+        {cartItems.length === 0 ? (
           <View style={styles.emptyCartContainer}>
             <Ionicons name="cart-outline" size={120} color="#e0e0e0" />
             <Text style={styles.emptyCartTitle}>CART IS EMPTY</Text>
@@ -263,13 +363,13 @@ const CartScreen = () => {
           </View>
         ) : (
           <View style={styles.cartItemsContainer}>
-            {items.map(renderCartItem)}
+            {cartItems.map((item, index) => renderCartItem(item, index))}
           </View>
         )}
       </ScrollView>
 
       {/* Order Summary */}
-      {items.length > 0 && (
+      {cartItems.length > 0 && (
         <View style={styles.summaryContainer}>
           <View style={styles.summaryHeader}>
             <Text style={styles.summaryHeaderText}>ORDER SUMMARY</Text>
@@ -302,9 +402,14 @@ const CartScreen = () => {
 
           <TouchableOpacity
             style={styles.checkoutButton}
-            onPress={() =>
-              (navigation as any).navigate("Checkout", { type: "cart" })
-            }
+            onPress={() => {
+              const selectedItems = cartItems.filter(item => item.checked).map(item => item.productId);
+              if (selectedItems.length === 0) {
+                Alert.alert('Thông báo', 'Vui lòng chọn ít nhất 1 sản phẩm để thanh toán!');
+                return;
+              }
+              (navigation as any).navigate("Checkout", { type: "cart", selectedItems });
+            }}
           >
             <Text style={styles.checkoutButtonText}>CHECKOUT</Text>
             <Ionicons

@@ -32,6 +32,10 @@ import BannerDetailClimacool from '../screens/BannerDetailClimacool';
 import ChatScreen from '../screens/Auth/ChatScreen';
 import SettingsScreen from '../screens/Auth/SettingsScreen';
 import CategoryProductDetail from '../screens/Product/CategoryProductDetail';
+import PaymentCallbackScreen from '../screens/PaymentCallbackScreen';
+import PaymentSuccessScreen from '../screens/PaymentSuccessScreen';
+import TransactionHistoryScreen from '../screens/TransactionHistoryScreen';
+import MyOrdersScreen from '../screens/User/MyOrdersScreen';
 
 
 export type TabNavigatorParamList = {
@@ -53,6 +57,10 @@ export type TabNavigatorParamList = {
   Auth: undefined;
   AdminDashboard: undefined;
   ManagerDashboard: undefined;
+  PaymentCallback: { paymentResult?: any };
+  PaymentSuccess: { paymentResult?: any };
+  TransactionHistory: undefined;
+  MyOrders: undefined;
 };
 
 const Tab = createBottomTabNavigator();
@@ -220,6 +228,10 @@ const TabNavigator = () => {
       <Stack.Screen name="Auth" component={AuthNavigator} options={{ presentation: 'modal' }} />
       <Stack.Screen name="AdminDashboard" component={AdminNavigator} />
       <Stack.Screen name="ManagerDashboard" component={AdminNavigator} />
+      <Stack.Screen name="PaymentCallback" component={PaymentCallbackScreen} />
+      <Stack.Screen name="PaymentSuccess" component={PaymentSuccessScreen} />
+      <Stack.Screen name="TransactionHistory" component={TransactionHistoryScreen} />
+      <Stack.Screen name="MyOrders" component={MyOrdersScreen} />
     </Stack.Navigator>
   );
 };

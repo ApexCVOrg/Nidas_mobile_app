@@ -542,7 +542,7 @@ const UserProfile = () => {
               },
             ]}
           >
-            {renderMenuItem('shopping-bag', 'My Orders', 'Track your orders and view history', undefined, () => navigation.navigate('Orders' as never), false, '#1A1A1A')}
+            {renderMenuItem('shopping-bag', 'My Orders', 'Track your orders and view history', undefined, () => navigation.navigate('MyOrders' as never), false, '#1A1A1A')}
             {renderMenuItem('favorite', 'Wishlist', 'Your saved items', undefined, () => navigation.navigate('MainTabs', { screen: 'Favorites' } as any), false, '#E91E63')}
             {renderMenuItem('star', 'Reviews', 'Your product reviews', undefined, () => navigation.navigate('Reviews' as never), false, '#FF9800')}
             {renderMenuItem('card-giftcard', 'Rewards', 'Points and rewards', undefined, () => navigation.navigate('Rewards' as never), false, '#4CAF50')}

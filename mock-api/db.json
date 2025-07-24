@@ -80,6 +80,86 @@
       "id": "6e5e",
       "name": "New Manager",
       "role": "manager"
+    },
+    {
+      "id": "3d10",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "d11d",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "967e",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "8c73",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "6754",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "7648",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "0e6b",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "a0e5",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "e55e",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "cdb2",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "b1d4",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "d4be",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "ae31",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "eeb9",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "6642",
+      "name": "New Manager",
+      "role": "manager"
+    },
+    {
+      "id": "ecbd",
+      "name": "New Manager",
+      "role": "manager"
     }
   ],
   "addresses": [
@@ -172,6 +252,228 @@
         "phone": "0123456789",
         "address": "123 Main St, City"
       }
+    },
+    {
+      "id": "1753308354262",
+      "items": [
+        {
+          "name": "Áo Thun Polo Adidas",
+          "color": "black",
+          "size": "L",
+          "price": 599,
+          "quantity": 1,
+          "image": "thun_adidas.jpg",
+          "productId": "p1"
+        }
+      ],
+      "customerInfo": {
+        "name": "tredffsd",
+        "phone": "0988449222",
+        "address": "fsadhivbdfsihjbuopsdfihbju, daibasubjnhoofsidhapuonijasdf, sfdo0inuhbsdfoihsfdohiopjksadf, sfdyugfsed8gysdfg879fsd9hgu",
+        "note": ""
+      },
+      "paymentMethod": "cod",
+      "total": 0,
+      "status": "pending",
+      "createdAt": "2025-07-23T22:05:54.262Z"
+    },
+    {
+      "id": "1753310404211",
+      "items": [
+        {
+          "name": "Áo Thun Polo Adidas",
+          "color": "white",
+          "size": "M",
+          "price": 599,
+          "quantity": 1,
+          "image": "thun_adidas.jpg",
+          "productId": "p1"
+        }
+      ],
+      "customerInfo": {
+        "name": "tredffsd",
+        "phone": "0988449222",
+        "address": "fsadhivbdfsihjbuopsdfihbju, daibasubjnhoofsidhapuonijasdf, sfdo0inuhbsdfoihsfdohiopjksadf, sfdyugfsed8gysdfg879fsd9hgu",
+        "note": ""
+      },
+      "paymentMethod": "cod",
+      "total": 1349,
+      "status": "pending",
+      "createdAt": "2025-07-23T22:40:04.211Z"
+    },
+    {
+      "id": "1753310423478",
+      "items": [
+        {
+          "name": "Áo Thun Polo Adidas",
+          "color": "black",
+          "size": "S",
+          "price": 599,
+          "quantity": 1,
+          "image": "thun_adidas.jpg",
+          "productId": "p1"
+        }
+      ],
+      "customerInfo": {
+        "name": "tredffsd",
+        "phone": "0988449222",
+        "address": "fsadhivbdfsihjbuopsdfihbju, daibasubjnhoofsidhapuonijasdf, sfdo0inuhbsdfoihsfdohiopjksadf, sfdyugfsed8gysdfg879fsd9hgu",
+        "note": ""
+      },
+      "paymentMethod": "banking",
+      "total": 599,
+      "status": "pending",
+      "createdAt": "2025-07-23T22:40:23.478Z"
+    },
+    {
+      "id": "1753310710727",
+      "items": [
+        {
+          "name": "Áo Thun Polo Adidas",
+          "color": "white",
+          "size": "S",
+          "price": 599,
+          "quantity": 1,
+          "image": "thun_adidas.jpg",
+          "productId": "p1"
+        }
+      ],
+      "customerInfo": {
+        "name": "tredffsd",
+        "phone": "0988449222",
+        "address": "fsadhivbdfsihjbuopsdfihbju, daibasubjnhoofsidhapuonijasdf, sfdo0inuhbsdfoihsfdohiopjksadf, sfdyugfsed8gysdfg879fsd9hgu",
+        "note": ""
+      },
+      "paymentMethod": "banking",
+      "total": 599,
+      "status": "pending",
+      "createdAt": "2025-07-23T22:45:10.727Z"
+    },
+    {
+      "id": "321c",
+      "userId": "6339",
+      "items": [
+        {
+          "productId": "p3",
+          "name": "Adidas Originals KIDS",
+          "price": 350000,
+          "image": "Kid_O.jpg",
+          "color": "red",
+          "size": "M",
+          "quantity": 1,
+          "id": "p3-red-M",
+          "checked": true
+        },
+        {
+          "productId": "p1",
+          "name": "Áo Thun Polo Adidas",
+          "price": 599000,
+          "image": "thun_adidas.jpg",
+          "color": "black",
+          "size": "M",
+          "quantity": 1,
+          "id": "p1-black-M",
+          "checked": true
+        }
+      ],
+      "total": 949000,
+      "status": "completed",
+      "createdAt": "2025-07-24T03:46:12.236Z",
+      "paymentMethod": "vnpay",
+      "vnp_TxnRef": "ORDER_1753328168604",
+      "vnp_TransactionNo": "VN1753328236347",
+      "vnp_BankCode": "NCB",
+      "vnp_PayDate": "2025-07-24T03:37:16.347Z",
+      "vnp_OrderInfo": "Thanh toán đơn hàng #1753328167883"
+    },
+    {
+      "id": "2dd4",
+      "userId": "6339",
+      "items": [
+        {
+          "productId": "p3",
+          "name": "Adidas Originals KIDS",
+          "price": 350000,
+          "image": "Kid_O.jpg",
+          "color": "red",
+          "size": "M",
+          "quantity": 1,
+          "id": "p3-red-M",
+          "checked": true
+        },
+        {
+          "productId": "p1",
+          "name": "Áo Thun Polo Adidas",
+          "price": 599000,
+          "image": "thun_adidas.jpg",
+          "color": "black",
+          "size": "M",
+          "quantity": 1,
+          "id": "p1-black-M",
+          "checked": true
+        }
+      ],
+      "total": 949000,
+      "status": "completed",
+      "createdAt": "2025-07-24T03:47:59.784Z",
+      "paymentMethod": "vnpay",
+      "vnp_TxnRef": "ORDER_1753328837146",
+      "vnp_TransactionNo": "VN1753328877995",
+      "vnp_BankCode": "NCB",
+      "vnp_PayDate": "2025-07-24T03:47:57.995Z",
+      "vnp_OrderInfo": "Thanh toán đơn hàng #1753328167883"
+    },
+    {
+      "id": "8627",
+      "userId": "6339",
+      "items": [
+        {
+          "productId": "p7",
+          "name": "Dép Adilette Comfort",
+          "price": 750,
+          "image": "adilette.jpg",
+          "color": "pink",
+          "size": "M",
+          "quantity": 1,
+          "id": "p7-pink-M",
+          "checked": true
+        }
+      ],
+      "total": 750,
+      "status": "completed",
+      "createdAt": "2025-07-24T04:03:54.993Z",
+      "paymentMethod": "vnpay",
+      "vnp_TxnRef": "ORDER_1753329731247",
+      "vnp_TransactionNo": "VN1753329833476",
+      "vnp_BankCode": "NCB",
+      "vnp_PayDate": "2025-07-24T04:03:53.476Z",
+      "vnp_OrderInfo": "Thanh toán đơn hàng #1753329728710"
+    },
+    {
+      "id": "0c8c",
+      "userId": "6339",
+      "items": [
+        {
+          "productId": "p7",
+          "name": "Dép Adilette Comfort",
+          "price": 750,
+          "image": "adilette.jpg",
+          "color": "pink",
+          "size": "M",
+          "quantity": 1,
+          "id": "p7-pink-M",
+          "checked": true
+        }
+      ],
+      "total": 750,
+      "status": "completed",
+      "createdAt": "2025-07-24T04:05:20.132Z",
+      "paymentMethod": "vnpay",
+      "vnp_TxnRef": "ORDER_1753329731247",
+      "vnp_TransactionNo": "VN1753329833476",
+      "vnp_BankCode": "NCB",
+      "vnp_PayDate": "2025-07-24T04:03:53.476Z",
+      "vnp_OrderInfo": "Thanh toán đơn hàng #1753329728710"
     }
   ],
   "products": [
@@ -1745,6 +2047,43 @@
         "đen-L": 10,
         "đen-XL": 10
       }
+    }
+  ],
+  "carts": [
+    {
+      "id": "1",
+      "userId": "1",
+      "items": [
+        {
+          "productId": "pDemo",
+          "color": "red",
+          "size": "M",
+          "quantity": 2
+        },
+        {
+          "productId": "pDemo",
+          "color": "blue",
+          "size": "L",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "userId": "2",
+      "items": [
+        {
+          "productId": "pDemo",
+          "color": "red",
+          "size": "XL",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "6e3d",
+      "userId": "6339",
+      "items": []
     }
   ],
   "categories": [
